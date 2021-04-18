@@ -12,6 +12,9 @@ const VistaAdmin = () => {
              <Router>
                 <SideBar />
                 <Switch>
+                    <Route exact path="/admin">           
+                        <h1>Admin Inicio</h1>    
+                    </Route>
                     <Route path='/practicas' exact component={Practicas} />
                     <Route path='/estudiantes' component={Estudiante} />
                     <Route path='/postulaciones' component={Postulaciones} />

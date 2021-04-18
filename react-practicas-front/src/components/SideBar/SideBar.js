@@ -36,7 +36,7 @@ function SideBar() {
               <li className="nav-text">   
               <Link to="/practicas" >       
                 <MdWork />
-                  <span>Practicas</span> 
+                  <span className="text">Practicas</span> 
               </Link>                     
               </li>
               <Divider variant="middle" light={true}/>
@@ -44,7 +44,7 @@ function SideBar() {
               <li className="nav-text">  
               <Link to="/estudiantes" >                
                 <MdPeople />
-                  <span>Estudiantes</span>   
+                  <span className="text">Estudiantes</span>   
                   </Link>                  
               </li>
               <Divider variant="middle" light={true}/>
@@ -52,7 +52,7 @@ function SideBar() {
               <li className="nav-text">    
               <Link to="/postulaciones" >              
                 <MdDescription />
-                  <span>Postulaciones</span>  
+                  <span className="text">Postulaciones</span>  
                   </Link>                   
               </li>
               <Divider variant="middle" light={true}/>
@@ -60,7 +60,7 @@ function SideBar() {
               <li className="nav-text">   
               <Link to="/ofertas" >               
                 <MdLocalOffer />
-                  <span>Ofertas</span>  
+                  <span className="text">Ofertas</span>  
                   </Link>                   
               </li>
 
