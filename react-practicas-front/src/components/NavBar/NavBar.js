@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import logo from '../SideBar/utalca.svg'
-import "./style.css"
+import "./NavBar.css"
 export const NavBar = () => {
     return (
         <Fragment>

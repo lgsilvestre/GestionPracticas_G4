@@ -2,10 +2,10 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import VistaAdmin from './components/VistaAdmin';
 import VistaEstudiante from './components/VistaEstudiante';
+import {Footer} from './components/Footer/Footer';
 
 function App() {
   return (
-
 
     <Router>  
       <div>    
@@ -30,6 +30,7 @@ function App() {
         
         </Switch>        
         </div>  
+        <Footer/>
     </Router>
   );
 }
