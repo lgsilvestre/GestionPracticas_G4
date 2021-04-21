@@ -75,6 +75,6 @@
     align-items: center;
   }
   
-  span {
-    margin-left: 14px;
+  .text {
+    margin-left: 16px;
   }
