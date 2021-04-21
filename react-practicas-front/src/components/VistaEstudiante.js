@@ -10,6 +10,7 @@ import Practicas from './Pages/Practicas';
 import Estudiante from './Pages/Estudiante';
 import Postulaciones from './Pages/Postulaciones';
 import Ofertas from './Pages/Ofertas';
+import Landing from './Landing/Landing';
 
 const VistaEstudiante = () => {
     return (
@@ -20,10 +21,10 @@ const VistaEstudiante = () => {
                 {/* Componente para gestionar las rutas de url hacia los componentes */}
                 <Switch>
                     <Route path='/practicas' exact component={Practicas} />
-                    <Route path='/estudiantes' component={Estudiante} />
+                    <Route path='/estudiante' component={Estudiante} />
                     <Route path='/postulaciones' component={Postulaciones} />
                     <Route path='/ofertas' component={Ofertas} /> 
-
+                    <Route path='/landing' component={Landing} /> 
                     <Redirect to="/"/>
                 </Switch>              
             </div>

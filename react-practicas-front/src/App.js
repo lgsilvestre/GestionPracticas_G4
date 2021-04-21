@@ -28,9 +28,10 @@ function App() {
           {/* Por defecto */}
           <Redirect to="/"/>
         
-        </Switch>        
+        </Switch>     
+        <Footer/>   
         </div>  
-        <Footer/>
+        
     </Router>
   );
 }
