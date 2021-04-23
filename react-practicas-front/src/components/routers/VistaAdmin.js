@@ -1,5 +1,5 @@
 import React from 'react'
-import {Switch, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Ofertas from '../Pages/Ofertas';
 import Postulaciones from '../Pages/Postulaciones';
 import Estudiante from '../Pages/Estudiante';
@@ -10,17 +10,19 @@ import { Footer } from '../ui/Footer/Footer';
 const VistaAdmin = () => {
     return (
         <div>
+            <Router>
             <SideBar />
-            <Switch>
-                <Route exact path="/admin">           
-                    <h1>Admin Inicio</h1>    
-                </Route>
-                <Route path='/practicas' exact component={Practicas} />
-                <Route path='/estudiantes' component={Estudiante} />
-                <Route path='/postulaciones' component={Postulaciones} />
-                <Route path='/ofertas' component={Ofertas} />
-            </Switch>
-            <Footer/>       
+                <Switch>
+                    <Route exact path="/admin">           
+                        <h1>Admin Inicio</h1>    
+                    </Route>
+                    <Route path='/practicas' exact component={Practicas} />
+                    <Route path='/estudiantes' component={Estudiante} />
+                    <Route path='/postulaciones' component={Postulaciones} />
+                    <Route path='/ofertas' component={Ofertas} />
+                </Switch>
+                <Footer/>    
+            </Router>
         </div>
     )
 }

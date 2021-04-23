@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavBar } from '../ui/NavBar/NavBar'
 import {
+    BrowserRouter as Router,
     Switch,
     Route,
     Redirect,    
@@ -14,6 +15,7 @@ import { Footer } from '../ui/Footer/Footer';
 const VistaEstudiante = () => {
     return (     
         <div>
+        <Router>
             {/* Componente de barra de navegacion */}
             <NavBar/>
             {/* Componente para gestionar las rutas de url hacia los componentes */}
@@ -25,7 +27,8 @@ const VistaEstudiante = () => {
                 <Route path='/landing' component={Landing} /> 
                 <Redirect to="/"/>
             </Switch>  
-            <Footer/>            
+            <Footer/>     
+        </Router>
         </div>     
     )
 }

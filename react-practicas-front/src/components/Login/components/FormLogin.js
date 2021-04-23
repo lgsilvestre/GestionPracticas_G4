@@ -8,7 +8,7 @@ class FormLogin extends React.Component{
             <div>
                 <div className="container">
                     <img src={logo} alt=""/>
-                    <h8>Bienvenido</h8>
+                    <h6>Bienvenido</h6>
                     <h5>Ingresa con los datos de tu cuenta</h5> 
 
                     <form>  
@@ -31,9 +31,8 @@ class FormLogin extends React.Component{
                             >
                                     
                                 </input>
-                        </div>
-                        
-                        <button type="button" class="btn btn-success">Entrar</button>
+                        </div>                    
+                        <button type="button" className="btn btn-success">Entrar</button>
                     </form>  
                 </div> 
             </div>

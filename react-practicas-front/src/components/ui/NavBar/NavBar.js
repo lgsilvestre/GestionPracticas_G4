@@ -6,7 +6,7 @@ export const NavBar = ({username = "Camilo Villalobos", tipo_usuario = "Estudian
     return (
         <Fragment>
             {/* Componente extraido de Bootstrap! */}
-           <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
                 <Link to='#' className='menu-bars'>             
                     <img src={logo} className="logo" alt="Utalca Logo"  />                  
                 </Link>  
