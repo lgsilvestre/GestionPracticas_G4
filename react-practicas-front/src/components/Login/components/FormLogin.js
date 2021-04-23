@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from'../images/logo.png';
 class FormLogin extends React.Component{
+    
     render(){
 
         return(
@@ -13,11 +14,23 @@ class FormLogin extends React.Component{
                     <form>  
                         <div className="form-group">
                             <label>Correo</label>
-                            <input className="form-control" type="email" name="correo"></input>
+                            <input 
+                                className="form-control" 
+                                type="email" 
+                                name="correo"
+                                maxLength = "50"                             
+                                ></input>
                         </div>
                         <div className="form-group">
                             <label>Contraseña</label>
-                            <input className="form-control" type="password" name="contraseña"></input>
+                            <input 
+                                className="form-control" 
+                                type="password" 
+                                name="contraseña"
+                                maxLength = "16"
+                            >
+                                    
+                                </input>
                         </div>
                         
                         <button type="button" class="btn btn-success">Entrar</button>
