@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom
 import VistaAdmin from './components/VistaAdmin';
 import VistaEstudiante from './components/VistaEstudiante';
 import {Footer} from './components/Footer/Footer';
+import Login from '../src/components/Login/Login';
 
 function App() {
   return (
@@ -20,6 +21,11 @@ function App() {
           <Route exact path="/estudiante">           
              <VistaEstudiante />         
           </Route>
+
+          <Route exact path="/login">           
+             <Login />         
+          </Route>
+          
 
           <Route exact path="/admin">
               <VistaAdmin />  
