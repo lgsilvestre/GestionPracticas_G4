@@ -3,7 +3,7 @@ import "./footer.css"
 
 export const Footer = () => {
     return (
-        <div className="main-footer">
+        <div className="main-footer position-static">
             <div className = "container">
                 <div className = "row">
                     {/* Colummna 1 */}

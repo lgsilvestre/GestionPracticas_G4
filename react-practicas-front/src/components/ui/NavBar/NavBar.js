@@ -39,7 +39,7 @@ export const NavBar = ({username = "Camilo Villalobos", tipo_usuario = "Estudian
                             activeClassName="active"
                             className="nav-item nav-link" 
                             exact
-                            to="/estudiante/perfil"
+                            to="/estudiante/changePass"
                         > {username} </NavLink>
                         <NavLink
                             className = "nav-item nav-lin"                         

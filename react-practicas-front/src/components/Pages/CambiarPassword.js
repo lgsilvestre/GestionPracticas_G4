@@ -2,12 +2,12 @@ import React from 'react'
 
 export const CambiarPassword = () => {
     return (
-        <div className="m-0 vh-100 justify-content-center align-items-center row">
+        <div className=" container align-self-center justify-content-center d-flex p-5 " style={{maxHeight:"100%", }} >
+        
             <form>
-                <div className="form-change-password col-xs-6" >
+                <div className="form-group" >
                     <label for="exampleInputEmail1">Contraseña antigua</label>
-                    <input type="password" className="form-control" id="oldPass"  placeholder="Password"/>
-                    <small id="emailHelp" className="form-text text-muted">Contraseña con la que entraste al sistema </small>
+                    <input type="password" className="form-control" id="oldPass"  placeholder="Password"/>              
                 </div>
                 <div className="form-group">
                     <label for="exampleInputPassword1">Contraseña nueva</label>

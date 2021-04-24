@@ -16,7 +16,7 @@ function SideBar() {
   const showSidebar = () => setSidebar(!sidebar);
 
   return (
-    <>
+    <div className="position-sticky">
       <IconContext.Provider value={{ color: '#fff' }}>
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
@@ -66,7 +66,7 @@ function SideBar() {
           </ul>
         </nav>
       </IconContext.Provider>
-    </>
+    </div>
   );
 }
 
