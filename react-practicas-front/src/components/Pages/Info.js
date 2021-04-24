@@ -5,21 +5,27 @@ export const Info = () => {
         <div>
             <h1>Proyecto Gestion de Pacticas</h1>               
                     <h3>para trabajar en vista estudiante: /estudiante </h3>   
-                    <Link exact to="/estudiante">
+                    <Link to="/estudiante">
                         <button className ="btn btn-secondary">
                             Estudiante
                         </button>
                     </Link>
                     <h3>para trabajar en vista admin : /admin</h3>   
-                    <Link exact to="/admin">
+                    <Link to="/admin">
                         <button className ="btn btn-secondary">
                             Admin
                         </button>
                     </Link>
-                    <h3>para trabajar en vista Login : /admin</h3>   
-                    <Link exact to="/Login">
+                    <h3>para trabajar en vista Login : /login</h3>   
+                    <Link to="/login">
                         <button className ="btn btn-secondary">
                             Login
+                        </button>
+                    </Link>
+                    <h3>para trabajar en vista CambiarPass : /changepass</h3>   
+                    <Link to="/changePass">
+                        <button className ="btn btn-secondary">
+                            Cambiar Pass
                         </button>
                     </Link>
         </div>

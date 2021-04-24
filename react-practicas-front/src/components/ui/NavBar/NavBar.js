@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import Login from '../../Login/Login'
 import logo from '../SideBar/utalca.svg'
 import "./NavBar.css"
 export const NavBar = ({username = "Camilo Villalobos", tipo_usuario = "Estudiante"}) => {
@@ -7,7 +8,7 @@ export const NavBar = ({username = "Camilo Villalobos", tipo_usuario = "Estudian
         <Fragment>
             {/* Componente extraido de Bootstrap! */}
             <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-                <Link to='#' className='menu-bars'>             
+                <Link to='/' className='menu-bars'>             
                     <img src={logo} className="logo" alt="Utalca Logo"  />                  
                 </Link>  
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">  
@@ -16,19 +17,19 @@ export const NavBar = ({username = "Camilo Villalobos", tipo_usuario = "Estudian
                             exact 
                             activeClassName="active" 
                             className="nav-item nav-link" 
-                            to="./landing"
+                            to="/estudiante/landing"
                         > Landing </NavLink>  
                         <NavLink 
                             exact 
                             activeClassName="active" 
                             className="nav-item nav-link" 
-                            to="./practicas"
+                            to="/estudiante/practicas"
                         > Practicas </NavLink>                                                
                         <NavLink 
                             exact 
                             activeClassName="active" 
                             className="nav-item nav-link" 
-                            to="./postulaciones"
+                            to="/estudiante/postulaciones"
                         > Postulacion </NavLink>             
                     </div>
                 </div>     
@@ -38,18 +39,15 @@ export const NavBar = ({username = "Camilo Villalobos", tipo_usuario = "Estudian
                             activeClassName="active"
                             className="nav-item nav-link" 
                             exact
-                            to="/estudiante"
-                        >
-                            {username}
-                        </NavLink>
-                        <Link
+                            to="/estudiante/perfil"
+                        > {username} </NavLink>
+                        <NavLink
                             className = "nav-item nav-lin"                         
                             exact to="/login">
-                            <button className ="btn btn-danger">
+                            <button className ="btn btn-danger" >
                                 Cerrar Sesion
                             </button>                   
-                        </Link>                                  
-                        
+                        </NavLink>                                                      
                     </ul>
                 </div>        
             </nav>

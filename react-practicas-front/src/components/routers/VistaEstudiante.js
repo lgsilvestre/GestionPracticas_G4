@@ -4,31 +4,35 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect,    
+    Redirect,
+    useRouteMatch,    
     } from "react-router-dom";
 import Practicas from '../Pages/Practicas';
-import Estudiante from '../Pages/Estudiante';
+import PerfilEstudiante from '../Pages/PerfilEstudiante';
 import Postulaciones from '../Pages/Postulaciones';
 import Ofertas from '../Pages/Ofertas';
 import Landing from '../Landing/Landing';
 import { Footer } from '../ui/Footer/Footer';
+import Login from '../Login/Login';
+
 const VistaEstudiante = () => {
+
     return (     
         <div>
-        <Router>
-            {/* Componente de barra de navegacion */}
-            <NavBar/>
-            {/* Componente para gestionar las rutas de url hacia los componentes */}
-            <Switch>
-                <Route path='/practicas' exact component={Practicas} />
-                <Route path='/estudiante' component={Estudiante} />
-                <Route path='/postulaciones' component={Postulaciones} />
-                <Route path='/ofertas' component={Ofertas} /> 
-                <Route path='/landing' component={Landing} /> 
-                <Redirect to="/"/>
-            </Switch>  
-            <Footer/>     
-        </Router>
+            
+                {/* Componente de ba    rra de navegacion */}
+                <NavBar/>
+                {/* Componente para gestionar las rutas de url hacia los componentes */}
+                <Switch>
+                    <Route  path='/estudiante/practicas' component={Practicas} />
+                    <Route  path='/estudiante/perfil' component={PerfilEstudiante} /> 
+                    <Route  path='/estudiante/postulaciones' component={Postulaciones} />
+                    <Route  path='/estudiante/ofertas' component={Ofertas} /> 
+                    <Route  path='/estudiante/landing' component={Landing} />
+                </Switch>  
+                <Footer/> 
+            
+
         </div>     
     )
 }

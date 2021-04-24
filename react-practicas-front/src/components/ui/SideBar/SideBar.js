@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import * as FaIcons from 'react-icons/fa';
-
 import { Link } from 'react-router-dom';
 import logo from './utalca.svg'
 import './styles.css';
