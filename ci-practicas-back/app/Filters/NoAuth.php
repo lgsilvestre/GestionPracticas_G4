@@ -13,22 +13,26 @@ class NoAuth implements FilterInterface
             {
                 echo "<script>alert('Usted ya inicio sesion');</script>";
                 if($session->get('tipo') == 0){//Superadmin
-                    //return redirect()->to('/dashbordSuperAdmin');
+                //    return redirect()->to('/dashbordAdmin');
                 }
                 if($session->get('tipo')==1){//Admin
-                    //return redirect()->to('/dashbordAdmin');
+                //    return redirect()->to('/dashbordAdmin');
                 }
                 if($session->get('tipo')==2){//cliente
-                    //return redirect()->to('/dashbordJefeCarrera');
+                //    return redirect()->to('/dashbordAdmin');
                 }
                 if($session->get('tipo')==3){//cliente
-                    //return redirect()->to('/dashbordEncarcadoCarrera');
+                //    return redirect()->to('/dashbordAdmin');
                 }
                 if($session->get('tipo')==4){//cliente
-                    //return redirect()->to('/dashbordAlumno');
+                //    return redirect()->to('/dashbordAlumno');
                 }
 
             }
+     /*   else
+            {
+            return redirect()->to('/');
+            }*/
     }
 
     //--------------------------------------------------------------------

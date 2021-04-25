@@ -9,6 +9,7 @@ class Users extends BaseController
             $rules = [
                 'email' => 'required|min_length[6]|max_length[99]|valid_email',
                 'password' => 'required|max_length[255]|validateUSer[email, password]',
+                // lo correcto es que la regla verifique si el usuario esta activo
             ];
             $errors = [
                 'password' => [
@@ -22,23 +23,27 @@ class Users extends BaseController
                 $model = new UserModel();
                 $user = $model->where('email', $this->request->getVar('email'))
                              ->first();
+                if($user ['active']==1){
+                    $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
 
-                $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-
-                if($user['tipo']==0){//Superadmin
-                    //return redirect()->to('/dashbordSuperAdmin');
+                    if($user['tipo']==0){//Superadmin
+                        return redirect()->to('/dashbordAdmin');
+                    }
+                    if($user['tipo']==1){//Admin
+                        return redirect()->to('/dashbordAdmin');
+                    }
+                    if($user['tipo']==2){//cliente
+                        return redirect()->to('/dashbordAdmin');
+                    }
+                    if($user['tipo']==3){//cliente
+                        return redirect()->to('/dashbordAdmin');
+                    }
+                    if($user['tipo']==4){//cliente
+                        return redirect()->to('/dashbordAlumno');
+                    }
                 }
-                if($user['tipo']==1){//Admin
-                    //return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==2){//cliente
-                    //return redirect()->to('/dashbordJefeCarrera');
-                }
-                if($user['tipo']==3){//cliente
-                    //return redirect()->to('/dashbordEncarcadoCarrera');
-                }
-                if($user['tipo']==4){//cliente
-                    //return redirect()->to('/dashbordAlumno');
+                else{
+                    //usuario inactivo
                 }
             }
         }
@@ -58,5 +63,65 @@ private function setUserSession($user){
         ];
         session()->set($data);
         return true;
+    }
+
+public function generatePass($longitud){
+    $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    $pass = "";
+    //Reconstruimos la contraseña segun la longitud que se quiera
+    for($i=0;$i<$longitud;$i++) {
+        //obtenemos un caracter aleatorio escogido de la cadena de caracteres
+        $pass .= substr($str,rand(0,61),1);
+    }
+    $pass='123456';
+    return $pass;
+}
+
+public function register(){
+    helper(['form']);
+    if($this-> request -> getMethod() == 'post') {
+        $rules = [
+            'nombre' => 'required|min_length[2]|max_length[99]',
+            'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.username]',
+            'tipo' => 'required|min_length[1]|max_length[1]|integer'
+            'permisos' => 'required'            //parcialmente terminado
+        ];
+        $errors = [
+        ];
+
+        if(! $this->validate($rules, $errors)){
+            $data['validation'] = $this->validator;
+        } else{
+            $model = new UserModel();
+            $newsData =[
+                'nombre' => $this->request->getVar('nombre'),
+                'email' => $this->request->getVar('email'),
+                'password' => $this->generatePass(6),
+                'tipo' => $this->request->getVar('tipo'),
+                'permisos' => $this->request->getVar('permisos'),
+                'activo' => 1;
+            ];
+            $model ->save($newsData);
+
+            $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
+
+            if($user['tipo']==0){//Superadmin
+                return redirect()->to('/dashbordAdmin');
+            }
+            if($user['tipo']==1){//Admin
+                return redirect()->to('/dashbordAdmin');
+            }
+            if($user['tipo']==2){//cliente
+                return redirect()->to('/dashbordAdmin');
+            }
+            if($user['tipo']==3){//cliente
+                return redirect()->to('/dashbordAdmin');
+            }
+            if($user['tipo']==4){//cliente
+                return redirect()->to('/dashbordAlumno');
+            }
+        }
+    }
+    //return redirect()->to('/dashbordAlumno');          VistaRegistro
     }
 }
