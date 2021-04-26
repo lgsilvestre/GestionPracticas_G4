@@ -1,3 +1,4 @@
+import { FormGroup } from '@material-ui/core';
 import React from 'react'
 import {
     Button, Col, Card, CardBody
@@ -6,14 +7,18 @@ import {
 export const FormPostulacion = ({handleSubmit}) => {
 
     return (
-        <div className="container">
-            <h4>Formularion de Postulaciuon</h4>
+        <div >
+            <h4>Formulario de Postulacion</h4>
             <hr/>
             <form onSubmit={handleSubmit}>
                 <Col>
                     <Card>
                         <CardBody>
-                            
+                            <FormGroup>
+                                <Col xs="12" lg="6">
+                                
+                                </Col>
+                            </FormGroup>
                         </CardBody>
                         <div style={{ paddingBottom: 30 }}>
                             <Button color="primary" className="btn-pill pull-right" type="submit" style={{marginRight: '20px'}}>

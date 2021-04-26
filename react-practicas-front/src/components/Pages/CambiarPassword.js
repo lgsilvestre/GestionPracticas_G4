@@ -1,12 +1,17 @@
+import { Alert } from 'reactstrap'
 import React, { Fragment, useState } from 'react'
 import { Redirect } from 'react-router'
 import { useForm } from '../../hooks/useForm'
-import AlertDialog from '../ui/AlertDialog/AlertDialog'
 
 export const CambiarPassword = ({oldpass="1234"}) => {
 
-    const [open, setOpen] = useState(false)
+    const [visible, setVisible] = useState(false)
+
+    const onDismissAlert= () =>{
+        setVisible(false)
+    }
     const [changedPass, setChangedPass] = useState(false)
+
     const [formValues, handleInputChange] = useForm({
         newPass:"",
         newPassRepite:""
@@ -20,7 +25,7 @@ export const CambiarPassword = ({oldpass="1234"}) => {
         e.preventDefault()
         
         if(newPass!==newPassRepite){
-            setOpen(true)  
+            setVisible(true)
             console.log("no se realizo actulizacion")         
         }
         else{
@@ -32,9 +37,10 @@ export const CambiarPassword = ({oldpass="1234"}) => {
    
     return (
         <Fragment>
-            <AlertDialog open={open} setOpen={setOpen} message="Las contraseñas no coinciden"/>
+            {/* <AlertDialog open={open} setOpen={setOpen} message="Las contraseñas no coinciden"/> */}
+            <Alert isOpen={visible} toggle={onDismissAlert} color="danger">"Las contraseñas no coinciden. Por favor, ingrese dos contraseñas iguales"</Alert>
             <div className=" container align-self-center justify-content-center d-flex p-5 " style={{maxHeight:"100%", }} >
-            
+                
                 <form onSubmit={handleChangePass}>
                     <div className="form-group" >                  
                     </div>

@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import Stepper from 'react-stepper-horizontal'
 import { Cursando } from './EstadosPractica/Cursando'
 import { FormDocumentos } from './EstadosPractica/FormDocumentos'
-import { FormPostulacion } from './EstadosPractica/FormPostulacion'
 import { Resolucion } from './EstadosPractica/Resolucion'
 import { Termino } from './EstadosPractica/Termino'
 import { Card } from 'reactstrap';
+import {FormPostulacion} from './EstadosPractica/FormPostulacion'
 const Practicas = () => {
 
     const steps = [
@@ -36,7 +36,7 @@ const Practicas = () => {
                 { page===3 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
                 { page===4 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             </Card>
-      
+
     )
 }
 
