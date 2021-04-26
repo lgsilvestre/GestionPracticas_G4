@@ -10,6 +10,8 @@ import { MdWork } from "react-icons/md";
 import { MdPeople } from "react-icons/md";
 import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
+import { IoKeySharp } from "react-icons/io5";
+
 
 function SideBar() {
   const [sidebar, setSidebar] = useState(false);
@@ -47,6 +49,14 @@ function SideBar() {
                   <span className="text">Estudiantes</span>   
                   </Link>                  
               </li>
+              <Divider variant="middle" light={true}/>
+
+            <li className="nav-text">  
+            <Link to="/administradores" >                
+            <IoKeySharp />
+                <span className="text">Aministradores</span>   
+                </Link>                  
+            </li>
               <Divider variant="middle" light={true}/>
 
               <li className="nav-text">    
