@@ -23,8 +23,7 @@ const Practicas = () => {
         setPage(page-1)
     }
     return (
-
-            <Card>
+            <Card className="container mt-3 mb-3">
                 <Stepper 
                     steps={steps}
                     size={40}
@@ -36,8 +35,6 @@ const Practicas = () => {
                 { page===2 && <FormDocumentos previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
                 { page===3 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
                 { page===4 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-
-
             </Card>
       
     )
