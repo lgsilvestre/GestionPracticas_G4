@@ -2,8 +2,7 @@ import React from 'react'
 import { NavBar } from '../ui/NavBar/NavBar'
 import {
     Switch,
-    Route, 
-    Redirect
+    Route
     } from "react-router-dom";
 import Practicas from '../Pages/Practicas';
 import PerfilEstudiante from '../Pages/PerfilEstudiante';
