@@ -9,10 +9,6 @@ class Users extends BaseController
             $rules = [
                 'email' => 'required|min_length[6]|max_length[99]|valid_email',
                 'password' => 'required|max_length[255]|validateUSer[email, password]',
-<<<<<<< HEAD
-=======
-                // lo correcto es que la regla verifique si el usuario esta activo
->>>>>>> Luciano-Back
             ];
             $errors = [
                 'password' => [
@@ -24,9 +20,7 @@ class Users extends BaseController
                 $data['validation'] = $this->validator;
             } else{
                 $model = new UserModel();
-                $user = $model->where('email', $this->request->getVar('email'))
-                             ->first();
-<<<<<<< HEAD
+                $user = $model->where('email', $this->request->getVar('email'))->first();
 
                 $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
 
@@ -44,7 +38,6 @@ class Users extends BaseController
                 }
                 if($user['tipo']==4){//cliente
                     //return redirect()->to('/dashbordAlumno');
-=======
                 if($user ['active']==1){
                     $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
 
@@ -66,7 +59,6 @@ class Users extends BaseController
                 }
                 else{
                     //usuario inactivo
->>>>>>> Luciano-Back
                 }
             }
         }
@@ -75,12 +67,8 @@ class Users extends BaseController
         //echo view('template/landing/login');
         //echo view('template/footer');
     }
-<<<<<<< HEAD
 
-    private function setUserSession($user){
-=======
 private function setUserSession($user){
->>>>>>> Luciano-Back
         $data =[
             'id' => $user['id'],
             'nombre' => $user['firstname'],
@@ -91,10 +79,9 @@ private function setUserSession($user){
         ];
         session()->set($data);
         return true;
-    }
+}
 
-<<<<<<< HEAD
-    public function profile(){
+public function profile(){
         $model = new UserModel();
         helper(['form');
 
@@ -134,9 +121,8 @@ private function setUserSession($user){
             }
         }
     //redirigir por ruta con los datos en json
-    }
-    
-=======
+}
+
 public function generatePass($longitud){
     $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
     $pass = "";
@@ -196,5 +182,4 @@ public function register(){
     }
     //return redirect()->to('/dashbordAlumno');          VistaRegistro
     }
->>>>>>> Luciano-Back
 }

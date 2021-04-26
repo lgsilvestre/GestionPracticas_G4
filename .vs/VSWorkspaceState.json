@@ -1,13 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ci-practicas-back",
-    "\\ci-practicas-back\\app",
-    "\\ci-practicas-back\\app\\Config\\Boot",
-    "\\ci-practicas-back\\app\\Controllers",
-    "\\ci-practicas-back\\app\\Filters",
-    "\\ci-practicas-back\\app\\Models"
+    "\\react-practicas-front",
+    "\\react-practicas-front\\src",
+    "\\react-practicas-front\\src\\components",
+    "\\react-practicas-front\\src\\components\\Login",
+    "\\react-practicas-front\\src\\components\\Login\\components",
+    "\\react-practicas-front\\src\\components\\Pages",
+    "\\react-practicas-front\\src\\components\\routers"
   ],
-  "SelectedNode": "\\ci-practicas-back\\app\\Filters\\NoAuth.php",
+  "SelectedNode": "\\react-practicas-front\\src\\components\\Login\\components\\FormLogin.js",
   "PreviewInSolutionExplorer": false
 }
