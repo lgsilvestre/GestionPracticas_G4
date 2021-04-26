@@ -7,8 +7,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
-import SimpleModal from '../Modal/Modal';
+
 import Grow from '@material-ui/core/Grow';
+
 
 const useStyles = makeStyles({
   table: {
@@ -68,7 +69,7 @@ export default function Administrador() {
   return (
       <div>
 
-   <SimpleModal titulo="DATOS ADMINISTRADOR"/>
+
     <Grid container>
         <Grid item xs>
         <Grow   in={true} style={{ transformOrigin: '0 0 0' }}  {...(true ? { timeout: 1500 } : {})}    >

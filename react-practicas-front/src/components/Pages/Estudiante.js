@@ -6,27 +6,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Grid from '@material-ui/core/Grid';
-import Modal from '../Modal/Modal';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '../Dialog/Dialog'
 
 const useStyles = makeStyles((theme) =>({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(1),
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
+    padding: 'none',
   },
   table: {
-    minWidth: 200,
-    display: 'center'
-  },container:{
-    margin:'0 4%'
-
+    width:'90vw',
+    height:'75vh',
+    margin: '0 auto',
+    marginBottom: '40px',
+    display: 'center',
+    border: '2px solid rgba(0,111,110,1)',
   }
   
 }));
@@ -34,9 +30,11 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: 'rgba(0,111,110,1)',
     color: theme.palette.common.white,
+    padding: '6px'
   },
   body: {
     fontSize: 12,
+    padding: '6px'
   },
 }))(TableCell);
 
@@ -45,6 +43,7 @@ const StyledTableRow = withStyles((theme) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
+
   },
 }))(TableRow);
 
@@ -53,15 +52,16 @@ function createData(carrera, codigo, matricula,  rut, nombre, correo, sexo, fech
 }
 
 const rows = [
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'PEREZ PEREZ JUAN MANUEL', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
+
 ];
 
 export default function Estudiante() {
@@ -69,20 +69,17 @@ export default function Estudiante() {
 
   return (
       <div>
-
-   <Modal  titulo="DATOS ESTUDIANTE"/>
-    <Grid container>
-        <Grid item xs>
+        <Dialog />
         <Grow   in={true} style={{ transformOrigin: '0 0 0' }}  {...(true ? { timeout: 1500 } : {})}    >
            <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
+        <Table className={classes.table} size="small" aria-label="customized table">
             <TableHead>
             <TableRow>
             <StyledTableCell align="left">Carrera</StyledTableCell>
             <StyledTableCell align="right" >Codigo Carrera</StyledTableCell>
-            <StyledTableCell align="right" >Matricula</StyledTableCell>
-            <StyledTableCell align="right" >RUT</StyledTableCell>
-            <StyledTableCell align="right">Nombre Alumno</StyledTableCell>      
+            <StyledTableCell align="right" >Matricula</StyledTableCell>            
+            <StyledTableCell align="right">Nombre Alumno</StyledTableCell>    
+            <StyledTableCell align="right" >RUT</StyledTableCell>  
             <StyledTableCell align="right">Correo</StyledTableCell>
             <StyledTableCell align="right">Sexo</StyledTableCell>
             <StyledTableCell align="right">Fecha Nacimiento</StyledTableCell>
@@ -130,8 +127,7 @@ export default function Estudiante() {
         </TableContainer>
         
         </Grow>
-       </Grid>
-        </Grid>
+
         </div>
 
     
