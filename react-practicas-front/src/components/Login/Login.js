@@ -2,6 +2,8 @@ import React from 'react';
 import FormLogin from './components/FormLogin';
 import './Styles/Login.css';
 import logo from './images/fondo_izquierdo.png';
+import { useHistory } from 'react-router-dom';
+
 
 class Login extends React.Component {
   render() {

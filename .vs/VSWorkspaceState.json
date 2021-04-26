@@ -1,14 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\react-practicas-front",
+    "\\ci-practicas-back",
+    "\\ci-practicas-back\\app",
+    "\\ci-practicas-back\\app\\Models",
     "\\react-practicas-front\\src",
     "\\react-practicas-front\\src\\components",
-    "\\react-practicas-front\\src\\components\\Login",
-    "\\react-practicas-front\\src\\components\\Login\\components",
+    "\\react-practicas-front\\src\\components\\Landing",
     "\\react-practicas-front\\src\\components\\Pages",
-    "\\react-practicas-front\\src\\components\\routers"
+    "\\react-practicas-front\\src\\components\\routers",
+    "\\react-practicas-front\\src\\components\\ui"
   ],
-  "SelectedNode": "\\react-practicas-front\\src\\components\\Login\\components\\FormLogin.js",
+  "SelectedNode": "\\ci-practicas-back\\app\\index.html",
   "PreviewInSolutionExplorer": false
 }
