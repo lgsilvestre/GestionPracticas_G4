@@ -9,6 +9,8 @@ import { MdWork } from "react-icons/md";
 import { MdPeople } from "react-icons/md";
 import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
+import { IoKeySharp } from "react-icons/io5";
+
 
 function SideBar() {
   const [sidebar, setSidebar] = useState(false);
@@ -16,7 +18,7 @@ function SideBar() {
   const showSidebar = () => setSidebar(!sidebar);
 
   return (
-    <div className="position-sticky">
+    <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
@@ -33,7 +35,7 @@ function SideBar() {
                
 
               <li className="nav-text">   
-              <Link to="/practicas" >       
+              <Link to="/admin/practicas" >       
                 <MdWork />
                   <span className="text">Practicas</span> 
               </Link>                     
@@ -41,15 +43,23 @@ function SideBar() {
               <Divider variant="middle" light={true}/>
 
               <li className="nav-text">  
-              <Link to="/estudiantes" >                
+              <Link to="/admin/estudiantes" >                
                 <MdPeople />
                   <span className="text">Estudiantes</span>   
                   </Link>                  
               </li>
               <Divider variant="middle" light={true}/>
 
+            <li className="nav-text">  
+            <Link to="/admin/administradores" >                
+            <IoKeySharp />
+                <span className="text">Aministradores</span>   
+                </Link>                  
+            </li>
+              <Divider variant="middle" light={true}/>
+
               <li className="nav-text">    
-              <Link to="/postulaciones" >              
+              <Link to="/admin/postulaciones" >              
                 <MdDescription />
                   <span className="text">Postulaciones</span>  
                   </Link>                   
@@ -57,7 +67,7 @@ function SideBar() {
               <Divider variant="middle" light={true}/>
 
               <li className="nav-text">   
-              <Link to="/ofertas" >               
+              <Link to="/admin/ofertas" >               
                 <MdLocalOffer />
                   <span className="text">Ofertas</span>  
                   </Link>                   
@@ -66,7 +76,7 @@ function SideBar() {
           </ul>
         </nav>
       </IconContext.Provider>
-    </div>
+    </>
   );
 }
 
