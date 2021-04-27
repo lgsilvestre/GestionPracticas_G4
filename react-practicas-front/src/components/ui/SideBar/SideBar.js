@@ -72,6 +72,12 @@ function SideBar() {
                   <span className="text">Ofertas</span>  
                   </Link>                   
               </li>
+              <li className="nav-text">   
+              <Link to="/admin/estadisticas" >               
+                <MdLocalOffer />
+                  <span className="text">Estadisticas</span>  
+                  </Link>                   
+              </li>
 
           </ul>
         </nav>
