@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
+
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormAlumno from '../FormAlumno/FormAlumno';
@@ -43,16 +43,9 @@ export default function ScrollDialog() {
       >
         <DialogTitle id="scroll-dialog-title"className={classes.titulo}>Datos Estudiante</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
-          <FormAlumno />
+          <FormAlumno handleClose={handleClose}/>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} className={classes.botonCancelar} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleClose} className={classes.boton} color="primary">
-            Registrar
-          </Button>
-        </DialogActions>
+        
       </Dialog>
     </div>
   );

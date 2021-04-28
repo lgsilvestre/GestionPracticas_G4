@@ -29,7 +29,7 @@ function SideBar() {
           <ul className='nav-menu-items' onClick={showSidebar}>
             <li className='navbar-toggle'>
               <Link to='#' className='menu-bars'>             
-                <img src={logo}   className="logo"  alt="Utalca Logo"  />                  
+                <img src={logo}   className="logoUtal"  alt="Utalca Logo"  />                  
               </Link>
             </li> 
                
