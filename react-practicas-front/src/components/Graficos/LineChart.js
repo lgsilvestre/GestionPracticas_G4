@@ -51,7 +51,7 @@ export const LineChart = () => {
     }
 
     return (
-        <div className="card" style= {{width: "600px"}}>
+        <div className="card" style= {{width: "1110px"}}>
             <CanvasJSChart options ={options}/>       
         </div>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 import {
     Button
     } from 'reactstrap';
-export const FormDocumentos = ({previousPage, handleSubmit}) => {
+export const FormInscripcion = ({previousPage, handleSubmit}) => {
     return (
         <div>
             <h4>FormDocumentos</h4>

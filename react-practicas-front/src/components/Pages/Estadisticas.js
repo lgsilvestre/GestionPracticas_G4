@@ -9,7 +9,7 @@ export const Estadisticas = () => {
             <h1>Estadisticas</h1>
             <hr/>
             <div className="container">
-                <div className= "row">
+                <div className= "row justify-content-md-center">
                     <div className = "col ">
                         <ColumnChart/>
                     </div>
@@ -18,7 +18,7 @@ export const Estadisticas = () => {
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row mt-4 mb-4 justify-content-md-center">
                     <LineChart/>
                 </div>
 

@@ -1,7 +1,6 @@
-import { FormGroup } from '@material-ui/core';
 import React from 'react'
 import {
-    Button, Col, Card, CardBody
+    Button
   } from 'reactstrap';
 
 export const FormPostulacion = ({handleSubmit}) => {
@@ -10,28 +9,16 @@ export const FormPostulacion = ({handleSubmit}) => {
         <div >
             <h4>Formulario de Postulacion</h4>
             <hr/>
-            <form onSubmit={handleSubmit}>
-                <Col>
-                    <Card>
-                        <CardBody>
-                            <FormGroup>
-                                <Col xs="12" lg="6">
-                                
-                                </Col>
-                            </FormGroup>
-                        </CardBody>
-                        <div style={{ paddingBottom: 30 }}>
-                            <Button color="primary" className="btn-pill pull-right" type="submit" style={{marginRight: '20px'}}>
-                                Next &nbsp;
-                                <i className="fa fa-chevron-right" />
-                            </Button>
-                        </div>
-                    </Card>
-                </Col>
-
-                
-            </form>
-            
-        </div>
+            <form className="container text-center" onSubmit={handleSubmit}>
+                <h5> Importante </h5>
+                <p>
+                    Al solicitar tu practica, el encargado de practicas de tu escuela tiene x dias para aceptar tu solicitud y 
+                    entregarte la documentación. Tendrás que esperar por la resolucion.
+                </p>
+                <Button className="btn btn-primary" type="submit">
+                    Solicitar Practica
+                </Button>
+            </form>            
+        </div>        
     )
 }
