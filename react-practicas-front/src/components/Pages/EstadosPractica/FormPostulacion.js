@@ -9,7 +9,7 @@ export const FormPostulacion = ({handleSubmit}) => {
         <div >
             <h4>Formulario de Postulacion</h4>
             <hr/>
-            <form className="container text-center" onSubmit={handleSubmit}>
+            <form className="container p-5 text-center" onSubmit={handleSubmit}>
                 <h5> Importante </h5>
                 <p>
                     Al solicitar tu practica, el encargado de practicas de tu escuela tiene x dias para aceptar tu solicitud y 
