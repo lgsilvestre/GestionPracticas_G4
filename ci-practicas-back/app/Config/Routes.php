@@ -49,6 +49,7 @@ $routes->get('/', 'Home::index');
  * needing to reload it.
  */
 $routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
+$routes->match(['get','post'],'register', 'UsersController::register');
 
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
 {
