@@ -56,21 +56,22 @@ export default function Estudiante() {
   const classes = useStyles();
   const [data, setData] = useState([]);
 
+  async function cargarEstudiantes()  {
+    //Metodo que obtiene los datos del estudiante 
+    axios.get(``)
+    .then(res => {
+      const estudiante = res.data;
+      setData([...data, estudiante]);
+    })
+     
+ }
  
   useEffect(() => {    
     cargarEstudiantes();
   }, []);
 
 
-  const cargarEstudiantes = async () => {
-     //Metodo que obtiene los datos del estudiante 
-     axios.get(``)
-     .then(res => {
-       const estudiante = res.data;
-       setData([...data, estudiante]);
-     })
-      
-  }
+  
 
   
   return (
@@ -78,7 +79,7 @@ export default function Estudiante() {
         <Dialog />
         <Grow   in={true} style={{ transformOrigin: '0 0 0' }}  {...(true ? { timeout: 1500 } : {})}    >
            <TableContainer component={Paper}>
-        <Table className={classes.table} size="small" aria-label="customized table">
+        <Table className={classes.table} size="small" aria-label="customized table"  >
             <TableHead>
             <TableRow>
             <StyledTableCell align="left">Carrera</StyledTableCell>
@@ -98,7 +99,12 @@ export default function Estudiante() {
             <StyledTableCell align="right">Periodo</StyledTableCell>
             <StyledTableCell align="right">Comuna Origen</StyledTableCell>
             <StyledTableCell align="right">Region</StyledTableCell>
+            <StyledTableCell align="right">Regular</StyledTableCell>
+            <StyledTableCell align="right">Nivel</StyledTableCell>
             <StyledTableCell align="right">Porcentaje</StyledTableCell>
+            <StyledTableCell align="right">Ult Punt Prio</StyledTableCell>
+            <StyledTableCell align="right">Al Dia</StyledTableCell>
+            <StyledTableCell align="right">Nivel 99</StyledTableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -124,7 +130,15 @@ export default function Estudiante() {
                 <StyledTableCell align="right">{row.periodo}</StyledTableCell>
                 <StyledTableCell align="right">{row.comuna_origen}</StyledTableCell>
                 <StyledTableCell align="right">{row.region}</StyledTableCell>
+                <StyledTableCell align="right">{row.regular}</StyledTableCell>
+                <StyledTableCell align="right">{row.nivel}</StyledTableCell>
                 <StyledTableCell align="right">{row.porc_avance}</StyledTableCell>
+                <StyledTableCell align="right">{row.ult_punt_prio}</StyledTableCell>
+                <StyledTableCell align="right">{row.al_dia}</StyledTableCell>
+                <StyledTableCell align="right">{row.nivel_99_aprobado}</StyledTableCell>
+                
+
+                
                 </StyledTableRow>
             )) */} 
             </TableBody>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import {Grid} from '@material-ui/core';
@@ -14,11 +14,26 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 export default function FormAlumno({handleClose}) {
   const classes = useStyles();
   const methods = useForm();
   const [estudiante, setEstudiante] = useState({}); 
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18'));
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setEstudiante({
+      ...estudiante,
+      fecha_nac: date,
+    });
+  };
  
 
   const handleChange = (e) => {
@@ -29,14 +44,21 @@ export default function FormAlumno({handleClose}) {
    
   };
 
+
+
+  //Funcion que Hace el Post a la tabla estudiante
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(estudiante);  
-    axios.post(``, { estudiante })
+      console.log(estudiante);  
+      axios.post(``, { estudiante })
       .then(res => {
         console.log(res);
         console.log(res.data);
       })
+     
+     
+    
+    
   } ;
 
 
@@ -77,7 +99,7 @@ export default function FormAlumno({handleClose}) {
             <TextField  variant="outlined" name= "plan" label="Plan" value={estudiante.plan}  onChange={handleChange} fullWidth  required />
             </Grid> 
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "anio_ingreso" label="Año Ingreso" value={estudiante.anio_ingreso}  onChange={handleChange} fullWidth  required />
+            <TextField  variant="outlined" name= "anho_ingreso" label="Año Ingreso" value={estudiante.anho_ingreso}  onChange={handleChange} fullWidth  required />
             </Grid>
             <Grid item xs={6} >
             <FormControl variant="outlined" fullWidth required className={classes.formControl}>
@@ -120,18 +142,25 @@ export default function FormAlumno({handleClose}) {
           </FormControl>
             </Grid>
             <Grid item xs={12} >
-            <TextField
-              id="fecha_nac"
-              label="Fecha Nacimiento"
-              type="date"
-              value={estudiante.fecha_nac}
-              defaultValue="2000-01-01"
-              className={classes.textField}
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
+            <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label="Date picker inline"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+          
+        />
+               
+
+            </MuiPickersUtilsProvider>
             </Grid> 
             <Grid item xs={6} >
             <TextField  variant="outlined" name= "sit_actual" label="Situacion Actual" value={estudiante.sit_actual}  onChange={handleChange} fullWidth  required />
@@ -143,15 +172,60 @@ export default function FormAlumno({handleClose}) {
             <TextField  variant="outlined" name= "comuna_origen" label="Comuna Origen" value={estudiante.comuna_origen}  onChange={handleChange} fullWidth  required />
             </Grid>
             <Grid item xs={6} >
+            <TextField  variant="outlined" name= "sit_actual_periodo" label="Situacion Actual Periodo" value={estudiante.sit_actual_periodo}  onChange={handleChange} fullWidth  required />
+            </Grid>
+            <Grid item xs={6} >
+            <TextField  variant="outlined" name= "regular" label="Regular" value={estudiante.regular}  onChange={handleChange} fullWidth  required />
+            </Grid>
+            <Grid item xs={6} >
+            <FormControl variant="outlined" fullWidth required className={classes.formControl}>
+              <InputLabel id="select-outlined-label">Region</InputLabel>
+              <Select
+                labelId="select-outlined-label"
+                id="select-outlined"
+                name= "region"
+                value={estudiante.region}
+                onChange={handleChange}
+                label="Region"
+              >
+                
+                <MenuItem value={'1'}>1</MenuItem>
+                <MenuItem value={'2'}>2</MenuItem>
+                <MenuItem value={'3'}>3</MenuItem>
+                <MenuItem value={'4'}>4</MenuItem>
+                <MenuItem value={'5'}>5</MenuItem>
+                <MenuItem value={'6'}>6</MenuItem>
+                <MenuItem value={'7'}>7</MenuItem>
+                <MenuItem value={'8'}>8</MenuItem>
+                <MenuItem value={'9'}>9</MenuItem>
+                <MenuItem value={'10'}>10</MenuItem>
+                <MenuItem value={'11'}>11</MenuItem>
+                <MenuItem value={'12'}>12</MenuItem>
+               
+              </Select>
+             </FormControl>
+            </Grid>
+            <Grid item xs={6} >
+            <TextField  variant="outlined" name= "nivel" label="Nivel" value={estudiante.nivel}  onChange={handleChange} fullWidth  required />
+            </Grid>
+            <Grid item xs={6} >
             <TextField  variant="outlined" name= "porc_avance" label="Porcentaje" value={estudiante.porc_avance}  onChange={handleChange} fullWidth  required />
-            </Grid> 
-  
+            </Grid>         
+            <Grid item xs={6} >
+            <TextField  variant="outlined" name= "ult_punt_prio" label="Ulti Punt Prio" value={estudiante.ult_punt_prio}  onChange={handleChange} fullWidth  required />
+            </Grid>
+            <Grid item xs={6} >
+            <TextField  variant="outlined" name= "al_dia" label="Al Dia" value={estudiante.al_dia}  onChange={handleChange} fullWidth  required />
+            </Grid>
+            <Grid item xs={6} >
+            <TextField  variant="outlined" name= "nivel_99_aprobado" label="Nivel 99 Aprobado" value={estudiante.nivel_99_aprobado}  onChange={handleChange} fullWidth  required />
+            </Grid>
           </Grid>
           <DialogActions>
           <Button onClick={handleClose} className={classes.botonCancelar} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleSubmit} className={classes.boton} color="primary">
+          <Button onClick={handleSubmit} type="submit" className={classes.boton} color="primary">
             Registrar
           </Button>
         </DialogActions>
