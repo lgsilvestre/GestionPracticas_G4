@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory } from "react-router-dom";
 import { AppRouter } from './components/routers/AppRouter';
 
-
 function App() {
   let history = useHistory();
   return (

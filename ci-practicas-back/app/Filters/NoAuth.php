@@ -8,6 +8,7 @@ class NoAuth implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
+        echo "entró a NoAuth";
         // Do something here
         if(session()->get('isLoggedIn'))
             {

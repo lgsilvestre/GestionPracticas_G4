@@ -26,17 +26,14 @@ class FormLogin extends Component{
     }
 
     handleSubmit(event) {
-        const { user, pass } = this.state;
-
+        let email = this.state.user;
+        let password = this.state.pass;
         axios.post(
                 "http://localhost/GestionPracticas_G4/ci-practicas-back/public/login",
                 {
-                    user: {
-                        user: user,
-                        pass: pass
-                    }
+                    email: email,
+                    password: password,
                 },
-            { headers: { "Access-Control-Allow-Origin": "*" } }
             )
             .then(response => {
                 console.log("respuesta: ", response);
@@ -65,18 +62,6 @@ class FormLogin extends Component{
         }
     }
 
-    /*sendLogin() {
-        axios({
-            method: 'post',
-            url: 'http://localhost/GestionPracticas_G4/ci-practicas-back/public/login',
-            data: {
-                user: "hot",
-                pass: 10
-            }
-        })
-        .then(res => this.setState({ recipes: res.data }));
-    }*/
-
     render(){
 
         return(
@@ -86,7 +71,7 @@ class FormLogin extends Component{
                     <h6>Bienvenido</h6>
                     <h5>Ingresa con los datos de tu cuenta</h5> 
 
-                    <form onSubmit={this.routeChange}>  
+                    <form onSubmit={this.handleSubmit}>  
                         <div className="form-group">
                             <label>Correo</label>
                             <input
