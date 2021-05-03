@@ -1,4 +1,4 @@
-.logo {
+.logoUtal{
   height: 122px;
   width: 105px;
 }
@@ -23,11 +23,12 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: -100%;
     transition: 850ms;
-}
+    z-index:3;
+  }
   
   .nav-menu.active {
     left: 0;

@@ -31,8 +31,9 @@ export const CambiarPassword = ({oldpass="1234"}) => {
         else{
             console.log(`contrasena nueva: ${newPass} ${newPassRepite}`)
             setChangedPass(true)
+            //Aca realizar el post de la nueva contraseña a la base de datos
         }
-        //Aca realizar el post hacia la base de datos   
+          
     }
    
     return (
@@ -40,7 +41,6 @@ export const CambiarPassword = ({oldpass="1234"}) => {
             {/* <AlertDialog open={open} setOpen={setOpen} message="Las contraseñas no coinciden"/> */}
             <Alert isOpen={visible} toggle={onDismissAlert} color="danger">"Las contraseñas no coinciden. Por favor, ingrese dos contraseñas iguales"</Alert>
             <div className=" container align-self-center justify-content-center d-flex p-5 " style={{maxHeight:"100%", }} >
-                
                 <form onSubmit={handleChangePass}>
                     <div className="form-group" >                  
                     </div>

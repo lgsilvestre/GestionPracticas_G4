@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import Stepper from 'react-stepper-horizontal'
 import { Cursando } from './EstadosPractica/Cursando'
-import { FormDocumentos } from './EstadosPractica/FormDocumentos'
 import { Resolucion } from './EstadosPractica/Resolucion'
 import { Termino } from './EstadosPractica/Termino'
 import { Card } from 'reactstrap';
 import {FormPostulacion} from './EstadosPractica/FormPostulacion'
+import { FormInscripcion } from './EstadosPractica/FormInscripcion'
 const Practicas = () => {
 
     const steps = [
-        {title: "Postulacion"},
+        {title: "Solicitar"},
         {title: "Resolucion"},
-        {title: "Documentos"},
+        {title: "Inscripcion"},
         {title: "Cursando"},
         {title: "Terminada"} 
     ]
+    
     const [page, setPage] = useState(0)
     const nextPage = (e) =>{       
         setPage(page+1)
@@ -23,20 +24,20 @@ const Practicas = () => {
         setPage(page-1)
     }
     return (
-            <Card className="container mt-3 mb-3">
-                <Stepper 
-                    steps={steps}
-                    size={40}
-                    circleFontSize={18}
-                    activeStep={ page }
-                />
-                { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
-                { page===1 && <Resolucion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-                { page===2 && <FormDocumentos previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-                { page===3 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-                { page===4 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            </Card>
-
+        <Card className="container mt-3 mb-3">
+            <Stepper 
+                steps={steps}
+                size={40}
+                circleFontSize={18}
+                activeStep={ page }
+            />
+            <hr/>
+            { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
+            { page===1 && <Resolucion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===2 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===3 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===4 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+        </Card>
     )
 }
 

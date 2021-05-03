@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
 import 'font-awesome/css/font-awesome.min.css';
+import '../node_modules/react-vis/dist/style.css';
 ReactDOM.render(
   <App />,
   document.getElementById('root')
