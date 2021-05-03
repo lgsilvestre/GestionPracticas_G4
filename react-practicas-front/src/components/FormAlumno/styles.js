@@ -17,7 +17,7 @@ export default makeStyles((theme) => ({
       color: '#fff',
 
    
-  },
+  },  
   label: {
     width: '100%',
     display: 'inherit',
@@ -27,6 +27,29 @@ export default makeStyles((theme) => ({
   },formControl: {
     marginBottom: '15px',
   },
+  botonCancelar: {
+    marginRight:'20px',
+    marginTop:'60px',
+    float:'right',
+    margin: '35px',
+    backgroundColor: '#fff',
+    color: 'rgb(0, 0, 0)',  
+    cursor: 'pointer',
+    border: '2px solid #E62D05',
+    transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+  '&:hover': {
+  backgroundColor: '#E62D05',
+    color: '#fff',
+
+ 
+},  
+label: {
+  width: '100%',
+  display: 'inherit',
+  alignItems: 'inherit',
+  justifyContent: 'inherit',
+},
+},
   
 
 

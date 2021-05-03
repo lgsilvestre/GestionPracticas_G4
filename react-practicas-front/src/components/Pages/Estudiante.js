@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '../Dialog/Dialog'
+
 
 const useStyles = makeStyles((theme) =>({
   root: {
@@ -47,32 +49,38 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(carrera, codigo, matricula,  rut, nombre, correo, sexo, fecha, plan, ingreso, via_ingreso, sit_actual, sit_actual_anio, sit_actual_periodo, periodo, comuna, region, porcentaje) {
-  return {carrera, codigo, matricula, rut,nombre,  correo, sexo, fecha, plan, ingreso, via_ingreso, sit_actual, sit_actual_anio, sit_actual_periodo, periodo, comuna, region, porcentaje };
-}
 
-const rows = [
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
-  createData('Ingenieria civil en Computacion', '3407','2000407001', '9999999', 'Perez Perez Juan Manuel', 'juanito99@alumnos.utalca.cl', 	'M',	'8/17/1982',	'3'	, '2000',	'VIA PSU',	'TITULADO', 	'2009',	'1'	,'N',	'TALCA',	'7'	,'99'),
 
-];
+
 
 export default function Estudiante() {
   const classes = useStyles();
+  const [data, setData] = useState([]);
 
+  async function cargarEstudiantes()  {
+    //Metodo que obtiene los datos del estudiante 
+    axios.get(``)
+    .then(res => {
+      const estudiante = res.data;
+      setData([...data, estudiante]);
+    })
+     
+ }
+ 
+  useEffect(() => {    
+    cargarEstudiantes();
+  }, []);
+
+
+  
+
+  
   return (
       <div>
         <Dialog />
         <Grow   in={true} style={{ transformOrigin: '0 0 0' }}  {...(true ? { timeout: 1500 } : {})}    >
            <TableContainer component={Paper}>
-        <Table className={classes.table} size="small" aria-label="customized table">
+        <Table className={classes.table} size="small" aria-label="customized table"  >
             <TableHead>
             <TableRow>
             <StyledTableCell align="left">Carrera</StyledTableCell>
@@ -92,36 +100,48 @@ export default function Estudiante() {
             <StyledTableCell align="right">Periodo</StyledTableCell>
             <StyledTableCell align="right">Comuna Origen</StyledTableCell>
             <StyledTableCell align="right">Region</StyledTableCell>
+            <StyledTableCell align="right">Regular</StyledTableCell>
+            <StyledTableCell align="right">Nivel</StyledTableCell>
             <StyledTableCell align="right">Porcentaje</StyledTableCell>
+            <StyledTableCell align="right">Ult Punt Prio</StyledTableCell>
+            <StyledTableCell align="right">Al Dia</StyledTableCell>
+            <StyledTableCell align="right">Nivel 99</StyledTableCell>
             </TableRow>
             </TableHead>
             <TableBody>
-            {rows.map((row) => (
+           { /* data.map((row) => (
                 <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
                     {row.carrera}
                 </StyledTableCell>
            
-                <StyledTableCell align="right">{row.codigo}</StyledTableCell>
+                <StyledTableCell align="right">{row.cod_carrera}</StyledTableCell>
                 <StyledTableCell align="right">{row.matricula}</StyledTableCell>
                 <StyledTableCell align="right">{row.nombre}</StyledTableCell>
-                <StyledTableCell align="right">{row.rut}</StyledTableCell>
-                
-                <StyledTableCell align="right">{row.correo}</StyledTableCell>
+                <StyledTableCell align="right">{row.rut}</StyledTableCell>                
+                <StyledTableCell align="right">{row.correo_ins}</StyledTableCell>
                 <StyledTableCell align="right">{row.sexo}</StyledTableCell>
-                <StyledTableCell align="right">{row.fecha}</StyledTableCell>
+                <StyledTableCell align="right">{row.fecha_nac}</StyledTableCell>
                 <StyledTableCell align="right">{row.plan}</StyledTableCell>
-                <StyledTableCell align="right">{row.ingreso}</StyledTableCell>
+                <StyledTableCell align="right">{row.anho_ingreso}</StyledTableCell>
                 <StyledTableCell align="right">{row.via_ingreso}</StyledTableCell>
                 <StyledTableCell align="right">{row.sit_actual}</StyledTableCell>
-                <StyledTableCell align="right">{row.sit_actual_anio}</StyledTableCell>
+                <StyledTableCell align="right">{row.sit_actual_anho}</StyledTableCell>
                 <StyledTableCell align="right">{row.sit_actual_periodo}</StyledTableCell>
                 <StyledTableCell align="right">{row.periodo}</StyledTableCell>
-                <StyledTableCell align="right">{row.comuna}</StyledTableCell>
+                <StyledTableCell align="right">{row.comuna_origen}</StyledTableCell>
                 <StyledTableCell align="right">{row.region}</StyledTableCell>
-                <StyledTableCell align="right">{row.porcentaje}</StyledTableCell>
+                <StyledTableCell align="right">{row.regular}</StyledTableCell>
+                <StyledTableCell align="right">{row.nivel}</StyledTableCell>
+                <StyledTableCell align="right">{row.porc_avance}</StyledTableCell>
+                <StyledTableCell align="right">{row.ult_punt_prio}</StyledTableCell>
+                <StyledTableCell align="right">{row.al_dia}</StyledTableCell>
+                <StyledTableCell align="right">{row.nivel_99_aprobado}</StyledTableCell>
+                
+
+                
                 </StyledTableRow>
-            ))}
+            )) */} 
             </TableBody>
         </Table>
         </TableContainer>
