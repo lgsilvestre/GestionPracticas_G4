@@ -40,10 +40,9 @@ export const Footer = () => {
                         </ul>
                     </div> 
                 </div> */}
-                <div className="row">
-                    <p className="col-sm">
-                       &copy;{new Date().getFullYear()} UTAL Practicas | All right reserved | Terms of Service | Privacy
-                    </p>
+                <div className="row">            
+                    &copy;{new Date().getFullYear()} UTAL Practicas | All right reserved | Terms of Service | Privacy
+                    
                 </div>
             </div>
             
