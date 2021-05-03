@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import Login from '../../Login/Login'
 import logo from '../SideBar/utalca.svg'
 import "./NavBar.css"
 

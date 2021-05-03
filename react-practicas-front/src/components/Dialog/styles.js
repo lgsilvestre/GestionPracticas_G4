@@ -1,0 +1,47 @@
+import { makeStyles } from '@material-ui/core/styles';
+
+export default makeStyles((theme) => ({
+
+  boton: {
+      marginRight:'20px',
+      float:'right',
+      margin: '35px',
+      backgroundColor: '#fff',
+      color: 'rgb(0, 0, 0)',  
+      cursor: 'pointer',
+      border: '2px solid rgba(0,111,110,1)',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+    '&:hover': {
+    backgroundColor: 'rgba(0,111,110,1)',
+      color: '#fff',
+
+   
+  },
+  
+  label: {
+    width: '100%',
+    display: 'inherit',
+    alignItems: 'inherit',
+    justifyContent: 'inherit',
+  },
+  },
+  botonCancelar: {
+    marginRight:'20px',
+    float:'right',
+    margin: '35px',
+    backgroundColor: '#fff',
+    color: 'rgb(0, 0, 0)',  
+    cursor: 'pointer',
+    border: '2px solid rgba(240, 52, 52, 1)',
+    transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+  '&:hover': {
+  backgroundColor: 'rgba(240, 52, 52, 1)',
+    color: '#fff', 
+},},
+  titulo:{
+    color: '#000',
+    textAlign: 'center',
+  }
+
+
+}));

@@ -5,8 +5,8 @@ export const Footer = () => {
     return (
         <div className="main-footer position-static">
             <div className = "container">
-                <div className = "row">
-                    {/* Colummna 1 */}
+                {/* <div className = "row">
+                    
                     <div className="col">
                         <h4>
                             TEXTO 1
@@ -38,13 +38,12 @@ export const Footer = () => {
                             <li> bla bla bla</li>
                             <li> bla bla bla</li>
                         </ul>
-                    </div>
-                </div>
+                    </div> 
+                </div> */}
                 <div className="row">
                     <p className="col-sm">
                        &copy;{new Date().getFullYear()} UTAL Practicas | All right reserved | Terms of Service | Privacy
                     </p>
-
                 </div>
             </div>
             
