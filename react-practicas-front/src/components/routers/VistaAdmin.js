@@ -13,17 +13,20 @@ const VistaAdmin = () => {
     return (
         <div>         
             <SideBar />
-            <Switch>      
-                <Route path = '/admin/practicas' component={EstadoPracticas} />
-                <Route path = '/admin/administradores' component={Administrador} />
-                <Route path = '/admin/estudiantes' component={Estudiante} />
-                <Route path = '/admin/postulaciones' component={Postulaciones} />
-                <Route path = '/admin/ofertas' component={Ofertas} />
-                <Route path = '/admin/estadisticas' component={Estadisticas} />
-                <Route path="/admin">           
-                    <h1>Admin Inicio</h1>    
-                </Route>
-            </Switch>
+            <div style={{marginBottom:"96px"}}>
+                <Switch>      
+                    <Route path = '/admin/practicas' component={EstadoPracticas} />
+                    <Route path = '/admin/administradores' component={Administrador} />
+                    <Route path = '/admin/estudiantes' component={Estudiante} />
+                    <Route path = '/admin/postulaciones' component={Postulaciones} />
+                    <Route path = '/admin/ofertas' component={Ofertas} />
+                    <Route path = '/admin/estadisticas' component={Estadisticas} />
+                    <Route path="/admin">           
+                        <h1>Admin Inicio</h1>    
+                    </Route>
+                </Switch>
+            </div>
+            
             <Footer/>               
         </div>
     )

@@ -1,19 +1,53 @@
-import React, { useState } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip } from 'reactstrap';
-
+import React, { Fragment, useState } from 'react'
+import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
+import {MdFileDownload} from 'react-icons/md'
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
-
+    const archivos =[
+    {
+        nombre:"Carta de presentación"
+    },{
+        nombre:"Curriculo Plan"
+    },{
+        nombre: "Consentimiento Informado"
+    },{
+        nombre:"Protocolo Covid"
+    },{
+        nombre: "Modulos de desempeño integrado"
+    }]
+    
     const [tooltipOpen, setTooltipOpen] = useState(false);
     
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
     }
 
+    const [modal, setModal] = useState(false)
+    const [nameDownloaded, setnameDownloaded] = useState("")
+    const toggle = () =>{
+        setModal(!modal)
+    }
+    const changeNameDownloaded = (name)=>{
+        setnameDownloaded(name)
+    }
+    const handleDownload = ( namefile ) => {
+        toggle()
+        changeNameDownloaded(namefile)
+        console.log("descargando " ,namefile)    
+    }
     return (
         <div>
-            
+            <Modal isOpen={modal} toggle={toggle} >
+                <ModalHeader toggle={toggle}>Descarga de archivo</ModalHeader>
+                <ModalBody>
+                    Descargando archivo
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={toggle}>Aceptar</Button>
+                </ModalFooter>
+            </Modal>
             <Form onSubmit={handleSubmit}>
+            
                 <h4>Datos de Practica</h4>
                 <hr/>
                 {/* Input para nombre de empresa */}
@@ -50,44 +84,24 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                     Primero debes descargar tus documentos, editarlos y luego subirlos con tu información.
                 </Tooltip>
                 <hr/>
-                <FormGroup>
-                    <Label for="exampleFile">Carta de presentación</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
-                       
-                    </FormText>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="exampleFile">Curriculo Plan</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
-                       
-                    </FormText>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="exampleFile">Consentimiento Informado</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
-                        
-                    </FormText>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="exampleFile">Protocolo Covid</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
-                       
-                    </FormText>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="exampleFile">Modulos de desempeño integrado de competencia</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
+                {/* Por cada archivo presente en el arreglo archivos, crea el formulario para descargarlo y subirlo */}
+                {                  
+                    archivos.map( (file,index) => (
+                        <FormGroup key={index} row>
+                            <Label sm={3} for={`file${index}`}>{file.nombre}</Label>      
+                            <Button onClick={handleDownload} color="info">
+                                <MdFileDownload/>
+                            </Button> 
+                            <Col xs={6}>
+                                <Input type="file" name={`namefile${index}`} id={`file${index}`} />
+                            </Col>
+                            <FormText color="muted">                          
+                            </FormText>
+                        </FormGroup>
+                    ))
+                }
 
-                    </FormText>
-                </FormGroup>
-
-
-                <div style={{ paddingBottom: 30 }}>
+               
                     <Button color="primary" className="btn-pill pull-left" onClick={previousPage} style={{marginLeft: '20px' , marginRight:'10px'}}>
                         <i className="fa fa-chevron-left" />
                             &nbsp; Back
@@ -96,7 +110,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                         Next &nbsp;
                         <i className="fa fa-chevron-right" />
                     </Button>
-                </div>
+                
             </Form>
         </div>
     )
