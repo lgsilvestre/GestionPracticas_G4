@@ -69,7 +69,7 @@ function SideBar() {
               <li className="nav-text">   
               <Link to="/admin/ofertas" >               
                 <MdLocalOffer />
-                  <span className="text">Ofertas</span>  
+                  <span className="text">Ingresar Practica</span>  
                   </Link>                   
               </li>
 
