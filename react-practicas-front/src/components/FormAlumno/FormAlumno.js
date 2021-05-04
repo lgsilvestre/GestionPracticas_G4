@@ -45,54 +45,6 @@ export default function FormAlumno({handleClose}) {
   };
 
 
-    <form onSubmit = {methods.handleSubmit((data) => test({ ...data, estudiante}))} >
-      <Grid container spacing={2}>
-        <Grid item xs={12} >
-          <FormControl variant="outlined" fullWidth required className={classes.formControl}>
-            <InputLabel id="select-outlined-label">Carrera</InputLabel>
-            <Select
-              labelId="select-outlined-label"
-              id="select-outlined"
-              value={estudiante.carrera}
-              onChange={handleChange}
-              label="Carrera"
-            >          
-              <MenuItem value={'Ingenieria Civil en Computacion'}>Ingenieria Civil en Computacion</MenuItem>
-              <MenuItem value={'Ingenieria Civil en Obras Civiles'}>Ingenieria Civil en Obras Civiles</MenuItem>
-              <MenuItem value={'Ingenieria Civil en Mecanica'}>Ingenieria Civil en Mecanica</MenuItem>
-              <MenuItem value={'Ingenieria Civil en Mecatronica'}>Ingenieria Civil en Mecatronica</MenuItem>
-              <MenuItem value={'Ingenieria Civil Electrica'}>Ingenieria Civil Electrica</MenuItem>
-              <MenuItem value={'Ingenieria Civil Industrial'}>Ingenieria Civil Industrial</MenuItem>
-            </Select>
-          </FormControl>  
-        </Grid>
-        <Grid item xs={6} >
-          <TextField  variant="outlined" name= "matricula" label="Matricula" value={estudiante.matricula}  onChange={handleChange} fullWidth  required />
-        </Grid>
-        <Grid item xs={6} >
-          <TextField  variant="outlined" name= "plan" label="Plan" value={estudiante.plan}  onChange={handleChange} fullWidth  required />
-        </Grid> 
-        <Grid item xs={6} >
-          <TextField  variant="outlined" name= "anioIngreso" label="Año Ingreso" value={estudiante.anio_ingreso}  onChange={handleChange} fullWidth  required />
-        </Grid>
-        <Grid item xs={6} >
-          <FormControl variant="outlined" fullWidth required className={classes.formControl}>
-            <InputLabel id="select-outlined-label">Via Ingreso</InputLabel>
-            <Select
-              labelId="select-outlined-label"
-              id="select-outlined"
-              value={estudiante.via_ingreso}
-              onChange={handleChange}
-              label="Via Ingreso"
-            >
-            
-            <MenuItem value={'Via PSU'}>Via PSU</MenuItem>
-            <MenuItem value={'Especial'}>Especial</MenuItem>
-            <MenuItem value={'Cambio de Universidad'}>Cambio de Universidad</MenuItem>
-            
-          </Select>
-          </FormControl>
-        </Grid> 
 
   //Funcion que Hace el Post a la tabla estudiante
   const handleSubmit = (e) => {
@@ -169,12 +121,6 @@ export default function FormAlumno({handleClose}) {
              </FormControl>
             </Grid> 
 
-      </Grid>
-      
-      
-      <br />
-      
-    </form>
 
             <Grid item xs={12} >
             <TextField  variant="outlined" name= "nombre" label="Nombre Completo" value={estudiante.nombre}  onChange={handleChange} fullWidth  required />
@@ -288,6 +234,7 @@ export default function FormAlumno({handleClose}) {
           <br />
          
         </form>
+
 
 
     
