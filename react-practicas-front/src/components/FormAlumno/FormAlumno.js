@@ -97,14 +97,8 @@ export default function FormAlumno({estudiante, setEstudiante}) {
                
               </Select>
              </FormControl>
-            </Grid> 
-
-      </Grid>
-      
-      
-      <br />
-      
-    </form>
+            </Grid>   
+   
 
             <Grid item xs={12} >
             <TextField  variant="outlined" name= "nombre" label="Nombre Completo" value={estudiante.nombre}  onChange={handleChange} fullWidth  required />
