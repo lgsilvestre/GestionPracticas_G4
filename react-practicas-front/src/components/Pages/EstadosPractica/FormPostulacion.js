@@ -13,8 +13,8 @@ export const FormPostulacion = ({handleSubmit}) => {
                 <div style={{margin:"15%"}}>
                     <h5> Importante </h5>
                     <p>
-                        Al solicitar tu practica, el encargado de practicas de tu escuela tiene x dias para aceptar tu solicitud y 
-                        entregarte la documentación. Tendrás que esperar por la resolucion.
+                        Luego de solicitar tu practica (haciendo click en el boton de abajo), el encargado de practicas de tu escuela tiene <strong>x dias </strong> 
+                        para respodner a tu solicitud. Tendrás que esperar por la resolución.
                     </p>
                     <Button className="btn btn-primary" type="submit">
                         Solicitar Practica
