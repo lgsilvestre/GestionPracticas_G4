@@ -87,14 +87,14 @@ export default function SignInSide({history}) {
         .then(response => {
           //trabajar redireccionamiento
           //-1 error , 0 alumno , 1 admin
-          console.log("respuesta: ", response.data);
+          console.log("respuesta: ", response.data.tipo);
           // const user = JSON.stringify(response.data)
           // console.log(user)
-          if(response.data.tipo===1){
+          if(response.data.tipo == 1){
             console.log("admin")
             history.replace("/admin")
           }
-          else if(response.data.tipo===2){
+          else if(response.data.tipo == 2){
             console.log("estudiante")
             history.replace("/estudiante")
           }       
@@ -163,7 +163,7 @@ export default function SignInSide({history}) {
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  "¿No tienes una cuenta?"
+                  ¿No tienes una cuenta?
                 </Link>
               </Grid>
             </Grid>
