@@ -86,7 +86,6 @@ export default function SignInSide() {
             .then(response => {
               //trabajar redireccionamiento
               //-1 error , 0 alumno , 1 admin
-                console.log("respuesta: ", response.date);
             })
             .catch(error => {
                 console.log("login error: ", error);
