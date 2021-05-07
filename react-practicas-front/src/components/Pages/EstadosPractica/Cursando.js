@@ -18,7 +18,7 @@ export const Cursando = ({previousPage, handleSubmit}) => {
                 <ModalHeader toggle={toggle}>Extender tiempo de practica</ModalHeader>
                 <ModalBody>
                     <FormGroup >
-                        <Label for = "nuevaFecha"> Nueva fecha</Label>
+                        <Label for = "nuevaFecha"> Ingresa una nueva fecha</Label>
                         <Input type="date" name="nuevaFechaName" id="nuevaFecha"/>
                     </FormGroup>
                 </ModalBody>
