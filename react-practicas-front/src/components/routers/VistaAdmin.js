@@ -13,7 +13,7 @@ const VistaAdmin = () => {
     return (
         <div>         
             <SideBar />
-            <div style={{marginBottom:"96px"}}>
+            <div>
                 <Switch>      
                     <Route path = '/admin/practicas' component={EstadoPracticas} />
                     <Route path = '/admin/administradores' component={Administrador} />
