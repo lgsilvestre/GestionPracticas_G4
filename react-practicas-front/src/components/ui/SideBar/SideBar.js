@@ -11,7 +11,6 @@ import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
 import { IoKeySharp } from "react-icons/io5";
 
-
 function SideBar() {
   const [sidebar, setSidebar] = useState(false);
 

@@ -40,6 +40,25 @@ export default function FormAlumno({estudiante, setEstudiante}) {
     });
    
   };
+
+
+
+  //Funcion que Hace el Post a la tabla estudiante
+  const handleSubmit = (e) => {
+    e.preventDefault();
+      console.log(estudiante);  
+      axios.post(``, { estudiante })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+     
+     
+    
+    
+  } ;
+
+
   
  
 
@@ -99,6 +118,7 @@ export default function FormAlumno({estudiante, setEstudiante}) {
              </FormControl>
             </Grid>   
    
+
 
             <Grid item xs={12} >
             <TextField  variant="outlined" name= "nombre" label="Nombre Completo" value={estudiante.nombre}  onChange={handleChange} fullWidth  required />
@@ -206,6 +226,7 @@ export default function FormAlumno({estudiante, setEstudiante}) {
           <br />
          
         </form>
+
 
 
     

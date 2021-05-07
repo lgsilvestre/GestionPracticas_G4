@@ -3,14 +3,14 @@
     "",
     "\\ci-practicas-back",
     "\\ci-practicas-back\\app",
+    "\\ci-practicas-back\\app\\Config",
+    "\\ci-practicas-back\\app\\Controllers",
     "\\ci-practicas-back\\app\\Models",
     "\\react-practicas-front\\src",
     "\\react-practicas-front\\src\\components",
-    "\\react-practicas-front\\src\\components\\Landing",
-    "\\react-practicas-front\\src\\components\\Pages",
-    "\\react-practicas-front\\src\\components\\routers",
-    "\\react-practicas-front\\src\\components\\ui"
+    "\\react-practicas-front\\src\\components\\Login",
+    "\\react-practicas-front\\src\\components\\Login\\components"
   ],
-  "SelectedNode": "\\ci-practicas-back\\app\\index.html",
+  "SelectedNode": "\\ci-practicas-back\\app\\Controllers\\UsersControllerTANGA.php",
   "PreviewInSolutionExplorer": false
 }
