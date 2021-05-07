@@ -57,7 +57,7 @@ class UsersController extends Controller
             'idUsser' => 1,
             'nombre' => "Pepito",
             'apellido' => "Lopez",
-            'tipo' => 1
+            'tipo' => -1
         );
         echo json_encode($arr);
         // echo "1";

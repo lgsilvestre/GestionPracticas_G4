@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,12 +9,11 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import logo from'../images/logo.png';
-
+import { Alert } from 'reactstrap';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -72,7 +71,10 @@ export default function SignInSide({history}) {
     const classes = useStyles();
     const emailRef = React.useRef('');
     const passwordRef = React.useRef('');
-    
+    const [wrongPass, setwrongPass] = useState(false)
+    const handleWrongPass = () =>{
+      setwrongPass(true)
+    }
     const sendValues = (event) => {
         event.preventDefault();
         let email = emailRef.current.value;
@@ -88,15 +90,18 @@ export default function SignInSide({history}) {
           //trabajar redireccionamiento
           //-1 error , 0 alumno , 1 admin
           console.log("respuesta: ", response.data);
-          // const user = JSON.stringify(response.data)
-          // console.log(user)
-          if(response.data.tipo===1){
+          
+          if(response.data.tipo == 0){
             console.log("admin")
             history.replace("/admin")
           }
-          else if(response.data.tipo===2){
+          else if(response.data.tipo == 1){
             console.log("estudiante")
             history.replace("/estudiante")
+          }
+          else{
+            console.log("error credenciales")
+            handleWrongPass()
           }       
         })
         .catch(error => {
@@ -142,6 +147,12 @@ export default function SignInSide({history}) {
               autoComplete="current-password"
               inputRef={passwordRef}
             />
+            {
+              wrongPass && (
+                <Alert color="danger">
+                  Usuario o contraseña incorrectas.
+                </Alert>)
+            }
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Recordarme"
