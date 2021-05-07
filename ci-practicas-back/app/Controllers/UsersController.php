@@ -62,11 +62,12 @@ class UsersController extends Controller
         $alumnomodel = new AlumnoModel();
         
         $responseuser = $usermodel->where('email', $email)->first();
-        $responsealumno = $alumnomodel->where('email', $email)->first();
+        $responsealumno = $alumnomodel->where('correo_ins', $email)->first();
 
         // Checkeamos si usuario es alumno, admin o no existe
         // Si es admin entra en el if
-        if (count($responseuser)>0 && $password == "123456"){
+        
+        if ($responseuser!=null && $password == "123456"){
             
             $arr = [
                 'idUsser' => $responseuser['id_user'],
@@ -76,23 +77,23 @@ class UsersController extends Controller
             ];
             echo json_encode($arr);
 
-        } else if (count($responsealumno)>0 && $password == "5555"){
-
+        } else if ($responsealumno!=null && $password == "5555"){
+            
             $arr = [
                 'idUsser' => $responsealumno['id_alumno'],
                 'nombre' => $responsealumno['nombre'],
-                'tipo' => $responseuser['tipo'],
+                'tipo' => "2",
             ];
             echo json_encode($arr);
 
         } else {
-
+            
             $arr = [
                 'error' => "Credenciales incorrectas",
                 'tipo' => -1,
             ];
             echo json_encode($arr);
-
+            
         }
         
 	}
