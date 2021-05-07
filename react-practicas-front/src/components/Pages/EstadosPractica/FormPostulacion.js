@@ -4,20 +4,23 @@ import {
   } from 'reactstrap';
 
 export const FormPostulacion = ({handleSubmit}) => {
-
+    
     return (
-        <div >
+        <div>
             <h4>Formulario de Postulacion</h4>
             <hr/>
-            <form className="container p-5 text-center" onSubmit={handleSubmit}>
-                <h5> Importante </h5>
-                <p>
-                    Al solicitar tu practica, el encargado de practicas de tu escuela tiene x dias para aceptar tu solicitud y 
-                    entregarte la documentación. Tendrás que esperar por la resolucion.
-                </p>
-                <Button className="btn btn-primary" type="submit">
-                    Solicitar Practica
-                </Button>
+            <form className="text-center container" onSubmit={handleSubmit}>
+                <div style={{margin:"15%"}}>
+                    <h5> Importante </h5>
+                    <p>
+                        Luego de solicitar tu practica (haciendo click en el boton de abajo), el encargado de practicas de tu escuela tiene <strong>x dias </strong> 
+                        para respodner a tu solicitud. Tendrás que esperar por la resolución.
+                    </p>
+                    <Button className="btn btn-primary" type="submit">
+                        Solicitar Practica
+                    </Button>
+                </div>
+                
             </form>            
         </div>        
     )

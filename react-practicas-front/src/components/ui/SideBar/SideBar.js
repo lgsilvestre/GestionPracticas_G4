@@ -11,7 +11,6 @@ import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
 import { IoKeySharp } from "react-icons/io5";
 
-
 function SideBar() {
   const [sidebar, setSidebar] = useState(false);
 
@@ -69,7 +68,7 @@ function SideBar() {
               <li className="nav-text">   
               <Link to="/admin/ofertas" >               
                 <MdLocalOffer />
-                  <span className="text">Ofertas</span>  
+                  <span className="text">Ingresar Practica</span>  
                   </Link>                   
               </li>
               <li className="nav-text">   

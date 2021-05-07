@@ -53,8 +53,50 @@ class UsersController extends Controller
 	}
 
 	public function login(){
-		$this->AlumnoModel->login();
+		helper(['form']);
+
+        $email = $this->request->getVar('email');
+        $password = $this->request->getVar('password');
+        
+        $usermodel = new UserModel();
+        $alumnomodel = new AlumnoModel();
+        
+        $responseuser = $usermodel->where('email', $email)->first();
+        $responsealumno = $alumnomodel->where('email', $email)->first();
+
+        // Checkeamos si usuario es alumno, admin o no existe
+        // Si es admin entra en el if
+        if (count($responseuser)>0 && $password == "123456"){
+            
+            $arr = [
+                'idUsser' => $responseuser['id_user'],
+                'nombre' => $responseuser['nombre'],
+                'apellido' => $responseuser['apellido'],
+                'tipo' => $responseuser['tipo'],
+            ];
+            echo json_encode($arr);
+
+        } else if (count($responsealumno)>0 && $password == "5555"){
+
+            $arr = [
+                'idUsser' => $responsealumno['id_alumno'],
+                'nombre' => $responsealumno['nombre'],
+                'tipo' => $responseuser['tipo'],
+            ];
+            echo json_encode($arr);
+
+        } else {
+
+            $arr = [
+                'error' => "Credenciales incorrectas",
+                'tipo' => -1,
+            ];
+            echo json_encode($arr);
+
+        }
+        
 	}
+
     
 	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";
@@ -259,6 +301,7 @@ class UsersController extends Controller
                 'correo_per' => 'required',
                 'password' => 'required',
                 'matricula' => 'required',
+                'nbe_carrera' => 'required',
                 'cod_carrera' => 'required',
                 'rut' => 'required',
                 'sexo' => 'required',
