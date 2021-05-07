@@ -1,3 +1,4 @@
+//componente deshabilitado, se reemplaza por SignInSide para cumplir con el diseño que el cliente quiere
 import React, { Component } from 'react';
 import logo from'../images/logo.png';
 import axios from 'axios';
