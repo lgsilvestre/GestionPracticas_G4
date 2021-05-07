@@ -96,6 +96,7 @@ class UsersController extends Controller
         }
         
 	}
+
     
 	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";

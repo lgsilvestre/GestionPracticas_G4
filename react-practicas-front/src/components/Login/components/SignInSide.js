@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import logo from'../images/logo.png';
 
 function Copyright() {
   return (
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#0cc',
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '75%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function SignInSide({history}) {
     const classes = useStyles();
     const emailRef = React.useRef('');
     const passwordRef = React.useRef('');
@@ -77,19 +78,30 @@ export default function SignInSide() {
         let email = emailRef.current.value;
         let password = passwordRef.current.value;
         axios.post(
-                "http://localhost/GestionPracticas_G4/ci-practicas-back/public/login",
-                {
-                    email: email,
-                    password: password,
-                },
-            )
-            .then(response => {
-              //trabajar redireccionamiento
-              //-1 error , 0 alumno , 1 admin
-            })
-            .catch(error => {
-                console.log("login error: ", error);
-            });
+          "http://localhost/GestionPracticas_G4/ci-practicas-back/public/login",
+          {
+              email: email,
+              password: password,
+          },
+        )
+        .then(response => {
+          //trabajar redireccionamiento
+          //-1 error , 0 alumno , 1 admin
+          console.log("respuesta: ", response.data);
+          // const user = JSON.stringify(response.data)
+          // console.log(user)
+          if(response.data.tipo===1){
+            console.log("admin")
+            history.replace("/admin")
+          }
+          else if(response.data.tipo===2){
+            console.log("estudiante")
+            history.replace("/estudiante")
+          }       
+        })
+        .catch(error => {
+            console.log("login error: ", error);
+        });
     }
 
   return (
@@ -98,11 +110,12 @@ export default function SignInSide() {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+          <img className="mb-4" src={logo} alt=""/>
+          {/* <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar> */}
           <Typography component="h1" variant="h5">
-            Acceso
+            Iniciar Sesión
           </Typography>
           <form className={classes.form} onSubmit={sendValues} noValidate>
             <TextField
@@ -150,7 +163,7 @@ export default function SignInSide() {
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"¿No tienes una cuenta?"}
+                  "¿No tienes una cuenta?"
                 </Link>
               </Grid>
             </Grid>
