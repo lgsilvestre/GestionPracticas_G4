@@ -22,12 +22,6 @@ export const Info = () => {
                             Login
                         </button>
                     </Link>
-                    <h3>para trabajar en vista CambiarPass : /changepass</h3>   
-                    <Link to="/changePass">
-                        <button className ="btn btn-secondary">
-                            Cambiar Pass
-                        </button>
-                    </Link>
         </div>
     )
 }

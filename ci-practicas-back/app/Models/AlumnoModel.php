@@ -7,16 +7,7 @@ use CodeIgniter\Model;
 class AlumnoModel extends Model
 {
     public function login(){
-        
-        echo "modelo usuario";
-        /*$db = db_connect();
-        $query = $db->query('SELECT * from alumno');
-        $results = $query->getResult();
-        $json = json_encode($results);
-        echo $json;*/
-
-        //$query = "select * from alumnos";
-        //echo $db->query($query)->result("json");
+        echo "1";
     }
 
     protected $table = 'Alumno';

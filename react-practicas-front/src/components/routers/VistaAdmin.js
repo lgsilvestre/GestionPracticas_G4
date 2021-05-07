@@ -2,10 +2,10 @@ import React from 'react'
 import {Switch, Route } from 'react-router-dom';
 import SideBar from '../ui/SideBar/SideBar'
 import { Footer } from '../ui/Footer/Footer';
-import Estudiante from '../Pages/Estudiante';
+import Estudiante from '../Pages/Estudiante/Estudiante';
 import Postulaciones from '../Pages/Postulaciones';
-import Ofertas from '../Pages/Ofertas';
-import Administrador from '../Pages/Administrador';
+import Ofertas from '../Pages/Ofertas/Ofertas';
+import Administrador from '../Pages/Administrador/Administrador';
 import { EstadoPracticas } from '../Pages/EstadoPracticas';
 import { Estadisticas } from '../Pages/Estadisticas';
 
