@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function SignInSide({history}) {
     const classes = useStyles();
     const emailRef = React.useRef('');
     const passwordRef = React.useRef('');
@@ -77,20 +77,30 @@ export default function SignInSide() {
         let email = emailRef.current.value;
         let password = passwordRef.current.value;
         axios.post(
-                "http://localhost/GestionPracticas_G4/ci-practicas-back/public/login",
-                {
-                    email: email,
-                    password: password,
-                },
-            )
-            .then(response => {
-              //trabajar redireccionamiento
-              //-1 error , 0 alumno , 1 admin
-                console.log("respuesta: ", response.date);
-            })
-            .catch(error => {
-                console.log("login error: ", error);
-            });
+          "http://localhost/GestionPracticas_G4/ci-practicas-back/public/login",
+          {
+              email: email,
+              password: password,
+          },
+        )
+        .then(response => {
+          //trabajar redireccionamiento
+          //-1 error , 0 alumno , 1 admin
+          console.log("respuesta: ", response.data);
+          // const user = JSON.stringify(response.data)
+          // console.log(user)
+          if(response.data.tipo===1){
+            console.log("admin")
+            history.replace("/admin")
+          }
+          else if(response.data.tipo===2){
+            console.log("estudiante")
+            history.replace("/estudiante")
+          }       
+        })
+        .catch(error => {
+            console.log("login error: ", error);
+        });
     }
 
   return (

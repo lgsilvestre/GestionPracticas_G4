@@ -53,8 +53,16 @@ class UsersController extends Controller
 	}
 
 	public function login(){
-		$this->AlumnoModel->login();
+        $arr = array(
+            'idUsser' => 1,
+            'nombre' => "Pepito",
+            'apellido' => "Lopez",
+            'tipo' => 2
+        );
+        echo json_encode($arr);
+        // echo "1";
 	}
+
     
 	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";
