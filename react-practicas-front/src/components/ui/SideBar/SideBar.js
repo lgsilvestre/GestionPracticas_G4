@@ -10,6 +10,9 @@ import { MdPeople } from "react-icons/md";
 import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
 import { IoKeySharp } from "react-icons/io5";
+import { IoPerson } from "react-icons/io5";
+import { IoNotifications } from "react-icons/io5";
+import Badge from '@material-ui/core/Badge';
 
 function SideBar() {
   const [sidebar, setSidebar] = useState(false);
@@ -23,6 +26,15 @@ function SideBar() {
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
+          <div className="justify-content-end">
+            <Badge>
+              <IoNotifications style={{ fontSize: 25 , marginRight: "20px"}}/>
+            </Badge>
+            <Badge>
+              <IoPerson style={{ fontSize: 25 , marginRight: "10px"}}/>
+            </Badge>
+          </div>
+          
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items' onClick={showSidebar}>
