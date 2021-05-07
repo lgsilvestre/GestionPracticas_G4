@@ -1,5 +1,4 @@
-import React, { useState} from 'react';
-import axios from 'axios';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import {Grid} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -12,8 +11,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -21,10 +19,9 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-export default function FormAlumno({handleClose}) {
+export default function FormAlumno({estudiante, setEstudiante}) {
   const classes = useStyles();
   const methods = useForm();
-  const [estudiante, setEstudiante] = useState({}); 
   const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18'));
 
   const handleDateChange = (date) => {
@@ -119,7 +116,8 @@ export default function FormAlumno({handleClose}) {
                
               </Select>
              </FormControl>
-            </Grid> 
+            </Grid>   
+   
 
 
             <Grid item xs={12} >
@@ -130,7 +128,10 @@ export default function FormAlumno({handleClose}) {
             </Grid>
             <Grid item xs={12} >
             <TextField  variant="outlined" name= "correo_ins" label="Correo" value={estudiante.correo_ins}  onChange={handleChange} fullWidth  required />
-            </Grid>         
+            </Grid>   
+            <Grid item xs={12} >
+            <TextField  variant="outlined" name= "correo_pers" label="Correo" value={estudiante.correo_ins}  onChange={handleChange} fullWidth  required />
+            </Grid>        
             <Grid item xs={12} >
             <FormControl component="fieldset">
             <FormLabel component="legend" color="primary">Sexo</FormLabel>
@@ -220,16 +221,7 @@ export default function FormAlumno({handleClose}) {
             <Grid item xs={6} >
             <TextField  variant="outlined" name= "nivel_99_aprobado" label="Nivel 99 Aprobado" value={estudiante.nivel_99_aprobado}  onChange={handleChange} fullWidth  required />
             </Grid>
-          </Grid>
-          <DialogActions>
-          <Button onClick={handleClose} className={classes.botonCancelar} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleSubmit} type="submit" className={classes.boton} color="primary">
-            Registrar
-          </Button>
-        </DialogActions>
-          
+          </Grid>          
           
           <br />
          

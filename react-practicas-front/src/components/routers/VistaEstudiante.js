@@ -19,6 +19,7 @@ const VistaEstudiante = ({userChangedPass=false}) => {
             {/* {
                 !userChangedPass ? <CambiarPassword/> : <Redirect to ="/estudiante"/>
             } */}
+            <div style={{marginBottom:"96px"}}>
             <Switch>
                 <Route path='/estudiante/practicas' component={Practicas} />
                 <Route path='/estudiante/perfil' component={PerfilEstudiante} /> 
@@ -26,6 +27,7 @@ const VistaEstudiante = ({userChangedPass=false}) => {
                 <Route path='/estudiante/landing' component={Landing} />
                 <Route path="/estudiante/changePass" component={CambiarPassword}/>
             </Switch>  
+            </div>   
             <Footer/> 
         </div>     
     )
