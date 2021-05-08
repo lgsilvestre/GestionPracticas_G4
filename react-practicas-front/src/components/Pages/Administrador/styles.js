@@ -30,7 +30,7 @@ export default makeStyles((theme) => ({
       margin: '0 auto',
       marginBottom: '40px',
       display: 'center',
-      border: '2px solid rgba(0,111,110,1)',
+      border: '2px solid #000',
     },
     boton: {
       marginRight:'20px',
@@ -69,8 +69,8 @@ export default makeStyles((theme) => ({
   
   export const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: 'rgba(0,111,110,1)',
-      color: theme.palette.common.white,
+      backgroundColor: '#f7a440',
+      color: theme.palette.common.black,
       padding: '6px'
     },
     body: {
