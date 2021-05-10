@@ -55,32 +55,33 @@ label: {
 },
 },
 table: {
-    width:'90vw',
-    height:'75vh',
-    margin: '0 auto',
-    marginBottom: '40px',
-    display: 'center',
-    border: '2px solid rgba(0,111,110,1)',
+  width:'90vw',
+  height:'75vh',
+  margin: '0 auto',
+  marginBottom: '40px',
+  display: 'center',
+  border: '2px solid #000',
   },
 
 }));
+
 export const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: 'rgba(0,111,110,1)',
-      color: theme.palette.common.white,
-      padding: '6px'
+  head: {
+    backgroundColor: '#f69b2e',
+    color: theme.palette.common.black,
+    padding: '6px'
+  },
+  body: {
+    fontSize: 12,
+    padding: '6px'
+  },
+}))(TableCell);
+
+export const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
     },
-    body: {
-      fontSize: 12,
-      padding: '6px'
-    },
-  }))(TableCell);
-  
-  export const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-  
-    },
-  }))(TableRow);
+
+  },
+}))(TableRow);

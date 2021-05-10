@@ -11,7 +11,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -43,20 +42,6 @@ export default function FormAlumno({estudiante, setEstudiante}) {
 
 
 
-  //Funcion que Hace el Post a la tabla estudiante
-  const handleSubmit = (e) => {
-    e.preventDefault();
-      console.log(estudiante);  
-      axios.post(``, { estudiante })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-     
-     
-    
-    
-  } ;
 
 
   
