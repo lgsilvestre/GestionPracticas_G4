@@ -8,7 +8,7 @@ import { FcCancel } from "react-icons/fc";
 import { FcCheckmark } from "react-icons/fc";
 const useStyles = makeStyles((theme) => ({
     root: {
-    //   flexGrow: 1,
+        flexGrow: 1,
     },
     box: {
       padding: theme.spacing(2),
