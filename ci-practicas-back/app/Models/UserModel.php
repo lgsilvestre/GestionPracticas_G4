@@ -3,8 +3,8 @@
 use CodeIgniter\Model;
 
 class UserModel extends Model{
-    protected $table = 'Users';
-    protected $allowedFields = ['nombre','email','password','tipo','permisos','activo'];
+    protected $table = 'user';
+    protected $allowedFields = ['nombre','apellido','email','password','tipo','permisos','estado'];
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];
 
@@ -12,14 +12,15 @@ class UserModel extends Model{
         $data = $this -> passwordHash($data);
         return $data;
     }
+
     protected function beforeUpdate(array $data){
         $data = $this -> passwordHash($data);
         return $data;
-    }
+    } 
+
     protected function passwordHash(array $data){
         if(isset($data['data']['password']))
             $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT,[15]);
         return $data;
-
     }
 }

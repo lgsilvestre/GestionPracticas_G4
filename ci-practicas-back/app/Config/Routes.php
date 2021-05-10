@@ -33,7 +33,8 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-
+$routes->post('login', 'UsersController::login');
+$routes->post('registerUser', 'UsersController::registerUser');
 
 /*
  * --------------------------------------------------------------------
@@ -48,8 +49,10 @@ $routes->get('/', 'Home::index');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
-$routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
-$routes->match(['get','post'],'register', 'UsersController::register');
+
+//$routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
+//$routes->match(['get','post'],'login', 'UsersController::login');
+//$routes->match(['get','post'],'profile', 'UsersController::profile');
 
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
 {
