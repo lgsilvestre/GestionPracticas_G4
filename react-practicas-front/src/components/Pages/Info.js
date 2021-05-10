@@ -22,6 +22,12 @@ export const Info = () => {
                             Login
                         </button>
                     </Link>
+                    <h3>para trabajar en tabla practicas : /practicas</h3>   
+                    <Link to="/table">
+                        <button className ="btn btn-secondary">
+                            Table
+                        </button>
+                    </Link>
         </div>
     )
 }
