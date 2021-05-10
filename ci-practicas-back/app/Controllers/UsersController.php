@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use App\Models\AlumnoModel as AlumnoModel;
+use App\Models\UserModel as UserModel;
 
 /**
  * Class BaseController
@@ -51,17 +52,54 @@ class UsersController extends Controller
 		$this->AlumnoModel = new AlumnoModel();
 	}
 
-	public function index()
-    {
-        echo 'Hello World from UserController!';
-    }
+	public function login(){
+		helper(['form']);
 
-	public function login1(){
-		$this->AlumnoModel->login();
+        $email = $this->request->getVar('email');
+        $password = $this->request->getVar('password');
+        
+        $usermodel = new UserModel();
+        $alumnomodel = new AlumnoModel();
+        
+        $responseuser = $usermodel->where('email', $email)->first();
+        $responsealumno = $alumnomodel->where('correo_ins', $email)->first();
+
+        // Checkeamos si usuario es alumno, admin o no existe
+        // Si es admin entra en el if
+        
+        if ($responseuser!=null && $password == "123456"){
+            
+            $arr = [
+                'idUsser' => $responseuser['id_user'],
+                'nombre' => $responseuser['nombre'],
+                'apellido' => $responseuser['apellido'],
+                'tipo' => $responseuser['tipo'],
+            ];
+            echo json_encode($arr);
+
+        } else if ($responsealumno!=null && $password == "5555"){
+            
+            $arr = [
+                'idUsser' => $responsealumno['id_alumno'],
+                'nombre' => $responsealumno['nombre'],
+                'tipo' => "2",
+            ];
+            echo json_encode($arr);
+
+        } else {
+            
+            $arr = [
+                'error' => "Credenciales incorrectas",
+                'tipo' => -1,
+            ];
+            echo json_encode($arr);
+            
+        }
+        
 	}
 
     
-	public function login(){
+	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";
         echo "Pass: ".$this->request->getVar('password');
         
@@ -195,34 +233,46 @@ class UsersController extends Controller
         return $pass;
     }
     
-    public function register(){
+    public function registerUser(){
+        echo "entró al registro user";
+        
         helper(['form']);
+        
         if($this-> request -> getMethod() == 'post') {
             $rules = [
-                'nombre' => 'required|min_length[2]|max_length[99]',
-                'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.username]',
+                'nombre' => 'required|min_length[2]|max_length[50]',
+                'apellido' => 'required|min_length[2]|max_length[50]',
+                'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[users.username]',
                 'tipo' => 'required|min_length[1]|max_length[1]|integer',
-                'permisos' => 'required'          //parcialmente terminado
+                'permisos' => 'required|max_lenght[10]|integer',  
             ];
             $errors = [
+                'email' => [
+                    'is_unique' => 'Email se encuentra registrado en el sistema'
+                ]
             ];
-
+            
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
+                
                 $model = new UserModel();
+
                 $newsData =[
                     'nombre' => $this->request->getVar('nombre'),
+                    'apellido' => $this->request->getVar('apellido'),
                     'email' => $this->request->getVar('email'),
                     'password' => $this->generatePass(6),
                     'tipo' => $this->request->getVar('tipo'),
                     'permisos' => $this->request->getVar('permisos'),
-                    'activo' => 1,
+                    'estado' => true,
                 ];
                 $model ->save($newsData);
+                
+                //$this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
 
-                $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-
+                echo "terminó el registro de user";
+                /*
                 if($user['tipo']==0){//Superadmin
                     return redirect()->to('/dashbordAdmin');
                 }
@@ -237,7 +287,7 @@ class UsersController extends Controller
                 }
                 if($user['tipo']==4){//cliente
                     return redirect()->to('/dashbordAlumno');
-                }
+                }*/
             }
         }
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
@@ -252,6 +302,7 @@ class UsersController extends Controller
                 'correo_per' => 'required',
                 'password' => 'required',
                 'matricula' => 'required',
+                'nbe_carrera' => 'required',
                 'cod_carrera' => 'required',
                 'rut' => 'required',
                 'sexo' => 'required',
@@ -302,7 +353,7 @@ class UsersController extends Controller
                     'ult_punt_prio' => $this->request->getVar('ult_punt_prio'),
                     'al_dia' => $this->request->getVar('al_dia'),
                     'nivel_99_aprobado' => $this->request->getVar('nivel_99_aprobado'),
-                    'activo' => 1,
+                    'estado' => 1,
                 ];
                 $model ->save($newsData);
 

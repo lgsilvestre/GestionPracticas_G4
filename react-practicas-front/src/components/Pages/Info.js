@@ -22,10 +22,10 @@ export const Info = () => {
                             Login
                         </button>
                     </Link>
-                    <h3>para trabajar en vista CambiarPass : /changepass</h3>   
-                    <Link to="/changePass">
+                    <h3>para trabajar en tabla practicas : /practicas</h3>   
+                    <Link to="/table">
                         <button className ="btn btn-secondary">
-                            Cambiar Pass
+                            Table
                         </button>
                     </Link>
         </div>

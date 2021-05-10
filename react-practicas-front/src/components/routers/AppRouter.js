@@ -5,7 +5,7 @@ import { CambiarPassword } from '../Pages/CambiarPassword';
 import { Info } from '../Pages/Info';
 import VistaAdmin from './VistaAdmin';
 import VistaEstudiante from './VistaEstudiante';
-
+import  {TablaEstados} from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 export const AppRouter = () => {
 
     return (
@@ -15,6 +15,7 @@ export const AppRouter = () => {
                 <Route path="/login" component = {Login}/>           
                 <Route path="/admin" component={VistaAdmin}/>
                 <Route path="/changePass" component={CambiarPassword}/>
+                <Route path="/table" component={TablaEstados}/>
                 <Route exact path="/" component={Info}/>                           
             </Switch>     
         </Router>

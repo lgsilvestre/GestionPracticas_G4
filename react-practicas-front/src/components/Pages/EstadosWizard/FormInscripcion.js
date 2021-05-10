@@ -88,7 +88,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 {                  
                     archivos.map( (file,index) => (
                         <FormGroup key={index} row>
-                            <Label sm={3} for={`file${index}`}><strong>{file.nombre}</strong></Label>      
+                            <Label sm={3} for={`file${index}`}>{file.nombre}</Label>      
                             <Button onClick={handleDownload} color="info">
                                 <MdFileDownload/>
                             </Button> 
