@@ -67,7 +67,7 @@ table: {
 
 export const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: '#f7a440',
+    backgroundColor: '#f69b2e',
     color: theme.palette.common.black,
     padding: '6px'
   },
