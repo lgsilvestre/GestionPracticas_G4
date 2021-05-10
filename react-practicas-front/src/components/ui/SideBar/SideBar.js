@@ -21,7 +21,7 @@ function SideBar() {
 
   return (
     <>
-      <IconContext.Provider value={{ color: '#fff' }}>
+      <IconContext.Provider value={{ color: '#fff' }} style={{overflow: "hidden"}}>
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
@@ -36,7 +36,7 @@ function SideBar() {
           </div>
           
         </div>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'} style={{float: "left"}}>
           <ul className='nav-menu-items' onClick={showSidebar}>
             <li className='navbar-toggle'>
               <Link to='#' className='menu-bars'>             
