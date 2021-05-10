@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import useStyles from './styles';
+import Typography from '@material-ui/core/Typography';
 import {StyledTableCell, StyledTableRow} from './styles';
 import Button from '@material-ui/core/Button';
+import Grow from '@material-ui/core/Grow';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {Table, TableContainer, TableHead, TableBody, TableRow, Modal} from '@material-ui/core';
-import {Edit, Delete} from '@material-ui/icons';
+import {Edit, Delete, Assignment} from '@material-ui/icons';
 import FormAlumno from '../../FormAlumno/FormAlumno';
-
 
 
 export default function Administrador() {
@@ -19,7 +20,7 @@ export default function Administrador() {
   const [modalInsertar, setModalInsertar]=useState(false);
   const [modalEditar, setModalEditar]=useState(false);
   const [modalEliminar, setModalEliminar]=useState(false);
-
+  const [modalVerMas, setModalVerMas]=useState(false);
   const [estudiante , setEstudiante ]=useState({
     nombre: '',
     correo_ins: '',
@@ -110,9 +111,18 @@ export default function Administrador() {
     setModalEliminar(!modalEliminar);
   }
 
-  const seleccionarEstudiante=(consola, caso)=>{
-    setEstudiante (consola);
+  const abrirCerrarModalVerMas=()=>{
+    setModalVerMas(!modalVerMas);
+  }
+
+  const seleccionarEstudiante=(estudiante, caso)=>{
+    setEstudiante (estudiante);
     (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
+  }
+
+  const seleccionarVerMas=(estudiante)=>{
+    abrirCerrarModalVerMas();
+    setEstudiante (estudiante);
   }
 
   useEffect(async()=>{
@@ -158,40 +168,33 @@ export default function Administrador() {
   )
 
 
+
+   
+
+  
+
   return (
+    
     <div className={classes.root}>
       <br />
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Estudiante</Button>
       <br /><br />
+    <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
      <TableContainer>
        <Table className={classes.table}>
          <TableHead>
            <TableRow>
            <StyledTableCell >Carrera</StyledTableCell> 
-            <StyledTableCell  >Codigo Carrera</StyledTableCell> 
             <StyledTableCell >Matricula</StyledTableCell>             
             <StyledTableCell >Nombre Alumno</StyledTableCell>     
             <StyledTableCell >RUT</StyledTableCell>   
             <StyledTableCell >Correo</StyledTableCell> 
-            <StyledTableCell >Correo Personal</StyledTableCell> 
-            <StyledTableCell >Sexo</StyledTableCell> 
-            <StyledTableCell >Fecha Nacimiento</StyledTableCell> 
             <StyledTableCell >Plan</StyledTableCell> 
             <StyledTableCell >Ingreso</StyledTableCell> 
-            <StyledTableCell >Via Ingreso</StyledTableCell> 
-            <StyledTableCell >Situacion Actual</StyledTableCell> 
-            <StyledTableCell >Sit Actual Anio</StyledTableCell> 
-            <StyledTableCell >Sit Actual Periodo</StyledTableCell> 
-            <StyledTableCell >Periodo</StyledTableCell> 
-            <StyledTableCell >Comuna Origen</StyledTableCell> 
-            <StyledTableCell >Region</StyledTableCell> 
-            <StyledTableCell >Regular</StyledTableCell> 
-            <StyledTableCell >Nivel</StyledTableCell> 
-            <StyledTableCell >Porcentaje</StyledTableCell> 
-            <StyledTableCell >Ult Punt Prio</StyledTableCell> 
-            <StyledTableCell >Al Dia</StyledTableCell> 
-            <StyledTableCell >Nivel 99</StyledTableCell> 
-            <StyledTableCell>Acciones</StyledTableCell>
+            <StyledTableCell >Comuna Origen</StyledTableCell>
+            <StyledTableCell >Detalle</StyledTableCell> 
+            <StyledTableCell >Acciones</StyledTableCell>  
+          
            </TableRow>
          </TableHead>
 
@@ -200,44 +203,58 @@ export default function Administrador() {
              <StyledTableRow key={estudiante.name}> 
                 <StyledTableCell component="th" scope="row"> 
                     {estudiante.carrera} 
-                </StyledTableCell> 
-            
-                <StyledTableCell >{estudiante.cod_carrera}</StyledTableCell> 
+                </StyledTableCell>                 
                 <StyledTableCell >{estudiante.matricula}</StyledTableCell> 
                 <StyledTableCell >{estudiante.nombre}</StyledTableCell> 
                 <StyledTableCell >{estudiante.rut}</StyledTableCell>                 
-                <StyledTableCell >{estudiante.correo_ins}</StyledTableCell> 
-                <StyledTableCell >{estudiante.correo_pers}</StyledTableCell> 
-                <StyledTableCell >{estudiante.sexo}</StyledTableCell> 
-                <StyledTableCell >{estudiante.fecha_nac}</StyledTableCell> 
+                <StyledTableCell >{estudiante.correo_ins}</StyledTableCell>                 
                 <StyledTableCell >{estudiante.plan}</StyledTableCell> 
-                <StyledTableCell >{estudiante.anho_ingreso}</StyledTableCell> 
-                <StyledTableCell >{estudiante.via_ingreso}</StyledTableCell> 
-                <StyledTableCell >{estudiante.sit_actual}</StyledTableCell> 
-                <StyledTableCell >{estudiante.sit_actual_anho}</StyledTableCell> 
-                <StyledTableCell >{estudiante.sit_actual_periodo}</StyledTableCell> 
-                <StyledTableCell >{estudiante.periodo}</StyledTableCell> 
+                <StyledTableCell >{estudiante.anho_ingreso}</StyledTableCell>                 
                 <StyledTableCell >{estudiante.comuna_origen}</StyledTableCell> 
-                <StyledTableCell >{estudiante.region}</StyledTableCell> 
-                <StyledTableCell >{estudiante.regular}</StyledTableCell> 
-                <StyledTableCell >{estudiante.nivel}</StyledTableCell> 
-                <StyledTableCell >{estudiante.porc_avance}</StyledTableCell> 
-                <StyledTableCell >{estudiante.ult_punt_prio}</StyledTableCell> 
-                <StyledTableCell >{estudiante.al_dia}</StyledTableCell> 
-                <StyledTableCell >{estudiante.nivel_99_aprobado}</StyledTableCell> 
+                 
+                <StyledTableCell>
+                 <Assignment className={classes.iconos} onClick={()=>seleccionarVerMas(estudiante)}/>
+                </StyledTableCell>
                <StyledTableCell>
                  <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Editar')}/>
                  &nbsp;&nbsp;&nbsp;
                  <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Eliminar')}/>
-                 </StyledTableCell>
+                </StyledTableCell>
              </StyledTableRow>
            ))}
          </TableBody>
        </Table>
      </TableContainer>
-     
-     
-      <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title">
+     </Grow>
+
+     <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
+        <div className={classes.modal}>          
+        <Typography variant="h5">CodigoCarrera: {estudiante.cod_carrera}</Typography> 
+        <Typography variant="h5">Correo Personal: {estudiante.correo_pers}</Typography> 
+        <Typography variant="h5">Sexo: {estudiante.sexo}</Typography> 
+        <Typography variant="h5">Fecha Nacimiento: {estudiante.fecha_nac}</Typography> 
+        <Typography variant="h5">Via Ingreso: {estudiante.via_ingreso}</Typography> 
+        <Typography variant="h5">Situacion Actual: {estudiante.sit_actual}</Typography> 
+        <Typography variant="h5">Situacion Actual Anio: {estudiante.sit_actual_anho}</Typography> 
+        <Typography variant="h5">Situacion Actual Periodo:{estudiante.sit_actual_periodo}</Typography> 
+        <Typography variant="h5">Periodo: {estudiante.periodo}</Typography> 
+        <Typography variant="h5">Region: {estudiante.region}</Typography> 
+        <Typography variant="h5">Regular: {estudiante.regular}</Typography> 
+        <Typography variant="h5">Nivel: {estudiante.nivel}</Typography> 
+        <Typography variant="h5">Porcentaje Avance: {estudiante.porc_avance}</Typography> 
+        <Typography variant="h5">Ultimo Puntaje Prioridad: {estudiante.ult_punt_prio}</Typography> 
+        <Typography variant="h5">Al Dia: {estudiante.al_dia}</Typography> 
+        <Typography variant="h5">Nivel 99 Aprobado: {estudiante.nivel_99_aprobado}</Typography>
+
+        <div align="right">
+          <Button onClick={()=>abrirCerrarModalVerMas()}>Cerrar</Button>
+        </div>
+
+      </div>
+       
+     </Modal>
+
+      <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
         <DialogTitle id="form-dialog-title">Nuevo Estudiante</DialogTitle>
         <DialogContent>         
         {bodyInsertar}
