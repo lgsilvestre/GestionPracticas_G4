@@ -53,14 +53,49 @@ class UsersController extends Controller
 	}
 
 	public function login(){
-        $arr = array(
-            'idUsser' => 1,
-            'nombre' => "Pepito",
-            'apellido' => "Lopez",
-            'tipo' => -1
-        );
-        echo json_encode($arr);
-        // echo "1";
+		helper(['form']);
+
+        $email = $this->request->getVar('email');
+        $password = $this->request->getVar('password');
+        
+        $usermodel = new UserModel();
+        $alumnomodel = new AlumnoModel();
+        
+        $responseuser = $usermodel->where('email', $email)->first();
+        $responsealumno = $alumnomodel->where('correo_ins', $email)->first();
+
+        // Checkeamos si usuario es alumno, admin o no existe
+        // Si es admin entra en el if
+        
+        if ($responseuser!=null && $password == "123456"){
+            
+            $arr = [
+                'idUsser' => $responseuser['id_user'],
+                'nombre' => $responseuser['nombre'],
+                'apellido' => $responseuser['apellido'],
+                'tipo' => $responseuser['tipo'],
+            ];
+            echo json_encode($arr);
+
+        } else if ($responsealumno!=null && $password == "5555"){
+            
+            $arr = [
+                'idUsser' => $responsealumno['id_alumno'],
+                'nombre' => $responsealumno['nombre'],
+                'tipo' => "2",
+            ];
+            echo json_encode($arr);
+
+        } else {
+            
+            $arr = [
+                'error' => "Credenciales incorrectas",
+                'tipo' => -1,
+            ];
+            echo json_encode($arr);
+            
+        }
+        
 	}
 
     
@@ -267,6 +302,7 @@ class UsersController extends Controller
                 'correo_per' => 'required',
                 'password' => 'required',
                 'matricula' => 'required',
+                'nbe_carrera' => 'required',
                 'cod_carrera' => 'required',
                 'rut' => 'required',
                 'sexo' => 'required',

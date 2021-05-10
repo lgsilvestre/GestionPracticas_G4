@@ -174,7 +174,7 @@ export default function SignInSide({history}) {
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  "¿No tienes una cuenta?"
+                  ¿No tienes una cuenta?
                 </Link>
               </Grid>
             </Grid>
