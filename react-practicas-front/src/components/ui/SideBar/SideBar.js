@@ -9,6 +9,7 @@ import { MdWork } from "react-icons/md";
 import { MdPeople } from "react-icons/md";
 import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import { IoKeySharp } from "react-icons/io5";
 
 function SideBar() {
@@ -68,12 +69,12 @@ function SideBar() {
               <li className="nav-text">   
               <Link to="/admin/ofertas" >               
                 <MdLocalOffer />
-                  <span className="text">Ingresar Practica</span>  
+                  <span className="text">Gestionar Practica</span>  
                   </Link>                   
               </li>
               <li className="nav-text">   
               <Link to="/admin/estadisticas" >               
-                <MdLocalOffer />
+                <EqualizerIcon />
                   <span className="text">Estadisticas</span>  
                   </Link>                   
               </li>
