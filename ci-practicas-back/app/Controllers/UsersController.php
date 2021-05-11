@@ -244,7 +244,7 @@ class UsersController extends Controller
                 'apellido' => 'required|min_length[2]|max_length[50]',
                 'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[users.username]',
                 'tipo' => 'required|min_length[1]|max_length[1]|integer',
-                'permisos' => 'required|max_lenght[10]|integer',  
+                'permisos' => 'required|max_lenght[10]|integer',
             ];
             $errors = [
                 'email' => [
