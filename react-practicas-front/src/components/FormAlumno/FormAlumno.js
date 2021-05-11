@@ -43,20 +43,6 @@ export default function FormAlumno({estudiante, setEstudiante}) {
 
 
 
-  //Funcion que Hace el Post a la tabla estudiante
-  const handleSubmit = (e) => {
-    e.preventDefault();
-      console.log(estudiante);  
-      axios.post(``, { estudiante })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-     
-     
-    
-    
-  } ;
 
 
   
