@@ -96,9 +96,11 @@ export const TablaEstados = ({history}) =>  {
     setChangeState(!changeState)
     setEstudiante(idAlumno)
   }
-
+  const handleChangeStateBack = () =>{
+    setChangeState(!changeState)
+  }
   if(changeState){
-    return <InfoEstudiante/>
+    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} estudiante = {estudiante}/>
   }
   else{
     return (
