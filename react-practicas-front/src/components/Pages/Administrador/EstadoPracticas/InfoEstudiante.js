@@ -57,7 +57,11 @@ export const InfoEstudiante = ({handleChangeStateBack}) => {
             nombre: "Modulos de desempeño integrado"
         }]
     return (
+        
         <div className={classes.root}>
+            <h2>
+                Admin Inicio &gt; Estado practicas &gt; Informacion de Practica
+            </h2>
             <Button startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
                 Atras
             </Button>
