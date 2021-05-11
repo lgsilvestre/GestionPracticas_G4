@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper } from '@material-ui/core'
+import { Avatar, Box, Button, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper } from '@material-ui/core'
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
@@ -6,6 +6,7 @@ import { VscFilePdf } from "react-icons/vsc";
 import { MdFileDownload } from "react-icons/md";
 import { FcCancel } from "react-icons/fc";
 import { FcCheckmark } from "react-icons/fc";
+import { IoIosArrowBack } from "react-icons/io";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         height:"30px"
     }
   }));
-export const InfoEstudiante = () => {
+export const InfoEstudiante = ({handleChangeStateBack}) => {
     const classes = useStyles();
     const dataEstudiante = {
         nombre: "Camilo Villalobos",
@@ -57,6 +58,9 @@ export const InfoEstudiante = () => {
         }]
     return (
         <div className={classes.root}>
+            <Button startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
+                Atras
+            </Button>
             {/* Datos de Estudiante */}
             <div>
                 <h4>Datos Estudiante</h4>
