@@ -378,4 +378,122 @@ class UsersController extends Controller
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
         }
     } 
+
+    public function adminEdit(){
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'nombre' => 'required|min_length[2]|max_length[99]',
+                'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.email]',
+                'tipo' => 'required|min_length[1]|max_length[1]|integer',
+                'permisos' => 'required',            //parcialmente terminado
+                'password' => 'required|max_length[255]|validateUSer[email, password]',
+            ];
+            $errors = [
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'nombre' => $this->request->getVar('nombre'),
+                    'password' => $this->generatePass(6),
+                    'tipo' => $this->request->getVar('tipo'),
+                    'permisos' => $this->request->getVar('permisos'),
+                ];
+                $model->where('email', this->request-getVar('email')) ->save($newsData);
+                return redirect()->to('/');     //Modificable, en caso de vista de usuario modificado
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function deleteUserEmail(){  //Puede un usuario eliminar su propia cuenta?
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.email]',
+            ];
+            $errors = [
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'email' => $this->request->getVar('email'),
+                    'activo' => 0,
+                ];
+                $model->where('email', this->request-getVar('email')) ->save($newsData);
+                return redirect()->to('/');     //Modificable, en caso de vista de usuario eliminado
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function deleteUserID(){  //Puede un usuario eliminar su propia cuenta?
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'id_alumno' => 'required',      //falta definir rules
+            ];
+            $errors = [             //falta definir errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'id_alumno' => $this->request->getVar('id_alumno'),
+                    'activo' => 0,
+                ];
+                $model->where('id_alumno', this->request-getVar('id_alumno')) ->save($newsData);
+                return redirect()->to('/');     //Modificable, en caso de vista de usuario eliminado
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function getUsers()                   //Siguientes funciones seran probablemente modificadas
+    {
+        $model = new UserModel();
+        $users = $model->findAll();
+
+        echo json_encode($users)
+    }
+
+    public function getUserEmail()
+    {
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.email]',
+            ];
+            $errors = [             //falta errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $user = $model->where('email', this->request-getVar('email'));
+                echo json_encode($user);
+                return redirect()->to('/');
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function getUsersActive()
+    {
+        $model = new UserModel();
+        $users = $model->where('activo', 1);
+        echo json_encode($users);
+    }
+
+    public function getUsersAlumnos()
+    {
+        $model = new UserModel();
+        $users = $model->where('tipo', 'alumno');       //Muy modificable, no recuerdo el nombre del tipo de usuario
+        echo json_encode($users);
+    }
 }
