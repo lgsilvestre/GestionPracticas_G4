@@ -35,6 +35,9 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->post('login', 'UsersController::login');
 $routes->post('registerUser', 'UsersController::registerUser');
+$routes->get('tablaPracticas', 'PracticaController::index');				//Devuelve la tabla de practicas
+$routes->post('filtrosTP', 'PracticaController::filtros');					//
+
 
 /*
  * --------------------------------------------------------------------

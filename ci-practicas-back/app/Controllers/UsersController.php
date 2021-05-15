@@ -57,18 +57,18 @@ class UsersController extends Controller
 
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
-        
+
         $usermodel = new UserModel();
         $alumnomodel = new AlumnoModel();
-        
+
         $responseuser = $usermodel->where('email', $email)->first();
         $responsealumno = $alumnomodel->where('correo_ins', $email)->first();
 
         // Checkeamos si usuario es alumno, admin o no existe
         // Si es admin entra en el if
-        
+
         if ($responseuser!=null && $password == "123456"){
-            
+
             $arr = [
                 'idUsser' => $responseuser['id_user'],
                 'nombre' => $responseuser['nombre'],
@@ -78,7 +78,7 @@ class UsersController extends Controller
             echo json_encode($arr);
 
         } else if ($responsealumno!=null && $password == "5555"){
-            
+
             $arr = [
                 'idUsser' => $responsealumno['id_alumno'],
                 'nombre' => $responsealumno['nombre'],
@@ -87,18 +87,18 @@ class UsersController extends Controller
             echo json_encode($arr);
 
         } else {
-            
+
             $arr = [
                 'error' => "Credenciales incorrectas",
                 'tipo' => -1,
             ];
             echo json_encode($arr);
-            
+
         }
-        
+
 	}
 
-    
+
 	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";
         echo "Pass: ".$this->request->getVar('password');
@@ -178,7 +178,7 @@ class UsersController extends Controller
         session()->set($data);
         return true;
     }
-    
+
     public function profile(){
         $model = new UserModel();
         helper(['form']);
@@ -220,7 +220,7 @@ class UsersController extends Controller
         }
         //redirigir por ruta con los datos en json
     }
-    
+
     public function generatePass($longitud){
         $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         $pass = "";
@@ -232,12 +232,12 @@ class UsersController extends Controller
         $pass='123456';
         return $pass;
     }
-    
+
     public function registerUser(){
         echo "entró al registro user";
-        
+
         helper(['form']);
-        
+
         if($this-> request -> getMethod() == 'post') {
             $rules = [
                 'nombre' => 'required|min_length[2]|max_length[50]',
@@ -408,6 +408,29 @@ class UsersController extends Controller
         return redirect()->to('/');
     }
 
+    public function changePassword(){
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'user' => 'required|min_length[2]|max_length[99]',
+                'newpass' => 'required|max_length[255]|validateUSer[email, password]',
+            ];
+            $errors = [
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'password' => $this->request->getvar('newpass'),
+                ];
+                $model->where('email', this->request-getVar('email')) ->save($newsData);
+    //            return redirect()->to('/');     //Modificable, en caso de vista de usuario modificado
+            }
+        }
+ //       return redirect()->to('/');
+    }
+
     public function deleteUserEmail(){  //Puede un usuario eliminar su propia cuenta?
         helper(['form']);
         if($this-> request -> getMethod() == 'post') {
@@ -497,3 +520,5 @@ class UsersController extends Controller
         echo json_encode($users);
     }
 }
+
+
