@@ -8,14 +8,15 @@ import Ofertas from '../Pages/Ofertas/Ofertas';
 import Administrador from '../Pages/Administrador/Administrador';
 import { EstadoPracticas } from '../Pages/EstadoPracticas';
 import { Estadisticas } from '../Pages/Estadisticas';
+import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 
 const VistaAdmin = () => {
     return (
         <div>         
             <SideBar />
-            <div>
+            <div className="container position-relative">
                 <Switch>      
-                    <Route path = '/admin/practicas' component={EstadoPracticas} />
+                    <Route path = '/admin/practicas' component={TablaEstados} />
                     <Route path = '/admin/administradores' component={Administrador} />
                     <Route path = '/admin/estudiantes' component={Estudiante} />
                     <Route path = '/admin/postulaciones' component={Postulaciones} />
@@ -25,8 +26,7 @@ const VistaAdmin = () => {
                         <h1>Admin Inicio</h1>    
                     </Route>
                 </Switch>
-            </div>
-            
+            </div>      
             <Footer/>               
         </div>
     )

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import Grow from '@material-ui/core/Grow';
 import useStyles from './styles';
 import {StyledTableCell, StyledTableRow} from './styles';
 import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField} from '@material-ui/core';
@@ -165,6 +166,7 @@ export default function Administrador() {
       <br />
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Administrador</Button>
       <br /><br />
+    <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
      <TableContainer>
        <Table className={classes.table}>
          <TableHead>
@@ -194,7 +196,7 @@ export default function Administrador() {
          </TableBody>
        </Table>
      </TableContainer>
-     
+     </Grow>
      <Modal
      open={modalInsertar}
      onClose={abrirCerrarModalInsertar}>

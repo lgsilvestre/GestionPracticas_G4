@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import FormPractica from '../../FormPractica/FormPractica'
 import Dialog from '@material-ui/core/Dialog';
+import Grow from '@material-ui/core/Grow';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -42,7 +43,7 @@ const Ofertas = () => {
             </Button>
           </DialogActions>
         </Dialog>
-
+        <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
         <TableContainer>
        <Table className={classes.table}>
          <TableHead>
@@ -73,6 +74,7 @@ const Ofertas = () => {
          </TableBody>
        </Table>
      </TableContainer>
+     </Grow>
      
       </div>
     )
