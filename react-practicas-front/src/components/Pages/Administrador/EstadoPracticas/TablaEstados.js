@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -10,14 +10,43 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, IconButton, ThemeProvider } from '@material-ui/core';
 import { AiFillEdit } from "react-icons/ai"
+import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, ThemeProvider } from '@material-ui/core';
+import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai"
 import { InfoEstudiante } from './InfoEstudiante';
 import './TablaEstadosStyles.css';
+import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
+import axios from 'axios';
+import { useForm } from '../../../../hooks/useForm';
+import { Filtros } from './Filtros';
 
+//Estilos
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  container: {
+    maxHeight: "50%",
+  },
+  logosearch :{
+    width:"25px", 
+    height:"25px"
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  }
+}));
 
 export const TablaEstados = ({history}) =>  {
-  
+
+  const clasesEstilo = useStyles();
+  // Columnas para la tabla de estados
   const columns = [
     { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
+    { id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
     { id: 'carrera', label: 'Carrera', minWidth: "25%" },
     {
       id: 'anio',
@@ -47,12 +76,12 @@ export const TablaEstados = ({history}) =>  {
       align: 'right',
     },
   ];
-  
-  function createData(nombre, carrera, anio, estado, fechaEnd, action) {
-    return { nombre, carrera, anio, estado, fechaEnd,action };
+  //Funcion que crea los datos en un objeto para cada alumno o fila
+  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, action) {
+    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, action };
   }
-  
-  const rows = [
+  //Datos locales para mostrar temporalmente en la tabla
+  const data = [
     // ("Nombre", carrera, año, estado, fecha termino)
     createData('Diego Perez', 'Ingeniería civil en computación', "2021", "Pendiente", "21/07/21","button"),
     createData('Camila Lopez', 'Ingeniería civil industrial', "2021", "Pendiente", "31/04/21","button"),
@@ -99,17 +128,25 @@ export const TablaEstados = ({history}) =>  {
   const handleChangeStateBack = () =>{
     setChangeState(!changeState)
   }
+  // Funcion que envia la informacion de los campos de filtro 
+  // hacia Back y obtener la lista nueva de estudiantes.
+  
+
+  
   if(changeState){
     return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} estudiante = {estudiante}/>
   }
   else{
-    return (
-      
+    return (  
       <Fragment>
         <div style={{marginTop:'20px', marginBottom:'30px'}}>
           <h4 style={{marginBottom:'20px'}}>
             Admin &gt; Estado practicas
           </h4>
+          <Filtros clasesEstilo={clasesEstilo} data = {data} setRows = {setRows}          
+          />
+          <hr/>
+          {/* Tabla de Practicas */}
           <Paper className={classes.root}>
       
             <TableContainer className={classes.container}>
@@ -143,7 +180,6 @@ export const TablaEstados = ({history}) =>  {
                             </TableCell>
                           );
                         }
-                        )}
                       </TableRow>
                     );
                   })}
@@ -151,13 +187,14 @@ export const TablaEstados = ({history}) =>  {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
+              rowsPerPageOptions={[5, 10, 25, 100]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
+              labelRowsPerPage ="Filas por página"
             />
           </Paper>
         </div> 
