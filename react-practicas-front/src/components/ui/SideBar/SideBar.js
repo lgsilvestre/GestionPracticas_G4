@@ -11,6 +11,7 @@ import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import { IoKeySharp } from "react-icons/io5";
+import { FaFileAlt } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import { IoNotifications } from "react-icons/io5";
 import Badge from '@material-ui/core/Badge';
@@ -88,12 +89,21 @@ function SideBar() {
                   <span className="text">Gestionar Practica</span>  
                   </Link>                   
               </li>
+
+              <li className="nav-text">   
+              <Link to="/admin/plan" >               
+                <FaFileAlt />
+                  <span className="text">Gestionar Plan</span>  
+                  </Link>                   
+              </li>
+
               <li className="nav-text">   
               <Link to="/admin/estadisticas" >               
                 <EqualizerIcon />
                   <span className="text">Estadisticas</span>  
                   </Link>                   
               </li>
+              
 
           </ul>
         </nav>

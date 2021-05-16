@@ -10,6 +10,7 @@ import { EstadoPracticas } from '../Pages/EstadoPracticas';
 import { Estadisticas } from '../Pages/Estadisticas';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 import TablePracticas from './componentes/TablePracticas';
+import  Plan  from  '../Pages/Plan/Plan';
 
 const VistaAdmin = () => {
     return (
@@ -22,6 +23,7 @@ const VistaAdmin = () => {
                     <Route path = '/admin/estudiantes' component={Estudiante} />
                     <Route path = '/admin/postulaciones' component={Postulaciones} />
                     <Route path = '/admin/ofertas' component={Ofertas} />
+                    <Route path = '/admin/plan' component={Plan} />
                     <Route path = '/admin/estadisticas' component={Estadisticas} />
                     <Route path="/admin">           
                         <h1>Admin Inicio > Prácticas Activas</h1>   
