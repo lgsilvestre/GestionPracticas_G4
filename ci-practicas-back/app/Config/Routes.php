@@ -49,6 +49,8 @@ $routes->post('registerUser', 'UsersController::registerUser');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
+$routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
+$routes->match(['get','post'],'register', 'UsersController::register');
 
 //$routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
 //$routes->match(['get','post'],'login', 'UsersController::login');
