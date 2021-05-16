@@ -9,6 +9,7 @@ import Administrador from '../Pages/Administrador/Administrador';
 import { EstadoPracticas } from '../Pages/EstadoPracticas';
 import { Estadisticas } from '../Pages/Estadisticas';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
+import TablePracticas from './componentes/TablePracticas';
 
 const VistaAdmin = () => {
     return (

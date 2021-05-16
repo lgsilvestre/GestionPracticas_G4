@@ -9,8 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, IconButton, ThemeProvider } from '@material-ui/core';
-import {AiFillEdit} from "react-icons/ai"
+import { AiFillEdit } from "react-icons/ai"
 import { InfoEstudiante } from './InfoEstudiante';
+import './TablaEstadosStyles.css';
 
 
 export const TablaEstados = ({history}) =>  {
@@ -34,14 +35,14 @@ export const TablaEstados = ({history}) =>  {
     },
     {
       id: 'fechaEnd',
-      label: 'Fecha de Termino',
+      label: 'Fecha de Término',
       minWidth: "25%",
       align: 'right',
       format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'action',
-      label: 'Accion',
+      label: 'Acción',
       minWidth: "25%",
       align: 'right',
     },
@@ -53,31 +54,30 @@ export const TablaEstados = ({history}) =>  {
   
   const rows = [
     // ("Nombre", carrera, año, estado, fecha termino)
-    createData('Diego Perez', 'Ingenieria civil en computación', "2021", "Pendiente", "21/07/21","button"),
-    createData('Camila Lopez', 'Ingenieria civil industrial', "2021", "Pendiente", "31/04/21","button"),
-    createData('Fernando Fuenzalida', 'Ingenieria civil mecatronica', "2021", "Pendiente", "31/04/21","button"),
-    createData('Rodrigo Abarca', 'Ingenieria civil en computacion', "2021", "Pendiente", "08/05/21","button"),
-    createData('Pia Gomez', 'Ingenieria civil en Obras Civiles', "2021", "Pendiente", "24/06/21","button"),
-    createData('Eliot Anderson', 'Ingenieria civil en computacion', "2021", "Pendiente", "16/04/21","button"),
-    createData('Pedro Fuentes', 'Ingenieria civil industrial', "2021", "Pendiente", "17/04/21","button"),
-    createData('Simon Lopez', 'Ingenieria civil mecatronica', "2021", "Pendiente", "25/07/21","button"),
-    createData('Marcelo Muñoz', 'Ingenieria civil en computacion', "2021", "Pendiente", "14/09/21","button"),
-    createData('Humberto Suazo', 'Ingenieria civil de Minas ', "2021", "Pendiente", "09/05/21","button"),
-    createData('Eduardo Carrasco', 'Ingenieria civil Electrica', "2021", "Pendiente", "05/05/21","button"),
-    createData('Rocio Villalobos', 'Ingenieria civil industrial', "2021", "Pendiente", "31/04/21","button"),
-    createData('Henry Agusto', 'Ingenieria civil en computacion', "2021", "Pendiente", "15/07/21","button"),
-    createData('Carlos Penaloza', 'Ingenieria civil Mecanica', "2021", "Pendiente", "19/08/21","button"),
-    createData('Felipe Ramirez', 'Ingenieria civil en Obras Civiles', "2021", "Pendiente", "21/07/21")
+    createData('Diego Perez', 'Ingeniería civil en computación', "2021", "Pendiente", "21/07/21","button"),
+    createData('Camila Lopez', 'Ingeniería civil industrial', "2021", "Pendiente", "31/04/21","button"),
+    createData('Fernando Fuenzalida', 'Ingeniería civil mecatronica', "2021", "Pendiente", "31/04/21","button"),
+    createData('Rodrigo Abarca', 'Ingeniería civil en computacion', "2021", "Pendiente", "08/05/21","button"),
+    createData('Pia Gomez', 'Ingeniería civil en Obras Civiles', "2021", "Pendiente", "24/06/21","button"),
+    createData('Eliot Anderson', 'Ingeniería civil en computacion', "2021", "Pendiente", "16/04/21","button"),
+    createData('Pedro Fuentes', 'Ingeniería civil industrial', "2021", "Pendiente", "17/04/21","button"),
+    createData('Simon Lopez', 'Ingeniería civil mecatronica', "2021", "Pendiente", "25/07/21","button"),
+    createData('Marcelo Muñoz', 'Ingeniería civil en computacion', "2021", "Pendiente", "14/09/21","button"),
+    createData('Humberto Suazo', 'Ingeniería civil de Minas ', "2021", "Pendiente", "09/05/21","button"),
+    createData('Eduardo Carrasco', 'Ingeniería civil Electrica', "2021", "Pendiente", "05/05/21","button"),
+    createData('Rocio Villalobos', 'Ingeniería civil industrial', "2021", "Pendiente", "31/04/21","button"),
+    createData('Henry Agusto', 'Ingeniería civil en computacion', "2021", "Pendiente", "15/07/21","button"),
+    createData('Carlos Penaloza', 'Ingeniería civil Mecanica', "2021", "Pendiente", "19/08/21","button"),
+    createData('Felipe Ramirez', 'Ingeniería civil en Obras Civiles', "2021", "Pendiente", "21/07/21")
   ];
   
   const useStyles = makeStyles({
     root: {
       width: '100%',
-      
     },
     container: {
       maxHeight: "50%",
-    }
+    },
   });
   const classes = useStyles();
   const [page, setPage] = useState(0);
@@ -106,10 +106,10 @@ export const TablaEstados = ({history}) =>  {
     return (
       
       <Fragment>
-
-          <h2>
-            Admin Inicio &gt; Estado practicas
-          </h2>
+        <div style={{marginTop:'20px', marginBottom:'30px'}}>
+          <h4 style={{marginBottom:'20px'}}>
+            Admin &gt; Estado practicas
+          </h4>
           <Paper className={classes.root}>
       
             <TableContainer className={classes.container}>
@@ -136,8 +136,8 @@ export const TablaEstados = ({history}) =>  {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {value ==="button" ? 
-                              <IconButton aria-label="delete" size="medium" onClick={handleChangeState}>
-                                <AiFillEdit fontSize="inherit" />
+                              <IconButton style={{color:'#f69b2e'}} aria-label="delete" size="medium" onClick={handleChangeState}>
+                                <AiFillEdit fontSize="inherit"/>
                               </IconButton>
                               : value}
                             </TableCell>
@@ -160,6 +160,7 @@ export const TablaEstados = ({history}) =>  {
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           </Paper>
+        </div> 
       </Fragment>
  
     )

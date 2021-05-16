@@ -14,6 +14,7 @@ import { IoKeySharp } from "react-icons/io5";
 import { IoPerson } from "react-icons/io5";
 import { IoNotifications } from "react-icons/io5";
 import Badge from '@material-ui/core/Badge';
+import Container from 'react-bootstrap/Container'
 
 function SideBar() {
   const [sidebar, setSidebar] = useState(false);
@@ -40,9 +41,12 @@ function SideBar() {
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'} style={{float: "left"}}>
           <ul className='nav-menu-items' onClick={showSidebar}>
             <li className='navbar-toggle'>
+              <Container fluid>
               <Link to='#' className='menu-bars'>             
-                <img src={logo}   className="logoUtal"  alt="Utalca Logo"  />                  
+                <img src={logo} className="logoUtal" alt="Utalca Logo" />                  
               </Link>
+              </Container>
+              
             </li> 
                
 
