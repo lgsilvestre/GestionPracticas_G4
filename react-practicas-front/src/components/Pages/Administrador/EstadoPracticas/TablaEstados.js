@@ -8,10 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, IconButton, ThemeProvider } from '@material-ui/core';
-import { AiFillEdit } from "react-icons/ai"
 import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, ThemeProvider } from '@material-ui/core';
-import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai"
+import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import './TablaEstadosStyles.css';
 import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
@@ -110,6 +108,7 @@ export const TablaEstados = ({history}) =>  {
   });
   const classes = useStyles();
   const [page, setPage] = useState(0);
+  const [rows, setRows] = useState(data);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const handleChangePage = (event, newPage) => {
@@ -143,7 +142,7 @@ export const TablaEstados = ({history}) =>  {
           <h4 style={{marginBottom:'20px'}}>
             Admin &gt; Estado practicas
           </h4>
-          <Filtros clasesEstilo={clasesEstilo} data = {data} setRows = {setRows}          
+          <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}          
           />
           <hr/>
           {/* Tabla de Practicas */}
@@ -179,7 +178,7 @@ export const TablaEstados = ({history}) =>  {
                               : value}
                             </TableCell>
                           );
-                        }
+                        })},
                       </TableRow>
                     );
                   })}
