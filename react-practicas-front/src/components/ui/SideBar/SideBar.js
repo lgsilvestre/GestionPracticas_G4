@@ -18,16 +18,16 @@ import Badge from '@material-ui/core/Badge';
 import Container from 'react-bootstrap/Container'
 
 function SideBar() {
-  const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(true);
 
-  const showSidebar = () => setSidebar(!sidebar);
+  //const showSidebar = () => setSidebar(!sidebar);
 
   return (
     <>
       <IconContext.Provider value={{ color: '#fff' }} style={{overflow: "hidden"}}>
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
-            <FaIcons.FaBars onClick={showSidebar} />
+            <FaIcons.FaBars/>
           </Link>
           <div className="justify-content-end">
             <Badge>
@@ -40,7 +40,7 @@ function SideBar() {
           
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'} style={{float: "left"}}>
-          <ul className='nav-menu-items' onClick={showSidebar}>
+          <ul className='nav-menu-items'>
             <li className='navbar-toggle'>
               <Container fluid>
               <Link to='#' className='menu-bars'>             

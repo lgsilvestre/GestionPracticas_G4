@@ -19,7 +19,7 @@
 .nav-menu {
     background-color: #272727;
     width: 27vh;
-    height: 200vh;
+    height: 100%;
     display: flex;
     justify-content: left;
     position: absolute;

@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
 import {MdFileDownload} from 'react-icons/md'
+
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
     const archivos =[
