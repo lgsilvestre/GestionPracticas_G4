@@ -97,7 +97,7 @@ export const TablaEstados = ({history}) =>  {
     createData('Carlos Penaloza', 'Ingeniería civil Mecanica', "2021", "Pendiente", "19/08/21","button"),
     createData('Felipe Ramirez', 'Ingeniería civil en Obras Civiles', "2021", "Pendiente", "21/07/21")
   ];
-  
+  /*
   const useStyles = makeStyles({
     root: {
       width: '100%',
@@ -105,8 +105,8 @@ export const TablaEstados = ({history}) =>  {
     container: {
       maxHeight: "50%",
     },
-  });
-  const classes = useStyles();
+  });*/
+  //const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState(data);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -146,9 +146,9 @@ export const TablaEstados = ({history}) =>  {
           />
           <hr/>
           {/* Tabla de Practicas */}
-          <Paper className={classes.root}>
+          <Paper className={clasesEstilo.root}>
       
-            <TableContainer className={classes.container}>
+            <TableContainer className={clasesEstilo.container}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
