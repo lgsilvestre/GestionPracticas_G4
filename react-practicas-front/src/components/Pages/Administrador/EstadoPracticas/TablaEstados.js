@@ -81,21 +81,21 @@ export const TablaEstados = ({history}) =>  {
   //Datos locales para mostrar temporalmente en la tabla
   const data = [
     // ("Nombre", carrera, año, estado, fecha termino)
-    createData('Diego Perez', 'Ingeniería civil en computación', "2021", "Pendiente", "21/07/21","button"),
-    createData('Camila Lopez', 'Ingeniería civil industrial', "2021", "Pendiente", "31/04/21","button"),
-    createData('Fernando Fuenzalida', 'Ingeniería civil mecatronica', "2021", "Pendiente", "31/04/21","button"),
-    createData('Rodrigo Abarca', 'Ingeniería civil en computacion', "2021", "Pendiente", "08/05/21","button"),
-    createData('Pia Gomez', 'Ingeniería civil en Obras Civiles', "2021", "Pendiente", "24/06/21","button"),
-    createData('Eliot Anderson', 'Ingeniería civil en computacion', "2021", "Pendiente", "16/04/21","button"),
-    createData('Pedro Fuentes', 'Ingeniería civil industrial', "2021", "Pendiente", "17/04/21","button"),
-    createData('Simon Lopez', 'Ingeniería civil mecatronica', "2021", "Pendiente", "25/07/21","button"),
-    createData('Marcelo Muñoz', 'Ingeniería civil en computacion', "2021", "Pendiente", "14/09/21","button"),
-    createData('Humberto Suazo', 'Ingeniería civil de Minas ', "2021", "Pendiente", "09/05/21","button"),
-    createData('Eduardo Carrasco', 'Ingeniería civil Electrica', "2021", "Pendiente", "05/05/21","button"),
-    createData('Rocio Villalobos', 'Ingeniería civil industrial', "2021", "Pendiente", "31/04/21","button"),
-    createData('Henry Agusto', 'Ingeniería civil en computacion', "2021", "Pendiente", "15/07/21","button"),
-    createData('Carlos Penaloza', 'Ingeniería civil Mecanica', "2021", "Pendiente", "19/08/21","button"),
-    createData('Felipe Ramirez', 'Ingeniería civil en Obras Civiles', "2021", "Pendiente", "21/07/21")
+    createData('Diego Perez', '1', 'Ingenieria civil en computación', "2021","Solicitud", "Pendiente", "","button"),
+    createData('Camila Lopez','2', 'Ingenieria civil industrial', "2021","Inscripción", "Aprobada", "31/04/21","button"),
+    createData('Fernando Fuenzalida','3', 'Ingenieria civil mecatronica', "2021", "Cursando","", "31/04/21","button"),
+    createData('Rodrigo Abarca','4', 'Ingenieria civil en computacion', "2021", "Evaluación","Pendiente", "","button"),
+    createData('Pia Gomez','5', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "24/06/21","button"),
+    createData('Eliot Anderson','6', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "16/04/21","button"),
+    createData('Pedro Fuentes','7', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "17/04/21","button"),
+    createData('Simon Lopez','8', 'Ingenieria civil mecatronica', "2021","Inscripción", "Pendiente", "25/07/21","button"),
+    createData('Marcelo Muñoz','9', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "14/09/21","button"),
+    createData('Humberto Suazo','10', 'Ingenieria civil de Minas ', "2021","Inscripción", "Pendiente", "09/05/21","button"),
+    createData('Eduardo Carrasco','11', 'Ingenieria civil Electrica', "2021","Inscripción", "Pendiente", "05/05/21","button"),
+    createData('Rocio Villalobos','12', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "31/04/21","button"),
+    createData('Henry Agusto','13', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "15/07/21","button"),
+    createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
+    createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
   ];
   /*
   const useStyles = makeStyles({
@@ -139,7 +139,7 @@ export const TablaEstados = ({history}) =>  {
     return (  
       <Fragment>
         <div style={{marginTop:'20px', marginBottom:'30px'}}>
-          <h4 style={{marginBottom:'20px'}}>
+          <h4 style={{marginBottom:'10px'}}>
             Admin &gt; Estado practicas
           </h4>
           <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}          
@@ -178,7 +178,7 @@ export const TablaEstados = ({history}) =>  {
                               : value}
                             </TableCell>
                           );
-                        })},
+                        })}
                       </TableRow>
                     );
                   })}
