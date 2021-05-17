@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import logo from'../images/logo.png';
 import { Alert } from 'reactstrap';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -91,11 +92,11 @@ export default function SignInSide({history}) {
           //-1 error , 0 alumno , 1 admin
           console.log("respuesta: ", response.data);
           
-          if(response.data.tipo == 0){
+          if(response.data.tipo == 1){
             console.log("admin")
             history.replace("/admin")
           }
-          else if(response.data.tipo == 1){
+          else if(response.data.tipo == 2){
             console.log("estudiante")
             history.replace("/estudiante")
           }

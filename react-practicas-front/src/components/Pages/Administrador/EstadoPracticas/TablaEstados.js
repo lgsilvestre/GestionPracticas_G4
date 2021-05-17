@@ -9,8 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, ThemeProvider } from '@material-ui/core';
-import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai"
+import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
+import './TablaEstadosStyles.css';
 import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
 import axios from 'axios';
 import { useForm } from '../../../../hooks/useForm';
@@ -45,11 +46,33 @@ export const TablaEstados = ({history}) =>  {
     { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
     { id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
     { id: 'carrera', label: 'Carrera', minWidth: "25%" },
-    { id: 'anio', label: 'Año', minWidth: "25%" },
-    { id: 'etapa',label: 'Etapa', minWidth: "25%"},
-    { id: 'estado',label: 'Estado', minWidth: "25%"},
-    { id: 'fechaEnd',label: 'Fecha de Termino',minWidth: "25%"},
-    { id: 'action',label: 'Accion',minWidth: "25%"},
+    {
+      id: 'anio',
+      label: 'Año',
+      minWidth: "25%",
+      align: 'right',
+      format: (value) => value.toLocaleString('en-US'),
+    },
+    {
+      id: 'estado',
+      label: 'Estado',
+      minWidth: "25%",
+      align: 'right',
+      format: (value) => value.toLocaleString('en-US'),
+    },
+    {
+      id: 'fechaEnd',
+      label: 'Fecha de Término',
+      minWidth: "25%",
+      align: 'right',
+      format: (value) => value.toLocaleString('en-US'),
+    },
+    {
+      id: 'action',
+      label: 'Acción',
+      minWidth: "25%",
+      align: 'right',
+    },
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
   function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, action) {
@@ -73,9 +96,19 @@ export const TablaEstados = ({history}) =>  {
     createData('Henry Agusto','13', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "15/07/21","button"),
     createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
     createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
-  ]
-  const [rows, setRows] = useState(data)
+  ];
+  /*
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+    },
+    container: {
+      maxHeight: "50%",
+    },
+  });*/
+  //const classes = useStyles();
   const [page, setPage] = useState(0);
+  const [rows, setRows] = useState(data);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const handleChangePage = (event, newPage) => {
@@ -105,15 +138,16 @@ export const TablaEstados = ({history}) =>  {
   else{
     return (  
       <Fragment>
-          <h2>
-            Admin Inicio &gt; Estado practicas
-          </h2>
-          {/* Filtros de Busqueda */}
-          <Filtros clasesEstilo={clasesEstilo} data = {data} setRows = {setRows}          
+        <div style={{marginTop:'20px', marginBottom:'30px'}}>
+          <h4 style={{marginBottom:'10px'}}>
+            Admin &gt; Estado practicas
+          </h4>
+          <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}          
           />
           <hr/>
           {/* Tabla de Practicas */}
           <Paper className={clasesEstilo.root}>
+      
             <TableContainer className={clasesEstilo.container}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
@@ -133,20 +167,18 @@ export const TablaEstados = ({history}) =>  {
                   {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {
-                          columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {value ==="button" ? 
-                                <IconButton aria-label="delete" size="medium" onClick={handleChangeState}>
-                                  <AiOutlineEye fontSize="inherit" />
-                                </IconButton>
-                                : value}
-                              </TableCell>
-                            );
-                          })
-                        }
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {value ==="button" ? 
+                              <IconButton style={{color:'#f69b2e'}} aria-label="delete" size="medium" onClick={handleChangeState}>
+                                <AiFillEdit fontSize="inherit"/>
+                              </IconButton>
+                              : value}
+                            </TableCell>
+                          );
+                        })}
                       </TableRow>
                     );
                   })}
@@ -164,8 +196,7 @@ export const TablaEstados = ({history}) =>  {
               labelRowsPerPage ="Filas por página"
             />
           </Paper>
-          {/* Alerta con info de los filtros elegidos */}
-          
+        </div> 
       </Fragment>
  
     )

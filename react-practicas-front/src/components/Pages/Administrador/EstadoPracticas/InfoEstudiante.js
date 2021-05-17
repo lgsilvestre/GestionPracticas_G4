@@ -7,6 +7,7 @@ import { MdFileDownload } from "react-icons/md";
 import { FcCancel } from "react-icons/fc";
 import { FcCheckmark } from "react-icons/fc";
 import { IoIosArrowBack } from "react-icons/io";
+import { shadows } from '@material-ui/system';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -42,32 +43,28 @@ export const InfoEstudiante = ({handleChangeStateBack}) => {
         fechainicio: "21/07/2021",
         fechatermino: "21/10/2021",
     }
-    const infoLabelsEstudiante = ["Nombre", "Carrera", "Edad", "Sexo", "Rut", "Matricula"]
-    const infoLabelsEmpresa = ["Nombre Empresa", "Nombre de Supervisor", "Fecha de Inicio", "Fecha de termino"]
+    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Edad:", "Sexo:", "Rut:", "Matrícula:"]
+    const infoLabelsEmpresa = ["Nombre Empresa:", "Nombre de Supervisor:", "Fecha de Inicio:", "Fecha de término:"]
     const archivosEstudiante =[
         {
             nombre:"Carta de presentación"
         },{
-            nombre:"Curriculo Plan"
+            nombre:"Currículo Plan"
         },{
             nombre: "Consentimiento Informado"
         },{
-            nombre:"Protocolo Covid"
+            nombre: "Protocolo Covid"
         },{
-            nombre: "Modulos de desempeño integrado"
+            nombre: "Módulos de desempeño integrado"
         }]
     return (
-        
-        <div className={classes.root}>
-            <h2>
-                Admin Inicio &gt; Estado practicas &gt; Informacion de Practica
-            </h2>
-            <Button startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
+        <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
+            <Button variant="outlined" startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack} style={{marginBottom:'10px', color:'#f69b2e'}}>
                 Atras
             </Button>
             {/* Datos de Estudiante */}
-            <div>
-                <h4>Datos Estudiante</h4>
+            <Box style={{marginTop:'10px', marginBottom:'30px', borderRadius:'20px', backgroundColor:'#fafafa'}} boxShadow={1}>
+                <h4 style={{paddingTop:'20px', paddingLeft:'20px'}}>Datos Estudiante</h4>
                 <hr/>
                 <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
                     <Grid item xs>
@@ -135,11 +132,11 @@ export const InfoEstudiante = ({handleChangeStateBack}) => {
                         </Box>
                     </Grid>                                               
                 </Grid>
-            </div>   
+            </Box>   
 
              {/*Datos de Empresa  */}
-            <div>
-                <h4>Datos Empresa</h4>
+            <Box style={{marginTop:'10px', marginBottom:'30px', borderRadius:'20px', backgroundColor:'#fafafa'}} boxShadow={1}>
+                <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Empresa</h4>
                 <hr/>
                 <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
                     <Grid item xs>
@@ -185,10 +182,10 @@ export const InfoEstudiante = ({handleChangeStateBack}) => {
                         </Box>
                     </Grid>                                               
                 </Grid>
-            </div>    
+            </Box>    
             {/* Archivos */}
-            <div>
-                <h4>Documentos Subidos</h4>
+            <Box style={{marginTop:'10px', marginBottom:'10px', borderRadius:'20px', backgroundColor:'#fafafa'}} boxShadow={1}>
+                <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Documentos Subidos</h4>
                 <hr/>
                
                 <List  className= {classes.filebox}>
@@ -197,14 +194,14 @@ export const InfoEstudiante = ({handleChangeStateBack}) => {
 
                             <ListItem key={index}>
 
-                                <ListItemIcon>
+                                <ListItemIcon style={{color:'#f69b2e'}}>
                                     <VscFilePdf className={classes.icon}/>
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={file.nombre}
                                 />                                     
                                 <ListItemSecondaryAction>
-                                    <IconButton edge="end" >
+                                    <IconButton edge="end" style={{color:'#f69b2e'}}>
                                         <MdFileDownload />
                                     </IconButton>
                                     <IconButton edge="end" >
@@ -220,7 +217,7 @@ export const InfoEstudiante = ({handleChangeStateBack}) => {
                     }
                 </List>            
                     
-            </div>
+            </Box>
         </div>
     )
 }
