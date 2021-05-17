@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -8,15 +8,43 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, IconButton, ThemeProvider } from '@material-ui/core';
-import {AiFillEdit} from "react-icons/ai"
+import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, ThemeProvider } from '@material-ui/core';
+import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
+import './TablaEstadosStyles.css';
+import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
+import axios from 'axios';
+import { useForm } from '../../../../hooks/useForm';
+import { Filtros } from './Filtros';
 
+//Estilos
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  container: {
+    maxHeight: "50%",
+  },
+  logosearch :{
+    width:"25px", 
+    height:"25px"
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  }
+}));
 
 export const TablaEstados = ({history}) =>  {
-  
+
+  const clasesEstilo = useStyles();
+  // Columnas para la tabla de estados
   const columns = [
     { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
+    { id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
     { id: 'carrera', label: 'Carrera', minWidth: "25%" },
     {
       id: 'anio',
@@ -34,53 +62,53 @@ export const TablaEstados = ({history}) =>  {
     },
     {
       id: 'fechaEnd',
-      label: 'Fecha de Termino',
+      label: 'Fecha de Término',
       minWidth: "25%",
       align: 'right',
       format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'action',
-      label: 'Accion',
+      label: 'Acción',
       minWidth: "25%",
       align: 'right',
     },
   ];
-  
-  function createData(nombre, carrera, anio, estado, fechaEnd, action) {
-    return { nombre, carrera, anio, estado, fechaEnd,action };
+  //Funcion que crea los datos en un objeto para cada alumno o fila
+  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, action) {
+    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, action };
   }
-  
-  const rows = [
+  //Datos locales para mostrar temporalmente en la tabla
+  const data = [
     // ("Nombre", carrera, año, estado, fecha termino)
-    createData('Diego Perez', 'Ingenieria civil en computación', "2021", "Pendiente", "21/07/21","button"),
-    createData('Camila Lopez', 'Ingenieria civil industrial', "2021", "Pendiente", "31/04/21","button"),
-    createData('Fernando Fuenzalida', 'Ingenieria civil mecatronica', "2021", "Pendiente", "31/04/21","button"),
-    createData('Rodrigo Abarca', 'Ingenieria civil en computacion', "2021", "Pendiente", "08/05/21","button"),
-    createData('Pia Gomez', 'Ingenieria civil en Obras Civiles', "2021", "Pendiente", "24/06/21","button"),
-    createData('Eliot Anderson', 'Ingenieria civil en computacion', "2021", "Pendiente", "16/04/21","button"),
-    createData('Pedro Fuentes', 'Ingenieria civil industrial', "2021", "Pendiente", "17/04/21","button"),
-    createData('Simon Lopez', 'Ingenieria civil mecatronica', "2021", "Pendiente", "25/07/21","button"),
-    createData('Marcelo Muñoz', 'Ingenieria civil en computacion', "2021", "Pendiente", "14/09/21","button"),
-    createData('Humberto Suazo', 'Ingenieria civil de Minas ', "2021", "Pendiente", "09/05/21","button"),
-    createData('Eduardo Carrasco', 'Ingenieria civil Electrica', "2021", "Pendiente", "05/05/21","button"),
-    createData('Rocio Villalobos', 'Ingenieria civil industrial', "2021", "Pendiente", "31/04/21","button"),
-    createData('Henry Agusto', 'Ingenieria civil en computacion', "2021", "Pendiente", "15/07/21","button"),
-    createData('Carlos Penaloza', 'Ingenieria civil Mecanica', "2021", "Pendiente", "19/08/21","button"),
-    createData('Felipe Ramirez', 'Ingenieria civil en Obras Civiles', "2021", "Pendiente", "21/07/21")
+    createData('Diego Perez', '1', 'Ingenieria civil en computación', "2021","Solicitud", "Pendiente", "","button"),
+    createData('Camila Lopez','2', 'Ingenieria civil industrial', "2021","Inscripción", "Aprobada", "31/04/21","button"),
+    createData('Fernando Fuenzalida','3', 'Ingenieria civil mecatronica', "2021", "Cursando","", "31/04/21","button"),
+    createData('Rodrigo Abarca','4', 'Ingenieria civil en computacion', "2021", "Evaluación","Pendiente", "","button"),
+    createData('Pia Gomez','5', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "24/06/21","button"),
+    createData('Eliot Anderson','6', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "16/04/21","button"),
+    createData('Pedro Fuentes','7', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "17/04/21","button"),
+    createData('Simon Lopez','8', 'Ingenieria civil mecatronica', "2021","Inscripción", "Pendiente", "25/07/21","button"),
+    createData('Marcelo Muñoz','9', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "14/09/21","button"),
+    createData('Humberto Suazo','10', 'Ingenieria civil de Minas ', "2021","Inscripción", "Pendiente", "09/05/21","button"),
+    createData('Eduardo Carrasco','11', 'Ingenieria civil Electrica', "2021","Inscripción", "Pendiente", "05/05/21","button"),
+    createData('Rocio Villalobos','12', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "31/04/21","button"),
+    createData('Henry Agusto','13', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "15/07/21","button"),
+    createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
+    createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
   ];
-  
+  /*
   const useStyles = makeStyles({
     root: {
       width: '100%',
-      
     },
     container: {
       maxHeight: "50%",
-    }
-  });
-  const classes = useStyles();
+    },
+  });*/
+  //const classes = useStyles();
   const [page, setPage] = useState(0);
+  const [rows, setRows] = useState(data);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const handleChangePage = (event, newPage) => {
@@ -99,20 +127,28 @@ export const TablaEstados = ({history}) =>  {
   const handleChangeStateBack = () =>{
     setChangeState(!changeState)
   }
+  // Funcion que envia la informacion de los campos de filtro 
+  // hacia Back y obtener la lista nueva de estudiantes.
+  
+
+  
   if(changeState){
     return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} estudiante = {estudiante}/>
   }
   else{
-    return (
-      
+    return (  
       <Fragment>
-
-          <h2>
-            Admin Inicio &gt; Estado practicas
-          </h2>
-          <Paper className={classes.root}>
+        <div style={{marginTop:'20px', marginBottom:'30px'}}>
+          <h4 style={{marginBottom:'10px'}}>
+            Admin &gt; Estado practicas
+          </h4>
+          <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}          
+          />
+          <hr/>
+          {/* Tabla de Practicas */}
+          <Paper className={clasesEstilo.root}>
       
-            <TableContainer className={classes.container}>
+            <TableContainer className={clasesEstilo.container}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
@@ -136,14 +172,13 @@ export const TablaEstados = ({history}) =>  {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {value ==="button" ? 
-                              <IconButton aria-label="delete" size="medium" onClick={handleChangeState}>
-                                <AiFillEdit fontSize="inherit" />
+                              <IconButton style={{color:'#f69b2e'}} aria-label="delete" size="medium" onClick={handleChangeState}>
+                                <AiFillEdit fontSize="inherit"/>
                               </IconButton>
                               : value}
                             </TableCell>
                           );
-                        }
-                        )}
+                        })}
                       </TableRow>
                     );
                   })}
@@ -151,15 +186,17 @@ export const TablaEstados = ({history}) =>  {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
+              rowsPerPageOptions={[5, 10, 25, 100]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
+              labelRowsPerPage ="Filas por página"
             />
           </Paper>
+        </div> 
       </Fragment>
  
     )

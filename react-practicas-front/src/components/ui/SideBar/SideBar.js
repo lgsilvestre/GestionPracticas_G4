@@ -11,9 +11,11 @@ import { MdDescription } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import { IoKeySharp } from "react-icons/io5";
+import { FaFileAlt } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import { IoNotifications } from "react-icons/io5";
 import Badge from '@material-ui/core/Badge';
+import Container from 'react-bootstrap/Container'
 
 function SideBar() {
   const [sidebar, setSidebar] = useState(false);
@@ -22,7 +24,7 @@ function SideBar() {
 
   return (
     <>
-      <IconContext.Provider value={{ color: '#fff' }}>
+      <IconContext.Provider value={{ color: '#fff' }} style={{overflow: "hidden"}}>
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
@@ -37,12 +39,15 @@ function SideBar() {
           </div>
           
         </div>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'} style={{float: "left"}}>
           <ul className='nav-menu-items' onClick={showSidebar}>
             <li className='navbar-toggle'>
+              <Container fluid>
               <Link to='#' className='menu-bars'>             
-                <img src={logo}   className="logoUtal"  alt="Utalca Logo"  />                  
+                <img src={logo} className="logoUtal" alt="Utalca Logo" />                  
               </Link>
+              </Container>
+              
             </li> 
                
 
@@ -84,12 +89,21 @@ function SideBar() {
                   <span className="text">Gestionar Practica</span>  
                   </Link>                   
               </li>
+
+              <li className="nav-text">   
+              <Link to="/admin/plan" >               
+                <FaFileAlt />
+                  <span className="text">Gestionar Plan</span>  
+                  </Link>                   
+              </li>
+
               <li className="nav-text">   
               <Link to="/admin/estadisticas" >               
                 <EqualizerIcon />
                   <span className="text">Estadisticas</span>  
                   </Link>                   
               </li>
+              
 
           </ul>
         </nav>

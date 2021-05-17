@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import FormPractica from '../../FormPractica/FormPractica'
+import FormPlan from '../../FormPlan/FormPlan'
 import Dialog from '@material-ui/core/Dialog';
 import Grow from '@material-ui/core/Grow';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -11,7 +11,7 @@ import {Table, TableContainer, TableHead, TableBody, TableRow, Button} from '@ma
 import {Edit, Delete} from '@material-ui/icons';
 
 
-const Ofertas = () => {
+const Plan = () => {
   const [data, setData]= useState([]);
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -27,12 +27,12 @@ const Ofertas = () => {
     return (
         <div className={classes.root}>
         <Button className={classes.boton} variant="outlined" color="primary" onClick={handleClickOpen}>
-          Agregar Practica 
+          Agregar Plan 
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Datos Practica</DialogTitle>
+          <DialogTitle id="form-dialog-title">Datos Plan</DialogTitle>
           <DialogContent>
-            <FormPractica />
+            <FormPlan />
           </DialogContent>
           <DialogActions>
             <Button className={classes.botonCancelar} onClick={handleClose} color="primary">
@@ -49,9 +49,8 @@ const Ofertas = () => {
          <TableHead>
            <TableRow>
              <StyledTableCell>Carrera</StyledTableCell>
-             <StyledTableCell>Nombre</StyledTableCell>
-             <StyledTableCell>Descripcion </StyledTableCell>
-             <StyledTableCell>Documento </StyledTableCell>
+             <StyledTableCell>Codigo</StyledTableCell>
+             <StyledTableCell>Fecha </StyledTableCell>
              <StyledTableCell>Acciones</StyledTableCell>
            </TableRow>
          </TableHead>
@@ -59,9 +58,8 @@ const Ofertas = () => {
          <TableBody>
            {data.map(practica=>(
              <StyledTableRow key={practica.id}>
-               <StyledTableCell>{practica.nombre}</StyledTableCell>
-               <StyledTableCell>{practica.descripcion}</StyledTableCell>
-               <StyledTableCell>{practica.documento}</StyledTableCell>
+               <StyledTableCell>{practica.carrera}</StyledTableCell>
+               <StyledTableCell>{practica.fecha}</StyledTableCell>
                <StyledTableCell>
                  <Edit className={classes.iconos} />
                  &nbsp;&nbsp;&nbsp;
@@ -78,4 +76,4 @@ const Ofertas = () => {
     )
 }
 
-export default Ofertas
+export default Plan
