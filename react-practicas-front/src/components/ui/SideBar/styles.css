@@ -1,6 +1,6 @@
 .logoUtal{
-  height: 122px;
-  width: 105px;
+  height: 70%;
+  width: 70%;
 }
 
 .navbar {
@@ -12,7 +12,6 @@
 }
   
   .menu-bars {
-    margin-left: 2rem;
     font-size: 2rem;
     background: none;
   }
@@ -22,7 +21,7 @@
     width: 27vh;
     height: 200vh;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     position: absolute;
     top: 0;
     left: -100%;
