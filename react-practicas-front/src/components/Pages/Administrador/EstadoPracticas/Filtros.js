@@ -1,16 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, ThemeProvider } from '@material-ui/core';
-import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai"
-import { InfoEstudiante } from './InfoEstudiante';
+import React, { useState } from 'react';
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import {AiOutlineSearch} from "react-icons/ai"
 import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
 import axios from 'axios';
 import { useForm } from '../../../../hooks/useForm';
@@ -201,7 +191,7 @@ export const Filtros = ({clasesEstilo, data, setRows}) => {
             </Grid>
             {/* Boton para Enviar informacion de filtro */}
             <Grid item>
-              <Button variant="contained" color="primary" onClick={handleSendFilters}>
+              <Button  className={clasesEstilo.botonFiltro} variant="contained" onClick={handleSendFilters}>
                 Filtrar
               </Button>
             </Grid>
