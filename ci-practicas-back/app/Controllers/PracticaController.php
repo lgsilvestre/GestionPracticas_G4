@@ -12,6 +12,49 @@ class PracticaController extends BaseController
 		echo json_encode($practicas);
 	}
 
+	public function solicitarPractica()
+	{
+		if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'estudiante' => 'required|min_length[2]|max_length[99]',
+				'nropractica' => 'required',
+				'estado' => 'required'		//faltan reglass por agregar
+
+
+            ];
+            $errors = [			// faltan errores por definir
+				'estudiante' => [
+                    'required' => 'No se a definido un estudiante'
+                ],
+            ];
+            if(!$this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else {
+				$Estudiante => $this->request->getVar('estudiante');
+				$Nropractica => $this->request->getVar('nropractica');
+				$Estado => $this->request->getVar('estado');
+
+				$resutaldo = $this->resultadoFiltros($Etapa, $Estado, $Carrera, $anio);
+				echo json_encode($resutaldo);
+            }
+        }
+	}
+
+	private function validarPractica($Estudiante)
+	{
+		$model = new PracticaModel();
+		$practicas = $model->where('refAlumno',$Estudiante)->findAll();
+		if($practicas->where('estado',2).count==2)
+		{
+			return false;
+		}
+		if($practicas->where('estado',0).count==1 )
+		{
+			return false;
+		}
+		return true;
+	}
+
     public function filtos(){
         helper(['form']);
 
@@ -47,15 +90,15 @@ class PracticaController extends BaseController
 		}
 		if($Etapa !='' && $Estado =='' && $Carrera=='' && $anio =='')
 		{
-			return $model->where('Etapa',$Etapa)->findAll();
+			return $model->where('etapa',$Etapa)->findAll();
 		}
 		if($Etapa =='' && $Estado !='' && $Carrera=='' && $anio =='')
 		{
-			return $model->where('Estado',$Estado)->findAll();
+			return $model->where('estado',$Estado)->findAll();
 		}
 		if($Etapa =='' && $Estado =='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('Carrera',$Carrera)->findAll();
+			return $model->where('carrera',$Carrera)->findAll();
 		}
 		if($Etapa =='' && $Estado =='' && $Carrera=='' && $anio !='')
 		{
@@ -64,55 +107,55 @@ class PracticaController extends BaseController
 
 		if($Etapa !='' && $Estado !='' && $Carrera=='' && $anio =='')
 		{
-			return $model->where('Etapa',$Etapa)->where->('Estado',$Estado)->findAll();
+			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->findAll();
 		}
 		if($Etapa !='' && $Estado =='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('Etapa',$Etapa)->where->('Carrera',$Carrera)->findAll();
+			return $model->where('etapa',$Etapa)->where->('carrera',$Carrera)->findAll();
 		}
 		if($Etapa !='' && $Estado =='' && $Carrera=='' && $anio !='')
 		{
-			return $model->where('Etapa',$Etapa)->where->('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where->('anio',$anio)->findAll();
 		}
 
 		if($Etapa =='' && $Estado !='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('Carrera',$Carrera)->where->('Estado',$Estado)->findAll();
+			return $model->where('carrera',$Carrera)->where->('estado',$Estado)->findAll();
 		}
 
 		if($Etapa =='' && $Estado !='' && $Carrera=='' && $anio !='')
 		{
-			return $model->where('Carrera',$Carrera)->where->('anio',$anio)->findAll();
+			return $model->where('carrera',$Carrera)->where->('anio',$anio)->findAll();
 		}
 
 		if($Etapa =='' && $Estado =='' && $Carrera!='' && $anio !='')
 		{
-			return $model->where('Carrera',$Carrera)->where->('anio',$anio)->findAll();
+			return $model->where('carrera',$Carrera)->where->('anio',$anio)->findAll();
 		}
 
 		if($Etapa !='' && $Estado !='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('Etapa',$Etapa)->where->('Estado',$Estado)->where('Carrera',$Carrera)->findAll();
+			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->where('carrera',$Carrera)->findAll();
 		}
 
 		if($Etapa !='' && $Estado !='' && $Carrera=='' && $anio !='')
 		{
-			return $model->where('Etapa',$Etapa)->where->('Estado',$Estado)->where('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa !='' && $Estado =='' && $Carrera !='' && $anio !='')
 		{
-			return $model->where('Etapa',$Etapa)->where->('Carrera',$Carrera)->where('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where->('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa =='' && $Estado !='' && $Carrera !='' && $anio !='')
 		{
-			return $model->where('Estado',$Estado)->where->('Carrera',$Carrera)->where('anio',$anio)->findAll();
+			return $model->where('estado',$Estado)->where->('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa !='' && $Estado !='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('Etapa',$Etapa)->where->('Estado',$Estado)->where('Carrera',$Carrera)->where('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->where('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 	}
 }

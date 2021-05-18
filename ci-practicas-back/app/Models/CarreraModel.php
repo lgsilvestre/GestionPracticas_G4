@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class DocGenModel extends Model
 {
-    protected $table      = 'Carrera';
-    protected $primaryKey = 'idCarrera';
-    protected $allowedFields = ['Nombre','Facultad'];
+    protected $table      = 'carrera';
+    protected $primaryKey = 'id_carrera';
+    protected $allowedFields = ['nombre','extension'];
 }
 ?>
