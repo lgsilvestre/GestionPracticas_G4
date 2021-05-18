@@ -16,6 +16,8 @@ import { IoPerson } from "react-icons/io5";
 import { IoNotifications } from "react-icons/io5";
 import Badge from '@material-ui/core/Badge';
 import Container from 'react-bootstrap/Container'
+import { Fragment } from 'react';
+import StickyBox from "react-sticky-box";
 
 function SideBar() {
   const [sidebar, setSidebar] = useState(true);
@@ -23,8 +25,10 @@ function SideBar() {
   //const showSidebar = () => setSidebar(!sidebar);
 
   return (
-    <>
-      <IconContext.Provider value={{ color: '#fff' }} style={{overflow: "hidden"}}>
+   
+      <Fragment>
+
+       {/*
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars/>
@@ -37,9 +41,9 @@ function SideBar() {
               <IoPerson style={{ fontSize: 25 , marginRight: "10px"}}/>
             </Badge>
           </div>
-          
         </div>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'} style={{float: "left"}}>
+    */}
+        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items'>
             <li className='navbar-toggle'>
               <Container fluid>
@@ -54,7 +58,7 @@ function SideBar() {
               <li className="nav-text">   
               <Link to="/admin/practicas" >       
                 <MdWork />
-                  <span className="text">Practicas</span> 
+                  <span className="text">Prácticas</span> 
               </Link>                     
               </li>
               <Divider variant="middle" light={true}/>
@@ -78,7 +82,7 @@ function SideBar() {
               <li className="nav-text">    
               <Link to="/admin/postulaciones" >              
                 <MdDescription />
-                  <span className="text">Postulaciones</span>  
+                  <span className="text">Solicitudes</span>  
                   </Link>                   
               </li>
               <Divider variant="middle" light={true}/>
@@ -93,7 +97,7 @@ function SideBar() {
               <li className="nav-text">   
               <Link to="/admin/plan" >               
                 <FaFileAlt />
-                  <span className="text">Gestionar Plan</span>  
+                  <span className="text">Gestionar Documentos</span>  
                   </Link>                   
               </li>
 
@@ -103,12 +107,10 @@ function SideBar() {
                   <span className="text">Estadisticas</span>  
                   </Link>                   
               </li>
-              
 
           </ul>
         </nav>
-      </IconContext.Provider>
-    </>
+      </Fragment>
   );
 }
 

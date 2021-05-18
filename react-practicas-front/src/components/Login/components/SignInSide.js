@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import logo from '../images/logo.png';
 import { Alert } from 'reactstrap';
+import './EstilosSignInSide.css';
+import { fade } from '@material-ui/core/styles';
 
 function Copyright() {
   return (
@@ -80,7 +82,16 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(1, 0, 2),
-    background: '#272727',
+    background: '#4527a0',
+  },
+  input: {
+    '&:hover': {
+      border: '#7953d2',
+      borderRadius: 4,
+    },
+    '&$focused': {
+      boxShadow: `${fade('#7953d2', 0.2)} 0 0 0 0.2rem`,
+    },
   },
 }));
 
@@ -141,6 +152,7 @@ export default function SignInSide({ history }) {
           </Typography>
           <form className={classes.form} onSubmit={sendValues} noValidate>
             <TextField
+              className={classes.input}
               variant="outlined"
               margin="normal"
               required
