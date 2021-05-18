@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -8,13 +8,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, ThemeProvider } from '@material-ui/core';
-import {AiFillEdit, AiOutlineSearch,AiOutlineEye} from "react-icons/ai";
+import {IconButton} from '@material-ui/core';
+import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
-import './TablaEstadosStyles.css';
-import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
 import axios from 'axios';
-import { useForm } from '../../../../hooks/useForm';
 import { Filtros } from './Filtros';
 
 //Estilos
@@ -35,7 +32,14 @@ const useStyles = makeStyles((theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
-  }
+  },
+  botonPerso: {
+    color:'#f69b2e'
+  },
+  botonFiltro: {
+    background:"#f69b2e",
+    color:"white"
+  } 
 }));
 
 export const TablaEstados = ({history}) =>  {
@@ -50,28 +54,26 @@ export const TablaEstados = ({history}) =>  {
       id: 'anio',
       label: 'Año',
       minWidth: "25%",
-      align: 'right',
-      format: (value) => value.toLocaleString('en-US'),
+    },
+    {
+      id: 'etapa',
+      label: 'Etapa',
+      minWidth: "25%",
     },
     {
       id: 'estado',
       label: 'Estado',
       minWidth: "25%",
-      align: 'right',
-      format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'fechaEnd',
       label: 'Fecha de Término',
       minWidth: "25%",
-      align: 'right',
-      format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'action',
       label: 'Acción',
       minWidth: "25%",
-      align: 'right',
     },
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
@@ -97,20 +99,11 @@ export const TablaEstados = ({history}) =>  {
     createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
     createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
   ];
-  /*
-  const useStyles = makeStyles({
-    root: {
-      width: '100%',
-    },
-    container: {
-      maxHeight: "50%",
-    },
-  });*/
-  //const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState(data);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
+  const [seleccionado, setSeleccionado] = useState('')
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -119,21 +112,36 @@ export const TablaEstados = ({history}) =>  {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  const handleChangeState = (idAlumno) => {
+  const changeSelected = (etapa)=>{
+    switch (etapa) {
+      case "Solicitud":
+        setSeleccionado(0)
+        break;
+      case "Inscripción":
+        setSeleccionado(1)
+        break;
+      case "Cursando":
+        setSeleccionado(2)
+        break;
+      case "Evaluación":
+        setSeleccionado(3)
+        break;
+      default:
+        setSeleccionado(0)
+        break;
+    }
+  }
+  const handleChangeState = (etapa, idAlumno="") => {
     setChangeState(!changeState)
-    setEstudiante(idAlumno)
+    //setEstudiante(idAlumno)
+    changeSelected(etapa)
+    
   }
   const handleChangeStateBack = () =>{
     setChangeState(!changeState)
   }
-  // Funcion que envia la informacion de los campos de filtro 
-  // hacia Back y obtener la lista nueva de estudiantes.
-  
-
-  
   if(changeState){
-    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} estudiante = {estudiante}/>
+    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} estudiante = {estudiante} etapaProp={seleccionado}/>
   }
   else{
     return (  
@@ -142,14 +150,13 @@ export const TablaEstados = ({history}) =>  {
           <h4 style={{marginBottom:'10px'}}>
             Admin &gt; Estado practicas
           </h4>
-          <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}          
-          />
-          <hr/>
-          {/* Tabla de Practicas */}
+          <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}/>
+          <hr/> 
           <Paper className={clasesEstilo.root}>
-      
+            {/* Tabla de Practicas */}
             <TableContainer className={clasesEstilo.container}>
               <Table stickyHeader aria-label="sticky table">
+                {/* Headers de la tabla */}
                 <TableHead>
                   <TableRow>
                     {columns.map((column) => (
@@ -163,17 +170,23 @@ export const TablaEstados = ({history}) =>  {
                     ))}
                   </TableRow>
                 </TableHead>
+                {/* Cuerpo de la Tabla */}
                 <TableBody>
+                  {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
+                  {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
                   {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                        {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
                         {columns.map((column) => {
                           const value = row[column.id];
-                          return (
+                          return (                           
                             <TableCell key={column.id} align={column.align}>
+                              {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}
                               {value ==="button" ? 
-                              <IconButton style={{color:'#f69b2e'}} aria-label="delete" size="medium" onClick={handleChangeState}>
-                                <AiFillEdit fontSize="inherit"/>
+                              <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
+                                onClick={() => handleChangeState(row.etapa)}>
+                                <AiOutlineEye fontSize="inherit"/>
                               </IconButton>
                               : value}
                             </TableCell>

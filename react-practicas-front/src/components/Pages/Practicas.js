@@ -4,8 +4,9 @@ import { Cursando } from './EstadosWizard/Cursando'
 import { Resolucion } from './EstadosWizard/Resolucion'
 import { Termino } from './EstadosWizard/Termino'
 import { Card } from 'reactstrap';
-import {FormPostulacion} from './EstadosWizard/FormPostulacion'
+import { FormPostulacion } from './EstadosWizard/FormPostulacion'
 import { FormInscripcion } from './EstadosWizard/FormInscripcion'
+
 const Practicas = () => {
 
     const steps = [
@@ -30,6 +31,8 @@ const Practicas = () => {
                 size={40}
                 circleFontSize={18}
                 activeStep={ page }
+                activeColor={"#f69b2e"}
+                completeColor = {"#f69b2e"}
             />
             <hr/>
             
