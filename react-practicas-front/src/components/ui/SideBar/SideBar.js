@@ -25,10 +25,10 @@ function SideBar() {
   //const showSidebar = () => setSidebar(!sidebar);
 
   return (
-   
-      <Fragment>
 
-       {/*
+    <Fragment>
+
+      {/*
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars/>
@@ -43,74 +43,76 @@ function SideBar() {
           </div>
         </div>
     */}
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+      <nav className='nav-menu containerNav'>
           <ul className='nav-menu-items'>
             <li className='navbar-toggle'>
               <Container fluid>
-              <Link to='#' className='menu-bars'>             
-                <img src={logo} className="logoUtal" alt="Utalca Logo" />                  
-              </Link>
+                <Link to='#' className='menu-bars'>
+                  <img src={logo} className="logoUtal" alt="Utalca Logo" />
+                </Link>
               </Container>
-              
-            </li> 
-               
 
-              <li className="nav-text">   
-              <Link to="/admin/practicas" >       
-                <MdWork />
-                  <span className="text">Prácticas</span> 
-              </Link>                     
-              </li>
-              <Divider variant="middle" light={true}/>
-
-              <li className="nav-text">  
-              <Link to="/admin/estudiantes" >                
-                <MdPeople />
-                  <span className="text">Estudiantes</span>   
-                  </Link>                  
-              </li>
-              <Divider variant="middle" light={true}/>
-
-            <li className="nav-text">  
-            <Link to="/admin/administradores" >                
-            <IoKeySharp />
-                <span className="text">Aministradores</span>   
-                </Link>                  
             </li>
-              <Divider variant="middle" light={true}/>
 
-              <li className="nav-text">    
-              <Link to="/admin/postulaciones" >              
+
+            <li className="nav-text">
+              <Link to="/admin/practicas" >
+                <MdWork />
+                <span className="text">Prácticas</span>
+              </Link>
+            </li>
+            <Divider variant="middle" light={true} />
+
+            <li className="nav-text">
+              <Link to="/admin/estudiantes" >
+                <MdPeople />
+                <span className="text">Estudiantes</span>
+              </Link>
+            </li>
+            <Divider variant="middle" light={true} />
+
+            <li className="nav-text">
+              <Link to="/admin/administradores" >
+                <IoKeySharp />
+                <span className="text">Aministradores</span>
+              </Link>
+            </li>
+            <Divider variant="middle" light={true} />
+
+            <li className="nav-text">
+              <Link to="/admin/postulaciones" >
                 <MdDescription />
-                  <span className="text">Solicitudes</span>  
-                  </Link>                   
-              </li>
-              <Divider variant="middle" light={true}/>
+                <span className="text">Solicitudes</span>
+              </Link>
+            </li>
+            <Divider variant="middle" light={true} />
 
-              <li className="nav-text">   
-              <Link to="/admin/ofertas" >               
+            <li className="nav-text">
+              <Link to="/admin/ofertas" >
                 <MdLocalOffer />
-                  <span className="text">Gestionar Practica</span>  
-                  </Link>                   
-              </li>
+                <span className="text">Gestionar Practica</span>
+              </Link>
+            </li>
 
-              <li className="nav-text">   
-              <Link to="/admin/plan" >               
+            <li className="nav-text">
+              <Link to="/admin/plan" >
                 <FaFileAlt />
-                  <span className="text">Gestionar Documentos</span>  
-                  </Link>                   
-              </li>
+                <span className="text">Gestionar Documentos</span>
+              </Link>
+            </li>
 
-              <li className="nav-text">   
-              <Link to="/admin/estadisticas" >               
+            <li className="nav-text">
+              <Link to="/admin/estadisticas" >
                 <EqualizerIcon />
-                  <span className="text">Estadisticas</span>  
-                  </Link>                   
-              </li>
+                <span className="text">Estadisticas</span>
+              </Link>
+            </li>
 
           </ul>
-        </nav>
-      </Fragment>
+        
+
+      </nav>
+    </Fragment>
   );
 }
 

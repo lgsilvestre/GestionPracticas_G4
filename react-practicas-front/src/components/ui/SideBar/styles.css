@@ -25,6 +25,14 @@
     top: 0;
     transition: 850ms;
   }
+
+  .containerside {
+    width: 100%;
+  }
+
+  .containerNav {
+    border: solid 2px red;
+  }
   
   .nav-menu.active {
     left: 0;

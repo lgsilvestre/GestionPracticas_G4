@@ -34,10 +34,10 @@ const VistaAdmin = () => {
     return (
         <div className={classes.root}>
             <Grid container>
-                <Grid item sm={2}>
-                    <SideBar />
+                <Grid item xs={2} sm={2} style={{border:'solid 2px black'}}>
+                    <SideBarSt />
                 </Grid>
-                <Grid item sm={10}>
+                <Grid item xs={10} sm={10}>
                     <div className="container">
                         <Switch>
                             <Route path='/admin/practicas' component={TablaEstados} />
