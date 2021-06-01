@@ -1,9 +1,11 @@
-import {Box,Button,FormControl,FormGroup,Grid,IconButton,Input,InputLabel,List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, MenuItem, NativeSelect, Select } from '@material-ui/core'
+import {Box,Button,FormControl,FormGroup,Grid,IconButton,Input,InputLabel,List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, MenuItem, NativeSelect, Select, TextField } from '@material-ui/core'
 import React, { useState } from 'react'
+import { AiOutlineSearch } from 'react-icons/ai';
 import { IoMdAddCircle } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md';
 import { VscFilePdf } from 'react-icons/vsc';
 import { Col, FormText, Label } from 'reactstrap';
+import { useForm } from '../../../../../../hooks/useForm';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -29,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
         color:'#f69b2e',
         width:"30px", 
         height:"30px"
+    },
+    logosearch :{
+        width:"25px", 
+        height:"25px"
     }
 }));
 export const SolicitarAdmin = () => {
@@ -73,6 +79,18 @@ export const SolicitarAdmin = () => {
             setArchivos([...archivos, {nombre:docSelect}])
         }
     }
+    const [formValues, handleInputChange] = useForm({
+        searchText:""
+    })
+    const {searchText} = formValues;
+    const handleSearch = (e) =>{
+        e.preventDefault()
+        console.log("submit", searchText)
+        if(searchText.length >0){
+            const filteredDocs = docs.filter(doc => doc.nombre.includes(searchText));
+            console.log(filteredDocs)
+        }
+        }  
     const handleDeleteDoc= () =>{
 
     }
@@ -155,9 +173,23 @@ export const SolicitarAdmin = () => {
                 <div style={{paddingTop:'20px', paddingLeft:'20px'}}>
                     <h4 >Documentos</h4>
                     <hr/>
+                    <Grid container spacing={1} alignItems="flex-end">
+                        <Grid item className={classes.formControl}  >
+                            Filtrar por nombre:
+                        </Grid>
+                        {/* <Grid item>
+                            <AiOutlineSearch className={classes.logosearch} />
+                        </Grid>    */}
+                        <Grid item>
+                            <form onSubmit={handleSearch} noValidate autoComplete="off">
+                                <Input name="searchText" placeholder="Documento" onChange={handleInputChange} />
+                                {/* <TextField name="searchText" type="text" id="search" label="Documento" onChange={handleInputChange}  /> */}
+                            </form>
+                        </Grid>
+                    </Grid>
                     <Grid container direction="row" justify="flex-start" alignItems="center">
                         <Grid item className={classes.formControl}  >
-                            Elegir tipo de Archivo:
+                            Elegir archivo:
                         </Grid>
                         <Grid item >
                             <FormControl >                 

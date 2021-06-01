@@ -205,8 +205,7 @@ export const Filtros = ({clasesEstilo, data, setRows}) => {
             <Grid item>
               <form onSubmit={handleSearch} noValidate autoComplete="off">
                 <TextField name="searchText" type="text" id="search" label="Buscar Matrícula" onChange={handleInputChange}  />
-              </form>
-              
+              </form>       
             </Grid>                 
           </Grid>
         </div>
