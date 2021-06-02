@@ -8,6 +8,6 @@ class RevisaModel extends Model
 {
     protected $table      = 'revisa';
     protected $primaryKey = 'id_revisa';
-    protected $allowedFields = ['fecha', 'detalle', 'refUser', 'refPrac'];
+    protected $allowedFields = ['fecha', 'detalle', 'refUsuario', 'refPrac'];
 }
 ?>

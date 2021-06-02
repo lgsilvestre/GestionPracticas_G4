@@ -8,6 +8,6 @@ class DocumentoModel extends Model
 {
     protected $table      = 'documento';
     protected $primaryKey = 'id_documento';
-    protected $allowedFields = ['nombre','requerido','etapa', 'link', 'refCarrera'];
+    protected $allowedFields = ['nombre','requerido','etapa', 'link'];
 }
 ?>

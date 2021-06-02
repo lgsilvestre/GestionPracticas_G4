@@ -255,7 +255,6 @@ class UsersController extends Controller
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
-                
                 $model = new UserModel();
 
                 $newsData =[
@@ -268,31 +267,14 @@ class UsersController extends Controller
                     'estado' => true,
                 ];
                 $model ->save($newsData);
-                
-                //$this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
 
                 echo "terminó el registro de user";
-                /*
-                if($user['tipo']==0){//Superadmin
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==1){//Admin
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==2){//cliente
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==3){//cliente
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==4){//cliente
-                    return redirect()->to('/dashbordAlumno');
-                }*/
+
             }
         }
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
     }
-    
+
     public function registerAlumno(){
         helper(['form']);
         if($this-> request -> getMethod() == 'post') {
@@ -321,6 +303,7 @@ class UsersController extends Controller
                 'ult_punt_prio' => 'required',
                 'al_dia' => 'required',
                 'nivel_99_aprobado' => 'required'
+                'refCarrera'
             ];
             $errors = [
             ];
@@ -335,6 +318,7 @@ class UsersController extends Controller
                     'correo_per' => $this->request->getVar('correo_per'),
                     'password' => $this->request->getVar('password'),
                     'matricula' => $this->request->getVar('matricula'),
+                    'nbe_carrera' => $this->request->getVar('nbe_carrera'),
                     'cod_carrera' => $this->request->getVar('cod_carrera'),
                     'rut' => $this->request->getVar('rut'),
                     'sexo' => $this->request->getVar('sexo'),
@@ -353,6 +337,7 @@ class UsersController extends Controller
                     'ult_punt_prio' => $this->request->getVar('ult_punt_prio'),
                     'al_dia' => $this->request->getVar('al_dia'),
                     'nivel_99_aprobado' => $this->request->getVar('nivel_99_aprobado'),
+                    'refCarrera' => $this->request->getVar('refCarrera'),
                     'estado' => 1,
                 ];
                 $model ->save($newsData);
@@ -509,15 +494,34 @@ class UsersController extends Controller
     public function getUsersActive()
     {
         $model = new UserModel();
-        $users = $model->where('activo', 1);
+        $users = $model->where('estado', 1);
         echo json_encode($users);
     }
 
     public function getUsersAlumnos()
     {
-        $model = new UserModel();
-        $users = $model->where('tipo', 'alumno');       //Muy modificable, no recuerdo el nombre del tipo de usuario
+        $model = new AlumnoModel();
+        $users = $model->where('estado', 1);
         echo json_encode($users);
+    }
+
+    public function getUserAlumno()
+    {
+
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'id_alumno' => 'required|integer',
+            ];
+            $errors = [             //falta errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $user = $model->where('id_alumno', this->request-getVar('id_alumno'));
+                echo json_encode($user);
+            }
+        }
     }
 }
 
