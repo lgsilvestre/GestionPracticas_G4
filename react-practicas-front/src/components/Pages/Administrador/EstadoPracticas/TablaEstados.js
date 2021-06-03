@@ -145,7 +145,7 @@ export const TablaEstados = ({history}) =>  {
   }
   else{
     return (  
-      <Fragment>
+      <div className="animate__animated animate__fadeIn animate__faster">
         <div style={{marginTop:'20px', marginBottom:'30px'}}>
           <h4 style={{marginBottom:'10px'}}>
             Admin &gt; Estado practicas
@@ -210,7 +210,7 @@ export const TablaEstados = ({history}) =>  {
             />
           </Paper>
         </div> 
-      </Fragment>
+      </div>
  
     )
     

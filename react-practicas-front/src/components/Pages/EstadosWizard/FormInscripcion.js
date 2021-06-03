@@ -37,7 +37,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         console.log("descargando " ,namefile)    
     }
     return (
-        <div>
+        <div className="animate__animated animate__fadeIn animate__faster">
             <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Descarga de archivo</ModalHeader>
                 <ModalBody>

@@ -6,7 +6,7 @@ import {
 export const FormPostulacion = ({handleSubmit}) => {
     
     return (
-        <div>
+        <div className="animate__animated animate__fadeIn animate__faster">
             <h4>Formulario de Postulacion</h4>
             <hr/>
             <form className="text-center container" onSubmit={handleSubmit}>
