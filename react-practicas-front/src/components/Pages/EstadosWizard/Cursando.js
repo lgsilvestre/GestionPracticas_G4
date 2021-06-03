@@ -13,7 +13,7 @@ export const Cursando = ({previousPage, handleSubmit}) => {
         toggle()
     }
     return (
-        <div>
+        <div className="animate__animated animate__fadeIn animate__faster">
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Extender tiempo de practica</ModalHeader>
                 <ModalBody>

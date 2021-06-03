@@ -174,8 +174,10 @@ export default function Administrador() {
   
 
   return (
-    
-    <div className={classes.root}>
+    <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
+      <h4 style={{marginBottom:'10px'}}>
+            Admin &gt; Estudiantes
+      </h4>
       <br />
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Estudiante</Button>
       <br /><br />

@@ -36,7 +36,7 @@ const Practicas = () => {
             />
             <hr/>
             
-            { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
+            { page===0 && <FormPostulacion className="animate__animated animate__fadeIn animate__faster" handleSubmit={nextPage} /> }
             { page===1 && <Resolucion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             { page===2 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             { page===3 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }

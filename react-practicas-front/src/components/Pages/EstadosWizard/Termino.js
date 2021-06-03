@@ -13,7 +13,7 @@ export const Termino = ({previousPage}) => {
 
 
     return (
-        <div>
+        <div className="animate__animated animate__fadeIn animate__faster">  
             <h4>Termino de Practica</h4>
             <hr/>
             <div >      
