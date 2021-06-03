@@ -35,6 +35,17 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->post('login', 'UsersController::login');
 $routes->post('registerUser', 'UsersController::registerUser');
+$routes->post('deleteUserID', 'UsersController::deleteUserID');
+$routes->post('adminEdit', 'UsersController::adminEdit');
+$routes->post('registerAlumno', 'UsersController::registerAlumno');
+$routes->post('getUserActive', 'UsersController::getUserActive');
+$routes->post('getUsersAlumnos', 'UsersController::getUsersAlumnos');		//retorna todos los alumnos
+$routes->post('getUserAlumno', 'UsersController::getUserAlumno');			//retorna un alumno
+$routes->get('tablaPracticas', 'PracticaController::index');				//Devuelve la tabla de practicas
+$routes->post('filtrosTP', 'PracticaController::filtros');
+$routes->post('solicitarPractica, PracticaController::solicitarPractica');
+$routes->post('guardarInscripcion, PracticaController::guardarInscripcion');
+
 
 /*
  * --------------------------------------------------------------------
@@ -49,8 +60,6 @@ $routes->post('registerUser', 'UsersController::registerUser');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
-$routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
-$routes->match(['get','post'],'register', 'UsersController::register');
 
 //$routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
 //$routes->match(['get','post'],'login', 'UsersController::login');

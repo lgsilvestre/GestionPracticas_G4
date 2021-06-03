@@ -57,18 +57,18 @@ class UsersController extends Controller
 
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
-        
+
         $usermodel = new UserModel();
         $alumnomodel = new AlumnoModel();
-        
+
         $responseuser = $usermodel->where('email', $email)->first();
         $responsealumno = $alumnomodel->where('correo_ins', $email)->first();
 
         // Checkeamos si usuario es alumno, admin o no existe
         // Si es admin entra en el if
-        
+
         if ($responseuser!=null && $password == "123456"){
-            
+
             $arr = [
                 'idUsser' => $responseuser['id_user'],
                 'nombre' => $responseuser['nombre'],
@@ -78,7 +78,7 @@ class UsersController extends Controller
             echo json_encode($arr);
 
         } else if ($responsealumno!=null && $password == "5555"){
-            
+
             $arr = [
                 'idUsser' => $responsealumno['id_alumno'],
                 'nombre' => $responsealumno['nombre'],
@@ -87,18 +87,18 @@ class UsersController extends Controller
             echo json_encode($arr);
 
         } else {
-            
+
             $arr = [
                 'error' => "Credenciales incorrectas",
                 'tipo' => -1,
             ];
             echo json_encode($arr);
-            
+
         }
-        
+
 	}
 
-    
+
 	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";
         echo "Pass: ".$this->request->getVar('password');
@@ -178,7 +178,7 @@ class UsersController extends Controller
         session()->set($data);
         return true;
     }
-    
+
     public function profile(){
         $model = new UserModel();
         helper(['form']);
@@ -220,7 +220,7 @@ class UsersController extends Controller
         }
         //redirigir por ruta con los datos en json
     }
-    
+
     public function generatePass($longitud){
         $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         $pass = "";
@@ -232,19 +232,19 @@ class UsersController extends Controller
         $pass='123456';
         return $pass;
     }
-    
+
     public function registerUser(){
         echo "entró al registro user";
-        
+
         helper(['form']);
-        
+
         if($this-> request -> getMethod() == 'post') {
             $rules = [
                 'nombre' => 'required|min_length[2]|max_length[50]',
                 'apellido' => 'required|min_length[2]|max_length[50]',
                 'email' => 'required|min_length[6]|max_length[50]|valid_email|is_unique[users.username]',
                 'tipo' => 'required|min_length[1]|max_length[1]|integer',
-                'permisos' => 'required|max_lenght[10]|integer',  
+                'permisos' => 'required|max_lenght[10]|integer',
             ];
             $errors = [
                 'email' => [
@@ -255,7 +255,6 @@ class UsersController extends Controller
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
-                
                 $model = new UserModel();
 
                 $newsData =[
@@ -268,31 +267,14 @@ class UsersController extends Controller
                     'estado' => true,
                 ];
                 $model ->save($newsData);
-                
-                //$this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
 
                 echo "terminó el registro de user";
-                /*
-                if($user['tipo']==0){//Superadmin
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==1){//Admin
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==2){//cliente
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==3){//cliente
-                    return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==4){//cliente
-                    return redirect()->to('/dashbordAlumno');
-                }*/
+
             }
         }
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
     }
-    
+
     public function registerAlumno(){
         helper(['form']);
         if($this-> request -> getMethod() == 'post') {
@@ -321,6 +303,7 @@ class UsersController extends Controller
                 'ult_punt_prio' => 'required',
                 'al_dia' => 'required',
                 'nivel_99_aprobado' => 'required'
+                'refCarrera'
             ];
             $errors = [
             ];
@@ -335,6 +318,7 @@ class UsersController extends Controller
                     'correo_per' => $this->request->getVar('correo_per'),
                     'password' => $this->request->getVar('password'),
                     'matricula' => $this->request->getVar('matricula'),
+                    'nbe_carrera' => $this->request->getVar('nbe_carrera'),
                     'cod_carrera' => $this->request->getVar('cod_carrera'),
                     'rut' => $this->request->getVar('rut'),
                     'sexo' => $this->request->getVar('sexo'),
@@ -353,6 +337,7 @@ class UsersController extends Controller
                     'ult_punt_prio' => $this->request->getVar('ult_punt_prio'),
                     'al_dia' => $this->request->getVar('al_dia'),
                     'nivel_99_aprobado' => $this->request->getVar('nivel_99_aprobado'),
+                    'refCarrera' => $this->request->getVar('refCarrera'),
                     'estado' => 1,
                 ];
                 $model ->save($newsData);
@@ -378,4 +363,166 @@ class UsersController extends Controller
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
         }
     } 
+
+    public function adminEdit(){
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'nombre' => 'required|min_length[2]|max_length[99]',
+                'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.email]',
+                'tipo' => 'required|min_length[1]|max_length[1]|integer',
+                'permisos' => 'required',            //parcialmente terminado
+                'password' => 'required|max_length[255]|validateUSer[email, password]',
+            ];
+            $errors = [
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'nombre' => $this->request->getVar('nombre'),
+                    'password' => $this->generatePass(6),
+                    'tipo' => $this->request->getVar('tipo'),
+                    'permisos' => $this->request->getVar('permisos'),
+                ];
+                $model->where('email', this->request-getVar('email')) ->save($newsData);
+                return redirect()->to('/');     //Modificable, en caso de vista de usuario modificado
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function changePassword(){
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'user' => 'required|min_length[2]|max_length[99]',
+                'newpass' => 'required|max_length[255]|validateUSer[email, password]',
+            ];
+            $errors = [
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'password' => $this->request->getvar('newpass'),
+                ];
+                $model->where('email', this->request-getVar('email')) ->save($newsData);
+    //            return redirect()->to('/');     //Modificable, en caso de vista de usuario modificado
+            }
+        }
+ //       return redirect()->to('/');
+    }
+
+    public function deleteUserEmail(){  //Puede un usuario eliminar su propia cuenta?
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.email]',
+            ];
+            $errors = [
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'email' => $this->request->getVar('email'),
+                    'activo' => 0,
+                ];
+                $model->where('email', this->request-getVar('email')) ->save($newsData);
+                return redirect()->to('/');     //Modificable, en caso de vista de usuario eliminado
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function deleteUserID(){  //Puede un usuario eliminar su propia cuenta?
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'id_alumno' => 'required',      //falta definir rules
+            ];
+            $errors = [             //falta definir errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $newsData =[
+                    'id_alumno' => $this->request->getVar('id_alumno'),
+                    'activo' => 0,
+                ];
+                $model->where('id_alumno', this->request-getVar('id_alumno')) ->save($newsData);
+                return redirect()->to('/');     //Modificable, en caso de vista de usuario eliminado
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function getUsers()                   //Siguientes funciones seran probablemente modificadas
+    {
+        $model = new UserModel();
+        $users = $model->findAll();
+
+        echo json_encode($users)
+    }
+
+    public function getUserEmail()
+    {
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'email' => 'required|min_length[6]|max_length[99]|valid_email|is_unique[users.email]',
+            ];
+            $errors = [             //falta errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $user = $model->where('email', this->request-getVar('email'));
+                echo json_encode($user);
+                return redirect()->to('/');
+            }
+        }
+        return redirect()->to('/');
+    }
+
+    public function getUsersActive()
+    {
+        $model = new UserModel();
+        $users = $model->where('estado', 1);
+        echo json_encode($users);
+    }
+
+    public function getUsersAlumnos()
+    {
+        $model = new AlumnoModel();
+        $users = $model->where('estado', 1);
+        echo json_encode($users);
+    }
+
+    public function getUserAlumno()
+    {
+
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'id_alumno' => 'required|integer',
+            ];
+            $errors = [             //falta errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $user = $model->where('id_alumno', this->request-getVar('id_alumno'));
+                echo json_encode($user);
+            }
+        }
+    }
 }
+
+
