@@ -42,14 +42,17 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1}) => {
         }
     }
     return (
-        <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
-            <Button className = {classes.botonBack} startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
-                Atras
-            </Button>
-            <h4 style={{marginBottom:'10px'}}>
-                Admin &gt; Estado practicas &gt; {etapaLabel}
-            </h4>
-            <WizardAdmin pageProp={etapa} classes={classes}/>
+        <div className="animate__animated animate__fadeIn animate__faster">
+            <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
+                <Button className = {classes.botonBack} startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
+                    Atras
+                </Button>
+                <h4 style={{marginBottom:'10px'}}>
+                    Admin &gt; Estado practicas &gt; {etapaLabel}
+                </h4>
+                <WizardAdmin pageProp={etapa} classes={classes}/>
+            </div>
         </div>
+        
     )
 }

@@ -11,7 +11,7 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
         setEstadoSolicitud(estado)
     }
     return (
-        <div>          
+        <div className="animate__animated animate__fadeIn animate__faster">          
             <h4>Resolucion</h4>
             
             <Button className="btn btn-primary mr-1" onClick={()=> handleChangeState(2)}>

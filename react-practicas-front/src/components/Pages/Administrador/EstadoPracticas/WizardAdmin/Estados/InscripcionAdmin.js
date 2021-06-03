@@ -8,10 +8,13 @@ import {
     ListItemIcon,  
     ListItemSecondaryAction,  
     ListItemText,  
-    makeStyles} from '@material-ui/core'
+    makeStyles,
+    TextField} from '@material-ui/core'
 import { VscFilePdf } from 'react-icons/vsc';
 import { MdFileDownload } from 'react-icons/md';
 import { FcCancel, FcCheckmark } from 'react-icons/fc';
+import { useForm } from '../../../../../../hooks/useForm';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -54,6 +57,7 @@ export const InscripcionAdmin = () => {
         },{
             nombre: "Módulos de desempeño integrado"
         }]
+    
     return (
         <div>       
             {/*Datos de Empresa  */}
@@ -109,7 +113,7 @@ export const InscripcionAdmin = () => {
             <Box className={clasesEstilo.mainbox} boxShadow={1}>
                 <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Documentos Subidos</h4>
                 <hr/>
-               
+                
                 <List  className= {clasesEstilo.filebox}>
                     {
                         archivosEstudiante.map( (file,index) => (
