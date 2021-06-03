@@ -4,7 +4,7 @@
 }
 
 .navbar {
-    background-color: #272727;
+    background-color: #4527a0;
     height: 80px;
     display: flex;
     justify-content: flex-start;
@@ -17,16 +17,21 @@
   }
 
 .nav-menu {
-    background-color: #272727;
-    width: 27vh;
-    height: 200vh;
+    background-color: #4527a0;
+    height: 100%;
     display: flex;
     justify-content: left;
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: -100%;
     transition: 850ms;
-    z-index:3;
+  }
+
+  .containerside {
+    width: 100%;
+  }
+
+  .containerNav {
+    border: solid 2px red;
   }
   
   .nav-menu.active {
@@ -66,8 +71,6 @@
   }
   
   .navbar-toggle {
-    background: #272727;
-    background: #272727;
     width: 100%;
     height: 30%;
     display: flex;
