@@ -1,7 +1,11 @@
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
+import { TableCell, TableRow} from '@material-ui/core';
 
 export default makeStyles((theme) => ({
  
+    root:{
+        height:'83vh',
+      },
   boton: {
       marginRight:'20px',
       marginTop:'60px',
@@ -50,7 +54,34 @@ label: {
   justifyContent: 'inherit',
 },
 },
-  
-
+table: {
+  width:'90vw',
+  height:'75vh',
+  margin: '0 auto',
+  marginBottom: '40px',
+  display: 'center',
+  border: '2px solid #000',
+  },
 
 }));
+
+export const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: '#f69b2e',
+    color: theme.palette.common.black,
+    padding: '6px'
+  },
+  body: {
+    fontSize: 12,
+    padding: '6px'
+  },
+}))(TableCell);
+
+export const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+
+  },
+}))(TableRow);

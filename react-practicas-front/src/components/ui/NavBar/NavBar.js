@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import logo from '../SideBar/utalca.svg'
 import "./NavBar.css"
 
-export const NavBar = ({username = "Camilo Villalobos", tipo_usuario = "Estudiante"}) => {
+export const NavBar = ({username = "Juan Perez", tipo_usuario = "Estudiante"}) => {
     return (
         <Fragment>
             {/* Componente extraido de Bootstrap! */}

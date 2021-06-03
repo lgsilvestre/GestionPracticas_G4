@@ -34,6 +34,18 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->post('login', 'UsersController::login');
+$routes->post('registerUser', 'UsersController::registerUser');
+$routes->post('deleteUserID', 'UsersController::deleteUserID');
+$routes->post('adminEdit', 'UsersController::adminEdit');
+$routes->post('registerAlumno', 'UsersController::registerAlumno');
+$routes->post('getUserActive', 'UsersController::getUserActive');
+$routes->post('getUsersAlumnos', 'UsersController::getUsersAlumnos');		//retorna todos los alumnos
+$routes->post('getUserAlumno', 'UsersController::getUserAlumno');			//retorna un alumno
+$routes->get('tablaPracticas', 'PracticaController::index');				//Devuelve la tabla de practicas
+$routes->post('filtrosTP', 'PracticaController::filtros');
+$routes->post('solicitarPractica, PracticaController::solicitarPractica');
+$routes->post('guardarInscripcion, PracticaController::guardarInscripcion');
+
 
 /*
  * --------------------------------------------------------------------
