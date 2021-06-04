@@ -70,7 +70,7 @@ class UsersController extends Controller
         if (str_ends_with($email, '@alumnos.utalca.cl')) {
 
             $result = $this->AlumnoModel->login($email, $password);
-            print_r(json_encode($result));
+            echo json_encode($result);
 
         } elseif (str_ends_with($email, '@utalca.cl')) {
             echo "funcionario utal";
