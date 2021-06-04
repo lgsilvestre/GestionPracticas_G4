@@ -5,15 +5,14 @@ import {
     Button, FormGroup, Label, Modal, ModalHeader, ModalBody, ModalFooter, Input
     } from 'reactstrap';
 
-export const Cursando = ({previousPage, handleSubmit}) => {
-
+export const CursandoAdmin = () => {
     const [modal, setModal] = useState(false);
     const toggle = () => setModal(!modal);
     const handleTime = ()=>{
         toggle()
     }
     return (
-        <div className="animate__animated animate__fadeIn animate__faster">
+        <div>
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Extender tiempo de practica</ModalHeader>
                 <ModalBody>
@@ -37,7 +36,7 @@ export const Cursando = ({previousPage, handleSubmit}) => {
                         </IconContext.Provider> 
                         <h4>Cursando</h4>
                         <hr/>  
-                        <p> Estas cursando tu practica. ¡Buena suerte y da lo mejor de ti! </p>  
+                        <p> Este alumno esta cursando su practica. </p>  
                         <div className="container">
                             <div className="col">
                                 <p><strong>Fecha inicio: </strong> 20 de abril </p>
@@ -52,18 +51,6 @@ export const Cursando = ({previousPage, handleSubmit}) => {
                     </div>                                                            
                 </div>
             </div>
-            <form onSubmit={handleSubmit}>
-                <div style={{ paddingBottom: 30 }}>
-                    <Button color="primary" className="btn-pill pull-left" onClick={previousPage} style={{marginLeft: '20px' , marginRight:'10px'}}>
-                        <i className="fa fa-chevron-left" />
-                            &nbsp; Back
-                    </Button>
-                    <Button color="primary" className="btn-pill pull-right" type="submit" style={{marginRight: '20px'}}>
-                        Next &nbsp;
-                        <i className="fa fa-chevron-right" />
-                    </Button>
-                </div>
-            </form>
         </div>
     )
 }

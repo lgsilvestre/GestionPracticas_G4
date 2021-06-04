@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
 import {MdFileDownload} from 'react-icons/md'
+
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
     const archivos =[
@@ -36,7 +37,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         console.log("descargando " ,namefile)    
     }
     return (
-        <div>
+        <div className="animate__animated animate__fadeIn animate__faster">
             <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Descarga de archivo</ModalHeader>
                 <ModalBody>

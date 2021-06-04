@@ -4,8 +4,9 @@ import { Cursando } from './EstadosWizard/Cursando'
 import { Resolucion } from './EstadosWizard/Resolucion'
 import { Termino } from './EstadosWizard/Termino'
 import { Card } from 'reactstrap';
-import {FormPostulacion} from './EstadosWizard/FormPostulacion'
+import { FormPostulacion } from './EstadosWizard/FormPostulacion'
 import { FormInscripcion } from './EstadosWizard/FormInscripcion'
+
 const Practicas = () => {
 
     const steps = [
@@ -30,10 +31,12 @@ const Practicas = () => {
                 size={40}
                 circleFontSize={18}
                 activeStep={ page }
+                activeColor={"#f69b2e"}
+                completeColor = {"#f69b2e"}
             />
             <hr/>
             
-            { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
+            { page===0 && <FormPostulacion className="animate__animated animate__fadeIn animate__faster" handleSubmit={nextPage} /> }
             { page===1 && <Resolucion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             { page===2 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             { page===3 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }

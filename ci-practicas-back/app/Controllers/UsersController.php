@@ -302,8 +302,8 @@ class UsersController extends Controller
                 'porc_avance' => 'required',
                 'ult_punt_prio' => 'required',
                 'al_dia' => 'required',
-                'nivel_99_aprobado' => 'required'
-                'refCarrera'
+                'nivel_99_aprobado' => 'required',
+                'refCarrera' => 'required'
             ];
             $errors = [
             ];
@@ -467,7 +467,7 @@ class UsersController extends Controller
         $model = new UserModel();
         $users = $model->findAll();
 
-        echo json_encode($users)
+        echo json_encode($users);
     }
 
     public function getUserEmail()
