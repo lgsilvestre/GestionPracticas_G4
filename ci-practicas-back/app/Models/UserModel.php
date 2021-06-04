@@ -7,6 +7,14 @@ class UserModel extends Model{
     protected $primaryKey = 'id_usuario';
     protected $allowedFields = ['nombre','apellido','email','password','tipo','permisos','estado','refCarrera'];
     
+    public function login($email, $password){
+
+        $query = $this->db->query("Select nombre, correo_ins, matricula, nbe_carrera, refCarrera from alumno where correo_ins = '".$email."' and password = '".$password."';");
+        $result = $query->getResult();
+        return $result;
+        
+    }
+
     /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];

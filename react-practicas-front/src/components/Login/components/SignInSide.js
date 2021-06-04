@@ -118,6 +118,7 @@ export default function SignInSide({ history }) {
         //trabajar redireccionamiento
         //-1 error , 0 alumno , 1 admin
         console.log("respuesta: ", response.data);
+        console.log("nombre: ", response.data.nombre);
 
         if (response.data.tipo == 1) {
           console.log("admin")
