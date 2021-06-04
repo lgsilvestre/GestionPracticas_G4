@@ -43,7 +43,7 @@ function SideBar() {
           </div>
         </div>
     */}
-      <nav className='nav-menu containerNav'>
+      <nav className='nav-menu'>
           <ul className='nav-menu-items'>
             <li className='navbar-toggle'>
               <Container fluid>
@@ -94,12 +94,12 @@ function SideBar() {
               </Link>
             </li>
 
-            <li className="nav-text">
+            {/* <li className="nav-text">
               <Link to="/admin/plan" >
                 <FaFileAlt />
                 <span className="text">Gestionar Documentos</span>
               </Link>
-            </li>
+            </li> */}
 
             <li className="nav-text">
               <Link to="/admin/estadisticas" >

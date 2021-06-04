@@ -34,8 +34,8 @@ const VistaAdmin = () => {
     return (
         <div className={classes.root}>
             <Grid container>
-                <Grid item xs={2} sm={2} style={{border:'solid 2px black'}}>
-                    <SideBarSt />
+                <Grid item xs={2} sm={2}>
+                    <SideBar />
                 </Grid>
                 <Grid item xs={10} sm={10}>
                     <div className="container">

@@ -9,7 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Modal} from '@material-ui/core';
+import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, TableCell, Paper} from '@material-ui/core';
 import {Edit, Delete, Assignment} from '@material-ui/icons';
 import FormAlumno from '../../FormAlumno/FormAlumno';
 
@@ -45,8 +45,6 @@ export default function Administrador() {
     al_dia: '',
     nivel_99_aprobado: ''
   })
-
-
 
   const peticionGet=async()=>{
     await axios.get('')
@@ -133,11 +131,12 @@ export default function Administrador() {
       <div>
       <FormAlumno setEstudiante={setEstudiante} estudiante={estudiante}/>
       <DialogActions>
-      <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(estudiante)}>Agregar</Button>
-      <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
+      <Button  className={classes.boton} style={{marginTop:'60px',margin: '35px'}} color="primary" 
+      onClick={()=>peticionPost(estudiante)}>Agregar</Button>
+      <Button className={classes.botonCancelar} style={{marginTop:'60px',margin: '35px'}} 
+      onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
         </DialogActions>
         
-
       </div>
   )
 
@@ -167,115 +166,111 @@ export default function Administrador() {
     </div>
   )
 
-
-
-   
-
-  
-
   return (
-    <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
-      <h4 style={{marginBottom:'10px'}}>
+    <div className="animate__animated animate__fadeIn animate__faster" >
+    <div style={{marginTop:'20px', marginBottom:'30px'}}>
+    <h4 style={{marginBottom:'10px'}}>
             Admin &gt; Estudiantes
       </h4>
       <br />
-    <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Estudiante</Button>
+      <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Estudiante</Button>
       <br /><br />
-    <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
-     <TableContainer>
-       <Table className={classes.table}>
-         <TableHead>
-           <TableRow>
-           <StyledTableCell >Carrera</StyledTableCell> 
-            <StyledTableCell >Matricula</StyledTableCell>             
-            <StyledTableCell >Nombre Alumno</StyledTableCell>     
-            <StyledTableCell >RUT</StyledTableCell>   
-            <StyledTableCell >Correo</StyledTableCell> 
-            <StyledTableCell >Plan</StyledTableCell> 
-            <StyledTableCell >Ingreso</StyledTableCell> 
-            <StyledTableCell >Comuna Origen</StyledTableCell>
-            <StyledTableCell >Detalle</StyledTableCell> 
-            <StyledTableCell >Acciones</StyledTableCell>  
-          
-           </TableRow>
-         </TableHead>
+      <hr/>
+      <Paper className={classes.root}>
+        <TableContainer>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell >Carrera</TableCell> 
+                <TableCell >Matricula</TableCell>             
+                <TableCell >Nombre Alumno</TableCell>     
+                <TableCell >RUT</TableCell>   
+                <TableCell >Correo</TableCell> 
+                <TableCell >Plan</TableCell> 
+                <TableCell >Ingreso</TableCell> 
+                <TableCell >Comuna Origen</TableCell>
+                <TableCell >Detalle</TableCell> 
+                <TableCell >Acciones</TableCell>  
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map(estudiante=>(
+                <TableRow key={estudiante.name}> 
+                  <TableCell component="th" scope="row"> 
+                      {estudiante.carrera} 
+                  </TableCell>                 
+                  <TableCell >{estudiante.matricula}</TableCell> 
+                  <TableCell >{estudiante.nombre}</TableCell> 
+                  <TableCell >{estudiante.rut}</TableCell>                 
+                  <TableCell >{estudiante.correo_ins}</TableCell>                 
+                  <TableCell >{estudiante.plan}</TableCell> 
+                  <TableCell >{estudiante.anho_ingreso}</TableCell>                 
+                  <TableCell >{estudiante.comuna_origen}</TableCell> 
+                  <TableCell>
+                    <Assignment className={classes.iconos} onClick={()=>seleccionarVerMas(estudiante)}/>
+                  </TableCell>
+                  <TableCell>
+                    <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Editar')}/>
+                    &nbsp;&nbsp;&nbsp;
+                    <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Eliminar')}/>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      
 
-         <TableBody>
-           {data.map(estudiante=>(
-             <StyledTableRow key={estudiante.name}> 
-                <StyledTableCell component="th" scope="row"> 
-                    {estudiante.carrera} 
-                </StyledTableCell>                 
-                <StyledTableCell >{estudiante.matricula}</StyledTableCell> 
-                <StyledTableCell >{estudiante.nombre}</StyledTableCell> 
-                <StyledTableCell >{estudiante.rut}</StyledTableCell>                 
-                <StyledTableCell >{estudiante.correo_ins}</StyledTableCell>                 
-                <StyledTableCell >{estudiante.plan}</StyledTableCell> 
-                <StyledTableCell >{estudiante.anho_ingreso}</StyledTableCell>                 
-                <StyledTableCell >{estudiante.comuna_origen}</StyledTableCell> 
-                 
-                <StyledTableCell>
-                 <Assignment className={classes.iconos} onClick={()=>seleccionarVerMas(estudiante)}/>
-                </StyledTableCell>
-               <StyledTableCell>
-                 <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Editar')}/>
-                 &nbsp;&nbsp;&nbsp;
-                 <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Eliminar')}/>
-                </StyledTableCell>
-             </StyledTableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
-     </Grow>
+      <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
+          <div className={classes.modal}>          
+          <Typography variant="h5">CodigoCarrera: {estudiante.cod_carrera}</Typography> 
+          <Typography variant="h5">Correo Personal: {estudiante.correo_pers}</Typography> 
+          <Typography variant="h5">Sexo: {estudiante.sexo}</Typography> 
+          <Typography variant="h5">Fecha Nacimiento: {estudiante.fecha_nac}</Typography> 
+          <Typography variant="h5">Via Ingreso: {estudiante.via_ingreso}</Typography> 
+          <Typography variant="h5">Situacion Actual: {estudiante.sit_actual}</Typography> 
+          <Typography variant="h5">Situacion Actual Anio: {estudiante.sit_actual_anho}</Typography> 
+          <Typography variant="h5">Situacion Actual Periodo:{estudiante.sit_actual_periodo}</Typography> 
+          <Typography variant="h5">Periodo: {estudiante.periodo}</Typography> 
+          <Typography variant="h5">Region: {estudiante.region}</Typography> 
+          <Typography variant="h5">Regular: {estudiante.regular}</Typography> 
+          <Typography variant="h5">Nivel: {estudiante.nivel}</Typography> 
+          <Typography variant="h5">Porcentaje Avance: {estudiante.porc_avance}</Typography> 
+          <Typography variant="h5">Ultimo Puntaje Prioridad: {estudiante.ult_punt_prio}</Typography> 
+          <Typography variant="h5">Al Dia: {estudiante.al_dia}</Typography> 
+          <Typography variant="h5">Nivel 99 Aprobado: {estudiante.nivel_99_aprobado}</Typography>
 
-     <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
-        <div className={classes.modal}>          
-        <Typography variant="h5">CodigoCarrera: {estudiante.cod_carrera}</Typography> 
-        <Typography variant="h5">Correo Personal: {estudiante.correo_pers}</Typography> 
-        <Typography variant="h5">Sexo: {estudiante.sexo}</Typography> 
-        <Typography variant="h5">Fecha Nacimiento: {estudiante.fecha_nac}</Typography> 
-        <Typography variant="h5">Via Ingreso: {estudiante.via_ingreso}</Typography> 
-        <Typography variant="h5">Situacion Actual: {estudiante.sit_actual}</Typography> 
-        <Typography variant="h5">Situacion Actual Anio: {estudiante.sit_actual_anho}</Typography> 
-        <Typography variant="h5">Situacion Actual Periodo:{estudiante.sit_actual_periodo}</Typography> 
-        <Typography variant="h5">Periodo: {estudiante.periodo}</Typography> 
-        <Typography variant="h5">Region: {estudiante.region}</Typography> 
-        <Typography variant="h5">Regular: {estudiante.regular}</Typography> 
-        <Typography variant="h5">Nivel: {estudiante.nivel}</Typography> 
-        <Typography variant="h5">Porcentaje Avance: {estudiante.porc_avance}</Typography> 
-        <Typography variant="h5">Ultimo Puntaje Prioridad: {estudiante.ult_punt_prio}</Typography> 
-        <Typography variant="h5">Al Dia: {estudiante.al_dia}</Typography> 
-        <Typography variant="h5">Nivel 99 Aprobado: {estudiante.nivel_99_aprobado}</Typography>
+          <div align="right">
+            <Button onClick={()=>abrirCerrarModalVerMas()}>Cerrar</Button>
+          </div>
 
-        <div align="right">
-          <Button onClick={()=>abrirCerrarModalVerMas()}>Cerrar</Button>
         </div>
+        
+      </Modal>
 
+        <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
+          <DialogTitle id="form-dialog-title">Nuevo Estudiante</DialogTitle>
+          <DialogContent>         
+          {bodyInsertar}
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={modalEditar} onClose={abrirCerrarModalEditar} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Nuevo Estudiante</DialogTitle>
+          <DialogContent>         
+          {bodyEditar}
+          </DialogContent>
+        </Dialog>
+      
+
+        <Modal
+        open={modalEliminar}
+        onClose={abrirCerrarModalEliminar}>
+            {bodyEliminar}
+        </Modal>
       </div>
-       
-     </Modal>
-
-      <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
-        <DialogTitle id="form-dialog-title">Nuevo Estudiante</DialogTitle>
-        <DialogContent>         
-        {bodyInsertar}
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={modalEditar} onClose={abrirCerrarModalEditar} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Nuevo Estudiante</DialogTitle>
-        <DialogContent>         
-        {bodyEditar}
-        </DialogContent>
-      </Dialog>
      
-
-     <Modal
-     open={modalEliminar}
-     onClose={abrirCerrarModalEliminar}>
-        {bodyEliminar}
-     </Modal>
     </div>
   );
 }
