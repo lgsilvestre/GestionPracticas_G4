@@ -68,7 +68,9 @@ class UsersController extends Controller
         // Si es admin entra en el if
 
         if (str_ends_with($email, '@alumnos.utalca.cl')) {
-            echo "alumno utal";
+
+            $result = $this->AlumnoModel->login($email, $password);
+
         } elseif (str_ends_with($email, '@utalca.cl')) {
             echo "funcionario utal";
         } else {
