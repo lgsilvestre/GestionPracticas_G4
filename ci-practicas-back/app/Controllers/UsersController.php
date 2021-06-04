@@ -67,6 +67,16 @@ class UsersController extends Controller
         // Checkeamos si usuario es alumno, admin o no existe
         // Si es admin entra en el if
 
+        if (str_ends_with($email, '@alumnos.utalca.cl')) {
+            echo "alumno utal";
+        } elseif (str_ends_with($email, '@utalca.cl')) {
+            echo "funcionario utal";
+        } else {
+            echo "no pertenece";
+        }
+
+
+        /*
         if ($responseuser!=null && $password == "123456"){
 
             $arr = [
@@ -95,6 +105,7 @@ class UsersController extends Controller
             echo json_encode($arr);
 
         }
+        */
 
 	}
 

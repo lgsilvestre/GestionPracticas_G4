@@ -6,6 +6,8 @@ class UserModel extends Model{
     protected $table = 'usuario';
     protected $primaryKey = 'id_usuario';
     protected $allowedFields = ['nombre','apellido','email','password','tipo','permisos','estado','refCarrera'];
+    
+    /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];
 
@@ -24,4 +26,5 @@ class UserModel extends Model{
             $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT,[15]);
         return $data;
     }
+    */
 }
