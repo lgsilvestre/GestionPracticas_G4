@@ -34,6 +34,8 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->post('login', 'UsersController::login');
+$routes->get('showData', 'AlumnoController::showData');
+$routes->get('showDataU', 'UsersController::showData');
 $routes->post('registerUser', 'UsersController::registerUser');
 $routes->post('deleteUserID', 'UsersController::deleteUserID');
 $routes->post('adminEdit', 'UsersController::adminEdit');

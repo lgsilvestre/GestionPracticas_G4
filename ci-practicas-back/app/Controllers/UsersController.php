@@ -50,6 +50,7 @@ class UsersController extends Controller
 		// E.g.: $this->session = \Config\Services::session();
 		//$this->load->model("Alumno");
 		$this->AlumnoModel = new AlumnoModel();
+        
 	}
 
 	public function login(){
@@ -69,11 +70,54 @@ class UsersController extends Controller
 
         if (str_ends_with($email, '@alumnos.utalca.cl')) {
 
-            $result = $this->AlumnoModel->login($email, $password);
-            echo json_encode($result);
+            $result = $alumnomodel->login($email, $password);
+            $arr = array();
+            
+            if ($result){
+
+                foreach ($result as $row)
+                {
+                    $arr['nombre'] = $row->nombre;
+                    $arr['correo_ins'] = $row->correo_ins;
+                    $arr['matricula'] = $row->matricula;
+                    $arr['nbe_carrera'] = $row->nbe_carrera;
+                    $arr['refCarrera'] = $row->refCarrera;
+                    $arr['tipo'] = 2;
+                }
+                session()->set($arr);
+                #echo "NOMBREEEEE: ".$this->session->get('nombre');
+                echo json_encode($arr);
+
+            } else {
+                echo "error";
+            }
+            
 
         } elseif (str_ends_with($email, '@utalca.cl')) {
-            echo "funcionario utal";
+            
+            $result = $usermodel->login($email, $password);
+            $arr = array();
+            
+            if ($result){
+
+                foreach ($result as $row)
+                {
+                    $arr['nombre'] = $row->nombre;
+                    $arr['apellido'] = $row->apellido;
+                    $arr['email'] = $row->email;
+                    $arr['tipo'] = $row->tipo;
+                    $arr['permisos'] = $row->permisos;
+                    $arr['estado'] = $row->estado;
+                    $arr['refCarrera'] = $row->refCarrera;
+                }
+                session()->set($arr);
+                #echo "NOMBREEEEE: ".$this->session->get('nombre');
+                echo json_encode($arr);
+
+            } else {
+                echo "error";
+            }
+
         } else {
             echo "no pertenece";
         }
@@ -112,6 +156,16 @@ class UsersController extends Controller
 
 	}
 
+    public function showData(){
+        echo "anda";
+        echo session()->get('nombre');
+        /*
+        echo $_SESSION['correo_ins'];
+        echo $_SESSION['matricula'];
+        echo $_SESSION['nbe_carrera'];
+        echo $_SESSION['refCarrera'];
+        */
+    }
 
 	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";

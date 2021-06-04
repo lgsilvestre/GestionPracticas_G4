@@ -9,7 +9,8 @@ class UserModel extends Model{
     
     public function login($email, $password){
 
-        $query = $this->db->query("Select nombre apellido email tipo permisos refCarrera from usuario where correo_ins = '".$email."' and password = '".$password."';");
+        $string_query = "Select nombre, apellido, email, tipo, permisos, estado, refCarrera from usuario where email = '".$email."' and password = '".$password."';";
+        $query = $this->db->query($string_query);
         $result = $query->getResult();
         return $result;
         

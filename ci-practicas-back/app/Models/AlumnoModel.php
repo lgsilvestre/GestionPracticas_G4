@@ -17,11 +17,6 @@ class AlumnoModel extends Model
         return $result;
         
     }
-    
-    public function caca(){
-        echo "login alumno ja";
-        
-    }
 
     /*
     protected $beforeInsert = ['beforeInsert'];

@@ -10,6 +10,23 @@ import Postulaciones from '../Pages/Postulaciones';
 import Landing from '../Landing/Landing';
 import { Footer } from '../ui/Footer/Footer';
 import { CambiarPassword } from '../Pages/CambiarPassword';
+import axios from 'axios';
+import Button from '@material-ui/core/Button';
+
+const sendValues = (event) => {
+    event.preventDefault();
+    axios.get(
+      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/showDataU",
+    )
+      .then(response => {
+
+        console.log("respuesta: ", response.data);
+
+      })
+      .catch(error => {
+        console.log("login error: ", error);
+      });
+  }
 
 const VistaEstudiante = ({userChangedPass=false}) => {
 
@@ -28,6 +45,11 @@ const VistaEstudiante = ({userChangedPass=false}) => {
                 <Route path="/estudiante/changePass" component={CambiarPassword}/>
             </Switch>  
             </div>   
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={sendValues}
+            ></Button>
             <Footer/> 
         </div>     
     )
