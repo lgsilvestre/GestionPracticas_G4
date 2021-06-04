@@ -43,8 +43,8 @@ $routes->post('getUsersAlumnos', 'UsersController::getUsersAlumnos');		//retorna
 $routes->post('getUserAlumno', 'UsersController::getUserAlumno');			//retorna un alumno
 $routes->get('tablaPracticas', 'PracticaController::index');				//Devuelve la tabla de practicas
 $routes->post('filtrosTP', 'PracticaController::filtros');
-$routes->post('solicitarPractica, PracticaController::solicitarPractica');
-$routes->post('guardarInscripcion, PracticaController::guardarInscripcion');
+$routes->post('solicitarPractica', 'PracticaController::solicitarPractica');
+$routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
 
 
 /*
