@@ -59,11 +59,12 @@ class CarreraController extends Controller
             
             foreach ($result as $row)
             {
-                $arr[$count] = $row->nombre;
-                $count++;
+                $arr['nombre'] = $row->nombre;
+                //$count++;
             }
 
-            echo json_encode($arr);
+            echo json_encode($arr, JSON_UNESCAPED_UNICODE);
+
         } else {
             echo "error";
         }
