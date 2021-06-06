@@ -11,10 +11,11 @@ import { EstadoPracticas } from '../Pages/EstadoPracticas';
 import { Estadisticas } from '../Pages/Estadisticas';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 import TablePracticas from './componentes/TablePracticas';
-import Plan from '../Pages/Plan/Plan';
+import { Plan } from '../Pages/Plan/Plan';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { AdminDashboard } from '../Pages/AdminDashboard/AdminDashboard';
+import './AppRouterStyle.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,12 +34,13 @@ const VistaAdmin = () => {
 
     return (
         <div className={classes.root}>
+            <div ></div>
             <Grid container>
                 <Grid item xs={2} sm={2}>
-                    <SideBar />
+                    <SideBar/>
                 </Grid>
-                <Grid item xs={10} sm={10}>
-                    <div className="container">
+                <Grid item xs={10} sm={10} className="Scroll">
+                    <div className="container ">
                         <Switch>
                             <Route path='/admin/practicas' component={TablaEstados} />
                             <Route path='/admin/administradores' component={Administrador} />
