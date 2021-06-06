@@ -20,7 +20,7 @@ use App\Models\UserModel as UserModel;
  * For security be sure to declare any new methods as protected or private.
  */
 
-class UsersController extends Controller
+class UsersController extends  BaseController
 {
 	
 	/**
@@ -50,7 +50,18 @@ class UsersController extends Controller
 		// E.g.: $this->session = \Config\Services::session();
 		//$this->load->model("Alumno");
 		$this->AlumnoModel = new AlumnoModel();
+        $this->UserModel = new UserModel();        
 	}
+
+    public function insertUser(){
+        helper(['form']);
+        $nombre = $this->request->getVar('nombre');
+        $apellido = $this->request->getVar('apellido');
+        $email = $this->request->getVar('email');
+        $tipo = $this->request->getVar('tipo');
+        $password = $this->request->getVar('password');
+        $this->UserModel->insertUser($nombre, $apellido, $email, $tipo, $password);
+    }
 
 	public function login(){
 		helper(['form']);
@@ -68,47 +79,69 @@ class UsersController extends Controller
         // Si es admin entra en el if
 
         if (str_ends_with($email, '@alumnos.utalca.cl')) {
-            echo "alumno utal";
+
+            $result = $alumnomodel->login($email, $password);
+            $arr = array();
+            
+            if ($result){
+
+                foreach ($result as $row)
+                {
+                    $arr['nombre'] = $row->nombre;
+                    $arr['correo_ins'] = $row->correo_ins;
+                    $arr['matricula'] = $row->matricula;
+                    $arr['nbe_carrera'] = $row->nbe_carrera;
+                    $arr['refCarrera'] = $row->refCarrera;
+                    $arr['tipo'] = 3;
+                }
+                echo json_encode($arr);
+
+            } else {
+                echo "error";
+            }
+            
+
         } elseif (str_ends_with($email, '@utalca.cl')) {
-            echo "funcionario utal";
+            
+            $result = $usermodel->login($email, $password);
+            $arr = array();
+            
+            if ($result){
+
+                foreach ($result as $row)
+                {
+                    $arr['nombre'] = $row->nombre;
+                    $arr['apellido'] = $row->apellido;
+                    $arr['email'] = $row->email;
+                    $arr['tipo'] = $row->tipo;
+                    $arr['permisos'] = $row->permisos;
+                    $arr['estado'] = $row->estado;
+                    $arr['refCarrera'] = $row->refCarrera;
+                }                
+                echo json_encode($arr);
+
+            } else {
+                echo "error";
+            }
+
         } else {
             echo "no pertenece";
         }
 
-
-        /*
-        if ($responseuser!=null && $password == "123456"){
-
-            $arr = [
-                'idUsser' => $responseuser['id_user'],
-                'nombre' => $responseuser['nombre'],
-                'apellido' => $responseuser['apellido'],
-                'tipo' => $responseuser['tipo'],
-            ];
-            echo json_encode($arr);
-
-        } else if ($responsealumno!=null && $password == "5555"){
-
-            $arr = [
-                'idUsser' => $responsealumno['id_alumno'],
-                'nombre' => $responsealumno['nombre'],
-                'tipo' => "2",
-            ];
-            echo json_encode($arr);
-
-        } else {
-
-            $arr = [
-                'error' => "Credenciales incorrectas",
-                'tipo' => -1,
-            ];
-            echo json_encode($arr);
-
-        }
-        */
-
 	}
 
+    public function showData(){
+        /*
+        echo $_SESSION['correo_ins'];
+        echo $_SESSION['matricula'];
+        echo $_SESSION['nbe_carrera'];
+        echo $_SESSION['refCarrera'];
+        */
+    }
+
+    public function getFuncionarios(){
+
+    }
 
 	public function login1(){
         echo "Usuario: ".$this->request->getVar('email')." - ";

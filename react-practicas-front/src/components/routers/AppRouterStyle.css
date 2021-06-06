@@ -1,0 +1,34 @@
+.Back{
+    background-repeat: repeat;
+    background-size: 300px;
+    background-image: url("./assets/leaves-pattern.png");
+    background-attachment: fixed;
+    height: 100vh;    
+}
+
+.Scroll {
+    overflow-y:scroll;
+    height: 100vh;
+}
+
+body {
+    overflow: hidden; /* Hide scrollbars */
+    height:100%;
+}
+
+html{
+    height: 100%;
+}
+
+/*
+body { 
+    background: url("./assets/blue-snow.png") repeat-x center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+*/
+nav {
+    box-shadow: 0 0 20px 0 rgba(0,0,0,.3);
+}

@@ -7,6 +7,26 @@ class UserModel extends Model{
     protected $primaryKey = 'id_usuario';
     protected $allowedFields = ['nombre','apellido','email','password','tipo','permisos','estado','refCarrera'];
     
+    public function login($email, $password){
+
+        $string_query = "Select nombre, apellido, email, tipo, permisos, estado, refCarrera from usuario where email = '".$email."' and password = '".$password."';";
+        $query = $this->db->query($string_query);
+        $result = $query->getResult();
+        return $result;
+        
+    }
+
+    
+    public function insertUser($nombre, $apellido, $email, $tipo, $password){
+        echo $nombre." - ".$apellido." - ".$email." - ".$tipo." - ".$password;
+        /*
+        $string_query = "insert into 'usuario' ('nombre', 'apellido', 'email', 'password', 'tipo', 'permisos', 'estado', 'refCarrera') VALUES ('".$nombre."', 'Apellido', '".$email."', '".$password."', '".$tipo."', '0', '1', '1');";
+        $query = $this->db->query($string_query);
+        $result = $query->getResult();
+        return $result;
+        */
+    }
+    
     /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];

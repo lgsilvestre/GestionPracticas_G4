@@ -6,6 +6,7 @@ use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\AlumnoModel as AlumnoModel;
 
 /**
  * Class BaseController
@@ -18,8 +19,9 @@ use Psr\Log\LoggerInterface;
  * For security be sure to declare any new methods as protected or private.
  */
 
-class BaseController extends Controller
+class UsersController extends BaseController
 {
+	
 	/**
 	 * An array of helpers to be loaded automatically upon
 	 * class instantiation. These helpers will be available
@@ -40,10 +42,26 @@ class BaseController extends Controller
 	{
 		// Do Not Edit This Line
 		parent::initController($request, $response, $logger);
-
+		
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
-		//$this->session = \Config\Services::session();
+		// E.g.: $this->session = \Config\Services::session();
+		//$this->load->model("Alumno");
+		$this->AlumnoModel = new AlumnoModel();
 	}
+
+    public function showData(){
+        echo "hola desde alumno";
+        /*
+        echo $_SESSION['nombre'];
+        echo $_SESSION['correo_ins'];
+        echo $_SESSION['matricula'];
+        echo $_SESSION['nbe_carrera'];
+        echo $_SESSION['refCarrera'];
+        */
+    }
+   
 }
+
+

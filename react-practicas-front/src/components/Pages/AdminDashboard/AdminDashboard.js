@@ -34,14 +34,14 @@ export const AdminDashboard = () => {
                     <Grid container>
 
                     <Grid item sm={4}>
-                        <Card className={classes.root}>
+                        <Card className={classes.root} style={{height:'100%'}}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         Prácticas en proceso: 16
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        lorem ipsum lorem ipsum lorem ipsum
+                                        Revisa las prácticas que están siendo rendidas.
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -53,14 +53,14 @@ export const AdminDashboard = () => {
                         </Card>
                     </Grid>
                     <Grid item sm={4}>
-                        <Card className={classes.root}>
+                        <Card className={classes.root} style={{height:'100%'}}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         Solicitudes de práctica: 4
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        lorem ipsum lorem ipsum lorem ipsum
+                                        Revisa las solicitudes de práctica pendientes.
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -72,14 +72,14 @@ export const AdminDashboard = () => {
                         </Card>
                     </Grid>
                     <Grid item sm={4}>
-                    <Card className={classes.root}>
+                    <Card className={classes.root} style={{height:'100%'}}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         Prácticas por terminar: 6
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        Prácticas que terminarán en un período de 7 días o menos
+                                        Prácticas que terminarán en un período de 7 días o menos.
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
