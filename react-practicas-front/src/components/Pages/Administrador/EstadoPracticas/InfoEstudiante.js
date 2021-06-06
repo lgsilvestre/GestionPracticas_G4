@@ -10,8 +10,14 @@ const useStyles = makeStyles((theme) => ({
     },
     botonBack:{
         marginBottom:'10px', 
-        background:'#f69b2e', 
-        color:"white"
+        backgroundColor:"grey",
+        color:"white",
+        cursor: 'pointer',
+        transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+        '&:hover': {
+        backgroundColor:'#f69b2e',
+            color: '#fff'
+            }
     }
     
 }));

@@ -1,19 +1,10 @@
 import React, { Fragment, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import {IconButton} from '@material-ui/core';
 import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
 import { Filtros } from './Filtros';
-
+import {makeStyles, Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, TableCell, IconButton, Paper,TablePagination} 
+  from '@material-ui/core';
 //Estilos
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,8 +28,14 @@ const useStyles = makeStyles((theme) => ({
     color:'#f69b2e'
   },
   botonFiltro: {
-    background:"#f69b2e",
-    color:"white"
+    backgroundColor:"grey",
+    color:"white",
+    cursor: 'pointer',
+    transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+    '&:hover': {
+    backgroundColor:'#f69b2e',
+      color: '#fff'
+      }
   } 
 }));
 

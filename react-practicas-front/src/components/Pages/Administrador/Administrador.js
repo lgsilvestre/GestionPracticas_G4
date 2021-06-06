@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Grow from '@material-ui/core/Grow';
 import useStyles from './styles';
-import { makeStyles } from '@material-ui/core/styles';
-import {StyledTableCell, StyledTableRow} from './styles';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField} from '@material-ui/core';
+// import {StyledTableCell, StyledTableRow} from './styles';
+import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, TableCell, Paper} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import InputLabel from '@material-ui/core/InputLabel';
 import CachedIcon from '@material-ui/icons/Cached';
@@ -158,8 +157,14 @@ export default function Administrador() {
       });
   }
 
-  // Funcion que se ocupa de traer las carreras desde el back
-  function getDocumentos () {
+      <div>
+        <Button className={classes.boton} style={{marginTop:'60px',margin: '35px'}} color="primary" 
+          onClick={()=>peticionPost()}>Insertar</Button>
+        <Button className={classes.botonCancelar} style={{marginTop:'60px',margin: '35px'}} 
+          onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
+      </div>
+    </div>
+  )
 
     axios.get(
       "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
@@ -340,66 +345,70 @@ const bodyEliminar=(
 
     </div>
 
-  </div>
-)
-
-
   return (
-    <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
-      <h4 style={{marginBottom:'10px'}}>
-            Admin &gt; Funcionarios
-      </h4>
-      <br />
-    <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Administrador</Button>
-      <br /><br />
-    <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
-     <TableContainer>
-       <Table className={classes.table}>
-         <TableHead>
-           <TableRow>
-             <StyledTableCell>Nombre</StyledTableCell>
-             <StyledTableCell>Correo</StyledTableCell>
-             <StyledTableCell>Tipo</StyledTableCell>
-             <StyledTableCell>Contrase&ntilde;a</StyledTableCell>
-             <StyledTableCell>Acciones</StyledTableCell>
-           </TableRow>
-         </TableHead>
+    <div className="animate__animated animate__fadeIn animate__faster">
+      <div style={{marginTop:'20px', marginBottom:'30px'}}>
+        <h4 style={{marginBottom:'10px'}}>
+          Admin &gt; Administradores
+        </h4>
+        <br />
+        <Button className={classes.boton}  onClick={()=>abrirCerrarModalInsertar()}>Agregar Administrador</Button>
+        <br /><br />
+        <hr/>
+        <Paper className={classes.root}>
+          <TableContainer>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Nombre</TableCell>
+                  <TableCell>Correo</TableCell>
+                  <TableCell>Tipo</TableCell>
+                  <TableCell>Contrasenia </TableCell>
+                  <TableCell>Acciones</TableCell>
+                </TableRow>
+              </TableHead>
 
-         <TableBody>
-           {data.map(administrador=>(
-             <StyledTableRow key={administrador.id}>
-               <StyledTableCell>{administrador.nombre}</StyledTableCell>
-               <StyledTableCell>{administrador.correo}</StyledTableCell>
-               <StyledTableCell>{administrador.tipo}</StyledTableCell>
-               <StyledTableCell>{administrador.contrasenia}</StyledTableCell>
-               <StyledTableCell>
-                 <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
-                 &nbsp;&nbsp;&nbsp;
-                 <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
-                 </StyledTableCell>
-             </StyledTableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
-     </Grow>
-     <Modal
-     open={modalInsertar}
-     onClose={abrirCerrarModalInsertar}>
-        {bodyInsertar}
-     </Modal>
+              <TableBody>
+                {data.map(administrador=>(
+                  <TableRow key={administrador.id}>
+                    <TableCell>{administrador.nombre}</TableCell>
+                    <TableCell>{administrador.correo}</TableCell>
+                    <TableCell>{administrador.tipo}</TableCell>
+                    <TableCell>{administrador.contrasenia}</TableCell>
+                    <TableCell>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
+                      &nbsp;&nbsp;&nbsp;
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
+                      </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+        
 
-     <Modal
-     open={modalEditar}
-     onClose={abrirCerrarModalEditar}>
-        {bodyEditar}
-     </Modal>
+        <Modal
+        open={modalInsertar}
+        onClose={abrirCerrarModalInsertar}>
+          {bodyInsertar}
+        </Modal>
 
-     <Modal
-     open={modalEliminar}
-     onClose={abrirCerrarModalEliminar}>
-        {bodyEliminar}
-     </Modal>
+        <Modal
+        open={modalEditar}
+        onClose={abrirCerrarModalEditar}>
+          {bodyEditar}
+        </Modal>
+
+        <Modal
+        open={modalEliminar}
+        onClose={abrirCerrarModalEliminar}>
+          {bodyEliminar}
+        </Modal>
+
+
+      </div>
+        
     </div>
   );
 }
