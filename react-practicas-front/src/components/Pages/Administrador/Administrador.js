@@ -16,6 +16,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 export default function Administrador() {
   
@@ -37,6 +39,7 @@ export default function Administrador() {
     tipo: "",
     carrera: "",
     contrasena: "",
+    carreras: []
   })
 
   const handleChange=e=>{
@@ -172,16 +175,14 @@ export default function Administrador() {
       .then(response => {
 
         console.log("respuesta: ", response.data);
+        let arrayCarreras = JSON.parse(response.data);
+        console.log("cascasda: ", arrayCarreras);
+        //let respJson = JSON.parse(response.data);
+        /*
+        for(var i in response.data)
+          arrayCarreras.push([i, response.data [i]]);
+        */
 
-        if (response.data.tipo == 1) {
-
-        }
-        else if (response.data.tipo == 2) {
-
-        }
-        else {
-          console.log("error credenciales")
-        }
       })
       .catch(error => {
         console.log("login error: ", error);
@@ -261,6 +262,23 @@ const bodyInsertar=(
     <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
 
     <TextField variant="outlined" name="carrera" id="carrera" className={classes.inputMaterial} label="Carrera" onChange={handleChange}/>
+
+    <FormControl className={classes.inputMaterial} variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          onChange={handleChange}
+          label="Age"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
 
     <TextField variant="outlined" name="tipo" id="tipo" className={classes.inputMaterial} label="Tipo" onChange={handleChange}/>
     

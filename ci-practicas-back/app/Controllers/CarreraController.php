@@ -51,17 +51,22 @@ class CarreraController extends Controller
 	}
 
     public function getCarreras (){
+
         $result = $this->CarreraModel->getCarreras();
         $arr = array();
+        $count = 1;
         if ($result){
-            /*
+            
             foreach ($result as $row)
             {
-                $arr['nombre'] = $row->nombre;
-            }*/
-            echo json_encode($result);
+                $arr[$count] = $row->nombre;
+                $count++;
+            }
+
+            echo json_encode($arr);
         } else {
             echo "error";
         }
     }
+
 }
