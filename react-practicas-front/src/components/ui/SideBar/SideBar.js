@@ -95,7 +95,7 @@ function SideBar() {
                 <FaFileAlt />
                 <span className="text">Gestionar Documentos</span>
               </Link>
-            </li>
+            </li> */}
 
             <Divider variant="middle" light={true} />
 

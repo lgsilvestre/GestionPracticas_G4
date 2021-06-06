@@ -430,7 +430,7 @@ class UsersController extends  BaseController
                     'tipo' => $this->request->getVar('tipo'),
                     'permisos' => $this->request->getVar('permisos'),
                 ];
-                $model->where('email', this->request-getVar('email')) ->save($newsData);
+                $model->where('email', $this->request->getVar('email')) ->save($newsData);
                 return redirect()->to('/');     //Modificable, en caso de vista de usuario modificado
             }
         }
@@ -453,7 +453,7 @@ class UsersController extends  BaseController
                 $newsData =[
                     'password' => $this->request->getvar('newpass'),
                 ];
-                $model->where('email', this->request-getVar('email')) ->save($newsData);
+                $model->where('email', $this->request->getVar('email')) ->save($newsData);
     //            return redirect()->to('/');     //Modificable, en caso de vista de usuario modificado
             }
         }
@@ -476,7 +476,7 @@ class UsersController extends  BaseController
                     'email' => $this->request->getVar('email'),
                     'activo' => 0,
                 ];
-                $model->where('email', this->request-getVar('email')) ->save($newsData);
+                $model->where('email', $this->request->getVar('email')) ->save($newsData);
                 return redirect()->to('/');     //Modificable, en caso de vista de usuario eliminado
             }
         }
@@ -499,7 +499,7 @@ class UsersController extends  BaseController
                     'id_alumno' => $this->request->getVar('id_alumno'),
                     'activo' => 0,
                 ];
-                $model->where('id_alumno', this->request-getVar('id_alumno')) ->save($newsData);
+                $model->where('id_alumno', $this->request->getVar('id_alumno')) ->save($newsData);
                 return redirect()->to('/');     //Modificable, en caso de vista de usuario eliminado
             }
         }
@@ -527,7 +527,7 @@ class UsersController extends  BaseController
                 $data['validation'] = $this->validator;
             } else{
                 $model = new UserModel();
-                $user = $model->where('email', this->request-getVar('email'));
+                $user = $model->where('email', $this->request->getVar('email'));
                 echo json_encode($user);
                 return redirect()->to('/');
             }
@@ -562,7 +562,7 @@ class UsersController extends  BaseController
                 $data['validation'] = $this->validator;
             } else{
                 $model = new UserModel();
-                $user = $model->where('id_alumno', this->request-getVar('id_alumno'));
+                $user = $model->where('id_alumno', $this->request->getVar('id_alumno'));
                 echo json_encode($user);
             }
         }
