@@ -295,7 +295,7 @@ class UsersController extends  BaseController
                     'is_unique' => 'Email se encuentra registrado en el sistema'
                 ]
             ];
-            
+
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
@@ -406,7 +406,7 @@ class UsersController extends  BaseController
             }
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
         }
-    } 
+    }
 
     public function adminEdit(){
         helper(['form']);

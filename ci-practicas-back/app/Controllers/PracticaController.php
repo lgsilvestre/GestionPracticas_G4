@@ -20,8 +20,6 @@ class PracticaController extends BaseController
 				'nropractica' => 'required|integer',
 				'estado' => 'required',		//faltan reglass por agregar
 				'numero' => 'required|integer'
-
-
             ];
             $errors = [			// faltan errores por definir
 				'estudiante' => [
@@ -31,7 +29,7 @@ class PracticaController extends BaseController
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
-				//Primero hay que validar que no 
+				//Primero hay que validar que no
 				$Estudiante => $this->request->getVar('estudiante');
 				$Nropractica => $this->request->getVar('nropractica');
 				$Estado => $this->request->getVar('estado');
@@ -250,6 +248,14 @@ class PracticaController extends BaseController
 		$aux = $practica['id_practica'];
 		return $aux;
 	}
+
+	public function getPracticas()
+    {
+        $model = new PracticaModel();
+        $practica = $model->findAll();
+
+        echo json_encode($practica);
+    }
 
 
 }
