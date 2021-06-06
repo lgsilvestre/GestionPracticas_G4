@@ -10,8 +10,14 @@ const useStyles = makeStyles((theme) => ({
     },
     botonBack:{
         marginBottom:'10px', 
-        background:'#f69b2e', 
-        color:"white"
+        backgroundColor:"grey",
+        color:"white",
+        cursor: 'pointer',
+        transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+        '&:hover': {
+        backgroundColor:'#f69b2e',
+            color: '#fff'
+            }
     }
     
 }));
@@ -44,12 +50,13 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1}) => {
     return (
         <div className="animate__animated animate__fadeIn animate__faster">
             <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
+                <h4 style={{marginBottom:'15px'}}>
+                    Admin &gt; Prácticas &gt; Alumno
+                </h4>
                 <Button className = {classes.botonBack} startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
                     Atras
                 </Button>
-                <h4 style={{marginBottom:'10px'}}>
-                    Admin &gt; Estado practicas &gt; {etapaLabel}
-                </h4>
+                
                 <WizardAdmin pageProp={etapa} classes={classes}/>
             </div>
         </div>

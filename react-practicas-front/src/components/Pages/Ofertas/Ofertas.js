@@ -1,13 +1,11 @@
 import React, { useState} from 'react';
 import FormPractica from '../../FormPractica/FormPractica'
 import Dialog from '@material-ui/core/Dialog';
-import Grow from '@material-ui/core/Grow';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useStyles from './styles';
-import {StyledTableCell, StyledTableRow} from './styles';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Button} from '@material-ui/core';
+import {Table, TableContainer, TableHead, TableBody, TableRow, Button, TableCell, Paper} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 
 
@@ -25,55 +23,61 @@ const Ofertas = () => {
   };
 
     return (
-        <div className={classes.root}>
-        <Button className={classes.boton} variant="outlined" color="primary" onClick={handleClickOpen}>
-          Agregar Practica 
-        </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Datos Practica</DialogTitle>
-          <DialogContent>
-            <FormPractica />
-          </DialogContent>
-          <DialogActions>
-            <Button className={classes.botonCancelar} onClick={handleClose} color="primary">
-              Cancelar
-            </Button>
-            <Button className={classes.boton} onClick={handleClose} color="primary">
-              Agregar
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
-        <TableContainer>
-       <Table className={classes.table}>
-         <TableHead>
-           <TableRow>
-             <StyledTableCell>Carrera</StyledTableCell>
-             <StyledTableCell>Nombre</StyledTableCell>
-             <StyledTableCell>Descripcion </StyledTableCell>
-             <StyledTableCell>Documento </StyledTableCell>
-             <StyledTableCell>Acciones</StyledTableCell>
-           </TableRow>
-         </TableHead>
-
-         <TableBody>
-           {data.map(practica=>(
-             <StyledTableRow key={practica.id}>
-               <StyledTableCell>{practica.nombre}</StyledTableCell>
-               <StyledTableCell>{practica.descripcion}</StyledTableCell>
-               <StyledTableCell>{practica.documento}</StyledTableCell>
-               <StyledTableCell>
-                 <Edit className={classes.iconos} />
-                 &nbsp;&nbsp;&nbsp;
-                 <Delete  className={classes.iconos} />
-                 </StyledTableCell>
-             </StyledTableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
-     </Grow>
-     
+      <div className="animate__animated animate__fadeIn animate__faster">
+        <div style={{marginTop:'20px', marginBottom:'30px'}}>
+          <h4 style={{marginBottom:'10px'}}>
+            Admin &gt; Gestionar Practica
+          </h4>
+          <br />
+          <Button className={classes.boton} onClick={handleClickOpen}>
+            Agregar Practica 
+          </Button>
+          <br /><br />
+          <hr/>
+          <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Datos Practica</DialogTitle>
+            <DialogContent>
+              <FormPractica />
+            </DialogContent>
+            <DialogActions>
+              <Button className={classes.botonCancelar} onClick={handleClose} color="primary">
+                Cancelar
+              </Button>
+              <Button className={classes.boton} onClick={handleClose} color="primary">
+                Agregar
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Paper className={classes.root}>
+            <TableContainer>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Carrera</TableCell>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell>Descripcion </TableCell>
+                    <TableCell>Documento </TableCell>
+                    <TableCell>Acciones</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.map(practica=>(
+                    <TableRow key={practica.id}>
+                      <TableCell>{practica.nombre}</TableCell>
+                      <TableCell>{practica.descripcion}</TableCell>
+                      <TableCell>{practica.documento}</TableCell>
+                      <TableCell>
+                        <Edit className={classes.iconos} />
+                        &nbsp;&nbsp;&nbsp;
+                        <Delete  className={classes.iconos} />
+                        </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </div> 
       </div>
     )
 }
