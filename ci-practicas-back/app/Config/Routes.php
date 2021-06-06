@@ -47,12 +47,14 @@ $routes->get('tablaPracticas', 'PracticaController::index');				//Devuelve la ta
 $routes->post('filtrosTP', 'PracticaController::filtros');
 $routes->post('solicitarPractica', 'PracticaController::solicitarPractica');
 $routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
+$routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
 // Documentos
 $routes->get('getDocumentos', 'DocumentoController::getDocumentos');
 $routes->get('getDocumento', 'DocumentoController::getDocumento');
 //Carreras
 $routes->get('getCarreras', 'CarreraController::getCarreras');
-
+//Practicas
+$routes->post('getPracticas', 'PracticaController::getPracticas');
 
 /*
  * --------------------------------------------------------------------

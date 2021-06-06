@@ -128,6 +128,7 @@ export default function Administrador() {
     await peticionGet();
   },[])
   
+  // Funcion que se ocupa de insertar en el back un usuario
   function peticionPost () {
 
     let nombre = administrador.nombre;
@@ -148,40 +149,27 @@ export default function Administrador() {
       },
     )
       .then(response => {
-        //trabajar redireccionamiento
-        //-1 error , 0 alumno , 1 admin
+
         console.log("respuesta: ", response.data);
 
-        if (response.data.tipo == 1) {
-
-        }
-        else if (response.data.tipo == 2) {
-
-        }
-        else {
-          console.log("error credenciales")
-        }
       })
       .catch(error => {
         console.log("login error: ", error);
       });
   }
 
+  // Funcion que se ocupa de traer las carreras desde el back
   function getDocumentos () {
 
     axios.get(
       "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
     )
       .then(response => {
-
         console.log("respuesta: ", response.data);
-        let arrayCarreras = JSON.parse(response.data);
-        console.log("cascasda: ", arrayCarreras);
-        //let respJson = JSON.parse(response.data);
-        /*
-        for(var i in response.data)
-          arrayCarreras.push([i, response.data [i]]);
-        */
+        let stringJson = JSON.stringify(response.data);
+        console.log(stringJson);
+        // Variable array carreras contiene las carreras antecedidas por un id
+        let arrayCarreras = JSON.parse(stringJson);
 
       })
       .catch(error => {
@@ -260,8 +248,6 @@ const bodyInsertar=(
     <TextField variant="outlined" name="apellido" id="apellido" className={classes.inputMaterial} label="Apellido" onChange={handleChange}/>
 
     <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
-
-    <TextField variant="outlined" name="carrera" id="carrera" className={classes.inputMaterial} label="Carrera" onChange={handleChange}/>
 
     <FormControl className={classes.inputMaterial} variant="outlined">
         <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
