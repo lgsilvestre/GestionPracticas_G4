@@ -295,7 +295,7 @@ class UsersController extends  BaseController
                     'is_unique' => 'Email se encuentra registrado en el sistema'
                 ]
             ];
-
+            
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
@@ -406,7 +406,7 @@ class UsersController extends  BaseController
             }
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
         }
-    }
+    } 
 
     public function adminEdit(){
         helper(['form']);
@@ -533,6 +533,25 @@ class UsersController extends  BaseController
             }
         }
         return redirect()->to('/');
+    }
+
+    public function getUserId()
+    {
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'id' => 'required|min_length[6]|max_length[99]',
+            ];
+            $errors = [             //falta errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $model = new UserModel();
+                $user = $model->where('id', this->request->getVar('id'));
+                echo json_encode($user);
+            }
+        }
     }
 
     public function getUsersActive()
