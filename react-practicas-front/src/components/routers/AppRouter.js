@@ -6,10 +6,11 @@ import { Info } from '../Pages/Info';
 import VistaAdmin from './VistaAdmin';
 import VistaEstudiante from './VistaEstudiante';
 import  {TablaEstados} from '../Pages/Administrador/EstadoPracticas/TablaEstados';
+import './AppRouterStyle.css'
 export const AppRouter = () => {
 
     return (
-        <Router>                 
+        <Router className="Back">                 
             <Switch>   
                 <Route path="/estudiante"  component = {VistaEstudiante} />                                          
                 <Route path="/login" component = {Login}/>           

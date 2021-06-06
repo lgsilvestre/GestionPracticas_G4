@@ -25,54 +25,10 @@ const Ofertas = () => {
   };
 
     return (
-        <div className={classes.root}>
-        <Button className={classes.boton} variant="outlined" color="primary" onClick={handleClickOpen}>
-          Agregar Practica 
-        </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Datos Practica</DialogTitle>
-          <DialogContent>
-            <FormPractica />
-          </DialogContent>
-          <DialogActions>
-            <Button className={classes.botonCancelar} onClick={handleClose} color="primary">
-              Cancelar
-            </Button>
-            <Button className={classes.boton} onClick={handleClose} color="primary">
-              Agregar
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
-        <TableContainer>
-       <Table className={classes.table}>
-         <TableHead>
-           <TableRow>
-             <StyledTableCell>Carrera</StyledTableCell>
-             <StyledTableCell>Nombre</StyledTableCell>
-             <StyledTableCell>Descripcion </StyledTableCell>
-             <StyledTableCell>Documento </StyledTableCell>
-             <StyledTableCell>Acciones</StyledTableCell>
-           </TableRow>
-         </TableHead>
-
-         <TableBody>
-           {data.map(practica=>(
-             <StyledTableRow key={practica.id}>
-               <StyledTableCell>{practica.nombre}</StyledTableCell>
-               <StyledTableCell>{practica.descripcion}</StyledTableCell>
-               <StyledTableCell>{practica.documento}</StyledTableCell>
-               <StyledTableCell>
-                 <Edit className={classes.iconos} />
-                 &nbsp;&nbsp;&nbsp;
-                 <Delete  className={classes.iconos} />
-                 </StyledTableCell>
-             </StyledTableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
-     </Grow>
+        <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
+          <h4 style={{marginBottom:'10px'}}>
+            Admin &gt; Gestionar Prácticas
+          </h4>
      
       </div>
     )

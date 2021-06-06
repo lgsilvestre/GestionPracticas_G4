@@ -6,6 +6,8 @@ use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\CarreraModel as CarreraModel;
+
 
 /**
  * Class BaseController
@@ -18,7 +20,7 @@ use Psr\Log\LoggerInterface;
  * For security be sure to declare any new methods as protected or private.
  */
 
-class BaseController extends Controller
+class CarreraController extends Controller
 {
 	/**
 	 * An array of helpers to be loaded automatically upon
@@ -45,5 +47,21 @@ class BaseController extends Controller
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
 		//$this->session = \Config\Services::session();
+        $this->CarreraModel = new CarreraModel();
 	}
+
+    public function getCarreras (){
+        $result = $this->CarreraModel->getCarreras();
+        $arr = array();
+        if ($result){
+            /*
+            foreach ($result as $row)
+            {
+                $arr['nombre'] = $row->nombre;
+            }*/
+            echo json_encode($result);
+        } else {
+            echo "error";
+        }
+    }
 }

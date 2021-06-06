@@ -145,11 +145,11 @@ export const TablaEstados = ({history}) =>  {
   }
   else{
     return (  
-      <div className="animate__animated animate__fadeIn animate__faster">
-        <div style={{marginTop:'20px', marginBottom:'30px'}}>
-          <h4 style={{marginBottom:'10px'}}>
-            Admin &gt; Estado practicas
+      <div className="animate__animated animate__fadeIn animate__faster" style={{marginTop:'20px', marginBottom:'30px'}}>
+        <h4 style={{marginBottom:'10px'}}>
+            Admin &gt; Prácticas
           </h4>
+        <div>
           <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}/>
           <hr/> 
           <Paper className={clasesEstilo.root}>

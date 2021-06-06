@@ -12,11 +12,12 @@ import { Footer } from '../ui/Footer/Footer';
 import { CambiarPassword } from '../Pages/CambiarPassword';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import './AppRouterStyle.css';
 
 const sendValues = (event) => {
     event.preventDefault();
     axios.get(
-      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/showDataU",
+      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/UsersController/showDataU",
     )
       .then(response => {
 
@@ -31,7 +32,7 @@ const sendValues = (event) => {
 const VistaEstudiante = ({userChangedPass=false}) => {
 
     return (     
-        <div>
+        <div className="Back">
             <NavBar/>
             {/* {
                 !userChangedPass ? <CambiarPassword/> : <Redirect to ="/estudiante"/>

@@ -16,6 +16,17 @@ class UserModel extends Model{
         
     }
 
+    
+    public function insertUser($nombre, $apellido, $email, $tipo, $password){
+        echo $nombre." - ".$apellido." - ".$email." - ".$tipo." - ".$password;
+        /*
+        $string_query = "insert into 'usuario' ('nombre', 'apellido', 'email', 'password', 'tipo', 'permisos', 'estado', 'refCarrera') VALUES ('".$nombre."', 'Apellido', '".$email."', '".$password."', '".$tipo."', '0', '1', '1');";
+        $query = $this->db->query($string_query);
+        $result = $query->getResult();
+        return $result;
+        */
+    }
+    
     /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];
