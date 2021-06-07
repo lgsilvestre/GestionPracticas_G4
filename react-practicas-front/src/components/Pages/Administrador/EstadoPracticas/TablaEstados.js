@@ -12,6 +12,7 @@ import {IconButton} from '@material-ui/core';
 import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
+import { motion } from "framer-motion"
 import { Filtros } from './Filtros';
 import practicas from '../../../routers/assets/practicas.svg';
 
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   encabezado:{
+    marginTop: '8vh',
     display: 'flex',
     alignItems: 'center'
   },
@@ -160,8 +162,8 @@ export const TablaEstados = ({history}) =>  {
     return (  
       <div className="animate__animated animate__fadeIn animate__faster" style={{marginTop:'20px', marginBottom:'30px'}}>
         <div className={clasesEstilo.encabezado}>
-         <img  heigth ={20} src={practicas} alt='practicas'/>
-         <h1 className={clasesEstilo.titulo}  >PRACTICAS</h1>
+        <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} >  <img  heigth ={20} src={practicas} alt='practicas'/>  </motion.div>
+        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={clasesEstilo.titulo}  >PRACTICAS</h1></motion.div>
         </div>
         <div>
           <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}/>

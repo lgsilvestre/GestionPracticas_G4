@@ -5,7 +5,6 @@ import useStyles from './styles';
 import Typography from '@material-ui/core/Typography';
 import {StyledTableCell, StyledTableRow} from './styles';
 import Button from '@material-ui/core/Button';
-import Grow from '@material-ui/core/Grow';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -13,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import {Table, TableContainer, TableHead, TableBody, TableRow, Modal} from '@material-ui/core';
 import {Edit, Delete, Assignment} from '@material-ui/icons';
 import FormAlumno from '../../FormAlumno/FormAlumno';
+import { motion } from "framer-motion"
 
 
 export default function Administrador() {
@@ -36,8 +36,6 @@ export default function Administrador() {
     nivel: '',
     nivel_99_aprobado: ''
   })
-
-
 
   const peticionGet=async()=>{
     await axios.get('')
@@ -166,13 +164,17 @@ export default function Administrador() {
 
   return (
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
+
         <div className={classes.encabezado}>
-           <img  heigth ={20} src={estudiantes} alt='ESTUDIANTES'/>
-           <h1 className={classes.titulo}  >ESTUDIANTES</h1>
+        <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} >  <img   heigth ={10} src={estudiantes} alt='ESTUDIANTES'/>   
+           </motion.div>
+           <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo}  >ESTUDIANTES</h1></motion.div>
+          
          </div>
+  
+
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Estudiante</Button>
       <br /><br />
-    <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
      <TableContainer>
        <Table className={classes.table}>
          <TableHead>
@@ -216,7 +218,7 @@ export default function Administrador() {
          </TableBody>
        </Table>
      </TableContainer>
-     </Grow>
+
 
      <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
         <div className={classes.modal}>          

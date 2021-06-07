@@ -65,14 +65,14 @@
   }
   
   .nav-text a:hover {
-    /* background-color: dimgray; */
-    /* background-color: #f69b2e; */
-    background-color: #3f3697 ;
-    /* background-color: #2e8def; */
-    color: #fff;
-    /* color:dimgray; */
-    /* color: black; */
+    border: none;
+    background: #f0ebcc;
+    color: #344fa1;
+    padding: 10px;
     border-radius: 5px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 500ms ease; 
   }
   
   .nav-menu-items {

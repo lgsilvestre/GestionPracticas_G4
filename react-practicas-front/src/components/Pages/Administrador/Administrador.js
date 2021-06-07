@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { motion } from "framer-motion"
 
 export default function Administrador() {
   
@@ -362,13 +362,14 @@ const bodyEliminar=(
   return (
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
     <div className={classes.encabezado}>
-    <img  heigth ={20} src={funcionarios} alt='funcionarios'/>
-     <h1 className={classes.titulo}  >FUNCIONARIOS</h1>
+      <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} > <img  heigth ={20} src={funcionarios} alt='funcionarios'/></motion.div>
+      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo} >FUNCIONARIOS</h1></motion.div>
     </div>
+
+    
      
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
       <br /><br />
-    <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
      <TableContainer>
        <Table className={classes.table}>
          <TableHead>
@@ -398,7 +399,6 @@ const bodyEliminar=(
          </TableBody>
        </Table>
      </TableContainer>
-     </Grow>
      <Modal
      open={modalInsertar}
      onClose={abrirCerrarModalInsertar}>

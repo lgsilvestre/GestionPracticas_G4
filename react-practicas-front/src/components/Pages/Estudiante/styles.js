@@ -20,6 +20,7 @@ export default makeStyles((theme) => ({
       cursor: 'pointer'
     },
     encabezado:{
+      marginTop: '8vh',
       display: 'flex',
       alignItems: 'center'
     },
