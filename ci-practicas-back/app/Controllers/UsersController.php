@@ -535,6 +535,26 @@ class UsersController extends  BaseController
         return redirect()->to('/');
     }
 
+    public function getUserId()
+    {
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'id' => 'required',
+            ];
+            $errors = [             //falta errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $id = $this->request->getVar('id');
+                $model = new AlumnoModel();
+                $user = $model->where('id_alumno', $id)->first();
+                echo json_encode($user);
+            }
+        }
+    }
+
     public function getUsersActive()
     {
         $model = new UserModel();

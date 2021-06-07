@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\PracticaModel as PracticanModel;
+use App\Models\PracticaModel as PracticaModel;
 
 class PracticaController extends BaseController
 {
@@ -20,8 +20,6 @@ class PracticaController extends BaseController
 				'nropractica' => 'required|integer',
 				'estado' => 'required',		//faltan reglass por agregar
 				'numero' => 'required|integer'
-
-
             ];
             $errors = [			// faltan errores por definir
 				'estudiante' => [
@@ -31,10 +29,10 @@ class PracticaController extends BaseController
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
-				//Primero hay que validar que no 
-				$Estudiante => $this->request->getVar('estudiante');
-				$Nropractica => $this->request->getVar('nropractica');
-				$Estado => $this->request->getVar('estado');
+				//Primero hay que validar que no
+				$Estudiante = $this->request->getVar('estudiante');
+				$Nropractica = $this->request->getVar('nropractica');
+				$Estado = $this->request->getVar('estado');
 
 				$resutaldo = $this->validarPractica($Estudiante, $Nropractica, $Estado, $Numero);
 
@@ -81,8 +79,8 @@ class PracticaController extends BaseController
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
-				$Estudiante => $this->request->getVar('estudiante');
-				$Nropractica => $this->request->getVar('nropractica');
+				$Estudiante = $this->request->getVar('estudiante');
+				$Nropractica = $this->request->getVar('nropractica');
 
 				$resutaldo = $this->buscarDocumento($Estudiante);
 				echo json_encode($resutaldo);
@@ -120,10 +118,10 @@ class PracticaController extends BaseController
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
-				$Etapa => $this->request->getVar('EtapaFilter');
-				$Estado => $this->request->getVar('EstadoFilter');
-				$Carrera => $this->request->getVar('CarreraFilter');
-				$anio => $this->request->getVar('anioFilter');
+				$Etapa = $this->request->getVar('EtapaFilter');
+				$Estado =$this->request->getVar('EstadoFilter');
+				$Carrera = $this->request->getVar('CarreraFilter');
+				$anio = $this->request->getVar('anioFilter');
 
 				$resutaldo = $this->resultadoFiltros($Etapa, $Estado, $Carrera, $anio);
 				echo json_encode($resutaldo);
@@ -157,55 +155,55 @@ class PracticaController extends BaseController
 
 		if($Etapa !='' && $Estado !='' && $Carrera=='' && $anio =='')
 		{
-			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->findAll();
+			return $model->where('etapa',$Etapa)->where('estado',$Estado)->findAll();
 		}
 		if($Etapa !='' && $Estado =='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('etapa',$Etapa)->where->('carrera',$Carrera)->findAll();
+			return $model->where('etapa',$Etapa)->where('carrera',$Carrera)->findAll();
 		}
 		if($Etapa !='' && $Estado =='' && $Carrera=='' && $anio !='')
 		{
-			return $model->where('etapa',$Etapa)->where->('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa =='' && $Estado !='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('carrera',$Carrera)->where->('estado',$Estado)->findAll();
+			return $model->where('carrera',$Carrera)->where('estado',$Estado)->findAll();
 		}
 
 		if($Etapa =='' && $Estado !='' && $Carrera=='' && $anio !='')
 		{
-			return $model->where('carrera',$Carrera)->where->('anio',$anio)->findAll();
+			return $model->where('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa =='' && $Estado =='' && $Carrera!='' && $anio !='')
 		{
-			return $model->where('carrera',$Carrera)->where->('anio',$anio)->findAll();
+			return $model->where('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa !='' && $Estado !='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->where('carrera',$Carrera)->findAll();
+			return $model->where('etapa',$Etapa)->where('estado',$Estado)->where('carrera',$Carrera)->findAll();
 		}
 
 		if($Etapa !='' && $Estado !='' && $Carrera=='' && $anio !='')
 		{
-			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->where('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where('estado',$Estado)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa !='' && $Estado =='' && $Carrera !='' && $anio !='')
 		{
-			return $model->where('etapa',$Etapa)->where->('carrera',$Carrera)->where('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa =='' && $Estado !='' && $Carrera !='' && $anio !='')
 		{
-			return $model->where('estado',$Estado)->where->('carrera',$Carrera)->where('anio',$anio)->findAll();
+			return $model->where('estado',$Estado)->where('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 
 		if($Etapa !='' && $Estado !='' && $Carrera!='' && $anio =='')
 		{
-			return $model->where('etapa',$Etapa)->where->('estado',$Estado)->where('carrera',$Carrera)->where('anio',$anio)->findAll();
+			return $model->where('etapa',$Etapa)->where('estado',$Estado)->where('carrera',$Carrera)->where('anio',$anio)->findAll();
 		}
 	}
 
@@ -216,7 +214,7 @@ class PracticaController extends BaseController
                 'alumno' => 'required|min_length[2]|max_length[99]',
 				'nombreEmpresa' => 'required|min_length[2]|max_length[99]',
 				'nombreSupervisor' => 'required|min_length[2]|max_length[99]',
-				'fechaInicio' => 'required'
+				'fechaInicio' => 'required',
 				'fechaTermino' => 'required'
             ];
             $errors = [			// faltan errores por definir
@@ -234,9 +232,9 @@ class PracticaController extends BaseController
 					'fecha_termino' => $this->request->getVar('fechaTermino'),
 					'etapa' => '2',				// 2 = viendo datos empresa
 				];
-				$Estudiante => $this->request->getVar('alumno');
+				$Estudiante = $this->request->getVar('alumno');
 				$id = buscarPractica($Estudiante);
-				$Model->update($id, $newsData);
+				$Model -> update($id, $newsData);
 				echo true;
             }
         }
@@ -251,6 +249,34 @@ class PracticaController extends BaseController
 		return $aux;
 	}
 
-	
+	public function getPracticas()
+    {
+        $model = new PracticaModel();
+        $practica = $model->findAll();
+		$arr = array();
+        echo json_encode($practica);
+    }
+
+	public function servePracticaAlumno () {
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getPracticaAlumno();
+        
+		$arr = array();
+        $count = 1;
+        if ($result){
+            
+            //foreach ($result as $row)
+            //{
+            //    $arr[] = $row->nombre;
+                //$count++;
+            //}
+
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        } else {
+            echo "error";
+        }
+		
+	}
 
 }

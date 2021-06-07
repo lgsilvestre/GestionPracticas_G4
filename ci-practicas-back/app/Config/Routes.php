@@ -44,17 +44,20 @@ $routes->post('getUserActive', 'UsersController::getUserActive');
 $routes->post('getUsersAlumnos', 'UsersController::getUsersAlumnos');		//retorna todos los alumnos
 $routes->post('getUserAlumno', 'UsersController::getUserAlumno');			//retorna un alumno
 $routes->get('tablaPracticas', 'PracticaController::index');				//Devuelve la tabla de practicas
+$routes->get('getPracticas', 'PracticaController::getPracticas');
 $routes->post('filtrosTP', 'PracticaController::filtros');
 $routes->post('solicitarPractica', 'PracticaController::solicitarPractica');
 $routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
 $routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
+$routes->post('getUserId', 'UsersController::getUserId');
 // Documentos
 $routes->get('getDocumentos', 'DocumentoController::getDocumentos');
 $routes->get('getDocumento', 'DocumentoController::getDocumento');
 //Carreras
 $routes->get('getCarreras', 'CarreraController::getCarreras');
 //Practicas
-$routes->get('getPracticas', 'PracticaController::getPracticas');
+$routes->post('getPracticas', 'PracticaController::getPracticas');
+$routes->get('servePracticaAlumno', 'PracticaController::servePracticaAlumno');
 
 /*
  * --------------------------------------------------------------------

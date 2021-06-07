@@ -62,23 +62,23 @@ export default makeStyles((theme) => ({
     }
   }));
   
-  export const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: '#f69b2e',
-      color: theme.palette.common.black,
-      padding: '6px'
-    },
-    body: {
-      fontSize: 12,
-      padding: '6px'
-    },
-  }))(TableCell);
+  // export const StyledTableCell = withStyles((theme) => ({
+  //   head: {
+  //     backgroundColor: '#f69b2e',
+  //     color: theme.palette.common.black,
+  //     padding: '6px'
+  //   },
+  //   body: {
+  //     fontSize: 12,
+  //     padding: '6px'
+  //   },
+  // }))(TableCell);
   
-  export const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
+  // export const StyledTableRow = withStyles((theme) => ({
+  //   root: {
+  //     '&:nth-of-type(odd)': {
+  //       backgroundColor: theme.palette.action.hover,
+  //     },
   
-    },
-  }))(TableRow);
+  //   },
+  // }))(TableRow);
