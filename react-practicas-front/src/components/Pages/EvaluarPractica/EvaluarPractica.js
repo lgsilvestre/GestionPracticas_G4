@@ -21,12 +21,12 @@ const EvaluarPractica = (estudiante, empresa) => {
       };
 
     return (
-        <div>
+        <div className={classes.global}>
          
-                <div className={classes.encabezado}>
-                <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo} >EVALUACION ESTUDIANTE</h1></motion.div>
-                <motion.div   className={classes.icono} animate={{ scale: 4 }}   transition={{ duration: 0.5 }} > <img  heigth ={20} src={evaluacion} alt='evaluacion'/></motion.div>                
-                </div>
+            <div className={classes.encabezado}>
+            <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo} >EVALUACION ESTUDIANTE</h1></motion.div>
+            <motion.div   className={classes.icono} animate={{ scale: 4 }}   transition={{ duration: 0.5 }} > <img  heigth ={20} src={evaluacion} alt='evaluacion'/></motion.div>                
+            </div>
             <div  className={classes.empresa}>
             <Typography align="center" variant="h6" gutterBottom> !Hola {empresa} ! </Typography>
             </div>
@@ -37,7 +37,7 @@ const EvaluarPractica = (estudiante, empresa) => {
             <div  className={classes.buton}>
             <Button  className={classes.boton} color="primary" >Calificar</Button>
             </div>
-            <Footer  className={classes.footer}/> 
+           
         </div>
     )
 }

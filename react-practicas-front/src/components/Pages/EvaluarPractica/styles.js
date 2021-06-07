@@ -28,9 +28,12 @@ export default makeStyles((theme) => ({
         textAlign: 'center',
 
     },empresa:{
-
         marginTop: '10%',   
-
+    },
+    global:{
+      height: '100%',
+      width: '100%',
+      overflowY: 'scroll'
     },
     icono:{
         marginTop: '8%',
@@ -41,7 +44,7 @@ export default makeStyles((theme) => ({
      display: 'inline-block',
      color: '#3d84b8',
      fontFamily: 'Righteous, serif',
-     fontSize: '3.5em',
+     fontSize: '3em',
      textShadow: '.05em .05em 0 #3f3697',
     },
     buton:{
