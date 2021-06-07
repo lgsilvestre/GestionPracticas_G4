@@ -1,8 +1,5 @@
 .Back{
-    background-repeat: repeat;
-    background-size: 300px;
-    background-image: url("./assets/leaves-pattern.png");
-    background-attachment: fixed;
+   background-color: #fcf8ec;
     height: 100vh;    
 }
 

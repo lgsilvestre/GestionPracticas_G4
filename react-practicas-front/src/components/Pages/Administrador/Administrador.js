@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import useStyles from './styles';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, TableCell, Paper} from '@material-ui/core';
+import funcionarios from '../../routers/assets/funcionarios.svg'
+import { makeStyles } from '@material-ui/core/styles';
+import {StyledTableCell, StyledTableRow} from './styles';
+import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import InputLabel from '@material-ui/core/InputLabel';
 import CachedIcon from '@material-ui/icons/Cached';
@@ -13,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { motion } from "framer-motion"
 
 export default function Administrador() {
   
@@ -21,6 +24,7 @@ export default function Administrador() {
   const emailRef = React.useRef('');
   const tipoRef = React.useRef('');
   const contrasenaRef = React.useRef('');
+  let arrayCarreras;
   
   const classes = useStyles();
   const [data, setData]=useState([]);
@@ -162,11 +166,14 @@ export default function Administrador() {
     )
       .then(response => {
         console.log("respuesta: ", response.data);
-        let stringJson = JSON.stringify(response.data);
-        
-        // Variable array carreras contiene las carreras antecedidas por un id
-        let arrayCarreras = JSON.parse(stringJson);
-        console.log(arrayCarreras[1]);
+        arrayCarreras = JSON.parse(response.data);
+        console.log("cascasda: ", arrayCarreras);
+        //let respJson = JSON.parse(response.data);
+        /*
+        for(var i in response.data)
+          arrayCarreras.push([i, response.data [i]]);
+        */
+
       })
       .catch(error => {
         console.log("login error: ", error);
@@ -245,21 +252,27 @@ const bodyInsertar=(
 
     <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
 
-    <FormControl className={classes.inputMaterial} variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          onChange={handleChange}
-          label="Age"
-        >
-          {administrador.carreras.map((valorcarrera) => (
-            <MenuItem key={valorcarrera} value={valorcarrera}>
-              {valorcarrera}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+           {                  
+                    arrayCarreras.map( (index) => (
+                      <FormControl className={classes.inputMaterial} variant="outlined" key={index}>
+                           <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
+                          <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            onChange={handleChange}
+                            label="Carrera"
+                          >
+                            <MenuItem value={'${index}'}>{index.nombre}</MenuItem>
+                          
+                    
+                          </Select>
+                      </FormControl>
+                    ))
+                }
+         
+          
+      
+     
 
     <TextField variant="outlined" name="tipo" id="tipo" className={classes.inputMaterial} label="Tipo" onChange={handleChange}/>
     
@@ -340,52 +353,50 @@ const bodyEliminar=(
 
 
   return (
-    <div className="animate__animated animate__fadeIn animate__faster" >
-      <div style={{marginTop:'20px', marginBottom:'30px'}}>
-        <h4 style={{marginBottom:'10px'}}>
-              Admin &gt; Funcionarios
-        </h4>
-        <br />
-        <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Administrador</Button>
-        <br /><br />
-        <hr/>
-        <Paper className={classes.root}>
-          <TableContainer>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Nombre</TableCell>
-                  <TableCell>Correo</TableCell>
-                  <TableCell>Tipo</TableCell>
-                  <TableCell>Contrase&ntilde;a</TableCell>
-                  <TableCell>Acciones</TableCell>
-                </TableRow>
-              </TableHead>
+    <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
+    <div className={classes.encabezado}>
+      <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} > <img  heigth ={20} src={funcionarios} alt='funcionarios'/></motion.div>
+      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo} >FUNCIONARIOS</h1></motion.div>
+    </div>
 
-              <TableBody>
-                {data.map(administrador=>(
-                  <TableRow key={administrador.id}>
-                    <TableCell>{administrador.nombre}</TableCell>
-                    <TableCell>{administrador.correo}</TableCell>
-                    <TableCell>{administrador.tipo}</TableCell>
-                    <TableCell>{administrador.contrasenia}</TableCell>
-                    <TableCell>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
-                      &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
-                      </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-        
-        <Modal
-        open={modalInsertar}
-        onClose={abrirCerrarModalInsertar}>
-            {bodyInsertar}
-        </Modal>
+    
+     
+    <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
+      <br /><br />
+     <TableContainer>
+       <Table className={classes.table}>
+         <TableHead>
+           <TableRow>
+             <StyledTableCell>Nombre</StyledTableCell>
+             <StyledTableCell>Correo</StyledTableCell>
+             <StyledTableCell>Tipo</StyledTableCell>
+             <StyledTableCell>Contrase&ntilde;a</StyledTableCell>
+             <StyledTableCell>Acciones</StyledTableCell>
+           </TableRow>
+         </TableHead>
+
+         <TableBody>
+           {data.map(administrador=>(
+             <StyledTableRow key={administrador.id}>
+               <StyledTableCell>{administrador.nombre}</StyledTableCell>
+               <StyledTableCell>{administrador.correo}</StyledTableCell>
+               <StyledTableCell>{administrador.tipo}</StyledTableCell>
+               <StyledTableCell>{administrador.contrasenia}</StyledTableCell>
+               <StyledTableCell>
+                 <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
+                 &nbsp;&nbsp;&nbsp;
+                 <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
+                 </StyledTableCell>
+             </StyledTableRow>
+           ))}
+         </TableBody>
+       </Table>
+     </TableContainer>
+     <Modal
+     open={modalInsertar}
+     onClose={abrirCerrarModalInsertar}>
+        {bodyInsertar}
+     </Modal>
 
         <Modal
         open={modalEditar}
