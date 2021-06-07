@@ -22,8 +22,13 @@ export default makeStyles((theme) => ({
       alignSelf: 'center'
     }, 
     encabezado:{
+<<<<<<< Updated upstream
       marginTop: '10vh',
       marginTop: '10vh',
+=======
+      marginLeft:'9vh',
+      marginTop: '9vh',
+>>>>>>> Stashed changes
       display: 'flex',
       alignItems: 'center'
     },
