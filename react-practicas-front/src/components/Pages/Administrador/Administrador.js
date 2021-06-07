@@ -167,10 +167,10 @@ export default function Administrador() {
       .then(response => {
         console.log("respuesta: ", response.data);
         let stringJson = JSON.stringify(response.data);
-        console.log(stringJson);
+        
         // Variable array carreras contiene las carreras antecedidas por un id
         let arrayCarreras = JSON.parse(stringJson);
-
+        console.log(arrayCarreras[1]);
       })
       .catch(error => {
         console.log("login error: ", error);
@@ -257,9 +257,9 @@ const bodyInsertar=(
           onChange={handleChange}
           label="Age"
         >
-          {administrador.carreras.map((code, name, index) => (
-            <MenuItem key={index} value={code}>
-              {name}
+          {administrador.carreras.map((valorcarrera) => (
+            <MenuItem key={valorcarrera} value={valorcarrera}>
+              {valorcarrera}
             </MenuItem>
           ))}
         </Select>
