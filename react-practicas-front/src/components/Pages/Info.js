@@ -28,6 +28,12 @@ export const Info = () => {
                             Table
                         </button>
                     </Link>
+                    <h3>para trabajar en evaluar practicas : /evaluar</h3>   
+                    <Link to="/evaluar">
+                        <button className ="btn btn-secondary">
+                            evaluar
+                        </button>
+                    </Link>
         </div>
     )
 }

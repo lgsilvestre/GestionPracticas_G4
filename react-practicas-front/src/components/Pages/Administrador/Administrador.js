@@ -285,13 +285,13 @@ const bodyInsertar=(
                             onChange={handleChange}
                             label="Carrera"
                           >
-           {                  
+           { /*                 
                     arrayCarreras.map( (carrera) => (
                      
                             <MenuItem >{carrera.nombre}</MenuItem>
                        
                     ))
-                }
+                    */}
          
              
                     
