@@ -1,10 +1,11 @@
-import {Box,Button,FormControl,FormGroup,Grid,IconButton,Input,InputLabel,List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, MenuItem, NativeSelect, Select, TextField } from '@material-ui/core'
-import React, { useState } from 'react'
-import { AiOutlineSearch } from 'react-icons/ai';
+import {Box,FormControl,Grid,IconButton,Input,
+    List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, 
+    NativeSelect } from '@material-ui/core'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { IoMdAddCircle } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md';
 import { VscFilePdf } from 'react-icons/vsc';
-import { Col, FormText, Label } from 'reactstrap';
 import { useForm } from '../../../../../../hooks/useForm';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
         height:"25px"
     }
 }));
-export const SolicitarAdmin = () => {
+export const SolicitarAdmin = ({idAlumno}) => {
+    console.log("Solicitando alumno con: ",idAlumno)
+    
     const docs = [
         {
           nombre:'Carta de presentación',
@@ -61,7 +64,8 @@ export const SolicitarAdmin = () => {
         }
       ]
     const classes = useStyles();
-    const dataEstudiante = {
+    //Datos por defecto 
+    const data = {
         nombre: "Camilo Villalobos",
         carrera: "Ingenieria Civil en Computacion",
         edad: "18 años",
@@ -69,6 +73,7 @@ export const SolicitarAdmin = () => {
         rut:"12345678-9",
         matricula:"12345679",
     }
+    const [dataEstudiante, setdataEstudiante] = useState(data)
     const [docSelect, setDocSelect] = useState('');
     const handleChangeDocSelect = (event) => {
         setDocSelect(event.target.value);
@@ -92,9 +97,27 @@ export const SolicitarAdmin = () => {
         }
         }  
     const handleDeleteDoc= () =>{
-
     }
-    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Edad:", "Sexo:", "Rut:", "Matrícula:"]
+    useEffect(async() => {
+        await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoMatricula",{
+            params:{
+                matricula:idAlumno
+            }
+        })
+        .then(response =>{
+            const datosEstudiante={
+                nombre: response.data.nombre,
+                carrera: response.data.nbe_carrera,
+                correo_inst: response.data.correo_ins,
+                correo_per: response.data.correo_per,
+                rut: response.data.rut,
+                matricula: response.data.matricula
+            }
+            setdataEstudiante(datosEstudiante)
+            console.log(datosEstudiante)
+        })
+    }, [])
+    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
     return (
         <div>         
             {/* Datos de Estudiante */}
@@ -130,7 +153,7 @@ export const SolicitarAdmin = () => {
                                 {infoLabelsEstudiante[2]}
                             </Box>
                             <Box>
-                                {dataEstudiante.edad}
+                                {dataEstudiante.correo_inst}
                             </Box>
                         </Box>
                     </Grid>
@@ -140,7 +163,7 @@ export const SolicitarAdmin = () => {
                                 {infoLabelsEstudiante[3]}
                             </Box>
                             <Box>
-                                {dataEstudiante.sexo}
+                                {dataEstudiante.correo_per}
                             </Box>
                         </Box>
                     </Grid>                                               

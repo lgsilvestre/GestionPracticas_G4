@@ -103,6 +103,7 @@ export const TablaEstados = ({history}) =>  {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
+  const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
   
   useEffect(async()=>{
     petitionGetPracticaAlumno()
@@ -131,7 +132,7 @@ export const TablaEstados = ({history}) =>  {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  const [estudiante, setEstudiante] = useState("")
+ 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -141,13 +142,13 @@ export const TablaEstados = ({history}) =>  {
       case "Solicitud":
         setSeleccionado(0)
         break;
-      case "Inscripción":
+      case "Inscripcion":
         setSeleccionado(1)
         break;
       case "Cursando":
         setSeleccionado(2)
         break;
-      case "Evaluación":
+      case "Evaluacion":
         setSeleccionado(3)
         break;
       default:
@@ -155,7 +156,9 @@ export const TablaEstados = ({history}) =>  {
         break;
     }
   }
-  const handleChangeState = (etapa, idAlumno="") => {
+  const handleChangeState = (etapa, idAlumno) => {
+    console.log(idAlumno)
+    setIdAlumnoSelected(idAlumno)
     setChangeState(!changeState)
     changeSelected(etapa)
     
@@ -164,7 +167,7 @@ export const TablaEstados = ({history}) =>  {
     setChangeState(!changeState)
   }
   if(changeState){
-    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} estudiante = {estudiante} etapaProp={seleccionado}/>
+    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} idAlumno = {idAlumnoSelected} etapaProp={seleccionado}/>
   }
   else{
     return (  
@@ -208,7 +211,7 @@ export const TablaEstados = ({history}) =>  {
                               {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}
                               {value ==="button" ? 
                               <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
-                                onClick={() => handleChangeState(row.etapa)}>
+                                onClick={() => handleChangeState(row.etapa, row.matricula)}>
                                 <AiOutlineEye fontSize="inherit"/>
                               </IconButton>
                               : value}

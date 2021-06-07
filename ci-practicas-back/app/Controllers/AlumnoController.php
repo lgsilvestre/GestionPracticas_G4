@@ -19,7 +19,7 @@ use App\Models\AlumnoModel as AlumnoModel;
  * For security be sure to declare any new methods as protected or private.
  */
 
-class UsersController extends BaseController
+class AlumnoController extends BaseController
 {
 	
 	/**
@@ -60,6 +60,14 @@ class UsersController extends BaseController
         echo $_SESSION['nbe_carrera'];
         echo $_SESSION['refCarrera'];
         */
+    }
+
+	public function getAlumnoMatricula(){
+		$matricula = $this->request->getVar('matricula');
+        $model = new AlumnoModel();
+		// $model->;
+        $user = $model->where('matricula', $matricula)->first();   
+        echo json_encode($user);
     }
    
 }

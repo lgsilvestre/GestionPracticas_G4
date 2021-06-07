@@ -7,7 +7,7 @@ import { SolicitarAdmin } from './Estados/SolicitarAdmin';
 import { EvaluacionAdmin } from './Estados/EvaluacionAdmin';
 
 
-const WizardAdmin = ({pageProp=0}) => {
+const WizardAdmin = ({pageProp=0, idAlumno}) => {
 
     const steps = [
         {title: "Solicitar"},
@@ -35,10 +35,10 @@ const WizardAdmin = ({pageProp=0}) => {
             />
             <hr/>
             
-            { page===0 && <SolicitarAdmin previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===1 && <InscripcionAdmin handleSubmit={nextPage} /> }
-            { page===2 && <CursandoAdmin previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===3 && <EvaluacionAdmin previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===0 && <SolicitarAdmin previousPage={previousPageFuncion} handleSubmit={nextPage} idAlumno={idAlumno} /> }
+            { page===1 && <InscripcionAdmin handleSubmit={nextPage} idAlumno={idAlumno} /> }
+            { page===2 && <CursandoAdmin previousPage={previousPageFuncion} handleSubmit={nextPage} idAlumno={idAlumno}/> }
+            { page===3 && <EvaluacionAdmin previousPage={previousPageFuncion} handleSubmit={nextPage} idAlumno={idAlumno}/> }
             
             
         </Card>
