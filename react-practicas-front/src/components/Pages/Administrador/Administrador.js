@@ -26,11 +26,12 @@ export default function Administrador() {
   const emailRef = React.useRef('');
   const tipoRef = React.useRef('');
   const contrasenaRef = React.useRef('');
-  let arrayCarreras;
+
   
   const classes = useStyles();
   const [data, setData]=useState([]);
   const [modalInsertar, setModalInsertar]=useState(false);
+  const [arrayCarreras, setCarreras]=useState(false);
   const [modalEditar, setModalEditar]=useState(false);
   const [modalEliminar, setModalEliminar]=useState(false);
   const [showPassword, setShowPassword]=useState(false);
@@ -126,9 +127,19 @@ export default function Administrador() {
     event.preventDefault();
   };
 
-  useEffect(async()=>{
-    await peticionGet();
-  },[])
+  useEffect(() => {
+    axios.get(
+      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
+    )
+      .then(response => {
+        let carreras = JSON.parse(response.data);
+        setCarreras(carreras);
+
+      })
+      .catch(error => {
+        console.log("login error: ", error);
+      });
+  }, []);
   
   function peticionPost () {
 
@@ -190,6 +201,10 @@ export default function Administrador() {
         console.log("login error: ", error);
       });
   }
+
+  useEffect(async()=>{
+    await getDocumentos();
+  },[])
   
 function generarPassUser() {
   let randomPass = Math.random().toString(36).slice(-8);
@@ -262,10 +277,7 @@ const bodyInsertar=(
     <TextField variant="outlined" name="apellido" id="apellido" className={classes.inputMaterial} label="Apellido" onChange={handleChange}/>
 
     <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
-
-           {                  
-                    arrayCarreras.map( (index) => (
-                      <FormControl className={classes.inputMaterial} variant="outlined" key={index}>
+    <FormControl className={classes.inputMaterial} variant="outlined" >
                            <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
                           <Select
                             labelId="demo-simple-select-outlined-label"
@@ -273,15 +285,18 @@ const bodyInsertar=(
                             onChange={handleChange}
                             label="Carrera"
                           >
-                            <MenuItem value={'${index}'}>{index.nombre}</MenuItem>
-                          
-                    
-                          </Select>
-                      </FormControl>
+           {                  
+                    arrayCarreras.map( (carrera) => (
+                     
+                            <MenuItem >{carrera.nombre}</MenuItem>
+                       
                     ))
                 }
          
-          
+             
+                    
+         </Select>
+     </FormControl>
       
      
 
