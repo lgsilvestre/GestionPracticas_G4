@@ -195,6 +195,4 @@ public function register(){
         $users = $model->where('tipo', 'alumno');       //Muy modificable, no recuerdo el nombre del tipo de usuario 
         echo json_encode($users);
     }
-
-    
 }

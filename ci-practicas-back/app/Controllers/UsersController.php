@@ -69,6 +69,11 @@ class UsersController extends  BaseController
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
 
+        // $nombre = 'pepe';
+        // $correo = 'lnicolas15@alumnos.utalca.cl';
+        // $contraseña = 'c0nt4s3ñ4';
+        // $this->sendEmail($nombre, $correo, $contraseña);
+
         $usermodel = new UserModel();
         $alumnomodel = new AlumnoModel();
 
@@ -141,73 +146,6 @@ class UsersController extends  BaseController
 
     public function getFuncionarios(){
 
-    }
-
-	public function login1(){
-        echo "Usuario: ".$this->request->getVar('email')." - ";
-        echo "Pass: ".$this->request->getVar('password');
-        
-        helper(['form']);
-        /*
-        if($this-> request -> getMethod() == 'post') {
-            
-            $rules = [
-                'email' => 'required|min_length[6]|max_length[99]|valid_email',
-                'password' => 'required|max_length[255]|validateUSer[email, password]',
-            ];
-            $errors = [
-                'password' => [
-                'validateUSer' => 'Email y contrase�a no coinciden'
-                ]
-            ];
-            
-            if(! $this->validate($rules, $errors)){
-                $data['validation'] = $this->validator;
-            } else {
-                $model = new UserModel();
-                $user = $model->where('email', $this->request->getVar('email'))->first();
-
-                $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-
-                if($user['tipo']==0){//Superadmin
-                    //return redirect()->to('/dashbordSuperAdmin');
-                }
-                if($user['tipo']==1){//Admin
-                    //return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==2){//cliente
-                    //return redirect()->to('/dashbordJefeCarrera');
-                }
-                if($user['tipo']==3){//cliente
-                    //return redirect()->to('/dashbordEncarcadoCarrera');
-                }
-                if($user['tipo']==4){//cliente
-                    //return redirect()->to('/dashbordAlumno');
-                }
-                if($user ['active']==1){
-                    $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-
-                    if($user['tipo']==0){//Superadmin
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==1){//Admin
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==2){//cliente
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==3){//cliente
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==4){//cliente
-                        return redirect()->to('/dashbordAlumno');
-                    }
-                }
-                else{
-                    //usuario inactivo
-                }
-            }
-        }*/
     }
 
     private function setUserSession($user){
@@ -585,6 +523,35 @@ class UsersController extends  BaseController
                 echo json_encode($user);
             }
         }
+    }
+
+    private function sendEmail($nombre, $correo, $contraseña){
+        $email = \Config\Services::email();
+
+        
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Se ha registrado su usuario con éxito');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su cuenta ha sido registrada con éxito :).</p>
+                <p>Sus credenciales de ingreso son: </p>
+                <p style="color: blue"><b>Usuario:</b> '.$correo.'</p>
+                <p style="color: blue"><b>Contraseña:</b> '.$contraseña.'</p>
+                <br>
+                <p>Ya estas habilitado para acceder al centro de practica y solicitar tu practica</p>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+
     }
 }
 
