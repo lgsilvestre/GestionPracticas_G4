@@ -5,7 +5,7 @@
 
 .navbar {
     /* background-color: #4527a0; */
-    background-color: #2e8def; 
+    background-color: #3d84b8; 
     height: 80px;
     display: flex;
     justify-content: flex-start;
@@ -20,7 +20,7 @@
 .nav-menu {
     /* background-color: #4527a0; */
     /* background-color: #f69b2e; */
-    background-color: #2e8def;
+    background-color: #344fa1;
     height: 100%;
     display: flex;
     justify-content: left;
@@ -67,7 +67,7 @@
   .nav-text a:hover {
     /* background-color: dimgray; */
     /* background-color: #f69b2e; */
-    background-color: #1173d9 ;
+    background-color: #3f3697 ;
     /* background-color: #2e8def; */
     color: #fff;
     /* color:dimgray; */

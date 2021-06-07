@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import estudiantes from '../../routers/assets/estudiantes.svg'
 import useStyles from './styles';
 import Typography from '@material-ui/core/Typography';
 import {StyledTableCell, StyledTableRow} from './styles';
@@ -24,25 +25,15 @@ export default function Administrador() {
   const [estudiante , setEstudiante ]=useState({
     nombre: '',
     correo_ins: '',
-    correo_per: '',
     password: '',
     matricula: '',
     cod_carrera: '',
     rut: '',
     fecha_nac: '',
     plan: '',
-    via_ingreso: '',
     anho_ingreso: '',
-    sit_actual: '',
-    sit_actual_anho: '',
     sit_actual_periodo: '',
-    regular: '',
-    comuna_origen: '',
-    region: '',
     nivel: '',
-    porc_avance: '',
-    ult_punt_prio: '',
-    al_dia: '',
     nivel_99_aprobado: ''
   })
 
@@ -132,7 +123,7 @@ export default function Administrador() {
   const bodyInsertar=(
       <div>
       <FormAlumno setEstudiante={setEstudiante} estudiante={estudiante}/>
-      <DialogActions>
+      <DialogActions className={classes.encabezado}>
       <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(estudiante)}>Agregar</Button>
       <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
         </DialogActions>
@@ -175,10 +166,10 @@ export default function Administrador() {
 
   return (
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
-      <h4 style={{marginBottom:'10px'}}>
-            Admin &gt; Estudiantes
-      </h4>
-      <br />
+        <div className={classes.encabezado}>
+           <img  heigth ={20} src={estudiantes} alt='ESTUDIANTES'/>
+           <h1 className={classes.titulo}  >ESTUDIANTES</h1>
+         </div>
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Estudiante</Button>
       <br /><br />
     <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
@@ -193,7 +184,6 @@ export default function Administrador() {
             <StyledTableCell >Correo</StyledTableCell> 
             <StyledTableCell >Plan</StyledTableCell> 
             <StyledTableCell >Ingreso</StyledTableCell> 
-            <StyledTableCell >Comuna Origen</StyledTableCell>
             <StyledTableCell >Detalle</StyledTableCell> 
             <StyledTableCell >Acciones</StyledTableCell>  
           
@@ -211,8 +201,7 @@ export default function Administrador() {
                 <StyledTableCell >{estudiante.rut}</StyledTableCell>                 
                 <StyledTableCell >{estudiante.correo_ins}</StyledTableCell>                 
                 <StyledTableCell >{estudiante.plan}</StyledTableCell> 
-                <StyledTableCell >{estudiante.anho_ingreso}</StyledTableCell>                 
-                <StyledTableCell >{estudiante.comuna_origen}</StyledTableCell> 
+                <StyledTableCell >{estudiante.anho_ingreso}</StyledTableCell>    
                  
                 <StyledTableCell>
                  <Assignment className={classes.iconos} onClick={()=>seleccionarVerMas(estudiante)}/>
@@ -232,21 +221,11 @@ export default function Administrador() {
      <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
         <div className={classes.modal}>          
         <Typography variant="h5">CodigoCarrera: {estudiante.cod_carrera}</Typography> 
-        <Typography variant="h5">Correo Personal: {estudiante.correo_pers}</Typography> 
         <Typography variant="h5">Sexo: {estudiante.sexo}</Typography> 
         <Typography variant="h5">Fecha Nacimiento: {estudiante.fecha_nac}</Typography> 
-        <Typography variant="h5">Via Ingreso: {estudiante.via_ingreso}</Typography> 
-        <Typography variant="h5">Situacion Actual: {estudiante.sit_actual}</Typography> 
-        <Typography variant="h5">Situacion Actual Anio: {estudiante.sit_actual_anho}</Typography> 
-        <Typography variant="h5">Situacion Actual Periodo:{estudiante.sit_actual_periodo}</Typography> 
-        <Typography variant="h5">Periodo: {estudiante.periodo}</Typography> 
-        <Typography variant="h5">Region: {estudiante.region}</Typography> 
-        <Typography variant="h5">Regular: {estudiante.regular}</Typography> 
-        <Typography variant="h5">Nivel: {estudiante.nivel}</Typography> 
-        <Typography variant="h5">Porcentaje Avance: {estudiante.porc_avance}</Typography> 
-        <Typography variant="h5">Ultimo Puntaje Prioridad: {estudiante.ult_punt_prio}</Typography> 
-        <Typography variant="h5">Al Dia: {estudiante.al_dia}</Typography> 
-        <Typography variant="h5">Nivel 99 Aprobado: {estudiante.nivel_99_aprobado}</Typography>
+        <Typography variant="h5">Situacion Actual Periodo:{estudiante.sit_actual_periodo}</Typography>
+        <Typography variant="h5">Nivel:{estudiante.nivel}</Typography>
+        <Typography variant="h5">Nivel 99 Aprovado:{estudiante.nivel_99_aprobado}</Typography>
 
         <div align="right">
           <Button onClick={()=>abrirCerrarModalVerMas()}>Cerrar</Button>

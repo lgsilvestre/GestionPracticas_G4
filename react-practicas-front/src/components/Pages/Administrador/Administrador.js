@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Grow from '@material-ui/core/Grow';
 import useStyles from './styles';
+import funcionarios from '../../routers/assets/funcionarios.svg'
 import { makeStyles } from '@material-ui/core/styles';
 import {StyledTableCell, StyledTableRow} from './styles';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField} from '@material-ui/core';
+import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import InputLabel from '@material-ui/core/InputLabel';
 import CachedIcon from '@material-ui/icons/Cached';
@@ -360,11 +361,12 @@ const bodyEliminar=(
 
   return (
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
-      <h4 style={{marginBottom:'10px'}}>
-            Admin &gt; Funcionarios
-      </h4>
-      <br />
-    <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Administrador</Button>
+    <div className={classes.encabezado}>
+    <img  heigth ={20} src={funcionarios} alt='funcionarios'/>
+     <h1 className={classes.titulo}  >FUNCIONARIOS</h1>
+    </div>
+     
+    <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
       <br /><br />
     <Grow  in={true}  style={{ transformOrigin: '0 0 0' }}   {...(true ? { timeout: 1000 } : {})}    >
      <TableContainer>

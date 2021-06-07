@@ -78,31 +78,11 @@ export default function FormAlumno({estudiante, setEstudiante}) {
             <Grid item xs={6} >
             <TextField  variant="outlined" name= "matricula" label="Matricula" value={estudiante.matricula}  onChange={handleChange} fullWidth  required />
             </Grid>
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "plan" label="Plan" value={estudiante.plan}  onChange={handleChange} fullWidth  required />
-            </Grid> 
+            
             <Grid item xs={6} >
             <TextField  variant="outlined" name= "anho_ingreso" label="Año Ingreso" value={estudiante.anho_ingreso}  onChange={handleChange} fullWidth  required />
             </Grid>
-            <Grid item xs={6} >
-            <FormControl variant="outlined" fullWidth required className={classes.formControl}>
-              <InputLabel id="select-outlined-label">Via Ingreso</InputLabel>
-              <Select
-                labelId="select-outlined-label"
-                id="select-outlined"
-                name= "via_ingreso"
-                value={estudiante.via_ingreso}
-                onChange={handleChange}
-                label="Via Ingreso"
-              >
-                
-                <MenuItem value={'Via PSU'}>Via PSU</MenuItem>
-                <MenuItem value={'Especial'}>Especial</MenuItem>
-                <MenuItem value={'Cambio de Universidad'}>Cambio de Universidad</MenuItem>
-               
-              </Select>
-             </FormControl>
-            </Grid>   
+           
    
 
 
@@ -115,9 +95,7 @@ export default function FormAlumno({estudiante, setEstudiante}) {
             <Grid item xs={12} >
             <TextField  variant="outlined" name= "correo_ins" label="Correo" value={estudiante.correo_ins}  onChange={handleChange} fullWidth  required />
             </Grid>   
-            <Grid item xs={12} >
-            <TextField  variant="outlined" name= "correo_pers" label="Correo" value={estudiante.correo_ins}  onChange={handleChange} fullWidth  required />
-            </Grid>        
+      
             <Grid item xs={12} >
             <FormControl component="fieldset">
             <FormLabel component="legend" color="primary">Sexo</FormLabel>
@@ -128,84 +106,22 @@ export default function FormAlumno({estudiante, setEstudiante}) {
             </RadioGroup>
           </FormControl>
             </Grid>
-            <Grid item xs={12} >
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-
-            <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
           
-        />
-               
-
-            </MuiPickersUtilsProvider>
+            <Grid item xs={6} >
+            <TextField  variant="outlined" name= "plan" label="Plan" value={estudiante.plan}  onChange={handleChange} fullWidth   />
             </Grid> 
+           
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "sit_actual" label="Situacion Actual" value={estudiante.sit_actual}  onChange={handleChange} fullWidth  required />
+            <TextField  variant="outlined" name= "sit_actual_periodo" label="Situacion Actual Periodo" value={estudiante.sit_actual_periodo}  onChange={handleChange} fullWidth   />
             </Grid>
+          
+            
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "sit_actual_anho" label="Situacion Actual Anio" value={estudiante.sit_actual_anho}  onChange={handleChange} fullWidth  required />
-            </Grid> 
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "comuna_origen" label="Comuna Origen" value={estudiante.comuna_origen}  onChange={handleChange} fullWidth  required />
+            <TextField  variant="outlined" name= "nivel" label="Nivel" value={estudiante.nivel}  onChange={handleChange} fullWidth   />
             </Grid>
+          
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "sit_actual_periodo" label="Situacion Actual Periodo" value={estudiante.sit_actual_periodo}  onChange={handleChange} fullWidth  required />
-            </Grid>
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "regular" label="Regular" value={estudiante.regular}  onChange={handleChange} fullWidth  required />
-            </Grid>
-            <Grid item xs={6} >
-            <FormControl variant="outlined" fullWidth required className={classes.formControl}>
-              <InputLabel id="select-outlined-label">Region</InputLabel>
-              <Select
-                labelId="select-outlined-label"
-                id="select-outlined"
-                name= "region"
-                value={estudiante.region}
-                onChange={handleChange}
-                label="Region"
-              >
-                
-                <MenuItem value={'1'}>1</MenuItem>
-                <MenuItem value={'2'}>2</MenuItem>
-                <MenuItem value={'3'}>3</MenuItem>
-                <MenuItem value={'4'}>4</MenuItem>
-                <MenuItem value={'5'}>5</MenuItem>
-                <MenuItem value={'6'}>6</MenuItem>
-                <MenuItem value={'7'}>7</MenuItem>
-                <MenuItem value={'8'}>8</MenuItem>
-                <MenuItem value={'9'}>9</MenuItem>
-                <MenuItem value={'10'}>10</MenuItem>
-                <MenuItem value={'11'}>11</MenuItem>
-                <MenuItem value={'12'}>12</MenuItem>
-               
-              </Select>
-             </FormControl>
-            </Grid>
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "nivel" label="Nivel" value={estudiante.nivel}  onChange={handleChange} fullWidth  required />
-            </Grid>
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "porc_avance" label="Porcentaje" value={estudiante.porc_avance}  onChange={handleChange} fullWidth  required />
-            </Grid>         
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "ult_punt_prio" label="Ulti Punt Prio" value={estudiante.ult_punt_prio}  onChange={handleChange} fullWidth  required />
-            </Grid>
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "al_dia" label="Al Dia" value={estudiante.al_dia}  onChange={handleChange} fullWidth  required />
-            </Grid>
-            <Grid item xs={6} >
-            <TextField  variant="outlined" name= "nivel_99_aprobado" label="Nivel 99 Aprobado" value={estudiante.nivel_99_aprobado}  onChange={handleChange} fullWidth  required />
+            <TextField  variant="outlined" name= "nivel_99_aprobado" label="Nivel 99 Aprobado" value={estudiante.nivel_99_aprobado}  onChange={handleChange} fullWidth   />
             </Grid>
           </Grid>          
           

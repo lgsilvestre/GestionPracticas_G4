@@ -18,8 +18,21 @@ export default makeStyles((theme) => ({
       transform: 'translate(-50%, -50%)'
     },
     iconos:{
-      cursor: 'pointer'
+      display: 'inline-flex',
+      alignSelf: 'center'
     }, 
+    encabezado:{
+      display: 'flex',
+      alignItems: 'center'
+    },
+    titulo:{
+      marginLeft:'10%',
+      display: 'inline-block',
+      color: '#3d84b8',
+      fontFamily: 'Righteous, serif',
+     fontSize: '4em',
+     textShadow: '.05em .05em 0 #3f3697',
+    },
     inputMaterial:{
       width: '100%',
       marginTop:'15px'
@@ -30,36 +43,32 @@ export default makeStyles((theme) => ({
       margin: '0 auto',
       marginBottom: '40px',
       display: 'center',
-      border: '2px solid #000',
+      border: '1px grey',
     },
     boton: {
       marginRight:'20px',
-      marginTop:'60px',
       float:'right',
-      margin: '35px',
-      backgroundColor: '#fff',
-      color: 'rgb(0, 0, 0)',  
+      margin: '15px',
+      backgroundColor: '#344fa1',
+      color: '#fff',  
       cursor: 'pointer',
-      border: '2px solid rgba(0,111,110,1)',
       transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
       '&:hover': {
-      backgroundColor: 'rgba(0,111,110,1)',
-        color: '#fff'
-        }
+      backgroundColor: '#f0ebcc',
+        color: '#000'
+      }
     },  
   botonCancelar: {
     marginRight:'20px',
-    marginTop:'60px',
     float:'right',
-    margin: '35px',
-    backgroundColor: '#fff',
-    color: 'rgb(0, 0, 0)',  
+    margin: '15px',
+    backgroundColor: '#E62D05',
+    color: '#fff',  
     cursor: 'pointer',
-    border: '2px solid #E62D05',
     transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
     '&:hover': {
-    backgroundColor: '#E62D05',
-      color: '#fff',
+    backgroundColor: '#f0ebcc',
+      color: '#000',
   
   
     },  
@@ -69,12 +78,12 @@ export default makeStyles((theme) => ({
   
   export const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: '#f69b2e',
+      backgroundColor: '#fafafa',
       color: theme.palette.common.black,
       padding: '6px'
     },
     body: {
-      fontSize: 12,
+      fontSize: '0.875rem',
       padding: '6px'
     },
   }))(TableCell);
