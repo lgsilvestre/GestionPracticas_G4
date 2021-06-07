@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   encabezado:{
-    marginTop: '8vh',
+    marginTop: '10vh',
+    marginTop: '10vh',
     display: 'flex',
     alignItems: 'center'
   },

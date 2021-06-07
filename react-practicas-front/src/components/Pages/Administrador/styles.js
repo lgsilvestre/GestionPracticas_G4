@@ -22,7 +22,8 @@ export default makeStyles((theme) => ({
       alignSelf: 'center'
     }, 
     encabezado:{
-      marginTop: '8vh',
+      marginTop: '10vh',
+      marginTop: '10vh',
       display: 'flex',
       alignItems: 'center'
     },

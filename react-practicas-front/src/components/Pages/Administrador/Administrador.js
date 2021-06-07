@@ -26,6 +26,7 @@ export default function Administrador() {
   const emailRef = React.useRef('');
   const tipoRef = React.useRef('');
   const contrasenaRef = React.useRef('');
+  let arrayCarreras;
   
   const classes = useStyles();
   const [data, setData]=useState([]);
@@ -176,7 +177,7 @@ export default function Administrador() {
       .then(response => {
 
         console.log("respuesta: ", response.data);
-        let arrayCarreras = JSON.parse(response.data);
+        arrayCarreras = JSON.parse(response.data);
         console.log("cascasda: ", arrayCarreras);
         //let respJson = JSON.parse(response.data);
         /*
@@ -262,24 +263,27 @@ const bodyInsertar=(
 
     <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
 
-    <TextField variant="outlined" name="carrera" id="carrera" className={classes.inputMaterial} label="Carrera" onChange={handleChange}/>
-
-    <FormControl className={classes.inputMaterial} variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          onChange={handleChange}
-          label="Age"
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
+           {                  
+                    arrayCarreras.map( (index) => (
+                      <FormControl className={classes.inputMaterial} variant="outlined" key={index}>
+                           <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
+                          <Select
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            onChange={handleChange}
+                            label="Carrera"
+                          >
+                            <MenuItem value={'${index}'}>{index.nombre}</MenuItem>
+                          
+                    
+                          </Select>
+                      </FormControl>
+                    ))
+                }
+         
+          
+      
+     
 
     <TextField variant="outlined" name="tipo" id="tipo" className={classes.inputMaterial} label="Tipo" onChange={handleChange}/>
     
