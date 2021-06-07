@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
@@ -77,6 +77,7 @@ export const TablaEstados = ({history}) =>  {
   function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, action) {
     return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, action };
   }
+
   //Datos locales para mostrar temporalmente en la tabla
   const data = [
     // ("Nombre", carrera, año, estado, fecha termino)
@@ -96,11 +97,31 @@ export const TablaEstados = ({history}) =>  {
     createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
     createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
   ];
+  const [dataPractica, setDataPractica] = useState([])
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState(data);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
+  useEffect(async()=>{
+    console.log("peticion...")
+    await peticionGet();
+    console.log("Terminando peticion")
+  },[])
+  const peticionGet=async()=>{
+    await axios.get('http://localhost/GestionPracticas_G4/ci-practicas-back/public/getPracticas')
+    .then(response=>{
+      let dataparse = JSON.parse(JSON.stringify(response.data))
+      // let dataJson = dataparse[0]
+      console.log(dataparse)
+      setDataPractica(dataparse)
+      const newData=[]
+      dataparse.forEach(dato => (
+        newData.push(createData(dato.etapa)))
+      )
+      setRows(newData)
+    })
+  }
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
