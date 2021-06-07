@@ -78,9 +78,9 @@ export const TablaEstados = ({history}) =>  {
     return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, action };
   }
 
-  //Datos locales para mostrar temporalmente en la tabla
+  // Datos locales para mostrar temporalmente en la tabla
   const data = [
-    // ("Nombre", carrera, año, estado, fecha termino)
+    // ("Nombre", matricula, carrera, año, etapa, estado, fecha termino, boton)
     createData('Diego Perez', '1', 'Ingenieria civil en computación', "2021","Solicitud", "Pendiente", "","button"),
     createData('Camila Lopez','2', 'Ingenieria civil industrial', "2021","Inscripción", "Aprobada", "31/04/21","button"),
     createData('Fernando Fuenzalida','3', 'Ingenieria civil mecatronica', "2021", "Cursando","", "31/04/21","button"),
@@ -97,31 +97,37 @@ export const TablaEstados = ({history}) =>  {
     createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
     createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
   ];
-  const [dataPractica, setDataPractica] = useState([])
+  const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
-  const [rows, setRows] = useState(data);
+  const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
+  
   useEffect(async()=>{
-    console.log("peticion...")
-    await peticionGet();
-    console.log("Terminando peticion")
+    petitionGetPracticaAlumno()
   },[])
-  const peticionGet=async()=>{
-    await axios.get('http://localhost/GestionPracticas_G4/ci-practicas-back/public/getPracticas')
+
+  const petitionGetPracticaAlumno = async () =>{
+    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumno")
     .then(response=>{
-      let dataparse = JSON.parse(JSON.stringify(response.data))
-      // let dataJson = dataparse[0]
-      console.log(dataparse)
-      setDataPractica(dataparse)
-      const newData=[]
-      dataparse.forEach(dato => (
-        newData.push(createData(dato.etapa)))
-      )
-      setRows(newData)
+      // console.log(response.data)
+      const resultado = response.data;
+      // console.log("antes:",rows)
+      const lista = []
+      for(var i=0; i<resultado.length; i++){
+        const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
+          resultado[i].estado, resultado[i].fecha_termino,"button")
+        // console.log(fila)
+        lista.push(fila)
+      }  
+      // console.log(lista)
+      setRows(lista)
+      setOriginalData(lista)
+      
     })
   }
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -151,7 +157,6 @@ export const TablaEstados = ({history}) =>  {
   }
   const handleChangeState = (etapa, idAlumno="") => {
     setChangeState(!changeState)
-    //setEstudiante(idAlumno)
     changeSelected(etapa)
     
   }
@@ -168,7 +173,7 @@ export const TablaEstados = ({history}) =>  {
             Admin &gt; Prácticas
           </h4>
         <div>
-          <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}/>
+          <Filtros clasesEstilo={clasesEstilo} data={originalData} setRows={setRows}/>
           <hr/> 
           <Paper className={clasesEstilo.root}>
             {/* Tabla de Practicas */}

@@ -57,6 +57,7 @@ $routes->get('getDocumento', 'DocumentoController::getDocumento');
 $routes->get('getCarreras', 'CarreraController::getCarreras');
 //Practicas
 $routes->post('getPracticas', 'PracticaController::getPracticas');
+$routes->get('servePracticaAlumno', 'PracticaController::servePracticaAlumno');
 
 /*
  * --------------------------------------------------------------------

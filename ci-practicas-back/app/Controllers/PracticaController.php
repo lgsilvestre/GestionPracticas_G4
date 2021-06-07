@@ -254,29 +254,29 @@ class PracticaController extends BaseController
         $model = new PracticaModel();
         $practica = $model->findAll();
 		$arr = array();
-		// if ($practica){
-
-		// 	foreach ($practica as $row)
-		// 	{
-		// 		$arr['empresa'] = $row->empresa;
-		// 		$arr['estado'] = $row->estado;
-		// 		$arr['etapa'] = $row->etapa;
-		// 		$arr['evaluacion_empresa'] = $row->evaluacion_empresa;
-		// 		$arr['evaluacion_uni'] = $row->evaluacion_uni;
-		// 		$arr['fecha_inicio'] = $row->fecha_inicio;
-		// 		$arr['fecha_termino'] = $row->fecha_termino;
-		// 		$arr['id_practica'] = $row->id_practica;
-		// 		$arr['numero'] = $row->numero;
-		// 		$arr['refAlumno'] = $row->refAlumno;
-		// 		$arr['supervisor'] = $row->supervisor;
-		// 	}
-		// 	echo json_encode($arr);
-
-		// } else {
-		// 	echo "error";
-		// }
         echo json_encode($practica);
     }
 
+	public function servePracticaAlumno () {
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getPracticaAlumno();
+        
+		$arr = array();
+        $count = 1;
+        if ($result){
+            
+            //foreach ($result as $row)
+            //{
+            //    $arr[] = $row->nombre;
+                //$count++;
+            //}
+
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        } else {
+            echo "error";
+        }
+		
+	}
 
 }
