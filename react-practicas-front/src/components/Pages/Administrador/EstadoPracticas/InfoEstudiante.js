@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
     
 }));
-export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1}) => {
+export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, idAlumno}) => {
     const classes = useStyles();  
     
     const [etapaLabel, setEtapaLabel] = useState("")
@@ -57,7 +57,7 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1}) => {
                     Atras
                 </Button>
                 
-                <WizardAdmin pageProp={etapa} classes={classes}/>
+                <WizardAdmin pageProp={etapa} classes={classes} idAlumno={idAlumno}/>
             </div>
         </div>
         

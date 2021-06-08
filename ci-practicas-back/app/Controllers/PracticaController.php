@@ -15,51 +15,58 @@ class PracticaController extends BaseController
 	public function solicitarPractica()
 	{
 		if($this-> request -> getMethod() == 'post') {
+			$Estudiante = $this->request->getVar('estudiante');
+			$Nropractica = $this->request->getVar('nropractica');
+			$Estado = $this->request->getVar('estado');
+			echo $Estudiante." ".$Nropractica." ".$Estado; 
             $rules = [
-                'estudiante' => 'required|min_length[2]|max_length[99]',
-				'nropractica' => 'required|integer',
+                'estudiante' => 'required',
+				'nropractica' => 'required',
 				'estado' => 'required',		//faltan reglass por agregar
-				'numero' => 'required|integer'
+				// 'numero' => 'required|integer'
             ];
             $errors = [			// faltan errores por definir
-				'estudiante' => [
-                    'required' => 'No se ha definido un estudiante'
-                ],
+				
             ];
             if(!$this->validate($rules, $errors)){
+				echo " no valido";
                 $data['validation'] = $this->validator;
             } else {
+				
 				//Primero hay que validar que no
 				$Estudiante = $this->request->getVar('estudiante');
 				$Nropractica = $this->request->getVar('nropractica');
 				$Estado = $this->request->getVar('estado');
 
-				$resutaldo = $this->validarPractica($Estudiante, $Nropractica, $Estado, $Numero);
-
-				echo json_encode($resutaldo);
+				$resutaldo = $this->validarPractica($Estudiante, $Nropractica, $Estado);
+				echo " retornando resultado";
+				echo $resutaldo;
             }
         }
 	}
 
-	private function validarPractica($Estudiante, $Nropractica, $Estado, $Numero)
+	private function validarPractica($Estudiante, $Nropractica, $Estado)
 	{
+		echo "validando...";
 		$model = new PracticaModel();
 		$practicas = $model->where('refAlumno',$Estudiante)->findAll();
-		if($practicas->where('estado',2).count==2)
-		{
-			return false;
-		}
-		if($practicas->where('estado',0).count==1)
-		{
-			return false;
-		}
+		// if($model->where('estado',2).count==2)
+		// {
+		// 	echo "no se puede 2";
+		// 	return false;
+		// }
+		// if($model->where('estado',0).count==1)
+		// {	
+		// 	echo "no se puede 1";
+		// 	return false;
+		// }
 		$newsData =[
 			'refAlumno' => $Estudiante,
 			'etapa' => $Estado,
 			'estado' => 0,
-			'numero' => $Numero,
 		];
 		$model ->save($newsData);
+		echo "retornando true";
 		return true;
 	}
 
