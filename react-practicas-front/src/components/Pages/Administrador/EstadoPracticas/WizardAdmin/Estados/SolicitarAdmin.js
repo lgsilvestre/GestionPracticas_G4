@@ -117,6 +117,7 @@ export const SolicitarAdmin = ({idAlumno}) => {
             console.log(datosEstudiante)
         })
     }, [])
+    
     const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
     
     return (
