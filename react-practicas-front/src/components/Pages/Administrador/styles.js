@@ -90,11 +90,11 @@ export default makeStyles((theme) => ({
     },
   }))(TableCell);
   
-  // export const StyledTableRow = withStyles((theme) => ({
-  //   root: {
-  //     '&:nth-of-type(odd)': {
-  //       backgroundColor: theme.palette.action.hover,
-  //     },
+  export const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
   
-  //   },
-  // }))(TableRow);
+    },
+  }))(TableRow);

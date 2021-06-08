@@ -3,8 +3,11 @@ import React, { useState } from 'react'
 import {
     Button
   } from 'reactstrap';
+import Cookies from 'universal-cookie'
 
 export const FormPostulacion = ({handleSubmit, matricula="2016407004"}) => {
+    const cookies = new Cookies()
+
     const datosDefecto = {
         estudiante:4,
         nombre: "Prueba de alumno",
@@ -35,38 +38,67 @@ export const FormPostulacion = ({handleSubmit, matricula="2016407004"}) => {
             console.log(dataEstudiante)
         })
     }
+
     const postPractica = async() =>{
-        console.log("Post practica con datos")
-        console.log(datosDefecto)
-        await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/solicitarPractica",{
-            'estudiante': datosDefecto.estudiante,
-            'nropractica':1,
-            'estado': "Solicitar",
+        await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/ingresarPractica",{
+            'id_alumno': cookies.get('id'),
+            'nropractica': 1
         })
         .then(response=>{
-            console.log(response.data)
+            if (response.data == true){
+                console.log("INGRESADA")
+                divMensaje.mensaje = solicitada
+            }
         })
+    }    
+
+    const solicitar = (
+        <div>
+            <h5> Importante </h5>
+            <p>
+            Luego de solicitar tu practica (haciendo click en el boton de abajo), el encargado de practicas de tu escuela tiene <strong>7 dias </strong> 
+            para responder a tu solicitud. Tendrás que esperar por la resolución.
+            </p>
+            <Button className="btn btn-primary" onClick={postPractica}>
+            Solicitar Practica
+            </Button>
+        </div>
+    )
+
+    const solicitada = (
+        <div>
+            <h5> ¡Solicitud en revisión! </h5>
+            <p>
+            La solicitud de tu práctica está siendo revisada por el supervisor de prácticas de tu escuela. 
+            </p>
+        </div>
+    )
+    
+    const divMensaje = {
+        mensaje : solicitar
     }
+
     const handleSolicitar = async() =>{
         console.log("solicitar")
        // await getEstudiante()
         await postPractica()
-        handleSubmit()
     }
+
     return (
         <div className="animate__animated animate__fadeIn animate__faster">
             <h4>Formulario de Postulacion</h4>
             <hr/>
             <form className="text-center container">
                 <div style={{margin:"15%"}}>
-                    <h5> Importante </h5>
+                    {divMensaje.mensaje}
+                    {/* <h5> Importante </h5>
                     <p>
-                        Luego de solicitar tu practica (haciendo click en el boton de abajo), el encargado de practicas de tu escuela tiene <strong>x dias </strong> 
+                        Luego de solicitar tu practica (haciendo click en el boton de abajo), el encargado de practicas de tu escuela tiene <strong>7 dias </strong> 
                         para responder a tu solicitud. Tendrás que esperar por la resolución.
                     </p>
-                    <Button className="btn btn-primary" onClick={handleSolicitar}>
+                    <Button className="btn btn-primary" onClick={postPractica}>
                         Solicitar Practica
-                    </Button>
+                    </Button> */}
                 </div>
                 
             </form>            

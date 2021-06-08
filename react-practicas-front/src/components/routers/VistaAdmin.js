@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
 import SideBar from '../ui/SideBar/SideBar';
+import SidePro from '../ui/SideBar/SidePro';
 import SideBarSt from '../ui/SideBar/SideBarSt';
 import { Footer } from '../ui/Footer/Footer';
 import Estudiante from '../Pages/Estudiante/Estudiante';
@@ -36,7 +37,8 @@ const VistaAdmin = () => {
             <div ></div>
             <Grid container>
                 <Grid item xs={2} sm={2}>
-                    <SideBar/>
+                    {/* <SideBar/> */}
+                    <SidePro />
                 </Grid>
                 <Grid item xs={10} sm={10} className="Scroll">
                     <div className="container ">

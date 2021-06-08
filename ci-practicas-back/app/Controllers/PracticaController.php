@@ -286,4 +286,15 @@ class PracticaController extends BaseController
 		
 	}
 
+	public function ingresarPractica() {
+		$id = $this->request->getVar('id_alumno');
+		$np = $this->request->getVar('nropractica');
+		$this->PracticaModel = new PracticaModel();
+		if($this->PracticaModel->newPracticaAlumno($id, $np)) {
+			echo true;
+		} else {
+			echo false;
+		}
+	}
+
 }

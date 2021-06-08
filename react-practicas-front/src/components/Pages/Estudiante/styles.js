@@ -1,5 +1,5 @@
 import {makeStyles, withStyles} from '@material-ui/core/styles';
-import { TableCell, TableRow} from '@material-ui/core';
+import {TableCell, TableRow} from '@material-ui/core';
 
 export default makeStyles((theme) => ({
   root:{
@@ -65,11 +65,8 @@ export default makeStyles((theme) => ({
     '&:hover': {
     backgroundColor: '#f0ebcc',
       color: '#000',
-  
-  
     },  
   }
-  
   }));
   
   export const StyledTableCell = withStyles((theme) => ({
@@ -84,11 +81,10 @@ export default makeStyles((theme) => ({
     },
   }))(TableCell);
   
-  // export const StyledTableRow = withStyles((theme) => ({
-  //   root: {
-  //     '&:nth-of-type(odd)': {
-  //       backgroundColor: theme.palette.action.hover,
-  //     },
-  
-  //   },
-  // }))(TableRow);
+  export const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);

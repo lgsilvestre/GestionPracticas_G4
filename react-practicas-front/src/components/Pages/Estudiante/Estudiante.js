@@ -212,7 +212,6 @@ export default function Administrador() {
        </Table>
      </TableContainer>
 
-
      <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
         <div className={classes.modal}>          
         <Typography variant="h5">CodigoCarrera: {estudiante.cod_carrera}</Typography> 
@@ -240,14 +239,11 @@ export default function Administrador() {
           </DialogContent>
         </Dialog>
       
-
         <Modal
         open={modalEliminar}
         onClose={abrirCerrarModalEliminar}>
             {bodyEliminar}
         </Modal>
       </div>
-     
-    </div>
   );
 }

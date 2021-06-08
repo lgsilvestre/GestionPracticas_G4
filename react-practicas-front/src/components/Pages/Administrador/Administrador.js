@@ -425,7 +425,6 @@ const bodyEliminar=(
             {bodyEliminar}
         </Modal>
       </div>
-    </div>
     
   );
 }
