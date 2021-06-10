@@ -15,7 +15,7 @@ class AlumnoModel extends Model
     
     public function login($email, $password){
         
-        $query = $this->db->query("Select nombre, correo_ins, matricula, nbe_carrera, refCarrera from alumno where correo_ins = '".$email."' and password = '".$password."';");
+        $query = $this->db->query("Select id_alumno, nombre, correo_ins, matricula, nbe_carrera, refCarrera from alumno where correo_ins = '".$email."' and password = '".$password."';");
         $result = $query->getResult();
         return $result;
         

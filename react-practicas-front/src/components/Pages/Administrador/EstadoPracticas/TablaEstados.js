@@ -2,13 +2,30 @@ import React, { Fragment, useEffect, useState } from 'react';
 import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
+import { motion } from "framer-motion"
 import { Filtros } from './Filtros';
 import {makeStyles, Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, TableCell, IconButton, Paper,TablePagination} 
   from '@material-ui/core';
+import practicas from '../../../routers/assets/practicas.svg';
+
 //Estilos
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+  },
+  encabezado:{
+    marginTop: '10vh',
+    marginTop: '10vh',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  titulo:{
+    marginLeft:'10%',
+    display: 'inline-block',
+    color: '#3d84b8',
+    fontFamily: 'Righteous, serif',
+   fontSize: '4em',
+   textShadow: '.05em .05em 0 #3f3697',
   },
   container: {
     maxHeight: "50%",
@@ -172,9 +189,10 @@ export const TablaEstados = ({history}) =>  {
   else{
     return (  
       <div className="animate__animated animate__fadeIn animate__faster" style={{marginTop:'20px', marginBottom:'30px'}}>
-        <h4 style={{marginBottom:'10px'}}>
-            Admin &gt; Prácticas
-          </h4>
+        <div className={clasesEstilo.encabezado}>
+        <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} >  <img  heigth ={20} src={practicas} alt='practicas'/>  </motion.div>
+        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={clasesEstilo.titulo}  >PRACTICAS</h1></motion.div>
+        </div>
         <div>
           <Filtros clasesEstilo={clasesEstilo} data={originalData} setRows={setRows}/>
           <hr/> 

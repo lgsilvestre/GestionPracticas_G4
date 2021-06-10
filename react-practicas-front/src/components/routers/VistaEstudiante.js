@@ -45,12 +45,7 @@ const VistaEstudiante = ({userChangedPass=false}) => {
                 <Route path='/estudiante/landing' component={Landing} />
                 <Route path="/estudiante/changePass" component={CambiarPassword}/>
             </Switch>  
-            </div>   
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={sendValues}
-            ></Button>
+            </div>  
             <Footer/> 
         </div>     
     )
