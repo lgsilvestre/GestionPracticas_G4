@@ -24,7 +24,6 @@ export default function Administrador() {
   const emailRef = React.useRef('');
   const tipoRef = React.useRef('');
   const contrasenaRef = React.useRef('');
-
   
   const classes = useStyles();
   const [data, setData]=useState([]);
@@ -176,18 +175,12 @@ export default function Administrador() {
       "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
     )
       .then(response => {
-        console.log("respuesta: ", response.data);
-        arrayCarreras = JSON.parse(response.data);
-        console.log("cascasda: ", arrayCarreras);
-        //let respJson = JSON.parse(response.data);
-        /*
-        for(var i in response.data)
-          arrayCarreras.push([i, response.data [i]]);
-        */
-
+        console.log("respuesta: ", response.data)
+        administrador.carreras = response.data
+        console.log(administrador.carreras)
       })
       .catch(error => {
-        console.log("login error: ", error);
+        console.log("login error: ", error)
       });
   }
 
@@ -274,15 +267,9 @@ const bodyInsertar=(
                             onChange={handleChange}
                             label="Carrera"
                           >
-           { /*                 
-                    arrayCarreras.map( (carrera) => (
-                     
-                            <MenuItem >{carrera.nombre}</MenuItem>
-                       
-                    ))
-                    */}
-         
-             
+                    {administrador.carreras.map((carrera) => (
+                       <MenuItem>{carrera}</MenuItem>
+                    ))}           
                     
          </Select>
      </FormControl>

@@ -15,7 +15,10 @@ import TablePracticas from './componentes/TablePracticas';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { AdminDashboard } from '../Pages/AdminDashboard/AdminDashboard';
+import NavBarr from './componentes/NavBar';
 import './AppRouterStyle.css';
+import Divider from '@material-ui/core/Divider';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,6 +44,8 @@ const VistaAdmin = () => {
                     <SidePro />
                 </Grid>
                 <Grid item xs={10} sm={10} className="Scroll">
+                    <NavBarr />
+                    <Divider variant="middle" light={true} />  
                     <div className="container ">
                         <Switch>
                             <Route path='/admin/practicas' component={TablaEstados} />
