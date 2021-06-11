@@ -51,7 +51,6 @@ class CarreraController extends Controller
 	}
 
     public function getCarreras (){
-
         $result = $this->CarreraModel->getCarreras();
         $arr = array();
         $count = 1;
@@ -59,7 +58,7 @@ class CarreraController extends Controller
             
             foreach ($result as $row)
             {
-                $arr['nombre'] = $row->nombre;
+                $arr[] = $row->nombre;
                 //$count++;
             }
 

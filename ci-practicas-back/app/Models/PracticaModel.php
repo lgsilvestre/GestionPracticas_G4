@@ -19,5 +19,16 @@ class PracticaModel extends Model
         return $result;
     }
 
+    public function newPracticaAlumno($id, $np){
+        $queryPracticaAlumno = 'INSERT INTO practica(etapa,estado,numero,fecha_inicio, fecha_termino,empresa,supervisor,evaluacion_uni,evaluacion_empresa,refAlumno) VALUES("Solicitud","Pendiente",'.$np.',"","","","","","",'.$id.')';
+        $query = $this->db->query($queryPracticaAlumno);
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+        return false;
+    }
+
 }
 ?>
