@@ -1,18 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import $ from 'jquery';
-import Popper from 'popper.js';
-import 'font-awesome/css/font-awesome.min.css';
-import { CookiesProvider } from 'react-cookie';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+
+import "bootstrap/dist/css/bootstrap.css";
+import "assets/scss/paper-dashboard.scss?v=1.3.0";
+import "assets/demo/demo.css";
+import "perfect-scrollbar/css/perfect-scrollbar.css";
+
+import AdminLayout from "layouts/Admin.js";
+import { Info } from "views/Info";
+// import Login from "views/Login/Login";
 
 ReactDOM.render(
-  <CookiesProvider>
-    <App />
-  </CookiesProvider>,
-  document.getElementById('root')
+  <BrowserRouter>
+    <Switch> 
+      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Route exact path="/" component={Info}/>
+      {/* <Route exact path="/login" component={Login}/> */}
+      <Redirect to="/admin/dashboard"/>
+    </Switch>
+  </BrowserRouter>,
+  document.getElementById("root")
 );
-
-
