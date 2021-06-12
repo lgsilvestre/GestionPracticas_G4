@@ -8,11 +8,14 @@ class AlumnoModel extends Model
 {
     protected $table = 'alumno';
     protected $primarykey = 'id_alumno';
-    protected $allowedFields = ['nombre','correo_ins','correo_per','password','matricula','nbe_carrera','cod_carrera','rut','sexo','fecha_nac','plan','via_ingreso','anho_ingreso','sit_actual','sit_actual_anho','sit_actual_periodo','regular','comuna_origen','region','nivel','porc_avance','ult_punt_prio','al_dia','nivel_99_aprobado','estado','refCarrera'];
+    protected $allowedFields = ['nombre','correo_ins','correo_per','password','matricula','
+    nbe_carrera','cod_carrera','rut','sexo','fecha_nac','plan','via_ingreso','anho_ingreso','sit_actual',
+    'sit_actual_anho','sit_actual_periodo','regular','comuna_origen','region','nivel','porc_avance',
+    'ult_punt_prio','al_dia','nivel_99_aprobado','estado','refCarrera'];
     
     public function login($email, $password){
         
-        $query = $this->db->query("Select nombre, correo_ins, matricula, nbe_carrera, refCarrera from alumno where correo_ins = '".$email."' and password = '".$password."';");
+        $query = $this->db->query("Select id_alumno, nombre, correo_ins, matricula, nbe_carrera, refCarrera from alumno where correo_ins = '".$email."' and password = '".$password."';");
         $result = $query->getResult();
         return $result;
         

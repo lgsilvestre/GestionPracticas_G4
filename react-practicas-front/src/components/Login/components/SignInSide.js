@@ -16,6 +16,10 @@ import logo from '../images/logo.png';
 import { Alert } from 'reactstrap';
 import './EstilosSignInSide.css';
 import { fade } from '@material-ui/core/styles';
+import Cookies from 'universal-cookie';
+import { IoPerson } from "react-icons/io5";
+import { IoExit } from "react-icons/io5";
+import { IoNotifications } from "react-icons/io5";
 
 function Copyright() {
   return (
@@ -100,6 +104,8 @@ export default function SignInSide({ history }) {
   const emailRef = React.useRef('');
   const passwordRef = React.useRef('');
   const [wrongPass, setwrongPass] = useState(false)
+  //Se inicializan las coockies
+  const cookies = new Cookies();
   const handleWrongPass = () => {
     setwrongPass(true)
   }
@@ -117,7 +123,7 @@ export default function SignInSide({ history }) {
       .then(response => {
         //trabajar redireccionamiento
         //-1 error , 0 alumno , 1 admin
-        console.log("respuesta: ", response.data);
+        //console.log("respuesta: ", response.data);
 
         if (response.data.tipo == 1 || response.data.tipo == 2) {
           console.log("admin")
@@ -125,6 +131,9 @@ export default function SignInSide({ history }) {
         }
         else if (response.data.tipo == 3) {
           console.log("estudiante")
+          // Se setean las coockies
+          cookies.set('id', response.data['id_alumno'], { path: '/' });
+          cookies.set('name', response.data['nombre'], { path: '/' });
           history.replace("/estudiante")
         }
         else {

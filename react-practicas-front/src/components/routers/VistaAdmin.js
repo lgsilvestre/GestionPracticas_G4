@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
 import SideBar from '../ui/SideBar/SideBar';
+import SidePro from '../ui/SideBar/SidePro';
 import SideBarSt from '../ui/SideBar/SideBarSt';
 import { Footer } from '../ui/Footer/Footer';
 import Estudiante from '../Pages/Estudiante/Estudiante';
@@ -11,11 +12,13 @@ import { EstadoPracticas } from '../Pages/EstadoPracticas';
 import { Estadisticas } from '../Pages/Estadisticas';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 import TablePracticas from './componentes/TablePracticas';
-import { Plan } from '../Pages/Plan/Plan';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { AdminDashboard } from '../Pages/AdminDashboard/AdminDashboard';
+import NavBarr from './componentes/NavBar';
 import './AppRouterStyle.css';
+import Divider from '@material-ui/core/Divider';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,9 +40,12 @@ const VistaAdmin = () => {
             <div ></div>
             <Grid container>
                 <Grid item xs={2} sm={2}>
-                    <SideBar/>
+                    {/* <SideBar/> */}
+                    <SidePro />
                 </Grid>
                 <Grid item xs={10} sm={10} className="Scroll">
+                    <NavBarr />
+                    <Divider variant="middle" light={true} />  
                     <div className="container ">
                         <Switch>
                             <Route path='/admin/practicas' component={TablaEstados} />
@@ -47,7 +53,6 @@ const VistaAdmin = () => {
                             <Route path='/admin/estudiantes' component={Estudiante} />
                             <Route path='/admin/postulaciones' component={Postulaciones} />
                             <Route path='/admin/ofertas' component={Ofertas} />
-                            <Route path='/admin/plan' component={Plan} />
                             <Route path='/admin/estadisticas' component={Estadisticas} />
                             <Route path="/admin">
                                 <AdminDashboard />

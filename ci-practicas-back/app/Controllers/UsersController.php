@@ -92,6 +92,7 @@ class UsersController extends  BaseController
 
                 foreach ($result as $row)
                 {
+                    $arr['id_alumno'] = $row->id_alumno; 
                     $arr['nombre'] = $row->nombre;
                     $arr['correo_ins'] = $row->correo_ins;
                     $arr['matricula'] = $row->matricula;
@@ -474,15 +475,16 @@ class UsersController extends  BaseController
         helper(['form']);
         if($this-> request -> getMethod() == 'post') {
             $rules = [
-                'id' => 'required|min_length[6]|max_length[99]',
+                'id' => 'required',
             ];
             $errors = [             //falta errors
             ];
             if(! $this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else{
-                $model = new UserModel();
-                $user = $model->where('id', this->request->getVar('id'));
+                $id = $this->request->getVar('id');
+                $model = new AlumnoModel();
+                $user = $model->where('id_alumno', $id)->first();
                 echo json_encode($user);
             }
         }
