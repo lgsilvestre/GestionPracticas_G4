@@ -136,7 +136,7 @@ class PracticaController extends BaseController
         }
     }
 
-	private function resultadoFiltros($Etapa, $Estado, $Carrera, $anio)
+	public function resultadoFiltros($Etapa, $Estado, $Carrera, $anio)
 	{
 		$model = new PracticaModel();
 		if($Etapa =='' && $Estado =='' && $Carrera=='' && $anio =='')
@@ -265,25 +265,18 @@ class PracticaController extends BaseController
     }
 
 	public function servePracticaAlumno () {
+
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getPracticaAlumno();
-        
-		$arr = array();
-        $count = 1;
+
         if ($result){
-            
-            //foreach ($result as $row)
-            //{
-            //    $arr[] = $row->nombre;
-                //$count++;
-            //}
 
             echo json_encode($result, JSON_UNESCAPED_UNICODE);
 
         } else {
             echo "error";
         }
-		
+
 	}
 
 	public function ingresarPractica() {

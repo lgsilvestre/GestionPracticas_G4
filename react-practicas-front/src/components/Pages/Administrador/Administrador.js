@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import useStyles from './styles';
-import funcionarios from '../../routers/assets/funcionarios.svg'
+import funcionarios from '../../routers/assets/funcionarios.svg';
 import { makeStyles } from '@material-ui/core/styles';
 import {StyledTableCell, StyledTableRow} from './styles';
 import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography} from '@material-ui/core';
@@ -16,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 export default function Administrador() {
   

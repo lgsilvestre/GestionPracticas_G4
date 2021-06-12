@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import {AiOutlineSearch} from "react-icons/ai"
+import {AiOutlineSearch} from "react-icons/ai";
 import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
 import axios from 'axios';
 import { useForm } from '../../../../hooks/useForm';
