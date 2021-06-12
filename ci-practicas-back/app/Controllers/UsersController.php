@@ -43,14 +43,14 @@ class UsersController extends  BaseController
 	{
 		// Do Not Edit This Line
 		parent::initController($request, $response, $logger);
-		
+
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
 		//$this->load->model("Alumno");
 		$this->AlumnoModel = new AlumnoModel();
-        $this->UserModel = new UserModel();        
+        $this->UserModel = new UserModel();
 	}
 
     public function insertUser(){
@@ -87,7 +87,7 @@ class UsersController extends  BaseController
 
             $result = $alumnomodel->login($email, $password);
             $arr = array();
-            
+
             if ($result){
 
                 foreach ($result as $row)
@@ -104,13 +104,10 @@ class UsersController extends  BaseController
             } else {
                 echo "error";
             }
-            
 
         } elseif (str_ends_with($email, '@utalca.cl')) {
-            
             $result = $usermodel->login($email, $password);
             $arr = array();
-            
             if ($result){
 
                 foreach ($result as $row)
@@ -122,7 +119,7 @@ class UsersController extends  BaseController
                     $arr['permisos'] = $row->permisos;
                     $arr['estado'] = $row->estado;
                     $arr['refCarrera'] = $row->refCarrera;
-                }                
+                }
                 echo json_encode($arr);
 
             } else {
@@ -167,12 +164,11 @@ class UsersController extends  BaseController
 
         if($this-> request -> getMethod() == 'post') {
             //validation rules
-                
             $rules = [
                 'nombre' => 'required|min_length[3]|max_length[22]',
                 'password' =>'required',
             ];
-                
+
             if($this->request->getPost('clave') != ''){
                 $rules['clave'] = 'required|min_length[6]|max_length[255]';
                 $rules['confirmar'] =  'matches[clave]';
@@ -233,7 +229,7 @@ class UsersController extends  BaseController
                     'is_unique' => 'Email se encuentra registrado en el sistema'
                 ]
             ];
-            
+
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
@@ -344,7 +340,7 @@ class UsersController extends  BaseController
             }
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
         }
-    } 
+    }
 
     public function adminEdit(){
         helper(['form']);
@@ -525,10 +521,9 @@ class UsersController extends  BaseController
         }
     }
 
-    private function sendEmail($nombre, $correo, $contraseña){
+    private function sendEmailRegisterAlumno($nombre, $correo, $contraseña){
         $email = \Config\Services::email();
 
-        
         $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
         $email->setTo($correo);
         $email->setSubject('Se ha registrado su usuario con éxito');
@@ -539,6 +534,61 @@ class UsersController extends  BaseController
                 <p style="color: blue"><b>Contraseña:</b> '.$contraseña.'</p>
                 <br>
                 <p>Ya estas habilitado para acceder al centro de practica y solicitar tu practica</p>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+
+    }
+
+    private function sendEmailPassword($nombre, $correo, $contraseña){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Su contraseña ha sido reiniciada');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su contraseña ha sido reiniciada con éxito :).</p>
+                <p>Sus credenciales de ingreso son: </p>
+                <p style="color: blue"><b>Usuario:</b> '.$correo.'</p>
+                <p style="color: blue"><b>Contraseña:</b> '.$contraseña.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+    
+    private function sendEmailRegisterUser($nombre, $correo, $contraseña){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Se ha registrado su usuario con éxito');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su cuenta ha sido registrada con éxito :).</p>
+                <p>Sus credenciales de ingreso son: </p>
+                <p style="color: blue"><b>Usuario:</b> '.$correo.'</p>
+                <p style="color: blue"><b>Contraseña:</b> '.$contraseña.'</p>
+                <br>
+                <p>Ya está habilitado para utilizar la plataforma de centro de práctica</p>
+                <p>Por favor no responder a este correo</p>
                 <p>Atentamente: Equipo de centro de práctica</p>
                 <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
         ');

@@ -171,14 +171,6 @@ public function register(){
         $model = new UserModel();
         $users = $model->findAll();
 
-        echo json_encode($users)
-    }
-
-    public function obtenerUsuarios()
-    {
-        $model = new UserModel();
-        $users = $model->findAll();
-
         echo json_encode($users);
     }
 
@@ -192,7 +184,7 @@ public function register(){
     public function obtenerAlumnos()
     {
         $model = new UserModel();
-        $users = $model->where('tipo', 'alumno');       //Muy modificable, no recuerdo el nombre del tipo de usuario 
+        $users = $model->where('tipo', 'alumno');       //Muy modificable, no recuerdo el nombre del tipo de usuario
         echo json_encode($users);
     }
 }
