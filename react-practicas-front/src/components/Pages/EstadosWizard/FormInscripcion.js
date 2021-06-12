@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
 import {MdFileDownload} from 'react-icons/md'
+import { Resolucion } from './Resolucion';
 
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
@@ -18,6 +19,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     }]
     
     const [tooltipOpen, setTooltipOpen] = useState(false);
+    const [mostrarResolucion, setMostrarResolucion] = useState(false)
     
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -36,9 +38,14 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         changeNameDownloaded(namefile)
         console.log("descargando " ,namefile)    
     }
-    return (
-        <div className="animate__animated animate__fadeIn animate__faster">
-            <Modal isOpen={modal} toggle={toggle} >
+    //AXIOS POST INSCRIPCION A BASE DE DATOS
+    const postInscripcion = () =>{
+      console.log("ENVIANDO INFO")
+    }
+    const FormInscripcion = () =>{
+      return (
+        <div>
+          <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Descarga de archivo</ModalHeader>
                 <ModalBody>
                     Descargando archivo
@@ -101,18 +108,31 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                         </FormGroup>
                     ))
                 }
-
-               
-                    <Button color="primary" className="btn-pill pull-left" onClick={previousPage} style={{marginLeft: '20px' , marginRight:'10px'}}>
+                <hr/>
+                <div className=" text-center" style={{marginBottom:20}}>
+                  <Button className="btn btn-primary" onClick={postInscripcion}>
+                      Inscribir Practica
+                  </Button>
+                </div>
+                    {/* <Button color="primary" className="btn-pill pull-left" onClick={previousPage} style={{marginLeft: '20px' , marginRight:'10px'}}>
                         <i className="fa fa-chevron-left" />
                             &nbsp; Back
                     </Button>
                     <Button color="primary" className="btn-pill pull-right" type="submit" style={{marginRight: '20px'}}>
                         Next &nbsp;
                         <i className="fa fa-chevron-right" />
-                    </Button>
-                
+                    </Button> */}
             </Form>
+        </div>
+      )
+    }
+    return (
+        <div className="animate__animated animate__fadeIn animate__faster">
+          {mostrarResolucion 
+          ? <Resolucion 
+            previousPage={previousPage} 
+            handleSubmit={handleSubmit}/> 
+          : <FormInscripcion/> }
         </div>
     )
 }

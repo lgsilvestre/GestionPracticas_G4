@@ -11,13 +11,12 @@ const Practicas = () => {
 
     const steps = [
         {title: "Solicitar"},
-        {title: "Resolucion"},
         {title: "Inscripcion"},
         {title: "Cursando"},
         {title: "Terminada"} 
     ]
     
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(1)
     const nextPage = (e) =>{       
         setPage(page+1)
     }
@@ -37,10 +36,9 @@ const Practicas = () => {
             <hr/>
             
             { page===0 && <FormPostulacion className="animate__animated animate__fadeIn animate__faster" handleSubmit={nextPage} /> }
-            { page===1 && <Resolucion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===2 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===3 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===4 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===1 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===2 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===3 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             
             
         </Card>
