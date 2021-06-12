@@ -279,6 +279,29 @@ class PracticaController extends BaseController
 
 	}
 
+	public function servePracticaFiltrada () {
+		$filtrosJson = $this->request->getVar('filtros');
+		// $estado = $this->request->getVar('estadi');
+		// $carrera = $this->request->getVar('carrera');
+		// $anio = $this->request->getVar('anio');
+
+		// echo $etapa."-".$estado."-".$carrera."-".$anio;
+
+		echo $filtrosJson;
+
+		// $this->PracticaModel = new PracticaModel();
+		// $result = $this->PracticaModel->getPracticaAlumno();
+
+        // if ($result){
+
+        //     echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        // } else {
+        //     echo "error";
+        // }
+
+	}
+
 	public function ingresarPractica() {
 		$id = $this->request->getVar('id_alumno');
 		$np = $this->request->getVar('nropractica');

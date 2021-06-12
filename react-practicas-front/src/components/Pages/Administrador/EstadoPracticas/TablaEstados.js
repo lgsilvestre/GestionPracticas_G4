@@ -147,7 +147,9 @@ export const TablaEstados = ({history}) =>  {
   }
 
   const petitionGetPracticaAlumnoFiltrada = async () =>{
-    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumnoFiltrada")
+    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaFiltrada",{
+    },
+  )
     .then(response=>{
       console.log(response.data)
       // // console.log(response.data)
@@ -275,9 +277,9 @@ export const TablaEstados = ({history}) =>  {
             />
           </Paper>
         </div>
-        <Button  className={clasesEstilo.botonFiltro} variant="contained" onClick={petitionGetPracticaAlumnoFiltrada}>
+        {/* <Button  className={clasesEstilo.botonFiltro} variant="contained" onClick={petitionGetPracticaAlumnoFiltrada}>
                 Filtrar
-        </Button> 
+        </Button>  */}
       </div>
  
     )
