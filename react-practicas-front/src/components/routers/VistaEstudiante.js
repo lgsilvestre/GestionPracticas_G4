@@ -32,7 +32,7 @@ const sendValues = (event) => {
 const VistaEstudiante = ({userChangedPass=false}) => {
 
     return (     
-        <div className="Back">
+        <div className="Back Scroll">
             <NavBar/>
             {/* {
                 !userChangedPass ? <CambiarPassword/> : <Redirect to ="/estudiante"/>

@@ -313,4 +313,17 @@ class PracticaController extends BaseController
 		}
 	}
 
+	public function getEstadoPracticaAlumno() {
+		$id = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEstadoAlumno($id, $numero);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo false;
+		}
+
+	}
+
 }
