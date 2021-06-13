@@ -2,6 +2,8 @@ import React, { Fragment, useState } from 'react'
 import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
 import {MdFileDownload} from 'react-icons/md'
 import { Resolucion } from './Resolucion';
+import { Paper } from '@material-ui/core';
+import { Comentario } from './Comentario';
 
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
@@ -17,9 +19,10 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     },{
         nombre: "Modulos de desempeño integrado"
     }]
-    
+  
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
+    const [mostrarComentario, setmostrarComentario] = useState(true)
     
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -55,7 +58,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 </ModalFooter>
             </Modal>
             <Form onSubmit={handleSubmit}>
-            
+              {mostrarComentario && <Comentario />}
                 <h4>Datos de Practica</h4>
                 <hr/>
                 {/* Input para nombre de empresa */}
@@ -108,24 +111,19 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                         </FormGroup>
                     ))
                 }
+                
                 <hr/>
                 <div className=" text-center" style={{marginBottom:20}}>
                   <Button className="btn btn-primary" onClick={postInscripcion}>
                       Inscribir Practica
                   </Button>
                 </div>
-                    {/* <Button color="primary" className="btn-pill pull-left" onClick={previousPage} style={{marginLeft: '20px' , marginRight:'10px'}}>
-                        <i className="fa fa-chevron-left" />
-                            &nbsp; Back
-                    </Button>
-                    <Button color="primary" className="btn-pill pull-right" type="submit" style={{marginRight: '20px'}}>
-                        Next &nbsp;
-                        <i className="fa fa-chevron-right" />
-                    </Button> */}
+                
             </Form>
         </div>
       )
     }
+    
     return (
         <div className="animate__animated animate__fadeIn animate__faster">
           {mostrarResolucion 

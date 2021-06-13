@@ -4,11 +4,13 @@ import {
     Button
   } from 'reactstrap';
 import Cookies from 'universal-cookie'
+import { Comentario } from './Comentario';
 import { Resolucion } from './Resolucion';
 
 export const FormPostulacion = ({handleSubmit, previousPage}) => {
     const cookies = new Cookies()
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
+    const [mostrarComentario, setmostrarComentario] = useState(true)
     const datosDefecto = {
         estudiante:4,
         nombre: "Prueba de alumno",
@@ -34,8 +36,10 @@ export const FormPostulacion = ({handleSubmit, previousPage}) => {
     const FormSolicitar =()=> {
       return(
         <div>
+          
           <h4>Formulario de Postulacion</h4>
             <hr/>
+            {mostrarComentario && <Comentario />}
             <form className="text-center container">
               <div style={{margin:"15%"}}>
                 <h5> Importante </h5>

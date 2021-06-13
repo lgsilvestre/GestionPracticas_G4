@@ -1,22 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Stepper from 'react-stepper-horizontal'
 import { Cursando } from './EstadosWizard/Cursando'
-import { Resolucion } from './EstadosWizard/Resolucion'
 import { Termino } from './EstadosWizard/Termino'
 import { Card } from 'reactstrap';
 import { FormPostulacion } from './EstadosWizard/FormPostulacion'
 import { FormInscripcion } from './EstadosWizard/FormInscripcion'
+import axios from 'axios'
 
 const Practicas = () => {
 
     const steps = [
         {title: "Solicitar"},
-        {title: "Inscripcion"},
+        {title: "Inscripción"},
         {title: "Cursando"},
-        {title: "Terminada"} 
+        {title: "Evaluación"} 
     ]
     
     const [page, setPage] = useState(1)
+    
     const nextPage = (e) =>{       
         setPage(page+1)
     }
