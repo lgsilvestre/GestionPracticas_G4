@@ -46,7 +46,7 @@ const VistaAdmin = () => {
                 <Grid item xs={10} sm={10} className="Scroll">
                     <NavBarr />
                     <Divider variant="middle" light={true} />  
-                    <div className="container ">
+                    <div className="container">
                         <Switch>
                             <Route path='/admin/practicas' component={TablaEstados} />
                             <Route path='/admin/administradores' component={Administrador} />

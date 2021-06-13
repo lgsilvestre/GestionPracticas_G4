@@ -40,8 +40,9 @@ const Practicas = () => {
           .then(response => {
 
             console.log(response.data)
+            
             if (response.data[0].etapa=="Solicitud"){
-                console.log(response.data.[0].etapa)
+                console.log(response.data[0].etapa)
                 setPage(0)
                 // if (response.data[0].estado=="Pendiente"){
                 //     setPage(0)
@@ -49,7 +50,7 @@ const Practicas = () => {
             } 
 
             if (response.data[0].etapa=="Inscripción"){
-                console.log(response.data.[0].etapa)
+                console.log(response.data[0].etapa)
                 setPage(1)
                 // if (response.data[0].estado=="Pendiente"){
                 //     setPage(0)
@@ -57,16 +58,16 @@ const Practicas = () => {
             }
 
             if (response.data[0].etapa=="Cursando"){
-                console.log(response.data.[0].etapa)
-                setPage(1)
+                console.log(response.data[0].etapa)
+                setPage(2)
                 // if (response.data[0].estado=="Pendiente"){
                 //     setPage(0)
                 // }
             }
 
             if (response.data[0].etapa=="Evaluación"){
-                console.log(response.data.[0].etapa)
-                setPage(1)
+                console.log(response.data[0].etapa)
+                setPage(3)
                 // if (response.data[0].estado=="Pendiente"){
                 //     setPage(0)
                 // }

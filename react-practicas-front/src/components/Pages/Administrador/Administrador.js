@@ -49,7 +49,6 @@ export default function Administrador() {
       [name]: value
     }))
     console.log(administrador);
-    console.log(typeof(administrador.apellido));
   }
 
   const peticionGet=async()=>{
@@ -207,7 +206,7 @@ function handleValidation() {
   if (nombre != "") {
     let regex = new RegExp("^[a-zA-Z]+$");
     if (regex.test(nombre)) {
-      nuevoUserValidado = true;
+      nuevoUserValidado = true
     }
   }
 
