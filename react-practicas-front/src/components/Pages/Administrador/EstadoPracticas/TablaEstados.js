@@ -146,6 +146,29 @@ export const TablaEstados = ({history}) =>  {
     })
   }
 
+  const petitionGetPracticaAlumnoFiltrada = async () =>{
+    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaFiltrada",{
+    },
+  )
+    .then(response=>{
+      console.log(response.data)
+      // // console.log(response.data)
+      // const resultado = response.data;
+      // // console.log("antes:",rows)
+      // const lista = []
+      // for(var i=0; i<resultado.length; i++){
+      //   const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
+      //     resultado[i].estado, resultado[i].fecha_termino,"button")
+      //   // console.log(fila)
+      //   lista.push(fila)
+      // }  
+      // // console.log(lista)
+      // setRows(lista)
+      // setOriginalData(lista)
+      
+    })
+  }
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -253,7 +276,10 @@ export const TablaEstados = ({history}) =>  {
               labelRowsPerPage ="Filas por página"
             />
           </Paper>
-        </div> 
+        </div>
+        {/* <Button  className={clasesEstilo.botonFiltro} variant="contained" onClick={petitionGetPracticaAlumnoFiltrada}>
+                Filtrar
+        </Button>  */}
       </div>
  
     )
