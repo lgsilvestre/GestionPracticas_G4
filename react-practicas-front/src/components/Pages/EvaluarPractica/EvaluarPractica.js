@@ -1,10 +1,11 @@
 import React from 'react'
-import {Grid, Typography, Button} from '@material-ui/core';
+import { Typography} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { motion } from "framer-motion"
 import useStyles from './styles';
 import evaluacion from '../../routers/assets/evaluacion.svg';
-import { Footer } from '../../ui/Footer/Footer';
+import Boton from './Boton/Boton'
+import axios from 'axios';
 
 const EvaluarPractica = (estudiante, empresa) => {
     const classes = useStyles();
@@ -19,6 +20,48 @@ const EvaluarPractica = (estudiante, empresa) => {
         });
        
       };
+      function peticionPost () {
+
+        let calificacion = nota;
+      
+    
+        axios.post(
+          "",
+          {
+            nota: calificacion,
+         
+          },
+        )
+          .then(response => {
+           
+            console.log("respuesta: ", response.data);
+  
+          })
+          .catch(error => {
+            console.log("login error: ", error);
+          });
+      }
+      function handleValidation() {
+        let calificacion = nota;
+      
+        let calificacionValida = false; 
+      
+        if (calificacion != "") {
+          let regex = new RegExp("/^\d*\.?\d*$/");
+          if (regex.test(calificacion)) {
+            calificacionValida = true;
+          }
+        }    
+     
+      
+        console.log(calificacionValida);
+        if (calificacionValida == true){
+          peticionPost();
+        } else {
+          console.log("Error validación");
+        }
+      
+      }
 
     return (
         <div className={classes.global}>
@@ -32,10 +75,10 @@ const EvaluarPractica = (estudiante, empresa) => {
             </div>
             <Typography align="center" variant="h6" gutterBottom> Solicitamos tu nota de evaluacion al practicante: {estudiante} </Typography>
             <div  className={classes.nota}>            
-            <TextField  variant="outlined" name= "nota" label="Nota" value={nota}  onChange={handleChange}  InputProps={classes.nota} className={classes.inputComponent}  required />
+            <TextField  variant="outlined" name= "nota" label="Nota"  value={nota}  onChange={handleChange}    required />
             </div>
             <div  className={classes.buton}>
-            <Button  className={classes.boton} color="primary" >Calificar</Button>
+            <Boton onClick={handleValidation}></Boton>
             </div>
            
         </div>
