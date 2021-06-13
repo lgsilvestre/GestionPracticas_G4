@@ -1,11 +1,14 @@
 import {Box,FormControl,Grid,IconButton,Input,
     List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, 
-    NativeSelect } from '@material-ui/core'
+    NativeSelect, Button } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { IoMdAddCircle } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md';
 import { VscFilePdf } from 'react-icons/vsc';
+import { GoCheck } from "react-icons/go";
+import { GoCircleSlash } from "react-icons/go";
 import { useForm } from '../../../../../../hooks/useForm';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +39,35 @@ const useStyles = makeStyles((theme) => ({
     logosearch :{
         width:"25px", 
         height:"25px"
-    }
+    },
+    boxBotones:{
+      marginTop:'10px', 
+      marginBottom:'30px', 
+      borderRadius:'20px', 
+      backgroundColor:'#fafafa',
+      justifyContent:"center"
+  },
+    botonAceptar:{
+      marginRight:'10px',
+      backgroundColor:"grey",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'#f69b2e',
+          color: '#fff'
+          }
+    },
+    botonRechazo:{
+      backgroundColor:"grey",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'red',
+          color: '#fff'
+          }
+  }
 }));
 export const SolicitarAdmin = ({idAlumno}) => {
     console.log("Solicitando alumno con: ",idAlumno)
@@ -75,6 +106,8 @@ export const SolicitarAdmin = ({idAlumno}) => {
     }
     const [dataEstudiante, setdataEstudiante] = useState(data)
     const [docSelect, setDocSelect] = useState('');
+    const [mostrarAlerta, setmostrarAlerta] = useState(true)
+    const [practicaAceptada, setpracticaAceptada] = useState(false)
     const handleChangeDocSelect = (event) => {
         setDocSelect(event.target.value);
     };
@@ -119,9 +152,24 @@ export const SolicitarAdmin = ({idAlumno}) => {
     }, [])
     
     const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
-    
+    const handleAceptarPractica = () =>{
+
+    }
     return (
-        <div>         
+        <div>
+            {
+              mostrarAlerta && (
+                practicaAceptada 
+                ? <Alert severity="success">
+                    Esta solicitud de práctica se encuentra <strong>Aceptada</strong>. A la espera del siguiente paso por parte del estudiante.
+                </Alert>
+                : <Alert severity="error">
+                  Esta solicitud de practica se encuentra <strong>Rechazada</strong>.
+                </Alert>       
+              )
+            }  
+            
+            
             {/* Datos de Estudiante */}
             <Box className={classes.mainbox} boxShadow={1}>
                 <h4 style={{paddingTop:'20px', paddingLeft:'20px'}}>Datos Estudiante</h4>
@@ -263,6 +311,17 @@ export const SolicitarAdmin = ({idAlumno}) => {
                     </List>                
                     
                 </div>          
+            </Box>
+            <Box className={classes.boxBotones} display="flex" boxShadow={1}>
+            <div style={{padding:"30px"}}>
+              <Button className={classes.botonAceptar} startIcon={<GoCheck/>} >
+                Aceptar
+              </Button>
+              <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} >
+                Rechazar
+              </Button>
+            </div>
+              
             </Box>
         </div>
     )

@@ -1,9 +1,12 @@
 import React, { Fragment, useState } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, 
+  FormText, Col, Tooltip, Modal, ModalHeader, 
+  ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
 import {MdFileDownload} from 'react-icons/md'
 import { Resolucion } from './Resolucion';
 import { Paper } from '@material-ui/core';
 import { Comentario } from './Comentario';
+import { useForm } from '../../../hooks/useForm';
 
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
@@ -27,7 +30,10 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
     }
-
+    const [formValues, handleInputChange] = useForm({
+      newPass:"",
+      newPassRepite:""
+  })
     const [modal, setModal] = useState(false)
     const [nameDownloaded, setnameDownloaded] = useState("")
     const toggle = () =>{
