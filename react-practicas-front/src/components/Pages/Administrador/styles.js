@@ -22,18 +22,10 @@ export default makeStyles((theme) => ({
       alignSelf: 'center'
     }, 
     encabezado:{
-      marginTop: '10vh',
-      marginTop: '10vh',
-      display: 'flex',
-      alignItems: 'center'
+      marginLeft: '-88px'
     },
     titulo:{
-      marginLeft:'10%',
-      display: 'inline-block',
-      color: '#3d84b8',
-      fontFamily: 'Righteous, serif',
      fontSize: '4em',
-     textShadow: '.05em .05em 0 #3f3697',
     },
     inputMaterial:{
       width: '100%',

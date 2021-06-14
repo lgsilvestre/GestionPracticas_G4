@@ -1,23 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import estudiantes from '../../routers/assets/estudiantes.svg'
 import useStyles from './styles';
 import Typography from '@material-ui/core/Typography';
-import {StyledTableCell, StyledTableRow} from './styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, TableCell, Paper} from '@material-ui/core';
-import {Edit, Delete, Assignment} from '@material-ui/icons';
+import {Edit, Delete} from '@material-ui/icons';
 import FormAlumno from '../../FormAlumno/FormAlumno';
 import { motion } from "framer-motion"
 
 
 export default function Administrador() {
   const classes = useStyles();
-  const [data, setData]=useState([]);
+  const [rows, setRows] = useState([]);
   const [modalInsertar, setModalInsertar]=useState(false);
   const [modalEditar, setModalEditar]=useState(false);
   const [modalEliminar, setModalEliminar]=useState(false);
@@ -37,10 +35,32 @@ export default function Administrador() {
     nivel_99_aprobado: ''
   })
 
+  function createData(carrera, matricula, nombre, rut, correo, action) {
+    return {carrera, matricula, nombre, rut, correo, action };
+  }
+
+    // Columnas para la tabla de estados
+    const columns = [
+      { id: 'carrera', label: 'Carrera', minWidth: "25%" },
+      { id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
+      { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
+      { id: 'rut', label: 'RUT', minWidth: "25%" },
+      { id: 'correo', label: 'Correo', minWidth: "25%" },
+      { id: 'action', label: 'Acción',  minWidth: "25%",  },
+    ];
   const peticionGet=async()=>{
     await axios.get('')
     .then(response=>{
-      setData(response.data);
+      const resultado = response.data;
+      // console.log("antes:",rows)
+      const lista = []
+      for(var i=0; i<resultado.length; i++){
+        const fila = createData(resultado[i].carrera , resultado[i].matricula , resultado[i].nombre,resultado[i].rut,resultado[i].correo,"button")
+        // console.log(fila)
+        lista.push(fila)
+      }  
+      // console.log(lista)
+      setRows(lista)
     })
   }
 
@@ -49,7 +69,7 @@ export default function Administrador() {
     await axios.post('', estudiante
  )
     .then(response=>{
-      setData(data.concat(response.data))
+      setRows(rows.concat(response.data))
       abrirCerrarModalInsertar()
     })
   }
@@ -59,7 +79,7 @@ export default function Administrador() {
  .id, estudiante
  )
     .then(response=>{
-      var dataNueva=data;
+      var dataNueva=rows;
       dataNueva.map(consola=>{
         if(estudiante
      .id===consola.id){
@@ -73,7 +93,7 @@ export default function Administrador() {
      .unidades_vendidas;
         }
       })
-      setData(dataNueva);
+      setRows(dataNueva);
       abrirCerrarModalEditar();
     })
   }
@@ -82,7 +102,7 @@ export default function Administrador() {
     await axios.delete(''+estudiante
  .id)
     .then(response=>{
-      setData(data.filter(consola=>consola.id!==estudiante
+      setRows(rows.filter(consola=>consola.id!==estudiante
    .id));
       abrirCerrarModalEliminar();
     })
@@ -159,58 +179,64 @@ export default function Administrador() {
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
 
         <div className={classes.encabezado}>
-        <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} >  <img   heigth ={10} src={estudiantes} alt='ESTUDIANTES'/>   
-           </motion.div>
-           <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo}  >ESTUDIANTES</h1></motion.div>
+           <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h2" className={classes.titulo}  >Estudiantes</Typography></motion.div>
           
          </div>
   
 
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Estudiante</Button>
-      <br /><br />
-     <TableContainer>
-       <Table className={classes.table}>
-         <TableHead>
-           <TableRow>
-           <StyledTableCell >Carrera</StyledTableCell> 
-            <StyledTableCell >Matricula</StyledTableCell>             
-            <StyledTableCell >Nombre Alumno</StyledTableCell>     
-            <StyledTableCell >RUT</StyledTableCell>   
-            <StyledTableCell >Correo</StyledTableCell> 
-            <StyledTableCell >Plan</StyledTableCell> 
-            <StyledTableCell >Ingreso</StyledTableCell> 
-            <StyledTableCell >Detalle</StyledTableCell> 
-            <StyledTableCell >Acciones</StyledTableCell>  
-          
-           </TableRow>
-         </TableHead>
+      <br />      
+      <br />
+      <hr/> 
+      <Paper className={classes.root}>
+      {/* Tabla de Practicas */}
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="sticky table">
+          {/* Headers de la tabla */}
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {/* Cuerpo de la Tabla */}
+          <TableBody>
+            {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
+            {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
+            {rows.map((row) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (                           
+                      <TableCell key={column.id} align={column.align}>
+                      {value ==="button" ? 
+                      <div>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Editar')}/>
+                      &nbsp;&nbsp;&nbsp;
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Eliminar')}/>
+                      </div>
+                      : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-         <TableBody>
-           {data.map(estudiante=>(
-             <StyledTableRow key={estudiante.name}> 
-                <StyledTableCell component="th" scope="row"> 
-                    {estudiante.carrera} 
-                </StyledTableCell>                 
-                <StyledTableCell >{estudiante.matricula}</StyledTableCell> 
-                <StyledTableCell >{estudiante.nombre}</StyledTableCell> 
-                <StyledTableCell >{estudiante.rut}</StyledTableCell>                 
-                <StyledTableCell >{estudiante.correo_ins}</StyledTableCell>                 
-                <StyledTableCell >{estudiante.plan}</StyledTableCell> 
-                <StyledTableCell >{estudiante.anho_ingreso}</StyledTableCell>    
-                 
-                <StyledTableCell>
-                 <Assignment className={classes.iconos} onClick={()=>seleccionarVerMas(estudiante)}/>
-                </StyledTableCell>
-               <StyledTableCell>
-                 <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Editar')}/>
-                 &nbsp;&nbsp;&nbsp;
-                 <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Eliminar')}/>
-                </StyledTableCell>
-             </StyledTableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
+    </Paper>
+  
 
      <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
         <div className={classes.modal}>          
