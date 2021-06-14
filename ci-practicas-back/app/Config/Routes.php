@@ -61,6 +61,7 @@ $routes->post('ingresarPractica', 'PracticaController::ingresarPractica');
 $routes->get('servePracticaAlumno', 'PracticaController::servePracticaAlumno');
 $routes->post('servePracticaAlumnoFiltrada', 'PracticaController::servePracticaFiltrada');
 $routes->post('getEstadoPracticaAlumno', 'PracticaController::getEstadoPracticaAlumno');
+$routes->post('aceptarSolicitud', 'PracticaController::aceptarSolicitud');
 //Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 

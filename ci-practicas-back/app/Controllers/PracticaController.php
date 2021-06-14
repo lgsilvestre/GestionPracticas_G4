@@ -326,4 +326,11 @@ class PracticaController extends BaseController
 
 	}
 
+	public function aceptarSolicitud() {
+		$matricula = $this->request->getVar('matricula');
+		$numero = $this->request->getVar('numero');
+		echo "matricula: ".$matricula;
+		echo "numero: ".$numero;
+	}
+
 }
