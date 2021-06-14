@@ -22,10 +22,11 @@ export default makeStyles((theme) => ({
       alignSelf: 'center'
     }, 
     encabezado:{
-      marginLeft: '-88px'
+      marginLeft: "-100px"
     },
     titulo:{
      fontSize: '4em',
+     color: '#1A2B4B'
     },
     inputMaterial:{
       width: '100%',
@@ -69,24 +70,4 @@ export default makeStyles((theme) => ({
   }
   
   }));
-  
-  export const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: '#fafafa',
-      color: theme.palette.common.black,
-      padding: '6px'
-    },
-    body: {
-      fontSize: '0.875rem',
-      padding: '6px'
-    },
-  }))(TableCell);
-  
-  export const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-  
-    },
-  }))(TableRow);
+ 

@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { motion } from "framer-motion"
 
 const useStyles = makeStyles({
     root: {
@@ -16,6 +17,14 @@ const useStyles = makeStyles({
     media: {
       height: 140,
     },
+    encabezado:{
+        marginLeft: "-100px",
+        marginBottom: "3vh"
+      },
+      titulo:{
+       fontSize: '4em',
+       color: '#1A2B4B'
+      },
   });
 
 export const AdminDashboard = () => {
@@ -26,9 +35,10 @@ export const AdminDashboard = () => {
         <div style={{ marginTop: '20px', marginBottom: '30px' }}>
             <Grid container>
                 <Grid item sm={12}>
-                    <h4 style={{ marginBottom: '30px' }}>
-                        Admin &gt; Dashboard
-                    </h4>
+                <div className={classes.encabezado}>
+                <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h2" className={classes.titulo}  >Gestionar Documentos</Typography></motion.div>
+                
+                </div>
                 </Grid>
                 <Grid item sm={12}>
                     <Grid container>

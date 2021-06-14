@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '-88px'
   },
   titulo:{
-   
+    color: '#1A2B4B'
   },
   container: {
     maxHeight: "50%",
