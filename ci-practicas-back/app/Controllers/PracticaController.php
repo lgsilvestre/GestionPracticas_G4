@@ -407,5 +407,5 @@ class PracticaController extends BaseController
             return false;
         }
     }
-
+}
 
