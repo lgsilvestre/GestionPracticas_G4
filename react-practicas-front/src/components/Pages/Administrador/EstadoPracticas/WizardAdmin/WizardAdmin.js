@@ -7,8 +7,8 @@ import { SolicitarAdmin } from './Estados/SolicitarAdmin';
 import { EvaluacionAdmin } from './Estados/EvaluacionAdmin';
 
 
-const WizardAdmin = ({pageProp=0, idAlumno}) => {
-
+const WizardAdmin = ({pageProp=0, idAlumno, nroPractica}) => {
+    console.log("nro recibido en wizard:",nroPractica)
     const steps = [
         {title: "Solicitar"},
         {title: "Inscripción"},
@@ -35,10 +35,29 @@ const WizardAdmin = ({pageProp=0, idAlumno}) => {
             />
             <hr/>
             
-            { page===0 && <SolicitarAdmin previousPage={previousPageFuncion} handleSubmit={nextPage} idAlumno={idAlumno} /> }
-            { page===1 && <InscripcionAdmin handleSubmit={nextPage} idAlumno={idAlumno} /> }
-            { page===2 && <CursandoAdmin previousPage={previousPageFuncion} handleSubmit={nextPage} idAlumno={idAlumno}/> }
-            { page===3 && <EvaluacionAdmin previousPage={previousPageFuncion} handleSubmit={nextPage} idAlumno={idAlumno}/> }
+            { page===0 && <SolicitarAdmin 
+              previousPage={previousPageFuncion} 
+              handleSubmit={nextPage} 
+              idAlumno={idAlumno}  
+              nroPractica={nroPractica}  
+              /> }
+            { page===1 && <InscripcionAdmin 
+              handleSubmit={nextPage} 
+              idAlumno={idAlumno} 
+              nroPractica={nroPractica} 
+              /> }
+            { page===2 && <CursandoAdmin 
+              previousPage={previousPageFuncion} 
+              handleSubmit={nextPage} 
+              idAlumno={idAlumno}
+              nroPractica={nroPractica} 
+              /> }
+            { page===3 && <EvaluacionAdmin 
+              previousPage={previousPageFuncion} 
+              handleSubmit={nextPage} 
+              idAlumno={idAlumno}
+              nroPractica={nroPractica} 
+              /> }
             
             
         </Card>

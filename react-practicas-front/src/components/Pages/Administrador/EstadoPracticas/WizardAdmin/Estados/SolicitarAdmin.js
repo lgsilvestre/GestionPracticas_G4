@@ -1,11 +1,14 @@
 import {Box,FormControl,Grid,IconButton,Input,
     List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, 
-    NativeSelect } from '@material-ui/core'
+    NativeSelect, Button } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { IoMdAddCircle } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md';
 import { VscFilePdf } from 'react-icons/vsc';
+import { GoCheck } from "react-icons/go";
+import { GoCircleSlash } from "react-icons/go";
 import { useForm } from '../../../../../../hooks/useForm';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,34 +39,44 @@ const useStyles = makeStyles((theme) => ({
     logosearch :{
         width:"25px", 
         height:"25px"
-    }
+    },
+    boxBotones:{
+      marginTop:'10px', 
+      marginBottom:'30px', 
+      borderRadius:'20px', 
+      backgroundColor:'#fafafa',
+      justifyContent:"center"
+  },
+    botonAceptar:{
+      marginRight:'10px',
+      backgroundColor:"grey",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'#f69b2e',
+          color: '#fff'
+          }
+    },
+    botonRechazo:{
+      backgroundColor:"grey",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'red',
+          color: '#fff'
+          }
+  }
 }));
-export const SolicitarAdmin = ({idAlumno}) => {
+
+export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
     console.log("Solicitando alumno con: ",idAlumno)
-    
-    const docs = [
-        {
-          nombre:'Carta de presentación',
-          value:'doc1'
-        },
-        {
-          nombre:'Curriculo Plan',
-          value:'doc2'
-        },
-        {
-          nombre:'Consentimiento Informado',
-          value:'doc3'  
-        },
-        {
-          nombre:'Protocolo Covid',
-          value:'doc4'  
-        },
-        {
-          nombre:'Modulos de desempeño integrado',
-          value:'doc5'  
-        }
-      ]
+    console.log("Numero de practica: ", nroPractica)
+    const [docs, setDocs] = useState([])
+
     const classes = useStyles();
+
     //Datos por defecto 
     const data = {
         nombre: "Camilo Villalobos",
@@ -73,21 +86,41 @@ export const SolicitarAdmin = ({idAlumno}) => {
         rut:"12345678-9",
         matricula:"12345679",
     }
+
     const [dataEstudiante, setdataEstudiante] = useState(data)
-    const [docSelect, setDocSelect] = useState('');
-    const handleChangeDocSelect = (event) => {
-        setDocSelect(event.target.value);
-    };
+
+    const [docSelect, setDocSelect] = useState('')
+    const [mostrarAlerta, setmostrarAlerta] = useState(true)
+
+    const [practicaAceptada, setpracticaAceptada] = useState(false)
+
     const [archivos, setArchivos] = useState([])
+
+    const handleChangeDocSelect = (event) => {
+      setDocSelect(event.target.value);
+  };
     const handleAddDoc = () =>{
-        if(docSelect!=''){
-            setArchivos([...archivos, {nombre:docSelect}])
-        }
+      const infoDocSelected = docs.find(doc => doc.nombre ===docSelect)
+      console.log("VVALOR: ",infoDocSelected);
+        if(!archivos.find(doc =>doc.nombre===docSelect)){
+          if(docSelect!=''){
+            setArchivos([...archivos, {
+              nombre:docSelect,
+              id_documento:infoDocSelected.id_documento
+            }])
+          }
+        } else {  
+          console.log("DOCUMENTO REPETIDO")
+            //Alerta mismo documento
+        }      
     }
+
     const [formValues, handleInputChange] = useForm({
         searchText:""
     })
+
     const {searchText} = formValues;
+
     const handleSearch = (e) =>{
         e.preventDefault()
         console.log("submit", searchText)
@@ -95,10 +128,64 @@ export const SolicitarAdmin = ({idAlumno}) => {
             const filteredDocs = docs.filter(doc => doc.nombre.includes(searchText));
             console.log(filteredDocs)
         }
-        }  
+    }
+
     const handleDeleteDoc= () =>{
     }
+
+    const [administrador , setAdministrador ]=useState({
+        nombre: "",
+        apellido: "",
+        correo: "",
+        tipo: "",
+        carrera: "",
+        contrasena: "",
+        carreras: []
+    })
+
+    const getDocumentos= () =>{
+    
+        axios.get(
+            "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getDocumentos"
+          )
+            .then(response => {
+              console.log("respuesta: ", response.data)
+              setDocs(response.data)
+            //   administrador.carreras = response.data
+            //   console.log(administrador.carreras)
+            })
+            .catch(error => {
+              console.log("Error: ", error)
+        });
+
+    }
+
+    const enviarInformacionSolicitud = () =>{  
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarSolicitud",{
+        documentos:archivos,
+        matricula:idAlumno,
+        numero:nroPractica
+      }).then(response =>{
+        //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
+        console.log("respuesta enviar info solicitud: ",response.data)
+      }
+      )
+      .catch(error => {
+        //FALSE PRACTICA NO AGREGADA
+        //MOSTRAR ALERTA
+        console.log("Error: ", error)
+      });
+    }
+
+    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
+
+    const handleAceptarPractica = () =>{
+      console.log("ACEPTANDO PRACTICA")
+      enviarInformacionSolicitud()
+    }
+
     useEffect(async() => {
+        getDocumentos()
         await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoMatricula",{
             params:{
                 matricula:idAlumno
@@ -117,11 +204,23 @@ export const SolicitarAdmin = ({idAlumno}) => {
             console.log(datosEstudiante)
         })
     }, [])
-    
-    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
-    
+
+  
     return (
-        <div>         
+        <div>
+            {
+              mostrarAlerta && (
+                practicaAceptada 
+                ? <Alert severity="success">
+                    Esta solicitud de práctica se encuentra <strong>Aceptada</strong>. A la espera del siguiente paso por parte del estudiante.
+                </Alert>
+                : <Alert severity="error">
+                  Esta solicitud de practica se encuentra <strong>Rechazada</strong>.
+                </Alert>       
+              )
+            }  
+            
+            
             {/* Datos de Estudiante */}
             <Box className={classes.mainbox} boxShadow={1}>
                 <h4 style={{paddingTop:'20px', paddingLeft:'20px'}}>Datos Estudiante</h4>
@@ -263,6 +362,17 @@ export const SolicitarAdmin = ({idAlumno}) => {
                     </List>                
                     
                 </div>          
+            </Box>
+            <Box className={classes.boxBotones} display="flex" boxShadow={1}>
+            <div style={{padding:"30px"}}>
+              <Button className={classes.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
+                Aceptar
+              </Button>
+              <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} >
+                Rechazar
+              </Button>
+            </div>
+              
             </Box>
         </div>
     )

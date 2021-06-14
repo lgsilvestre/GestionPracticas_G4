@@ -136,7 +136,7 @@ class PracticaController extends BaseController
         }
     }
 
-	private function resultadoFiltros($Etapa, $Estado, $Carrera, $anio)
+	public function resultadoFiltros($Etapa, $Estado, $Carrera, $anio)
 	{
 		$model = new PracticaModel();
 		if($Etapa =='' && $Estado =='' && $Carrera=='' && $anio =='')
@@ -265,25 +265,41 @@ class PracticaController extends BaseController
     }
 
 	public function servePracticaAlumno () {
+
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getPracticaAlumno();
-        
-		$arr = array();
-        $count = 1;
+
         if ($result){
-            
-            //foreach ($result as $row)
-            //{
-            //    $arr[] = $row->nombre;
-                //$count++;
-            //}
 
             echo json_encode($result, JSON_UNESCAPED_UNICODE);
 
         } else {
             echo "error";
         }
-		
+
+	}
+
+	public function servePracticaFiltrada () {
+		$filtrosJson = $this->request->getVar('filtros');
+		// $estado = $this->request->getVar('estadi');
+		// $carrera = $this->request->getVar('carrera');
+		// $anio = $this->request->getVar('anio');
+
+		// echo $etapa."-".$estado."-".$carrera."-".$anio;
+
+		echo $filtrosJson;
+
+		// $this->PracticaModel = new PracticaModel();
+		// $result = $this->PracticaModel->getPracticaAlumno();
+
+        // if ($result){
+
+        //     echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        // } else {
+        //     echo "error";
+        // }
+
 	}
 
 	public function ingresarPractica() {
@@ -295,6 +311,26 @@ class PracticaController extends BaseController
 		} else {
 			echo false;
 		}
+	}
+
+	public function getEstadoPracticaAlumno() {
+		$id = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEstadoAlumno($id, $numero);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo false;
+		}
+
+	}
+
+	public function aceptarSolicitud() {
+		$matricula = $this->request->getVar('matricula');
+		$numero = $this->request->getVar('numero');
+		echo "matricula: ".$matricula;
+		echo "numero: ".$numero;
 	}
 
 	private function sendEmailSolicitudAlumno($correo, $nombre, $fecha){

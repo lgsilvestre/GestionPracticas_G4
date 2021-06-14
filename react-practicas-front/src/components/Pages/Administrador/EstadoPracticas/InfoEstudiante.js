@@ -17,13 +17,13 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
         backgroundColor:'#f69b2e',
             color: '#fff'
-            }
+        }
     }
     
 }));
-export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, idAlumno}) => {
+export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, idAlumno, nroPractica}) => {
+    console.log("nro recibido en infoestudiante:",nroPractica)
     const classes = useStyles();  
-    
     const [etapaLabel, setEtapaLabel] = useState("")
     const [etapa, setEtapa] = useState(etapaProp)
     useEffect(() => {
@@ -57,7 +57,7 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, idAlumno}) =
                     Atras
                 </Button>
                 
-                <WizardAdmin pageProp={etapa} classes={classes} idAlumno={idAlumno}/>
+                <WizardAdmin pageProp={etapa} classes={classes} idAlumno={idAlumno} nroPractica={nroPractica}/>
             </div>
         </div>
         

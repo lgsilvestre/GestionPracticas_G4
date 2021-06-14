@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import {AiOutlineSearch} from "react-icons/ai"
+import {AiOutlineSearch} from "react-icons/ai";
 import AlertaSimple from '../../../ui/Alertas/AlertaSimple';
 import axios from 'axios';
 import { useForm } from '../../../../hooks/useForm';
@@ -69,8 +69,8 @@ export const Filtros = ({clasesEstilo, data, setRows}) => {
         carreraFilter,
         anioFilter
       })
-      console.log(filtros)
       handleClickOpen()
+      petitionGetPracticaAlumnoFiltrada()
       //Comunicacion con la base de datos
       //axiosPostFilters(filtros)
     } 
@@ -110,6 +110,33 @@ export const Filtros = ({clasesEstilo, data, setRows}) => {
     const handleClose = () => {
       setOpen(false);
     };
+
+    const petitionGetPracticaAlumnoFiltrada = async () =>{
+      let jsonfiltros = JSON.stringify(filtros)
+      console.log(jsonfiltros)
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumnoFiltrada",{
+        filtros: jsonfiltros,
+      },
+    )
+      .then(response=>{
+        console.log(response.data)
+        // // console.log(response.data)
+        // const resultado = response.data;
+        // // console.log("antes:",rows)
+        // const lista = []
+        // for(var i=0; i<resultado.length; i++){
+        //   const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
+        //     resultado[i].estado, resultado[i].fecha_termino,"button")
+        //   // console.log(fila)
+        //   lista.push(fila)
+        // }  
+        // // console.log(lista)
+        // setRows(lista)
+        // setOriginalData(lista)
+        
+      })
+    }
+
     return (
         <div>
             {

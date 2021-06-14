@@ -15,29 +15,17 @@ import logo1 from './logos/whitelogo-1.png';
 import Container from 'react-bootstrap/Container';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
-
+import Backside from "./back/backside.png";
+ 
 
 const SidePro = () => {
 
     return (
-        <ProSidebar style={{width:'100%'}}>            
+        <ProSidebar style={{width:'100%'}} image={Backside}>            
             <Menu iconShape="square">   
 
-                {/* <MenuItem >
-                <div>
-                <Box style={{ marginBottom:'20px', marginTop:'25px', display:'flex', justifyContent:'center', alignContent:'center'}}>
-                    
-                    <Link to='/admin' className='menu-bars'>
-                    <img src={logo1} className={styles.centerimage} alt="Utalca Logo"/>      
-                    </Link>
-                </Box>
-                </div> 
-                
-                </MenuItem>  
-                */}
-
                 <MenuItem className={styles.navItem} style={{marginTop:'20px', marginBottom:'10px'}}>
-                    <Link to="/admin/practicas" >
+                    <Link to="/admin" >
                         <img src={logo1} className={styles.centerimage} alt="Utalca Logo"/>
                     </Link>
                 </MenuItem>
