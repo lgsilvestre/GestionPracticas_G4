@@ -69,32 +69,14 @@ const useStyles = makeStyles((theme) => ({
           }
   }
 }));
-export const SolicitarAdmin = ({idAlumno}) => {
+
+export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
     console.log("Solicitando alumno con: ",idAlumno)
-    
-    const docs = [
-        {
-          nombre:'Carta de presentación',
-          value:'doc1'
-        },
-        {
-          nombre:'Curriculo Plan',
-          value:'doc2'
-        },
-        {
-          nombre:'Consentimiento Informado',
-          value:'doc3'  
-        },
-        {
-          nombre:'Protocolo Covid',
-          value:'doc4'  
-        },
-        {
-          nombre:'Modulos de desempeño integrado',
-          value:'doc5'  
-        }
-      ]
+    console.log("Numero de practica: ", nroPractica)
+    const [docs, setDocs] = useState([])
+
     const classes = useStyles();
+
     //Datos por defecto 
     const data = {
         nombre: "Camilo Villalobos",
@@ -104,23 +86,39 @@ export const SolicitarAdmin = ({idAlumno}) => {
         rut:"12345678-9",
         matricula:"12345679",
     }
+
     const [dataEstudiante, setdataEstudiante] = useState(data)
-    const [docSelect, setDocSelect] = useState('');
+
+    const [docSelect, setDocSelect] = useState('')
+
     const [mostrarAlerta, setmostrarAlerta] = useState(true)
+
     const [practicaAceptada, setpracticaAceptada] = useState(false)
+
     const handleChangeDocSelect = (event) => {
         setDocSelect(event.target.value);
     };
+
     const [archivos, setArchivos] = useState([])
+
     const handleAddDoc = () =>{
-        if(docSelect!=''){
+
+        if(!archivos.find(doc =>doc.nombre===docSelect)){
+          if(docSelect!=''){
             setArchivos([...archivos, {nombre:docSelect}])
-        }
+          }
+        } else {  
+          console.log("DOCUMENTO REPETIDO")
+            //Alerta mismo documento
+        }      
     }
+
     const [formValues, handleInputChange] = useForm({
         searchText:""
     })
+
     const {searchText} = formValues;
+
     const handleSearch = (e) =>{
         e.preventDefault()
         console.log("submit", searchText)
@@ -128,10 +126,45 @@ export const SolicitarAdmin = ({idAlumno}) => {
             const filteredDocs = docs.filter(doc => doc.nombre.includes(searchText));
             console.log(filteredDocs)
         }
-        }  
+    }
+
     const handleDeleteDoc= () =>{
     }
+
+    const [administrador , setAdministrador ]=useState({
+        nombre: "",
+        apellido: "",
+        correo: "",
+        tipo: "",
+        carrera: "",
+        contrasena: "",
+        carreras: []
+    })
+
+    const getDocumentos= () =>{
+    
+        axios.get(
+            "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getDocumentos"
+          )
+            .then(response => {
+              console.log("respuesta: ", response.data)
+              setDocs(response.data)
+            //   administrador.carreras = response.data
+            //   console.log(administrador.carreras)
+            })
+            .catch(error => {
+              console.log("Error: ", error)
+        });
+
+    }
+
+    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
+
+    const handleAceptarPractica = () =>{
+    }
+
     useEffect(async() => {
+        getDocumentos()
         await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoMatricula",{
             params:{
                 matricula:idAlumno
@@ -150,11 +183,7 @@ export const SolicitarAdmin = ({idAlumno}) => {
             console.log(datosEstudiante)
         })
     }, [])
-    
-    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
-    const handleAceptarPractica = () =>{
 
-    }
     return (
         <div>
             {

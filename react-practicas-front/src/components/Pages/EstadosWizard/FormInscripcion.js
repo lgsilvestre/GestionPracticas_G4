@@ -55,10 +55,6 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
     }
-    const [formValues, handleInputChange] = useForm({
-      newPass:"",
-      newPassRepite:""
-  })
     const [modal, setModal] = useState(false)
     const [nameDownloaded, setnameDownloaded] = useState("")
     const toggle = () =>{

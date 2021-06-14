@@ -85,35 +85,20 @@ export const TablaEstados = ({history}) =>  {
       minWidth: "25%",
     },
     {
+      id: 'nroPractica',
+      label: 'N° Práctica',
+      minWidth: "25%",
+    },
+    {
       id: 'action',
       label: 'Acción',
       minWidth: "25%",
     },
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
-  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, action) {
-    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, action };
+  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
+    return { nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action };
   }
-
-  // Datos locales para mostrar temporalmente en la tabla
-  const data = [
-    // ("Nombre", matricula, carrera, año, etapa, estado, fecha termino, boton)
-    createData('Diego Perez', '1', 'Ingenieria civil en computación', "2021","Solicitud", "Pendiente", "","button"),
-    createData('Camila Lopez','2', 'Ingenieria civil industrial', "2021","Inscripción", "Aprobada", "31/04/21","button"),
-    createData('Fernando Fuenzalida','3', 'Ingenieria civil mecatronica', "2021", "Cursando","", "31/04/21","button"),
-    createData('Rodrigo Abarca','4', 'Ingenieria civil en computacion', "2021", "Evaluación","Pendiente", "","button"),
-    createData('Pia Gomez','5', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "24/06/21","button"),
-    createData('Eliot Anderson','6', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "16/04/21","button"),
-    createData('Pedro Fuentes','7', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "17/04/21","button"),
-    createData('Simon Lopez','8', 'Ingenieria civil mecatronica', "2021","Inscripción", "Pendiente", "25/07/21","button"),
-    createData('Marcelo Muñoz','9', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "14/09/21","button"),
-    createData('Humberto Suazo','10', 'Ingenieria civil de Minas ', "2021","Inscripción", "Pendiente", "09/05/21","button"),
-    createData('Eduardo Carrasco','11', 'Ingenieria civil Electrica', "2021","Inscripción", "Pendiente", "05/05/21","button"),
-    createData('Rocio Villalobos','12', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "31/04/21","button"),
-    createData('Henry Agusto','13', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "15/07/21","button"),
-    createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
-    createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
-  ];
   const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState([]);
@@ -121,7 +106,7 @@ export const TablaEstados = ({history}) =>  {
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
   const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
-  
+  const [nroPractica, setnroPractica] = useState("")
   useEffect(async()=>{
     petitionGetPracticaAlumno()
   },[])
@@ -129,13 +114,13 @@ export const TablaEstados = ({history}) =>  {
   const petitionGetPracticaAlumno = async () =>{
     await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumno")
     .then(response=>{
-      // console.log(response.data)
+      console.log(response.data)
       const resultado = response.data;
       // console.log("antes:",rows)
       const lista = []
       for(var i=0; i<resultado.length; i++){
         const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
-          resultado[i].estado, resultado[i].fecha_termino,"button")
+          resultado[i].estado, resultado[i].fecha_termino, resultado[i].numero,"button")
         // console.log(fila)
         lista.push(fila)
       }  
@@ -196,8 +181,10 @@ export const TablaEstados = ({history}) =>  {
         break;
     }
   }
-  const handleChangeState = (etapa, idAlumno) => {
+  const handleChangeState = (etapa, idAlumno, numero) => {
+    console.log("nro recibido en tablaestado:",numero)
     console.log(idAlumno)
+    setnroPractica(numero)
     setIdAlumnoSelected(idAlumno)
     setChangeState(!changeState)
     changeSelected(etapa)
@@ -207,7 +194,12 @@ export const TablaEstados = ({history}) =>  {
     setChangeState(!changeState)
   }
   if(changeState){
-    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} idAlumno = {idAlumnoSelected} etapaProp={seleccionado}/>
+    return <InfoEstudiante 
+      handleChangeStateBack={handleChangeStateBack} 
+      idAlumno = {idAlumnoSelected} 
+      etapaProp={seleccionado}
+      nroPractica={nroPractica}
+      />
   }
   else{
     return (  
@@ -252,7 +244,7 @@ export const TablaEstados = ({history}) =>  {
                               {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}
                               {value ==="button" ? 
                               <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
-                                onClick={() => handleChangeState(row.etapa, row.matricula)}>
+                                onClick={() => handleChangeState(row.etapa, row.matricula, row.nroPractica)}>
                                 <AiOutlineEye fontSize="inherit"/>
                               </IconButton>
                               : value}
