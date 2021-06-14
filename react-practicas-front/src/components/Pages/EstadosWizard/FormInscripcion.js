@@ -47,14 +47,14 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     },{
         nombre: "Modulos de desempeño integrado"
     }]
-    
+  
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
+    const [mostrarComentario, setmostrarComentario] = useState(true)
     
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
     }
-
     const [modal, setModal] = useState(false)
     const [nameDownloaded, setnameDownloaded] = useState("")
     const toggle = () =>{
@@ -162,6 +162,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                         </FormGroup>
                     ))
                 }
+                
                 <hr/>
                 <div className=" text-center" style={{marginBottom:20}}>
                   <Button className="btn btn-primary" onClick={postInscripcion}>
@@ -180,6 +181,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         </div>
       )
     }
+    
     return (
         <div className="animate__animated animate__fadeIn animate__faster">
           {mostrarResolucion 

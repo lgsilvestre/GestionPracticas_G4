@@ -70,31 +70,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const SolicitarAdmin = ({idAlumno}) => {
+export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
     console.log("Solicitando alumno con: ",idAlumno)
-    
-    const docs = [
-        // {
-        //   nombre:'Carta de presentación',
-        //   value:'doc1'
-        // },
-        // {
-        //   nombre:'Curriculo Plan',
-        //   value:'doc2'
-        // },
-        // {
-        //   nombre:'Consentimiento Informado',
-        //   value:'doc3'  
-        // },
-        // {
-        //   nombre:'Protocolo Covid',
-        //   value:'doc4'  
-        // },
-        // {
-        //   nombre:'Modulos de desempeño integrado',
-        //   value:'doc5'  
-        // }
-      ]
+    console.log("Numero de practica: ", nroPractica)
+    const [docs, setDocs] = useState([])
 
     const classes = useStyles();
 
@@ -111,21 +90,29 @@ export const SolicitarAdmin = ({idAlumno}) => {
     const [dataEstudiante, setdataEstudiante] = useState(data)
 
     const [docSelect, setDocSelect] = useState('')
-
     const [mostrarAlerta, setmostrarAlerta] = useState(true)
 
     const [practicaAceptada, setpracticaAceptada] = useState(false)
 
-    const handleChangeDocSelect = (event) => {
-        setDocSelect(event.target.value);
-    };
-
     const [archivos, setArchivos] = useState([])
 
+    const handleChangeDocSelect = (event) => {
+      setDocSelect(event.target.value);
+  };
     const handleAddDoc = () =>{
-        if(docSelect!=''){
-            setArchivos([...archivos, {nombre:docSelect}])
-        }
+      const infoDocSelected = docs.find(doc => doc.nombre ===docSelect)
+      console.log("VVALOR: ",infoDocSelected);
+        if(!archivos.find(doc =>doc.nombre===docSelect)){
+          if(docSelect!=''){
+            setArchivos([...archivos, {
+              nombre:docSelect,
+              id_documento:infoDocSelected.id_documento
+            }])
+          }
+        } else {  
+          console.log("DOCUMENTO REPETIDO")
+            //Alerta mismo documento
+        }      
     }
 
     const [formValues, handleInputChange] = useForm({
@@ -163,19 +150,38 @@ export const SolicitarAdmin = ({idAlumno}) => {
           )
             .then(response => {
               console.log("respuesta: ", response.data)
-              docs = response.data
+              setDocs(response.data)
             //   administrador.carreras = response.data
             //   console.log(administrador.carreras)
             })
             .catch(error => {
-              console.log("login error: ", error)
+              console.log("Error: ", error)
         });
 
+    }
+
+    const enviarInformacionSolicitud = () =>{  
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarSolicitud",{
+        documentos:archivos,
+        matricula:idAlumno,
+        numero:nroPractica
+      }).then(response =>{
+        //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
+        console.log("respuesta enviar info solicitud: ",response.data)
+      }
+      )
+      .catch(error => {
+        //FALSE PRACTICA NO AGREGADA
+        //MOSTRAR ALERTA
+        console.log("Error: ", error)
+      });
     }
 
     const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
 
     const handleAceptarPractica = () =>{
+      console.log("ACEPTANDO PRACTICA")
+      enviarInformacionSolicitud()
     }
 
     useEffect(async() => {
@@ -199,6 +205,7 @@ export const SolicitarAdmin = ({idAlumno}) => {
         })
     }, [])
 
+  
     return (
         <div>
             {
@@ -358,7 +365,7 @@ export const SolicitarAdmin = ({idAlumno}) => {
             </Box>
             <Box className={classes.boxBotones} display="flex" boxShadow={1}>
             <div style={{padding:"30px"}}>
-              <Button className={classes.botonAceptar} startIcon={<GoCheck/>} >
+              <Button className={classes.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
                 Aceptar
               </Button>
               <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} >

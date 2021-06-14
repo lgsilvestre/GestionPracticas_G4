@@ -6,7 +6,7 @@ use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-use App\Models\DocumentoModel as DocumentoModel;
+use App\Models\InstDocumentoModel as InstDocumentoModel;
 
 /**
  * Class BaseController
@@ -19,7 +19,7 @@ use App\Models\DocumentoModel as DocumentoModel;
  * For security be sure to declare any new methods as protected or private.
  */
 
-class DocumentoController extends  BaseController
+class InstanciaDocumentoController extends BaseController
 {
 	
 	/**
@@ -48,11 +48,11 @@ class DocumentoController extends  BaseController
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
 		//$this->load->model("Alumno");
-		$this->DocumentoModel = new DocumentoModel();
+		$this->InstDocumentoModel = new InstDocumentoModel();
         
 	}
 
-    public function getDocumentos(){
+    public function setDocumentosAlumno(){
 
         $result = $this->DocumentoModel->getDocumentos();
         $arr = array();

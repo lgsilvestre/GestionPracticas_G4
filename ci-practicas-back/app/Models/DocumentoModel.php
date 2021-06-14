@@ -11,7 +11,7 @@ class DocumentoModel extends Model
     protected $allowedFields = ['nombre','requerido','etapa','link'];
 
     public function getDocumentos(){
-        $query = $this->db->query("Select nombre, requerido, etapa from documento");
+        $query = $this->db->query("Select * from documento");
         $result = $query->getResult();
         return $result;
     }

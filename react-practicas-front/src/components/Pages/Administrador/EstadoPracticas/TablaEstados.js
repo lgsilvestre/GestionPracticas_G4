@@ -85,14 +85,19 @@ export const TablaEstados = ({history}) =>  {
       minWidth: "25%",
     },
     {
+      id: 'nroPractica',
+      label: 'N° Práctica',
+      minWidth: "25%",
+    },
+    {
       id: 'action',
       label: 'Acción',
       minWidth: "25%",
     },
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
-  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, action) {
-    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, action };
+  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
+    return { nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action };
   }
   const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
@@ -101,7 +106,7 @@ export const TablaEstados = ({history}) =>  {
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
   const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
-  
+  const [nroPractica, setnroPractica] = useState("")
   useEffect(async()=>{
     petitionGetPracticaAlumno()
   },[])
@@ -115,7 +120,7 @@ export const TablaEstados = ({history}) =>  {
       const lista = []
       for(var i=0; i<resultado.length; i++){
         const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
-          resultado[i].estado, resultado[i].fecha_termino,"button")
+          resultado[i].estado, resultado[i].fecha_termino, resultado[i].numero,"button")
         // console.log(fila)
         lista.push(fila)
       }  
@@ -176,8 +181,10 @@ export const TablaEstados = ({history}) =>  {
         break;
     }
   }
-  const handleChangeState = (etapa, idAlumno) => {
+  const handleChangeState = (etapa, idAlumno, numero) => {
+    console.log("nro recibido en tablaestado:",numero)
     console.log(idAlumno)
+    setnroPractica(numero)
     setIdAlumnoSelected(idAlumno)
     setChangeState(!changeState)
     changeSelected(etapa)
@@ -187,7 +194,12 @@ export const TablaEstados = ({history}) =>  {
     setChangeState(!changeState)
   }
   if(changeState){
-    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} idAlumno = {idAlumnoSelected} etapaProp={seleccionado}/>
+    return <InfoEstudiante 
+      handleChangeStateBack={handleChangeStateBack} 
+      idAlumno = {idAlumnoSelected} 
+      etapaProp={seleccionado}
+      nroPractica={nroPractica}
+      />
   }
   else{
     return (  
@@ -232,7 +244,7 @@ export const TablaEstados = ({history}) =>  {
                               {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}
                               {value ==="button" ? 
                               <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
-                                onClick={() => handleChangeState(row.etapa, row.matricula)}>
+                                onClick={() => handleChangeState(row.etapa, row.matricula, row.nroPractica)}>
                                 <AiOutlineEye fontSize="inherit"/>
                               </IconButton>
                               : value}
