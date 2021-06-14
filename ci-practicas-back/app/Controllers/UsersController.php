@@ -92,7 +92,7 @@ class UsersController extends  BaseController
 
                 foreach ($result as $row)
                 {
-                    $arr['id_alumno'] = $row->id_alumno; 
+                    $arr['id_alumno'] = $row->id_alumno;
                     $arr['nombre'] = $row->nombre;
                     $arr['correo_ins'] = $row->correo_ins;
                     $arr['matricula'] = $row->matricula;

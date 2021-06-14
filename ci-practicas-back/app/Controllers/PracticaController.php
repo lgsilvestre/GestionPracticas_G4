@@ -26,13 +26,13 @@ class PracticaController extends BaseController
 				// 'numero' => 'required|integer'
             ];
             $errors = [			// faltan errores por definir
-				
+
             ];
             if(!$this->validate($rules, $errors)){
 				echo " no valido";
                 $data['validation'] = $this->validator;
             } else {
-				
+
 				//Primero hay que validar que no
 				$Estudiante = $this->request->getVar('estudiante');
 				$Nropractica = $this->request->getVar('nropractica');
@@ -56,7 +56,7 @@ class PracticaController extends BaseController
 		// 	return false;
 		// }
 		// if($model->where('estado',0).count==1)
-		// {	
+		// {
 		// 	echo "no se puede 1";
 		// 	return false;
 		// }
