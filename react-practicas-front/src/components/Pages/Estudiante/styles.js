@@ -20,18 +20,14 @@ export default makeStyles((theme) => ({
       cursor: 'pointer'
     },
     encabezado:{
-      marginTop: '10vh',
-      marginTop: '10vh',
-      display: 'flex',
-      alignItems: 'center'
+      marginLeft: "-88px"
     },
     titulo:{
       marginLeft:'10%',
-      display: 'inline-block',
-      color: '#3d84b8',
-      fontFamily: 'Righteous, serif',
-     fontSize: '4em',
-     textShadow: '.05em .05em 0 #3f3697',
+   
+    },
+    container: {
+      maxHeight: "50%",
     },
     table: {
       width:'90vw',
@@ -69,22 +65,4 @@ export default makeStyles((theme) => ({
   }
   }));
   
-  export const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: '#fafafa',
-      color: theme.palette.common.black,
-      padding: '6px'
-    },
-    body: {
-      fontSize: '0.875rem',
-      padding: '6px'
-    },
-  }))(TableCell);
   
-  export const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
