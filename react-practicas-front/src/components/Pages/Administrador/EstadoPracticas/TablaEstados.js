@@ -1,10 +1,11 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
 import { motion } from "framer-motion"
 import { Filtros } from './Filtros';
-import {makeStyles, Table, TableContainer, TableHead, TableBody, TableRow, Typography, TableCell, IconButton, Paper,TablePagination} 
+import {makeStyles, Table, TableContainer, TableHead, TableBody, 
+  TableRow, TableCell, IconButton, Paper,TablePagination} 
   from '@material-ui/core';
 
 //Estilos
@@ -52,39 +53,15 @@ export const TablaEstados = ({history}) =>  {
   const clasesEstilo = useStyles();
   // Columnas para la tabla de estados
   const columns = [
-    { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
-    { id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
-    { id: 'carrera', label: 'Carrera', minWidth: "25%" },
-    {
-      id: 'anio',
-      label: 'Año',
-      minWidth: "25%",
-    },
-    {
-      id: 'etapa',
-      label: 'Etapa',
-      minWidth: "25%",
-    },
-    {
-      id: 'estado',
-      label: 'Estado',
-      minWidth: "25%",
-    },
-    {
-      id: 'fechaEnd',
-      label: 'Fecha de Término',
-      minWidth: "25%",
-    },
-    {
-      id: 'nroPractica',
-      label: 'N° Práctica',
-      minWidth: "25%",
-    },
-    {
-      id: 'action',
-      label: 'Acción',
-      minWidth: "25%",
-    },
+    {id: 'nombre', label: 'Estudiante', minWidth: "25%" },
+    {id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
+    {id: 'carrera', label: 'Carrera', minWidth: "25%" },
+    {id: 'anio',label: 'Año',minWidth: "25%"},
+    {id: 'etapa',label: 'Etapa',minWidth: "25%"},
+    {id: 'estado',label: 'Estado', minWidth: "25%"},
+    {id: 'fechaEnd',label: 'Fecha de Término', minWidth: "25%"},
+    {id: 'nroPractica',label: 'N° Práctica', minWidth: "25%"},
+    {id: 'action',label: 'Acción',minWidth: "25%"},
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
   function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
@@ -96,8 +73,9 @@ export const TablaEstados = ({history}) =>  {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
-  const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
+  const [nroMatriculaSelected, setNroMatriculaSelected] = useState("")
   const [nroPractica, setnroPractica] = useState("")
+  const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
   useEffect(async()=>{
     petitionGetPracticaAlumno()
   },[])
@@ -172,24 +150,38 @@ export const TablaEstados = ({history}) =>  {
         break;
     }
   }
-  const handleChangeState = (etapa, idAlumno, numero) => {
+  const getIdAlumno = (matricula) => {
+    console.log("SOLICITANDO ID ALUMNO  CON ",matricula)
+    
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoIdMatricula",{
+      matricula: matricula
+    })
+    .then(response => {
+      setIdAlumnoSelected(response.data[0].id_alumno)
+      console.log("RESPONSE GETIDALUMNO:", response.data) 
+    })
+  }
+  
+  const handleChangeState = (etapa, matricula, numero) => {
     console.log("nro recibido en tablaestado:",numero)
-    console.log(idAlumno)
+    console.log("nro matricula en tablaesatdo:",matricula)
     setnroPractica(numero)
-    setIdAlumnoSelected(idAlumno)
+    setNroMatriculaSelected(matricula)
+    getIdAlumno(matricula)
     setChangeState(!changeState)
     changeSelected(etapa)
-    
   }
+  
   const handleChangeStateBack = () =>{
     setChangeState(!changeState)
   }
   if(changeState){
     return <InfoEstudiante 
       handleChangeStateBack={handleChangeStateBack} 
-      idAlumno = {idAlumnoSelected} 
+      nroMatricula = {nroMatriculaSelected} 
       etapaProp={seleccionado}
       nroPractica={nroPractica}
+      idAlumno={idAlumnoSelected}
       />
   }
   else{

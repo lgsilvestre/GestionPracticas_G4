@@ -11,26 +11,21 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import axios from 'axios';
 import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 
 export default function FormAlumno({estudiante, setEstudiante}) {
   const classes = useStyles();
   const methods = useForm();
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18'));
+  //NO USADO
+  // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18'));
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    setEstudiante({
-      ...estudiante,
-      fecha_nac: date,
-    });
-  };
+  // const handleDateChange = (date) => {
+  //   setSelectedDate(date);
+  //   setEstudiante({
+  //     ...estudiante,
+  //     fecha_nac: date,
+  //   });
+  // };
  
 
   const handleChange = (e) => {
@@ -40,13 +35,6 @@ export default function FormAlumno({estudiante, setEstudiante}) {
     });
    
   };
-
-
-
-
-
-  
- 
 
   return (
     

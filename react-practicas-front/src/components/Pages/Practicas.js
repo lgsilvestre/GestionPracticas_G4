@@ -25,7 +25,7 @@ const Practicas = () => {
           getEstado()
     }, [])
 
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(1)
 
     const getEstado = () => {
         let id_alumno = cookies.get('id')

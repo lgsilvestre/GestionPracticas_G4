@@ -1,12 +1,10 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
 import SidePro from '../ui/SideBar/SidePro';
-import SideBarSt from '../ui/SideBar/SideBarSt';
 import Estudiante from '../Pages/Estudiante/Estudiante';
 import Postulaciones from '../Pages/Postulaciones';
 import Ofertas from '../Pages/Ofertas/Ofertas';
 import Administrador from '../Pages/Administrador/Administrador';
-import { Estadisticas } from '../Pages/Estadisticas';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,7 +47,6 @@ const VistaAdmin = () => {
                             <Route path='/admin/estudiantes' component={Estudiante} />
                             <Route path='/admin/postulaciones' component={Postulaciones} />
                             <Route path='/admin/ofertas' component={Ofertas} />
-                            <Route path='/admin/estadisticas' component={Estadisticas} />
                             <Route path="/admin">
                                 <AdminDashboard />
                             </Route>

@@ -69,6 +69,13 @@ class AlumnoController extends BaseController
         $user = $model->where('matricula', $matricula)->first();   
         echo json_encode($user);
     }
+
+	public function getAlumnoIdMatricula(){
+		$matricula = $this->request->getVar('matricula');
+        $model = new AlumnoModel();
+        $result = $model->getIdMatricula($matricula);   
+        echo json_encode($result);
+    }
    
 }
 
