@@ -70,8 +70,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
-    console.log("Solicitando alumno con: ",idAlumno)
+export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
+    console.log("Solicitando alumno con: ",nroMatricula)
     console.log("Numero de practica: ", nroPractica)
     const [docs, setDocs] = useState([])
 
@@ -90,7 +90,7 @@ export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
     const [dataEstudiante, setdataEstudiante] = useState(data)
 
     const [docSelect, setDocSelect] = useState('')
-    const [mostrarAlerta, setmostrarAlerta] = useState(true)
+    const [mostrarAlerta, setmostrarAlerta] = useState(false)
 
     const [practicaAceptada, setpracticaAceptada] = useState(false)
 
@@ -163,11 +163,13 @@ export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
     const enviarInformacionSolicitud = () =>{  
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarSolicitud",{
         documentos:archivos,
-        matricula:idAlumno,
-        numero:nroPractica
+        matricula:nroMatricula,
+        numero:nroPractica,
+        idalumno:idAlumno
       }).then(response =>{
         //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
+        nextPage()
       }
       )
       .catch(error => {
@@ -188,7 +190,7 @@ export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
         getDocumentos()
         await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoMatricula",{
             params:{
-                matricula:idAlumno
+                matricula:nroMatricula
             }
         })
         .then(response =>{
@@ -324,8 +326,8 @@ export const SolicitarAdmin = ({idAlumno, nroPractica}) => {
                                 >     
                                     <option value=""> Ninguno </option>   
                                     {
-                                        docs.map((doc)=> (
-                                        <option value={doc.nombre}>{doc.nombre}</option>
+                                        docs.map((doc, index)=> (
+                                        <option key={index} value={doc.nombre}>{doc.nombre}</option>
                                     ))
                                     }                
                                 </NativeSelect>

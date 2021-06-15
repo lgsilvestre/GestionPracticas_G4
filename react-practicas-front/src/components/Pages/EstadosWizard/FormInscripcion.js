@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import { TextField } from '@material-ui/core';
-import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
+import React, { useState } from 'react'
+import { Button, Form, FormGroup, Label, Input, FormText, Col, 
+  Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
 import { MdFileDownload } from 'react-icons/md'
 import { Resolucion } from './Resolucion';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import { useForm } from '../../../hooks/useForm' 
+import { Comentario } from './Comentario';
 
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
@@ -13,13 +13,6 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const id_alumno = cookies.get('id')
 
     const [practica , setDatosPractica ]=useState({
-        nombreEmpresa: "",
-        nombreSupervisor: "",
-        fechaInicio: "",
-        fechaTermino: "",
-    })
-
-    const [formValues, handleInputChange] = useForm({
         nombreEmpresa: "",
         nombreSupervisor: "",
         fechaInicio: "",
@@ -50,7 +43,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
   
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
-    const [mostrarComentario, setmostrarComentario] = useState(true)
+    const [mostrarComentario, setmostrarComentario] = useState(false)
     
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -73,7 +66,10 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const postInscripcion = () =>{
       console.log(formValues)
     }
-
+    const handlePrueba = () => {
+      console.log("Cambiando datos de input")
+    }
+    
     const inscribir = () => {
         let id_alumno = cookies.get('id')
         let numeropractica = 1
@@ -106,17 +102,16 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                     <Button color="primary" onClick={toggle}>Aceptar</Button>
                 </ModalFooter>
             </Modal>
-            
-        
-            
+
                 <h4>Datos de Practica</h4>
                 <hr/>
                 {/* Input para nombre de empresa */}
+                {mostrarComentario && <Comentario/>}
                 <div>
                     <Label sm={2} for = "nombreEmpresaId"> Nombre empresa </Label>
                     <Col sm={10} >
-                        {/* <Input type="text" name="empresa" id="nombreEmpresaId" onChange={handleInputChange}/> */}
-                        <TextField variant="outlined" name="empresa" id="nombreEmpresaId" type="text" onChange={handleInputChange}/>
+                        <Input type="text" name="empresa" id="nombreEmpresaId" onChange={handlePrueba}/>
+                        {/* <TextField variant="outlined" name="empresa" id="nombreEmpresaId" type="text" onChange={handleInputChange}/> */}
                     </Col>        
                 </div>
                 {/* Input para nombre de supervisor */}
@@ -169,15 +164,6 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                       Inscribir Practica
                   </Button>
                 </div>
-                    {/* <Button color="primary" className="btn-pill pull-left" onClick={previousPage} style={{marginLeft: '20px' , marginRight:'10px'}}>
-                        <i className="fa fa-chevron-left" />
-                            &nbsp; Back
-                    </Button>
-                    <Button color="primary" className="btn-pill pull-right" type="submit" style={{marginRight: '20px'}}>
-                        Next &nbsp;
-                        <i className="fa fa-chevron-right" />
-                    </Button> */}
-            
         </div>
       )
     }

@@ -21,10 +21,9 @@ const useStyles = makeStyles((theme) => ({
     }
     
 }));
-export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, idAlumno, nroPractica}) => {
+export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno}) => {
     console.log("nro recibido en infoestudiante:",nroPractica)
     const classes = useStyles();  
-    const [etapaLabel, setEtapaLabel] = useState("")
     const [etapa, setEtapa] = useState(etapaProp)
     useEffect(() => {
         changeEtapaLabel()  
@@ -32,16 +31,16 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, idAlumno, nr
     const changeEtapaLabel = () =>{
         switch (etapa) {
             case 0:
-                setEtapaLabel("Solicitar")
+                setEtapa("Solicitar")
                 break;
             case 1:
-                setEtapaLabel("Inscripción")
+                setEtapa("Inscripción")
                 break;
             case 2:
-                setEtapaLabel("Cursando")
+                setEtapa("Cursando")
                 break;
             case 3:
-                setEtapaLabel("Evaluación")
+                setEtapa("Evaluación")
                 break;
             default:
                 break;
@@ -56,8 +55,14 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, idAlumno, nr
                 <Button className = {classes.botonBack} startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
                     Atras
                 </Button>
-                
-                <WizardAdmin pageProp={etapa} classes={classes} idAlumno={idAlumno} nroPractica={nroPractica}/>
+              
+                <WizardAdmin 
+                  pageProp={etapa} 
+                  classes={classes} 
+                  nroMatricula={nroMatricula} 
+                  nroPractica={nroPractica}
+                  idAlumno={idAlumno}
+                />
             </div>
         </div>
         

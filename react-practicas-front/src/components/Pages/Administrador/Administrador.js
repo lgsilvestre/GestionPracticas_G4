@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import useStyles from './styles';
 import funcionarios from '../../routers/assets/funcionarios.svg';
-import { makeStyles } from '@material-ui/core/styles';
 import {StyledTableCell, StyledTableRow} from './styles';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography} from '@material-ui/core';
+import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import InputLabel from '@material-ui/core/InputLabel';
 import CachedIcon from '@material-ui/icons/Cached';
@@ -20,10 +19,10 @@ import { motion } from "framer-motion";
 
 export default function Administrador() {
   
-  const nombreRef = React.useRef('');
-  const emailRef = React.useRef('');
-  const tipoRef = React.useRef('');
-  const contrasenaRef = React.useRef('');
+  // const nombreRef = React.useRef('');
+  // const emailRef = React.useRef('');
+  // const tipoRef = React.useRef('');
+  // const contrasenaRef = React.useRef('');
   
   const classes = useStyles();
   const [data, setData]=useState([]);
@@ -51,34 +50,21 @@ export default function Administrador() {
     console.log(administrador);
   }
 
-  const peticionGet=async()=>{
-    await axios.get('')
-    .then(response=>{
-      setData(response.data);
-    })
-  }
 
   const peticionPut=async()=>{
-    await axios.put('' +administrador
- .id, administrador
- )
+    await axios.put('' +administrador.id, administrador)
     .then(response=>{
-      var dataNueva=data;
-      dataNueva.map(datoAdmi=>{
-        if(administrador
-     .id===datoAdmi.id){
-      administrador.nombre=datoAdmi
-     .nombre;
-      administrador.correo=datoAdmi
-     .correo;
-      administrador.tipo=datoAdmi
-     .tipo;
-      administrador.contrasenia=datoAdmi
-     .contrasenia;
-        }
-      })
-      setData(dataNueva);
-      abrirCerrarModalEditar();
+      // var dataNueva=data;
+      // dataNueva.map( (datoAdmi) => {
+      //   if(administrador.id===datoAdmi.id){
+      //   administrador.nombre=datoAdmi.nombre;
+      //   administrador.correo=datoAdmi.correo;
+      //   administrador.tipo=datoAdmi.tipo;
+      //   administrador.contrasenia=datoAdmi.contrasenia;
+      //   }
+      // })
+      // setData(dataNueva);
+      // abrirCerrarModalEditar();
     })
   }
 
@@ -94,7 +80,7 @@ export default function Administrador() {
 
   const abrirCerrarModalInsertar=()=>{
     
-    if (modalInsertar == false) {
+    if (modalInsertar === false) {
       generarPassUser();
     }
     getDocumentos();
@@ -184,7 +170,7 @@ export default function Administrador() {
   }
 
   useEffect(async()=>{
-    await getDocumentos();
+    getDocumentos();
   },[])
   
 function generarPassUser() {
@@ -203,21 +189,21 @@ function handleValidation() {
 
   let nuevoUserValidado = false; 
 
-  if (nombre != "") {
+  if (nombre !== "") {
     let regex = new RegExp("^[a-zA-Z]+$");
     if (regex.test(nombre)) {
       nuevoUserValidado = true
     }
   }
 
-  if (apellido != "") {
+  if (apellido !== "") {
     let regex = new RegExp("^[a-zA-Z]+$");
     if (regex.test(nombre)) {
       nuevoUserValidado = true;
     }
   }
 
-  if (email != "") {
+  if (email !== "") {
     if (email.endsWith("@utalca.cl")){
       var regex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
       console.log("UTAL");
@@ -228,18 +214,18 @@ function handleValidation() {
     }
   }
 
-  if (tipo != "") {
-    if (tipo == "0" || tipo == "1") {
+  if (tipo !== "") {
+    if (tipo === "0" || tipo === "1") {
       nuevoUserValidado = true;
     }    
   }
 
-  if (password != "") {
+  if (password !== "") {
     nuevoUserValidado = true;
   }
 
   console.log(nuevoUserValidado);
-  if (nuevoUserValidado == true){
+  if (nuevoUserValidado === true){
     peticionPost();
   } else {
     console.log("Error validación");

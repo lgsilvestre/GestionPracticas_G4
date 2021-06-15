@@ -64,6 +64,7 @@ $routes->post('getEstadoPracticaAlumno', 'PracticaController::getEstadoPracticaA
 $routes->post('aceptarSolicitud', 'PracticaController::aceptarSolicitud');
 //Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
+$routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
 
 /*
  * --------------------------------------------------------------------
