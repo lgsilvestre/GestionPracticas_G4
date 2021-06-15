@@ -106,7 +106,8 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
           if(docSelect!=''){
             setArchivos([...archivos, {
               nombre:docSelect,
-              id_documento:infoDocSelected.id_documento
+              id_documento:infoDocSelected.id_documento,
+              requerido:infoDocSelected.requerido
             }])
           }
         } else {  

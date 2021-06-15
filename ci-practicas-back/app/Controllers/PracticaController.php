@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\PracticaModel as PracticaModel;
+use App\Models\InstDocumentoModel as InstDocumentoModel;
 
 class PracticaController extends BaseController
 {
@@ -327,10 +328,18 @@ class PracticaController extends BaseController
 	}
 
 	public function aceptarSolicitud() {
-		$matricula = $this->request->getVar('matricula');
+		// Update de etapa y estado práctica
+		$id_alumno = $this->request->getVar('idalumno');
 		$numero = $this->request->getVar('numero');
-		echo "matricula: ".$matricula;
-		echo "numero: ".$numero;
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->aceptarSolicitud($numero, $id_alumno);
+		echo "id_alumno: ".$id_alumno;
+		echo "numero: ".$numero."\n";
+		
+		// Creación de instancia documento práctica de alumno
+		$this->InstDocumentoModel = new InstDocumentoModel();
+		$result_Inst = $this->InstDocumentoModel->crearInstanciasAlumno($numero, $id_alumno, $this->request->getVar('documentos'));
+
 	}
 
 }

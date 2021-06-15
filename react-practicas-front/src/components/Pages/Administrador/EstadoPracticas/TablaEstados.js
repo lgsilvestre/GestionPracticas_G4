@@ -5,7 +5,7 @@ import axios from 'axios';
 import { motion } from "framer-motion"
 import { Filtros } from './Filtros';
 import {makeStyles, Table, TableContainer, TableHead, TableBody, 
-  TableRow, TableCell, IconButton, Paper,TablePagination} 
+  TableRow, TableCell, IconButton, Paper,TablePagination, Typography} 
   from '@material-ui/core';
 
 //Estilos
