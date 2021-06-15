@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText, Col, 
-  Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
+import React, { Fragment, useState, useEffect } from 'react'
+import { TextField } from '@material-ui/core';
+import { Button, Form, FormGroup, Label, Input, FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter, ButtonGroup} from 'reactstrap';
 import { MdFileDownload } from 'react-icons/md'
 import { Resolucion } from './Resolucion';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import { useForm } from '../../../hooks/useForm' 
 import { Comentario } from './Comentario';
 
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
@@ -13,6 +14,13 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const id_alumno = cookies.get('id')
 
     const [practica , setDatosPractica ]=useState({
+        nombreEmpresa: "",
+        nombreSupervisor: "",
+        fechaInicio: "",
+        fechaTermino: "",
+    })
+
+    const [formValues, handleInputChange] = useForm({
         nombreEmpresa: "",
         nombreSupervisor: "",
         fechaInicio: "",
@@ -67,7 +75,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       console.log(formValues)
     }
     const handlePrueba = () => {
-      console.log("Cambiando datos de input")
+      console.log("Cambiando datos de inp")
     }
     
     const inscribir = () => {
