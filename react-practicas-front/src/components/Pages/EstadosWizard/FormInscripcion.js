@@ -14,26 +14,26 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const id_alumno = cookies.get('id')
 
     const [practica , setDatosPractica ]=useState({
-        nombreEmpresa: "",
-        nombreSupervisor: "",
-        fechaInicio: "",
-        fechaTermino: "",
+      empresa: "",
+      supervisor: "",
+      fechaStart: "",
+      fechaEnd: "",
     })
 
     const [formValues, handleInputChange] = useForm({
-        nombreEmpresa: "",
-        nombreSupervisor: "",
-        fechaInicio: "",
-        fechaTermino: "",
+      empresa: "",
+      supervisor: "",
+      fechaStart: "",
+      fechaEnd: "",
     })
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
+    const handleChange = (event) => {
+        event.preventDefault()
+        const {name, value} = event.target;
         setDatosPractica ( prevState=> ({
           ...prevState,
           [name]: value
         }))
-        console.log(practica);
     }
 
     const archivos =[
@@ -71,8 +71,9 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     }
     
     //AXIOS POST INSCRIPCION A BASE DE DATOS
-    const postInscripcion = () =>{
-      console.log(formValues)
+    const postInscripcion = (event) =>{
+      event.preventDefault()
+      console.log("Ejecutando postInscripcion:",formValues)
     }
     const handlePrueba = () => {
       console.log("Cambiando datos de inp")
@@ -109,69 +110,70 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 <ModalFooter>
                     <Button color="primary" onClick={toggle}>Aceptar</Button>
                 </ModalFooter>
-            </Modal>
+            </Modal>               
+            <Form onSubmit={postInscripcion}>
+              {mostrarComentario && <Comentario />}
+              <h4>Datos de Practica</h4>
+              <hr/>
+              {/* Input para nombre de empresa */}
+              <FormGroup row >
+                  <Label sm={2} for = "empresa"> Nombre empresa </Label>
+                  <Col sm={10} >
+                      <Input type="text" name="empresa" onChange={handleChange} autoFocus/>
+                  </Col>        
+              </FormGroup>
+              {/* Input para nombre de supervisor */}
+              <FormGroup row >
+                  <Label sm={2} for = "supervisor"> Nombre supervisor </Label>
+                  <Col sm={10} >
+                      <Input type="text" name="supervisor" id="supervisor"/>
+                  </Col>        
+              </FormGroup>
+              {/* Input para fecha de inicio */}
+              <FormGroup row >
+                  <Label sm={2} for = "fechaStart"> Fecha inicio practica</Label>
+                  <Col sm={10} >
+                      <Input type="date" name="fechaStart" id="fechaStart"/>
+                  </Col>        
+              </FormGroup>
+              {/* Input para fecha de termino */}
+              <FormGroup row >
+                  <Label sm={2} for = "fechaEnd"> Fecha fin practica</Label>
+                  <Col sm={10} >
+                      <Input type="date" name="fechaEnd" id="fechaEnd"/>
+                  </Col>        
+              </FormGroup>
 
-                <h4>Datos de Practica</h4>
-                <hr/>
-                {/* Input para nombre de empresa */}
-                {mostrarComentario && <Comentario/>}
-                <div>
-                    <Label sm={2} for = "nombreEmpresaId"> Nombre empresa </Label>
-                    <Col sm={10} >
-                        <Input type="text" name="empresa" id="nombreEmpresaId" onChange={handlePrueba}/>
-                        {/* <TextField variant="outlined" name="empresa" id="nombreEmpresaId" type="text" onChange={handleInputChange}/> */}
-                    </Col>        
-                </div>
-                {/* Input para nombre de supervisor */}
-                <div>
-                    <Label sm={2} for = "nombreSupervisor"> Nombre supervisor </Label>
-                    <Col sm={10} >
-                        <Input type="text" name="supervisor" id="nombreSupervisor" onChange={handleInputChange}/>
-                    </Col>        
-                </div>
-                {/* Input para fecha de inicio */}
-                <div>
-                    <Label sm={2} for = "fechaInicio"> Fecha inicio practica</Label>
-                    <Col sm={10} >
-                        <Input type="date" name="fechaStart" id="fechaInicio" onChange={handleInputChange}/>
-                    </Col>        
-                </div>
-                {/* Input para fecha de termino */}
-                <div>
-                    <Label sm={2} for = "fechaTermino"> Fecha fin practica</Label>
-                    <Col sm={10} >
-                        <Input type="date" name="fechaEnd" id="fechaTermino" onChange={handleInputChange}/>
-                    </Col>        
-                </div>
-
-                <h4>Documentos <span style={{textDecoration: "underline", color:"blue"}} href="#" id="infoDocs">i</span></h4>
-                <Tooltip placement="right" isOpen={tooltipOpen} target="infoDocs" toggle={toggleTooltip}>
-                    Primero debes descargar tus documentos, editarlos y luego subirlos con tu información.
-                </Tooltip>
-                <hr/>
-                {/* Por cada archivo presente en el arreglo archivos, crea el formulario para descargarlo y subirlo */}
-                {                  
-                    archivos.map( (file,index) => (
-                        <FormGroup key={index} row>
-                            <Label sm={3} for={`file${index}`}>{file.nombre}</Label>      
-                            <Button onClick={handleDownload} color="info">
-                                <MdFileDownload/>
-                            </Button> 
-                            <Col xs={6}>
-                                <Input type="file" name={`namefile${index}`} id={`file${index}`} />
-                            </Col>
-                            <FormText color="muted">                          
-                            </FormText>
-                        </FormGroup>
-                    ))
-                }
+              <h4>Documentos <span style={{textDecoration: "underline", color:"blue"}} href="#" id="infoDocs">i</span></h4>
+              <Tooltip placement="right" isOpen={tooltipOpen} target="infoDocs" toggle={toggleTooltip}>
+                  Primero debes descargar tus documentos, editarlos y luego subirlos con tu información.
+              </Tooltip>
+              <hr/>
+              {/* Por cada archivo presente en el arreglo archivos, crea el formulario para descargarlo y subirlo */}
+              {                  
+                  archivos.map( (file,index) => (
+                      <FormGroup key={index} row>
+                          <Label sm={3} for={`file${index}`}>{file.nombre}</Label>      
+                          <Button onClick={handleDownload} color="info">
+                              <MdFileDownload/>
+                          </Button> 
+                          <Col xs={6}>
+                              <Input type="file" name={`namefile${index}`} id={`file${index}`} />
+                          </Col>
+                          <FormText color="muted">                          
+                          </FormText>
+                      </FormGroup>
+                  ))
+              }
+              
+              <hr/>
+              <div className=" text-center" style={{marginBottom:20}}>
+              <Button className="btn btn-primary" type="submit">
+                  Inscribir Practica
+              </Button>
+            </div>
                 
-                <hr/>
-                <div className=" text-center" style={{marginBottom:20}}>
-                  <Button className="btn btn-primary" onClick={postInscripcion}>
-                      Inscribir Practica
-                  </Button>
-                </div>
+          </Form>
         </div>
       )
     }

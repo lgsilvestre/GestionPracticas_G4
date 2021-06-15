@@ -40,8 +40,8 @@ const VistaEstudiante = ({userChangedPass=false}) => {
             } */}
             <div style={{marginBottom:"96px"}}>
             <Switch>
-                {/* <Route path='/estudiante/practicas' component={Practicas} /> */}
-                <Route path='/estudiante/practicas' component={PracticasAcordeon} />
+                <Route path='/estudiante/practicas' component={Practicas} />
+                {/* <Route path='/estudiante/practicas' component={PracticasAcordeon} /> */}
                 <Route path='/estudiante/perfil' component={PerfilEstudiante} /> 
                 <Route path='/estudiante/postulaciones' component={Postulaciones} />                   
                 <Route path='/estudiante/landing' component={Landing} />
