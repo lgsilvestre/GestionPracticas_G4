@@ -1,7 +1,8 @@
 import {makeStyles, withStyles} from '@material-ui/core/styles';
-import {TableCell, TableRow} from '@material-ui/core';
+import { TableCell, TableRow} from '@material-ui/core';
 
 export default makeStyles((theme) => ({
+
   root:{
     width: '100%'
   },
@@ -11,23 +12,25 @@ export default makeStyles((theme) => ({
       backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
+      padding: theme.spacing(2, 4, 3),  
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)'
     },
     iconos:{
-      cursor: 'pointer'
-    },
+      display: 'inline-flex',
+      alignSelf: 'center'
+    }, 
     encabezado:{
-      marginLeft: "-88px"
+      marginLeft: "-100px"
     },
     titulo:{
-      marginLeft:'10%',
-   
+     fontSize: '4em',
+     color: '#1A2B4B'
     },
-    container: {
-      maxHeight: "50%",
+    inputMaterial:{
+      width: '100%',
+      marginTop:'15px'
     },
     table: {
       width:'90vw',
@@ -48,7 +51,7 @@ export default makeStyles((theme) => ({
       '&:hover': {
       backgroundColor: '#f0ebcc',
         color: '#000'
-        }
+      }
     },  
   botonCancelar: {
     marginRight:'20px',
@@ -61,8 +64,11 @@ export default makeStyles((theme) => ({
     '&:hover': {
     backgroundColor: '#f0ebcc',
       color: '#000',
+  
+  
     },  
   }
+  
   }));
   
-  
+ 
