@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Stepper from 'react-stepper-horizontal';
 import { Cursando } from './EstadosWizard/Cursando';
-import { Resolucion } from './EstadosWizard/Resolucion';
 import { Termino } from './EstadosWizard/Termino';
 import { Card } from 'reactstrap';
 import { FormPostulacion } from './EstadosWizard/FormPostulacion';
@@ -21,11 +20,10 @@ const Practicas = () => {
     ]
 
     useEffect(() => {       
-        // consultarEstadoPractica
           getEstado()
     }, [])
 
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(0)
 
     const getEstado = () => {
         let id_alumno = cookies.get('id')
@@ -40,37 +38,29 @@ const Practicas = () => {
           .then(response => {
 
             console.log(response.data)
+
+            if (response.data=="0"){
+                setPage(0)
+            } 
             
             if (response.data[0].etapa=="Solicitud"){
                 console.log(response.data[0].etapa)
                 setPage(0)
-                // if (response.data[0].estado=="Pendiente"){
-                //     setPage(0)
-                // }
             } 
 
             if (response.data[0].etapa=="Inscripción"){
                 console.log(response.data[0].etapa)
                 setPage(1)
-                // if (response.data[0].estado=="Pendiente"){
-                //     setPage(0)
-                // }
             }
 
             if (response.data[0].etapa=="Cursando"){
                 console.log(response.data[0].etapa)
                 setPage(2)
-                // if (response.data[0].estado=="Pendiente"){
-                //     setPage(0)
-                // }
             }
 
             if (response.data[0].etapa=="Evaluación"){
                 console.log(response.data[0].etapa)
                 setPage(3)
-                // if (response.data[0].estado=="Pendiente"){
-                //     setPage(0)
-                // }
             }
 
           })
@@ -100,7 +90,7 @@ const Practicas = () => {
 
             <hr/>
             
-            { page===0 && <FormPostulacion className="animate__animated animate__fadeIn animate__faster" handleSubmit={nextPage} /> }
+            { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
             { page===1 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             { page===2 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
             { page===3 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }

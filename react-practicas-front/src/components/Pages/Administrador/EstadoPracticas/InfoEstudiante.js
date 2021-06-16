@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno}) => {
-    console.log("nro recibido en infoestudiante:",nroPractica)
+    // console.log("nro recibido en infoestudiante:",nroPractica)
     const classes = useStyles();  
     const [etapa, setEtapa] = useState(etapaProp)
     useEffect(() => {
@@ -53,7 +53,7 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
                     Admin &gt; Prácticas &gt; Alumno
                 </h4>
                 <Button className = {classes.botonBack} startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
-                    Atras
+                    Volver a tabla 
                 </Button>
               
                 <WizardAdmin 

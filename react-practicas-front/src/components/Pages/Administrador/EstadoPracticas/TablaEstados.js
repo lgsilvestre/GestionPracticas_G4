@@ -7,6 +7,7 @@ import { Filtros } from './Filtros';
 import {makeStyles, Table, TableContainer, TableHead, TableBody, 
   TableRow, TableCell, IconButton, Paper,TablePagination, Typography} 
   from '@material-ui/core';
+import Cookies from 'universal-cookie';
 
 //Estilos
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const TablaEstados = ({history}) =>  {
-
+  const cookies = new Cookies();
   const clasesEstilo = useStyles();
   // Columnas para la tabla de estados
   const columns = [
@@ -65,7 +66,7 @@ export const TablaEstados = ({history}) =>  {
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
   function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
-    return { nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action };
+    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, nroPractica, action };
   }
   const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
@@ -136,13 +137,13 @@ export const TablaEstados = ({history}) =>  {
       case "Solicitud":
         setSeleccionado(0)
         break;
-      case "Inscripcion":
+      case "Inscripción":
         setSeleccionado(1)
         break;
       case "Cursando":
         setSeleccionado(2)
         break;
-      case "Evaluacion":
+      case "Evaluación":
         setSeleccionado(3)
         break;
       default:
@@ -150,26 +151,24 @@ export const TablaEstados = ({history}) =>  {
         break;
     }
   }
-  const getIdAlumno = (matricula) => {
-    console.log("SOLICITANDO ID ALUMNO  CON ",matricula)
-    
-    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoIdMatricula",{
+  const getIdAlumno = async (etapa, matricula, numero) => {
+    console.log("SOLICITANDO ID ALUMNO  CON ",matricula) 
+    await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoIdMatricula",{
       matricula: matricula
     })
     .then(response => {
       setIdAlumnoSelected(response.data[0].id_alumno)
-      console.log("RESPONSE GETIDALUMNO:", response.data) 
+      console.log("RESPONSE GETIDALUMNO:", response.data)  
+      setnroPractica(numero)
+      setNroMatriculaSelected(matricula)    
+      cookies.set('alumnoactual', '4', { path: '/' });
+      changeSelected(etapa)
+      setChangeState(!changeState)
     })
   }
   
-  const handleChangeState = (etapa, matricula, numero) => {
-    console.log("nro recibido en tablaestado:",numero)
-    console.log("nro matricula en tablaesatdo:",matricula)
-    setnroPractica(numero)
-    setNroMatriculaSelected(matricula)
-    getIdAlumno(matricula)
-    setChangeState(!changeState)
-    changeSelected(etapa)
+  const handleChangeState = (etapa, matricula, numero) => {     
+    getIdAlumno(etapa, matricula, numero) 
   }
   
   const handleChangeStateBack = () =>{

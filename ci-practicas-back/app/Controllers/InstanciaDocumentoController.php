@@ -55,6 +55,26 @@ class InstanciaDocumentoController extends BaseController
 	// Entrega las instancias de documento de un alumno
 	public function getInstanciasDocumento() {
 		
+		$id_alumno = $this->request->getVar('id_alumno');
+		$result = $this->InstDocumentoModel->getInstanciasDocumentos($id_alumno);
+		if ($result) {
+			return json_encode($result, JSON_UNESCAPED_UNICODE);
+		}
+		// Caso de array vacío
+		$arr = [];
+		return json_encode($arr, JSON_UNESCAPED_UNICODE);
+	}
+
+	// Entrega las instancias REQUERIDAS de documento de un alumno
+	public function getInstanciasDocumentoRequerido() {
+		
+		$id_alumno = $this->request->getVar('id_alumno');
+		$result = $this->InstDocumentoModel->getInstanciasDocumentosRequeridos($id_alumno);
+		if ($result) {
+			return json_encode($result, JSON_UNESCAPED_UNICODE);
+		}
+		$arr = [];
+		return json_encode($arr, JSON_UNESCAPED_UNICODE);
 	}
 
     // public function setDocumentosAlumno(){

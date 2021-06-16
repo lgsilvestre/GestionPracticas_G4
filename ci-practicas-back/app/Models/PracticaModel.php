@@ -51,5 +51,27 @@ class PracticaModel extends Model
         return $result;
     }
 
+    public function inscribir($id_alumno, $empresa, $supervisor, $fch_inicio, $fch_termino){
+        $queryPracticaAlumno = "UPDATE practica SET fecha_inicio = '".$fch_inicio."', fecha_termino = '".$fch_termino."', empresa = '".$empresa."', supervisor = '".$supervisor."' where practica.refAlumno = '".$id_alumno."'";
+        //$queryPracticaAlumno = "UPDATE practica SET fecha_inicio = '', fecha_termino = '', empresa = '".$empresa."', supervisor = '".$supervisor."' where practica.refAlumno = '".$id_alumno."'";
+        $query = $this->db->query($queryPracticaAlumno);
+        //print_r($query->getResult());
+        //return $result;
+    }
+
+    public function getDatosInscripcionAlumno($id){
+        $queryPracticaAlumno = "SELECT empresa, supervisor, fecha_inicio, fecha_termino FROM practica where practica.refAlumno = ".$id; //" and practica.numero = ".$numero;
+        $query = $this->db->query($queryPracticaAlumno);
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function aceptarPractica($id_alumno){
+        $queryPracticaAlumno = "UPDATE practica SET etapa = 'Cursando', estado = 'Cursando' WHERE practica.refAlumno = '".$id_alumno."'"; //" and practica.numero = ".$numero;
+        $this->db->query($queryPracticaAlumno)->getResult();
+        $result = $this->db->affectedRows();
+        return $result;
+    }
+
 }
 ?>

@@ -120,13 +120,13 @@ export default function SignInSide({ history }) {
       .then(response => {
         //trabajar redireccionamiento
         //-1 error , 0 alumno , 1 admin
-        //console.log("respuesta: ", response.data);
+        console.log("respuesta: ", response.data);
 
-        if (response.data.tipo === "1" || response.data.tipo === "2") {
+        if (response.data.tipo === 1 || response.data.tipo === 2) {
           console.log("admin")
           history.replace("/admin")
         }
-        else if (response.data.tipo === "3") {
+        else if (response.data.tipo === 3) {
           console.log("estudiante")
           // Se setean las coockies
           cookies.set('id', response.data['id_alumno'], { path: '/' });

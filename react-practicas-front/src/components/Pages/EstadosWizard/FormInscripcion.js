@@ -13,42 +13,13 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const cookies = new Cookies()
     const id_alumno = cookies.get('id')
 
-    const [practica , setDatosPractica ]=useState({
-        nombreEmpresa: "",
-        nombreSupervisor: "",
-        fechaInicio: "",
-        fechaTermino: "",
-    })
-
     const [formValues, handleInputChange] = useForm({
-        nombreEmpresa: "",
-        nombreSupervisor: "",
-        fechaInicio: "",
-        fechaTermino: "",
+      empresa: "",
+      supervisor: "",
+      fechaStart: "",
+      fechaEnd: "",
     })
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setDatosPractica ( prevState=> ({
-          ...prevState,
-          [name]: value
-        }))
-        console.log(practica);
-    }
-
-    const archivos =[
-    {
-        nombre:"Carta de presentación"
-    },{
-        nombre:"Curriculo Plan"
-    },{
-        nombre: "Consentimiento Informado"
-    },{
-        nombre:"Protocolo Covid"
-    },{
-        nombre: "Modulos de desempeño integrado"
-    }]
-  
+    const [archivos, setArchivos] = useState([])
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
@@ -71,37 +42,66 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     }
     
     //AXIOS POST INSCRIPCION A BASE DE DATOS
-    const postInscripcion = () =>{
-      console.log(formValues)
+    const postInscripcion = (event) =>{
+      event.preventDefault()
+      console.log("Info a enviar:",formValues)
+      enviarDatosInscripcion()
+      setMostrarResolucion(!mostrarResolucion)
     }
-    const handlePrueba = () => {
-      console.log("Cambiando datos de inp")
+    const enviarDatosInscripcion = () => {
+      axios.post(
+        "http://localhost/GestionPracticas_G4/ci-practicas-back/public/inscribirInfo",
+        {
+          id_alumno:id_alumno,
+          empresa:formValues.empresa,
+          supervisor:formValues.supervisor,
+          fch_inicio:formValues.fechaStart,
+          fch_termino:formValues.fechaEnd
+        },
+      )
+      .then(response=>{
+        console.log("RESPUESTA ENVIAR DATOS INSC: ",response)
+        if(response.data===true){
+          console.log("ES TRUE")
+          // setMostrarResolucion(!mostrarResolucion)
+        }
+      })
+      .catch(error =>{
+        console.log("Error enviando datos inscripcion: ", error)
+      })
     }
-    
-    const inscribir = () => {
+
+    const getDocs = () => {
         let id_alumno = cookies.get('id')
         let numeropractica = 1
         axios.post(
-          "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEstadoPracticaAlumno",
-          {
-            id_alumno: id_alumno,
-            numero: numeropractica,
-          },
-        )
-          .then(response => {
-
-            console.log(response.data)
-
-          })
-          .catch(error => {
-            console.log("login error: ", error);
-          });
+            "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getInstDocuAlumno",
+            {
+              id_alumno: id_alumno,
+              numero: numeropractica,
+            },
+          )
+            .then(response => {
+              console.log("RESPUESTA INSTANCIAS DOCUMENTOS:  ",response.data)
+              setArchivos(response.data)
+            })
+            .catch(error => {
+              console.log("login error: ", error);
+        });
     }
 
-    const FormInscripcion = () =>{
-      return (
-        <div>
-          <Modal isOpen={modal} toggle={toggle} >
+    useEffect(() => {
+      getDocs()
+    }, [])
+    return (
+        <div className="animate__animated animate__fadeIn animate__faster">
+          {mostrarResolucion 
+          ? <Resolucion 
+            previousPage={previousPage} 
+            handleSubmit={handleSubmit}/> 
+          : 
+          <div>
+            <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Descarga de archivo</ModalHeader>
                 <ModalBody>
                     Descargando archivo
@@ -109,80 +109,92 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 <ModalFooter>
                     <Button color="primary" onClick={toggle}>Aceptar</Button>
                 </ModalFooter>
-            </Modal>
+            </Modal>               
+            <Form onSubmit={postInscripcion}>
+              {mostrarComentario && (
+                <div>
+                  <h4>Comentarios</h4>
+                  <Comentario />
+                </div>
+              )}
+              <h4>Datos de Practica</h4>
+              <hr/>
+              {/* Input para nombre de empresa */}
+              <FormGroup row >
+                  <Label sm={2} for = "empresa"> Nombre empresa </Label>
+                  <Col sm={10} >
+                      <Input type="text" name="empresa" onChange={handleInputChange}/>
+                  </Col>        
+              </FormGroup>
+              {/* Input para nombre de supervisor */}
+              <FormGroup row >
+                  <Label sm={2} for = "supervisor"> Nombre supervisor </Label>
+                  <Col sm={10} >
+                      <Input type="text" name="supervisor" onChange={handleInputChange} />
+                  </Col>        
+              </FormGroup>
+              {/* Input para fecha de inicio */}
+              <FormGroup row >
+                  <Label sm={2} for = "fechaStart"> Fecha inicio practica</Label>
+                  <Col sm={10} >
+                      <Input type="date" name="fechaStart" onChange={handleInputChange}/>
+                  </Col>        
+              </FormGroup>
+              {/* Input para fecha de termino */}
+              <FormGroup row >
+                  <Label sm={2} for = "fechaEnd"> Fecha fin practica</Label>
+                  <Col sm={10} >
+                      <Input type="date" name="fechaEnd" onChange={handleInputChange}/>
+                  </Col>        
+              </FormGroup>
 
-                <h4>Datos de Practica</h4>
-                <hr/>
-                {/* Input para nombre de empresa */}
-                {mostrarComentario && <Comentario/>}
-                <div>
-                    <Label sm={2} for = "nombreEmpresaId"> Nombre empresa </Label>
-                    <Col sm={10} >
-                        <Input type="text" name="empresa" id="nombreEmpresaId" onChange={handlePrueba}/>
-                        {/* <TextField variant="outlined" name="empresa" id="nombreEmpresaId" type="text" onChange={handleInputChange}/> */}
-                    </Col>        
-                </div>
-                {/* Input para nombre de supervisor */}
-                <div>
-                    <Label sm={2} for = "nombreSupervisor"> Nombre supervisor </Label>
-                    <Col sm={10} >
-                        <Input type="text" name="supervisor" id="nombreSupervisor" onChange={handleInputChange}/>
-                    </Col>        
-                </div>
-                {/* Input para fecha de inicio */}
-                <div>
-                    <Label sm={2} for = "fechaInicio"> Fecha inicio practica</Label>
-                    <Col sm={10} >
-                        <Input type="date" name="fechaStart" id="fechaInicio" onChange={handleInputChange}/>
-                    </Col>        
-                </div>
-                {/* Input para fecha de termino */}
-                <div>
-                    <Label sm={2} for = "fechaTermino"> Fecha fin practica</Label>
-                    <Col sm={10} >
-                        <Input type="date" name="fechaEnd" id="fechaTermino" onChange={handleInputChange}/>
-                    </Col>        
-                </div>
-
-                <h4>Documentos <span style={{textDecoration: "underline", color:"blue"}} href="#" id="infoDocs">i</span></h4>
-                <Tooltip placement="right" isOpen={tooltipOpen} target="infoDocs" toggle={toggleTooltip}>
-                    Primero debes descargar tus documentos, editarlos y luego subirlos con tu información.
-                </Tooltip>
-                <hr/>
-                {/* Por cada archivo presente en el arreglo archivos, crea el formulario para descargarlo y subirlo */}
-                {                  
-                    archivos.map( (file,index) => (
-                        <FormGroup key={index} row>
-                            <Label sm={3} for={`file${index}`}>{file.nombre}</Label>      
-                            <Button onClick={handleDownload} color="info">
-                                <MdFileDownload/>
-                            </Button> 
-                            <Col xs={6}>
-                                <Input type="file" name={`namefile${index}`} id={`file${index}`} />
-                            </Col>
-                            <FormText color="muted">                          
-                            </FormText>
-                        </FormGroup>
-                    ))
-                }
-                
-                <hr/>
-                <div className=" text-center" style={{marginBottom:20}}>
-                  <Button className="btn btn-primary" onClick={postInscripcion}>
-                      Inscribir Practica
-                  </Button>
-                </div>
-        </div>
-      )
-    }
-    
-    return (
-        <div className="animate__animated animate__fadeIn animate__faster">
-          {mostrarResolucion 
-          ? <Resolucion 
-            previousPage={previousPage} 
-            handleSubmit={handleSubmit}/> 
-          : <FormInscripcion/> }
+              <h4>Documentos <span style={{textDecoration: "underline", color:"blue"}} href="#" id="infoDocs">i</span></h4>
+              <Tooltip placement="right" isOpen={tooltipOpen} target="infoDocs" toggle={toggleTooltip}>
+                  Primero debes descargar tus documentos, editarlos y luego subirlos con tu información.
+              </Tooltip>
+              <hr/>
+              {/* Por cada archivo presente en el arreglo archivos, crea el formulario para descargarlo y subirlo */}
+              {                  
+                  archivos.map( (file,index) => (
+                      <div key={index} className="container" style={{marginBottom:"10px"}}>
+                        <div className="row">
+                            <div className="col">
+                              <Label for={`file${index}`}>{file.nombre}</Label>      
+                            </div>
+                            <div className="col-auto">
+                              <Button onClick={handleDownload} color="info">
+                                  <MdFileDownload/>
+                              </Button> 
+                            </div>
+                            <div className ="col">
+                              {file.requerido === "1" &&                        
+                                  <Input type="file" name={`namefile${index}`} id={`file${index}`} />
+                              }
+                            </div>
+                        </div>
+                        <div className="row">
+                          {file.comentario !== "" &&
+                          (
+                            <div className="col" style={{marginTop:"10px"}}>
+                              <Comentario mensaje={file.comentario}/>                  
+                            </div>
+                          )
+                          }
+                          
+                        </div>                            
+                      </div>
+                  ))
+              }
+              
+              <hr/>
+              <div className=" text-center" style={{marginBottom:20}}>
+                <Button className="btn btn-primary" type="submit">
+                    Inscribir Practica
+                </Button>
+              </div>               
+            </Form>
+          </div>
+        }
         </div>
     )
 }
