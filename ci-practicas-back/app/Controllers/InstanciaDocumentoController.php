@@ -52,38 +52,63 @@ class InstanciaDocumentoController extends BaseController
         
 	}
 
-    public function setDocumentosAlumno(){
+	// Entrega las instancias de documento de un alumno
+	public function getInstanciasDocumento() {
+		
+		$id_alumno = $this->request->getVar('id_alumno');
+		$result = $this->InstDocumentoModel->getInstanciasDocumentos($id_alumno);
+		if ($result) {
+			return json_encode($result, JSON_UNESCAPED_UNICODE);
+		}
+		// Caso de array vacío
+		$arr = [];
+		return json_encode($arr, JSON_UNESCAPED_UNICODE);
+	}
 
-        $result = $this->DocumentoModel->getDocumentos();
-        $arr = array();
-        if ($result){
-            foreach ($result as $row)
-            {
-                $arr['nombre'] = $row->nombre;
-                $arr['etapa'] = $row->etapa;
-                $arr['requerido'] = $row->requerido;
-            }
-        echo json_encode($result);
-        } else {
-            echo "error";
-        }
+	// Entrega las instancias REQUERIDAS de documento de un alumno
+	public function getInstanciasDocumentoRequerido() {
+		
+		$id_alumno = $this->request->getVar('id_alumno');
+		$result = $this->InstDocumentoModel->getInstanciasDocumentosRequeridos($id_alumno);
+		if ($result) {
+			return json_encode($result, JSON_UNESCAPED_UNICODE);
+		}
+		$arr = [];
+		return json_encode($arr, JSON_UNESCAPED_UNICODE);
+	}
+
+    // public function setDocumentosAlumno(){
+
+    //     $result = $this->DocumentoModel->getDocumentos();
+    //     $arr = array();
+    //     if ($result){
+    //         foreach ($result as $row)
+    //         {
+    //             $arr['nombre'] = $row->nombre;
+    //             $arr['etapa'] = $row->etapa;
+    //             $arr['requerido'] = $row->requerido;
+    //         }
+    //     echo json_encode($result);
+    //     } else {
+    //         echo "error";
+    //     }
         
-    }
+    // }
     
-	public function getDocumento(){
-		echo "entró a documento";
-        $result = $this->DocumentoModel->getDocumento();
-        $arr = array();
-        if ($result){
-            foreach ($result as $row)
-            {
-                $arr['nombre'] = $row->nombre;
-            }
-            echo json_encode($arr);
-        } else {
-            echo "error";
-        }
-    }
+	// public function getDocumento(){
+	// 	echo "entró a documento";
+    //     $result = $this->DocumentoModel->getDocumento();
+    //     $arr = array();
+    //     if ($result){
+    //         foreach ($result as $row)
+    //         {
+    //             $arr['nombre'] = $row->nombre;
+    //         }
+    //         echo json_encode($arr);
+    //     } else {
+    //         echo "error";
+    //     }
+    // }
 }
 
 

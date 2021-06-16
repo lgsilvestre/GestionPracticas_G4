@@ -208,7 +208,6 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
         })
     }, [])
 
-  
     return (
         <div className="animate__animated animate__fadeIn animate__faster">
             {

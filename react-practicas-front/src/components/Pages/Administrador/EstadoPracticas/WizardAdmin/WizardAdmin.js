@@ -7,8 +7,8 @@ import { SolicitarAdmin } from './Estados/SolicitarAdmin';
 import { EvaluacionAdmin } from './Estados/EvaluacionAdmin';
 
 
-const WizardAdmin = ({pageProp=0, nroMatricula, nroPractica,idAlumno}) => {
-    console.log("nro recibido en wizard:",nroPractica)
+const WizardAdmin = ({pageProp=0, nroMatricula, nroPractica, idAlumno}) => {
+    
     const steps = [
         {title: "Solicitar"},
         {title: "Inscripción"},

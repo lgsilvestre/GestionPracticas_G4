@@ -21,6 +21,20 @@ class InstDocumentoModel extends Model
             $result = $this->db->query($query);
         }
     }
+
+    public function getInstanciasDocumentos($id_alumno){
+        $queryInstAlumno = 'SELECT * from instancia_documento where refAlumno = "'.$id_alumno.'"';
+        $query = $this->db->query($queryInstAlumno);
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getInstanciasDocumentosRequeridos($id_alumno){
+        $queryInstAlumno = 'SELECT * from instancia_documento where refAlumno = "'.$id_alumno.'" and requerido = "1"';
+        $query = $this->db->query($queryInstAlumno);
+        $result = $query->getResult();
+        return $result;
+    }
 }
 
     
