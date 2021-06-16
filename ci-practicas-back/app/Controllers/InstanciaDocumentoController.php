@@ -52,38 +52,43 @@ class InstanciaDocumentoController extends BaseController
         
 	}
 
-    public function setDocumentosAlumno(){
+	// Entrega las instancias de documento de un alumno
+	public function getInstanciasDocumento() {
+		
+	}
 
-        $result = $this->DocumentoModel->getDocumentos();
-        $arr = array();
-        if ($result){
-            foreach ($result as $row)
-            {
-                $arr['nombre'] = $row->nombre;
-                $arr['etapa'] = $row->etapa;
-                $arr['requerido'] = $row->requerido;
-            }
-        echo json_encode($result);
-        } else {
-            echo "error";
-        }
+    // public function setDocumentosAlumno(){
+
+    //     $result = $this->DocumentoModel->getDocumentos();
+    //     $arr = array();
+    //     if ($result){
+    //         foreach ($result as $row)
+    //         {
+    //             $arr['nombre'] = $row->nombre;
+    //             $arr['etapa'] = $row->etapa;
+    //             $arr['requerido'] = $row->requerido;
+    //         }
+    //     echo json_encode($result);
+    //     } else {
+    //         echo "error";
+    //     }
         
-    }
+    // }
     
-	public function getDocumento(){
-		echo "entró a documento";
-        $result = $this->DocumentoModel->getDocumento();
-        $arr = array();
-        if ($result){
-            foreach ($result as $row)
-            {
-                $arr['nombre'] = $row->nombre;
-            }
-            echo json_encode($arr);
-        } else {
-            echo "error";
-        }
-    }
+	// public function getDocumento(){
+	// 	echo "entró a documento";
+    //     $result = $this->DocumentoModel->getDocumento();
+    //     $arr = array();
+    //     if ($result){
+    //         foreach ($result as $row)
+    //         {
+    //             $arr['nombre'] = $row->nombre;
+    //         }
+    //         echo json_encode($arr);
+    //     } else {
+    //         echo "error";
+    //     }
+    // }
 }
 
 
