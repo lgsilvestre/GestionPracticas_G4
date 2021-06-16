@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
       borderRadius:'20px', 
       backgroundColor:'#fafafa',
       justifyContent:"center"
-  },
+    },
     botonAceptar:{
       marginRight:'10px',
       backgroundColor:"grey",
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor:'red',
           color: '#fff'
           }
-  }
+    }
 }));
 
 export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
@@ -209,7 +209,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
 
   
     return (
-        <div>
+        <div className="animate__animated animate__fadeIn animate__faster">
             {
               mostrarAlerta && (
                 practicaAceptada 
@@ -373,8 +373,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
               <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} >
                 Rechazar
               </Button>
-            </div>
-              
+            </div>       
             </Box>
         </div>
     )

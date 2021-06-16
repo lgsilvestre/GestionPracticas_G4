@@ -74,7 +74,7 @@ export const TablaEstados = ({history}) =>  {
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
   function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
-    return { nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action };
+    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, nroPractica, action };
   }
   const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
@@ -145,13 +145,13 @@ export const TablaEstados = ({history}) =>  {
       case "Solicitud":
         setSeleccionado(0)
         break;
-      case "Inscripcion":
+      case "Inscripción":
         setSeleccionado(1)
         break;
       case "Cursando":
         setSeleccionado(2)
         break;
-      case "Evaluacion":
+      case "Evaluación":
         setSeleccionado(3)
         break;
       default:
