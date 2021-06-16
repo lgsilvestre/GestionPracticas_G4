@@ -188,7 +188,7 @@ export const TablaEstados = ({history}) =>  {
     return (  
       <div className="animate__animated animate__fadeIn animate__faster" style={{marginTop:'20px', marginBottom:'30px'}}>
         <div className={clasesEstilo.encabezado}>
-        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h2" className={clasesEstilo.titulo}  >Practicas</Typography></motion.div>
+        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }}><Typography variant="h3" className={clasesEstilo.titulo} style={{color:''}}>Practicas</Typography></motion.div>
         </div>
         <div>
           <Filtros clasesEstilo={clasesEstilo} data={originalData} setRows={setRows}/>

@@ -33,33 +33,50 @@ const SidePro = () => {
                 <Divider variant="middle" light={true} />     
 
                 <MenuItem className={styles.navItem} style={{marginTop:'20px', marginBottom:'10px'}}>
-                    <Link to="/admin/practicas" >
-                        <MdWork />
-                        <span className="text" style={{fontWeight:'bold', fontSize:'18px'}}>Prácticas</span>
+                    <Link to="/admin/practicas" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}>
+                        <MdWork/>
+                        <span className="text" style={{fontWeight:'bold', fontSize:'18px', marginLeft:'10px'}}>
+                            Prácticas
+                        </span>
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}}>
-                    <Link to="/admin/estudiantes" >
+                    <Link to="/admin/estudiantes" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}>
                         <MdPeople />
-                        <span className="text" style={{fontWeight:'bold', fontSize:'18px'}}>Estudiantes</span>
+                        <span className="text" style={{fontWeight:'bold', fontSize:'18px', marginLeft:'10px'}}>Estudiantes</span>
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}}>
-                    <Link to="/admin/administradores" >
+                    <Link to="/admin/administradores" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}>
                         <IoKeySharp />
-                        <span className="text" style={{fontWeight:'bold', fontSize:'18px'}}>Funcionarios</span>
+                        <span className="text" style={{fontWeight:'bold', fontSize:'18px', marginLeft:'10px'}}>Funcionarios</span>
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}}>
-                    <Link to="/admin/ofertas" >
+                    <Link to="/admin/ofertas" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}>
                         <MdLocalOffer />
-                        <span className="text" style={{fontWeight:'bold', fontSize:'18px'}}>Gestionar Práctica</span>
+                        <span className="text" style={{fontWeight:'bold', fontSize:'18px', marginLeft:'10px'}}>Gestionar Práctica</span>
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}}>
-                    <Link to="/admin/plan" >
+                    <Link to="/admin/plan" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}>
                         <FaFileAlt />
-                        <span className="text" style={{fontWeight:'bold', fontSize:'18px'}}>Gestionar Documentos</span>
+                        <span className="text" style={{fontWeight:'bold', fontSize:'18px', marginLeft:'10px'}}>Documentos</span>
                     </Link>
                 </MenuItem>
             </Menu>
