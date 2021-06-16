@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import useStyles from './styles';
-import funcionarios from '../../routers/assets/funcionarios.svg';
-import {StyledTableCell, StyledTableRow} from './styles';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField} from '@material-ui/core';
+import {Table, TableContainer, TableCell, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography, Paper} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import InputLabel from '@material-ui/core/InputLabel';
 import CachedIcon from '@material-ui/icons/Cached';
@@ -19,13 +17,8 @@ import { motion } from "framer-motion";
 
 export default function Administrador() {
   
-  // const nombreRef = React.useRef('');
-  // const emailRef = React.useRef('');
-  // const tipoRef = React.useRef('');
-  // const contrasenaRef = React.useRef('');
-  
   const classes = useStyles();
-  const [data, setData]=useState([]);
+  const [rows, setRows] = useState([]);
   const [modalInsertar, setModalInsertar]=useState(false);
   const [arrayCarreras, setCarreras]=useState(false);
   const [modalEditar, setModalEditar]=useState(false);
@@ -41,6 +34,19 @@ export default function Administrador() {
     carreras: []
   })
 
+   // Columnas para la tabla de estados
+   const columns = [
+    { id: 'nombre', label: 'Funcionario', minWidth: "25%" },
+    { id: 'correo', label: 'Correo', minWidth: "25%" },
+    { id: 'tipo', label: 'Tipo', minWidth: "25%" },
+    { id: 'contrasenia', label: 'Contraseña', minWidth: "25%" },
+    { id: 'action', label: 'Acción',  minWidth: "25%",  },
+  ];
+
+  function createData(nombre, correo, tipo, contrasenia, action) {
+    return {nombre, correo, tipo, contrasenia, action };
+  }
+
   const handleChange=e=>{
     const {name, value}=e.target;
     setAdministrador (prevState=>({
@@ -50,21 +56,43 @@ export default function Administrador() {
     console.log(administrador);
   }
 
+  const peticionGet=async()=>{
+    await axios.get('')
+    .then(response=>{
+      const resultado = response.data;
+      // console.log("antes:",rows)
+      const lista = []
+      for(var i=0; i<resultado.length; i++){
+        const fila = createData(resultado[i].nombre , resultado[i].correo , resultado[i].tipo,resultado[i].contrasenia,"button")
+        // console.log(fila)
+        lista.push(fila)
+      }  
+      // console.log(lista)
+      setRows(lista)
+    })
+  }
 
   const peticionPut=async()=>{
-    await axios.put('' +administrador.id, administrador)
+    await axios.put('' +administrador
+ .id, administrador
+ )
     .then(response=>{
-      // var dataNueva=data;
-      // dataNueva.map( (datoAdmi) => {
-      //   if(administrador.id===datoAdmi.id){
-      //   administrador.nombre=datoAdmi.nombre;
-      //   administrador.correo=datoAdmi.correo;
-      //   administrador.tipo=datoAdmi.tipo;
-      //   administrador.contrasenia=datoAdmi.contrasenia;
-      //   }
-      // })
-      // setData(dataNueva);
-      // abrirCerrarModalEditar();
+      var dataNueva=rows;
+      dataNueva.map(datoAdmi=>{
+        if(administrador
+     .id===datoAdmi.id){
+      administrador.nombre=datoAdmi
+     .nombre;
+      administrador.correo=datoAdmi
+     .correo;
+      administrador.tipo=datoAdmi
+     .tipo;
+      administrador.contrasenia=datoAdmi
+     .contrasenia;
+        }
+      })
+      setRows(dataNueva);
+      abrirCerrarModalEditar();
     })
   }
 
@@ -72,7 +100,7 @@ export default function Administrador() {
     await axios.delete(''+administrador
  .id)
     .then(response=>{
-      setData(data.filter(consola=>consola.id!==administrador
+      setRows(rows.filter(consola=>consola.id!==administrador
    .id));
       abrirCerrarModalEliminar();
     })
@@ -80,7 +108,7 @@ export default function Administrador() {
 
   const abrirCerrarModalInsertar=()=>{
     
-    if (modalInsertar === false) {
+    if (modalInsertar == false) {
       generarPassUser();
     }
     getDocumentos();
@@ -130,7 +158,6 @@ export default function Administrador() {
     let apellido = administrador.apellido;
     let email = administrador.email;
     let tipo = administrador.tipo;
-    let carrera = administrador.carrera;
     let password = administrador.contrasena;
 
     axios.post(
@@ -170,7 +197,7 @@ export default function Administrador() {
   }
 
   useEffect(async()=>{
-    getDocumentos();
+    await getDocumentos();
   },[])
   
 function generarPassUser() {
@@ -189,21 +216,21 @@ function handleValidation() {
 
   let nuevoUserValidado = false; 
 
-  if (nombre !== "") {
+  if (nombre != "") {
     let regex = new RegExp("^[a-zA-Z]+$");
     if (regex.test(nombre)) {
       nuevoUserValidado = true
     }
   }
 
-  if (apellido !== "") {
+  if (apellido != "") {
     let regex = new RegExp("^[a-zA-Z]+$");
     if (regex.test(nombre)) {
       nuevoUserValidado = true;
     }
   }
 
-  if (email !== "") {
+  if (email != "") {
     if (email.endsWith("@utalca.cl")){
       var regex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
       console.log("UTAL");
@@ -214,18 +241,18 @@ function handleValidation() {
     }
   }
 
-  if (tipo !== "") {
-    if (tipo === "0" || tipo === "1") {
+  if (tipo != "") {
+    if (tipo == "0" || tipo == "1") {
       nuevoUserValidado = true;
     }    
   }
 
-  if (password !== "") {
+  if (password != "") {
     nuevoUserValidado = true;
   }
 
   console.log(nuevoUserValidado);
-  if (nuevoUserValidado === true){
+  if (nuevoUserValidado == true){
     peticionPost();
   } else {
     console.log("Error validación");
@@ -244,6 +271,7 @@ const bodyInsertar=(
     <TextField variant="outlined" name="apellido" id="apellido" className={classes.inputMaterial} label="Apellido" onChange={handleChange}/>
 
     <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
+
     <FormControl className={classes.inputMaterial} variant="outlined" >
                            <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
                           <Select
@@ -257,9 +285,8 @@ const bodyInsertar=(
                     ))}           
                     
          </Select>
+
      </FormControl>
-      
-     
 
     <TextField variant="outlined" name="tipo" id="tipo" className={classes.inputMaterial} label="Tipo" onChange={handleChange}/>
     
@@ -340,45 +367,63 @@ const bodyEliminar=(
 
 
   return (
+    
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
     <div className={classes.encabezado}>
-      <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} > <img  heigth ={20} src={funcionarios} alt='funcionarios'/></motion.div>
-      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo} >FUNCIONARIOS</h1></motion.div>
+      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h2" className={classes.titulo} >Funcionarios</Typography></motion.div>
     </div>
-
-    
      
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
       <br /><br />
-     <TableContainer>
-       <Table className={classes.table}>
-         <TableHead>
-           <TableRow>
-             <StyledTableCell>Nombre</StyledTableCell>
-             <StyledTableCell>Correo</StyledTableCell>
-             <StyledTableCell>Tipo</StyledTableCell>
-             <StyledTableCell>Contrase&ntilde;a</StyledTableCell>
-             <StyledTableCell>Acciones</StyledTableCell>
-           </TableRow>
-         </TableHead>
+      <hr/> 
+      <Paper className={classes.root}>
+      {/* Tabla de Practicas */}
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="sticky table">
+          {/* Headers de la tabla */}
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {/* Cuerpo de la Tabla */}
+          <TableBody>
+            {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
+            {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
+            {rows.map((row) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (                           
+                      <TableCell key={column.id} align={column.align}>
+                      {value ==="button" ? 
+                      <div>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
+                      &nbsp;&nbsp;&nbsp;
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
+                      </div>
+                      : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-         <TableBody>
-           {data.map(administrador=>(
-             <StyledTableRow key={administrador.id}>
-               <StyledTableCell>{administrador.nombre}</StyledTableCell>
-               <StyledTableCell>{administrador.correo}</StyledTableCell>
-               <StyledTableCell>{administrador.tipo}</StyledTableCell>
-               <StyledTableCell>{administrador.contrasenia}</StyledTableCell>
-               <StyledTableCell>
-                 <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
-                 &nbsp;&nbsp;&nbsp;
-                 <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
-                 </StyledTableCell>
-             </StyledTableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
+    </Paper>
      <Modal
      open={modalInsertar}
      onClose={abrirCerrarModalInsertar}>
