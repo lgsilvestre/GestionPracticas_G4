@@ -153,13 +153,13 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 <hr/>
                 <div className="row" style={{marginBottom:"15px"}}>
                   {/* Input para rut de empresa */}
-                  <div className="col">
+                  <div className="col-sm">
                     <Label  for = "empresa"> Nombre de Empresa </Label>
                     <Input type="text" name="empresa" onChange={handleInputChange}/>
                   </div>
                   
                   {/* Input para rut de empresa */}
-                  <div className="col">
+                  <div className="col-sm">
                     <Label for = "rutempresa">RUT de Empresa</Label>
                     <Input type="text" name="rutempresa" onChange={handleInputChange} />  
                   </div>
@@ -167,27 +167,27 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 </div> 
                 <div className="row" style={{marginBottom:"15px"}}>
                   {/* Input para nombre de supervisor */} 
-                  <div className="col">
+                  <div className="col-sm">
                     <Label for = "supervisor"> Nombre de Supervisor </Label>
                     <Input type="text" name="supervisor" onChange={handleInputChange} />                   
                   </div>
-                  <div className="col">
+                  <div className="col-sm">
                   <Label for = "correosupervisor">Correo de Supervisor</Label>
                     <Input type="email" name="correosupervisor" onChange={handleInputChange} />                  
                   </div>
                 </div>  
                 <div className="row" style={{marginBottom:"15px"}}>
                   {/* Input para rut de empresa */}       
-                  <div className="col">
+                  <div className="col-sm">
                     <Label for = "fonosupervisor">Teléfono Supervisor</Label>
                     <Input type="text" name="fonosupervisor" onChange={handleInputChange} />  
                   </div>
-                  <div className="col">
+                  <div className="col-sm">
                                 
                   </div>
                 </div>                                
                 <div className="row" style={{marginBottom:"15px"}}>
-                  <div className="col">
+                  <div className="col-sm">
                     <Label for = "regionempresa">Ubicación: Región o Internacional</Label>
                     <Input type="select" name="regionempresa" onChange={handleChangeRegion}> 
                       {regiones.map((option,index)=>(
@@ -195,7 +195,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                       ))}
                     </Input>                    
                   </div>    
-                  <div className="col">
+                  <div className="col-sm">
                     <Label for = "zonaempresa">Ubicación: Comuna o País</Label>
                     <Input type="select" name="zonaempresa" onChange={handleInputChange}>
                       {regiones[regionElegida].comunas.map((comuna,index)=>(
@@ -209,11 +209,11 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 <h4 style={{marginTop:"30px"}}>Datos de Contacto de Emergencia</h4>
                 <hr/>
                 <div className="row" style={{marginBottom:"15px"}}>
-                  <div className="col">
+                  <div className="col-sm">
                     <Label for = "nombre_emer">Nombre</Label>
                     <Input type="text" name="nombre_emer" onChange={handleInputChange}/>                
                   </div>
-                  <div className="col">
+                  <div className="col-sm">
                     <Label for = "tel_emer">Télefono</Label>
                     <Input type="number" name="tel_emer" onChange={handleInputChange}/>  
                   </div>
@@ -230,7 +230,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                     archivos.map( (file,index) => (
                         <div key={index} className="container" style={{marginBottom:"10px"}}>
                           <div className="row">
-                              <div className="col">
+                              <div className="col-sm">
                                 <Label >{file.nombre}</Label>      
                               </div>
                               <div className="col-auto">
@@ -238,7 +238,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                                     <MdFileDownload/>
                                 </Button> 
                               </div>
-                              <div className ="col">
+                              <div className ="col-sm">
                                 {file.requerido === "1" &&                        
                                     <CustomInput 
                                       type="file" 
