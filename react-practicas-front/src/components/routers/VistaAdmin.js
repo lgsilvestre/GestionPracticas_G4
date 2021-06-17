@@ -37,7 +37,7 @@ const VistaAdmin = () => {
                     {/* <SideBar/> */}
                     <SidePro />
                 </Grid>
-                <Grid item xs={10} sm={10} className="Scroll">
+                <Grid item xs={10} sm={10} className="Container Scroll">
                     <NavBarr />
                     <Divider variant="middle" light={true} />  
                     <div className="container">

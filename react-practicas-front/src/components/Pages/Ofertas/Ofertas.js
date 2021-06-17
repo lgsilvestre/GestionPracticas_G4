@@ -27,7 +27,7 @@ const Ofertas = () => {
       <div className="animate__animated animate__fadeIn animate__faster">
         <div style={{marginTop:'20px', marginBottom:'30px'}}>
         <div className={classes.encabezado}>
-           <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h2" className={classes.titulo}  >Gestionar Practicas</Typography></motion.div>
+           <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo}  >Gestionar Practicas</Typography></motion.div>
           
          </div>
          <Button className={classes.boton} onClick={handleClickOpen}>         Agregar Practica          </Button>
