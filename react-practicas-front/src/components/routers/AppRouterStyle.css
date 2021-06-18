@@ -4,6 +4,16 @@
   height: 100vh;    
 }
 
+.Container {
+    background: linear-gradient(
+      165deg, 
+      #f6f7f9 0%, 
+      #f6f7f9 30%, 
+      #eaedf1 70%, 
+      #F6F7F9 100%
+    );
+}
+
 .Scroll {
     overflow-y:scroll;
     height: 100vh;

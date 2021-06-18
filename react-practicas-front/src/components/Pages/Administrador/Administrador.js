@@ -370,7 +370,7 @@ const bodyEliminar=(
     
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
     <div className={classes.encabezado}>
-      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h2" className={classes.titulo} >Funcionarios</Typography></motion.div>
+      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo} >Funcionarios</Typography></motion.div>
     </div>
      
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Funcionario</Button>

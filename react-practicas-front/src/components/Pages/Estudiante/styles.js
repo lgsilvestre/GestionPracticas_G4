@@ -25,8 +25,7 @@ export default makeStyles((theme) => ({
       marginLeft: "-100px"
     },
     titulo:{
-     fontSize: '4em',
-     color: '#1A2B4B'
+     color: '#1b2d4f'
     },
     inputMaterial:{
       width: '100%',

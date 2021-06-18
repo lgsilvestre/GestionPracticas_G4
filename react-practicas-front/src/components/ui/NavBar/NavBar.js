@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import logo from '../SideBar/utalca.svg'
+//import logo from '../SideBar/utalca.svg'
 import "./NavBar.css"
 import { useEffect } from 'react'
 import Cookies from 'universal-cookie'
+import logo from '../SideBar/logos/whitelogo-1.png';
+//import logo1 from './logos/whitelogo-1.png';
 
 export const NavBar = ({tipo_usuario = "Estudiante"}) => {
 
@@ -31,19 +33,19 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/landing"
-                        > Landing </NavLink>
+                        > Home </NavLink>
                         <NavLink
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/practicas"
-                        > Practicas </NavLink>
+                        > Prácticas </NavLink>
                         <NavLink
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/postulaciones"
-                        > Postulacion </NavLink>
+                        > Documentos </NavLink>
                     </div>
                 </div>
                 <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">

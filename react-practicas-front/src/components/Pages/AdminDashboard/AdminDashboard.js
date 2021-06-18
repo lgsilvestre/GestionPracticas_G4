@@ -29,9 +29,7 @@ const useStyles = makeStyles({
         marginBottom: "3vh"
       },
       titulo:{
-       fontSize: '4em',
-       color: '#1A2B4B',
-       alignSelf: 'right'
+       color: '#1b2d4f',
       },
       icono:{
       flex:' 0 0 43.333333%',
@@ -88,7 +86,7 @@ export const AdminDashboard = () => {
             <Grid container>
                 <Grid item sm={12}>
                 <div className={classes.encabezado}>
-                <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h2" className={classes.titulo}  >Gestionar Documentos</Typography></motion.div>
+                <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo}  >Home</Typography></motion.div>
                 
                 </div>
                 </Grid>
@@ -173,6 +171,9 @@ export const AdminDashboard = () => {
                                 </Button>
                             </CardActions>
                         </Card>
+                    </Grid>
+                    <Grid item sm={12}>
+                                                                    
                     </Grid>
 
                     </Grid>
