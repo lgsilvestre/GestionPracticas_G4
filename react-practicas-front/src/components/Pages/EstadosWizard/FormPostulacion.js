@@ -35,14 +35,14 @@ export const FormPostulacion = ({handleSubmit, previousPage}) => {
     }    
     
     return (
-        <div className="animate__animated animate__fadeIn animate__faster">
+        <div>
           {mostrarResolucion 
           ? <Resolucion 
             previousPage={previousPage} 
             handleSubmit={handleSubmit}/> 
           : 
           (
-            <div className="animate__animated animate__fadeIn animate__faster">
+            <div>
               <h4>Formulario de Postulacion</h4>
                 <hr/>
                 {mostrarComentario && 
