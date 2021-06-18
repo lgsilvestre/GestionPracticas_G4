@@ -7,20 +7,22 @@ import { FormPostulacion } from './EstadosWizard/FormPostulacion';
 import { FormInscripcion } from './EstadosWizard/FormInscripcion';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-
+import { PracticaInvalida } from './PracticaInvalida';
+import { PracticasTab } from '../ui/PracticasTab/PracticasTab';
 const Practicas = () => {
 
     const cookies = new Cookies();
-
+    const [nroPractica, setNroPractica] = useState(0)
+    console.log("nroPractica: ",nroPractica)
     const steps = [
         {title: "Solicitar"},
         {title: "Inscripción"},
         {title: "Cursando"},
         {title: "Evaluación"} 
     ]
-
+    
     useEffect(() => {       
-          getEstado()
+      getEstado()
     }, [])
 
     const [page, setPage] = useState(0)
@@ -69,34 +71,43 @@ const Practicas = () => {
           });
     }
     
-    const nextPage = (e) =>{       
+    const nextPage = () =>{       
         setPage(page+1)
     }
     const previousPageFuncion = ()=>{
         setPage(page-1)
     }
     return (
-
-        <Card className="container mt-3 mb-3" >
-
-            <Stepper 
-                steps={steps}
-                size={40}
-                circleFontSize={18}
-                activeStep={ page }
-                activeColor={"#f69b2e"}
-                completeColor = {"#f69b2e"}
-            />
-
-            <hr/>
-            
-            { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
-            { page===1 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===2 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===3 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            
-            
-        </Card>
+      <>
+        <PracticasTab 
+          nroPractica={nroPractica}
+          setNroPractica={setNroPractica}
+          />
+        {
+          nroPractica===0 ?(
+            <Card className=" animate__animated animate__fadeIn animate__faster container mt-3 mb-3" >
+                <Stepper 
+                    steps={steps}
+                    size={40}
+                    circleFontSize={18}
+                    activeStep={ page }
+                    activeColor={"#f69b2e"}
+                    completeColor = {"#f69b2e"}
+                />
+                <hr/>        
+                { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
+                { page===1 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+                { page===2 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+                { page===3 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }          
+            </Card>
+          )
+          : (
+            <Card className="container mt-3 mb-3" >
+              <PracticaInvalida/>
+            </Card>
+          )
+        }
+      </>
     )
 
 }
