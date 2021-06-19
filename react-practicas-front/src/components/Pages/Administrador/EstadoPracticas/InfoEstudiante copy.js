@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { IoIosArrowBack } from "react-icons/io";
 import WizardAdmin from './WizardAdmin/WizardAdmin';
+import { Typography } from '@material-ui/core';
+import { motion } from "framer-motion"
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,9 +52,9 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
     return (
         <div className="animate__animated animate__fadeIn animate__faster">
             <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
-                <h4 style={{marginBottom:'15px', color: '#1b2d4f'}}>
-                    Prácticas &gt; Alumno
-                </h4>
+                <div>
+                    <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }}><Typography variant="h3" style={{color:'#1b2d4f'}}>Prácticas</Typography></motion.div>
+                </div>
                 <Button className = {classes.botonBack} startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
                     Volver a tabla 
                 </Button>

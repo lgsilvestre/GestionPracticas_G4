@@ -1,12 +1,13 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
 import { motion } from "framer-motion"
 import { Filtros } from './Filtros';
-import {makeStyles, Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, TableCell, IconButton, Paper,TablePagination} 
+import {makeStyles, Table, TableContainer, TableHead, TableBody, 
+  TableRow, TableCell, IconButton, Paper,TablePagination, Typography} 
   from '@material-ui/core';
-import practicas from '../../../routers/assets/practicas.svg';
+import Cookies from 'universal-cookie';
 
 //Estilos
 const useStyles = makeStyles((theme) => ({
@@ -14,18 +15,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   encabezado:{
-    marginTop: '10vh',
-    marginTop: '10vh',
-    display: 'flex',
-    alignItems: 'center'
+    marginLeft: '-88px'
   },
   titulo:{
-    marginLeft:'10%',
-    display: 'inline-block',
-    color: '#3d84b8',
-    fontFamily: 'Righteous, serif',
-   fontSize: '4em',
-   textShadow: '.05em .05em 0 #3f3697',
+    color: '#1b2d4f'
   },
   container: {
     maxHeight: "50%",
@@ -57,47 +50,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const TablaEstados = ({history}) =>  {
-
+  const cookies = new Cookies();
   const clasesEstilo = useStyles();
   // Columnas para la tabla de estados
   const columns = [
-    { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
-    { id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
-    { id: 'carrera', label: 'Carrera', minWidth: "25%" },
-    {
-      id: 'anio',
-      label: 'Año',
-      minWidth: "25%",
-    },
-    {
-      id: 'etapa',
-      label: 'Etapa',
-      minWidth: "25%",
-    },
-    {
-      id: 'estado',
-      label: 'Estado',
-      minWidth: "25%",
-    },
-    {
-      id: 'fechaEnd',
-      label: 'Fecha de Término',
-      minWidth: "25%",
-    },
-    {
-      id: 'nroPractica',
-      label: 'N° Práctica',
-      minWidth: "25%",
-    },
-    {
-      id: 'action',
-      label: 'Acción',
-      minWidth: "25%",
-    },
+    {id: 'nombre', label: 'Estudiante', minWidth: "25%" },
+    {id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
+    {id: 'carrera', label: 'Carrera', minWidth: "25%" },
+    {id: 'anio',label: 'Año',minWidth: "25%"},
+    {id: 'etapa',label: 'Etapa',minWidth: "25%"},
+    {id: 'estado',label: 'Estado', minWidth: "25%"},
+    {id: 'fechaEnd',label: 'Fecha de Término', minWidth: "25%"},
+    {id: 'nroPractica',label: 'N° Práctica', minWidth: "25%"},
+    {id: 'action',label: 'Acción',minWidth: "25%"},
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
   function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
-    return { nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action };
+    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, nroPractica, action };
   }
   const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
@@ -105,8 +74,9 @@ export const TablaEstados = ({history}) =>  {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
-  const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
+  const [nroMatriculaSelected, setNroMatriculaSelected] = useState("")
   const [nroPractica, setnroPractica] = useState("")
+  const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
   useEffect(async()=>{
     petitionGetPracticaAlumno()
   },[])
@@ -167,13 +137,13 @@ export const TablaEstados = ({history}) =>  {
       case "Solicitud":
         setSeleccionado(0)
         break;
-      case "Inscripcion":
+      case "Inscripción":
         setSeleccionado(1)
         break;
       case "Cursando":
         setSeleccionado(2)
         break;
-      case "Evaluacion":
+      case "Evaluación":
         setSeleccionado(3)
         break;
       default:
@@ -181,32 +151,43 @@ export const TablaEstados = ({history}) =>  {
         break;
     }
   }
-  const handleChangeState = (etapa, idAlumno, numero) => {
-    console.log("nro recibido en tablaestado:",numero)
-    console.log(idAlumno)
-    setnroPractica(numero)
-    setIdAlumnoSelected(idAlumno)
-    setChangeState(!changeState)
-    changeSelected(etapa)
-    
+  const getIdAlumno = async (etapa, matricula, numero) => {
+    console.log("SOLICITANDO ID ALUMNO  CON ",matricula) 
+    await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoIdMatricula",{
+      matricula: matricula
+    })
+    .then(response => {
+      setIdAlumnoSelected(response.data[0].id_alumno)
+      console.log("RESPONSE GETIDALUMNO:", response.data)  
+      setnroPractica(numero)
+      setNroMatriculaSelected(matricula)    
+      cookies.set('alumnoactual', '4', { path: '/' });
+      changeSelected(etapa)
+      setChangeState(!changeState)
+    })
   }
+  
+  const handleChangeState = (etapa, matricula, numero) => {     
+    getIdAlumno(etapa, matricula, numero) 
+  }
+  
   const handleChangeStateBack = () =>{
     setChangeState(!changeState)
   }
   if(changeState){
     return <InfoEstudiante 
       handleChangeStateBack={handleChangeStateBack} 
-      idAlumno = {idAlumnoSelected} 
+      nroMatricula = {nroMatriculaSelected} 
       etapaProp={seleccionado}
       nroPractica={nroPractica}
+      idAlumno={idAlumnoSelected}
       />
   }
   else{
     return (  
       <div className="animate__animated animate__fadeIn animate__faster" style={{marginTop:'20px', marginBottom:'30px'}}>
         <div className={clasesEstilo.encabezado}>
-        <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} >  <img  heigth ={20} src={practicas} alt='practicas'/>  </motion.div>
-        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={clasesEstilo.titulo}  >PRACTICAS</h1></motion.div>
+        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }}><Typography variant="h3" className={clasesEstilo.titulo} style={{color:''}}>Practicas</Typography></motion.div>
         </div>
         <div>
           <Filtros clasesEstilo={clasesEstilo} data={originalData} setRows={setRows}/>

@@ -1,8 +1,8 @@
-import { Navbar, Nav, Icon, Dropdown } from 'rsuite';
+import { Navbar, Nav, Dropdown } from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.css'; 
-import { IoPerson } from "react-icons/io5";
-import { IoExit } from "react-icons/io5";
-import { IoNotifications } from "react-icons/io5";
+import PersonIcon from '@material-ui/icons/Person';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import styles from './NavBarStyle.css';
 
 const NavBarr = ({ onSelect, activeKey, ...props }) => {
@@ -13,15 +13,16 @@ const NavBarr = ({ onSelect, activeKey, ...props }) => {
             {/* <Nav.Item eventKey="1" icon={<Icon icon="home" />}>
               Home
             </Nav.Item> */}
-            <Dropdown title="About">
-              <Dropdown.Item eventKey="4">Company</Dropdown.Item>
-              <Dropdown.Item eventKey="5">Team</Dropdown.Item>
-              <Dropdown.Item eventKey="6">Contact</Dropdown.Item>
+            <Dropdown title="Ayuda">
+              <Dropdown.Item eventKey="4">Configuración</Dropdown.Item>
+              <Dropdown.Item eventKey="5">Contacto</Dropdown.Item>
+              <Dropdown.Item eventKey="6">Universidad</Dropdown.Item>
             </Dropdown>
           </Nav>
           <Nav pullRight>
-            <Nav.Item eventKey="2"><IoNotifications /></Nav.Item>
-            <Nav.Item icon={<IoPerson />} size="2x" ></Nav.Item>
+            <Nav.Item eventKey="2"><NotificationsIcon fontSize="small"/></Nav.Item>
+            <Nav.Item icon={<PersonIcon />} ></Nav.Item>
+            <Nav.Item icon={<ExitToAppIcon />} ></Nav.Item>
           </Nav>
         </Navbar.Body>
       </Navbar>

@@ -21,6 +21,12 @@ class AlumnoModel extends Model
         
     }
 
+    public function getIdMatricula($matricula) {
+        $query = $this->db->query("Select id_alumno from alumno where matricula = '".$matricula."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
     /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];

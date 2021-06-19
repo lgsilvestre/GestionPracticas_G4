@@ -190,8 +190,8 @@ export const Filtros = ({clasesEstilo, data, setRows}) => {
                 >     
                   <MenuItem value=""> <em> Ninguno </em> </MenuItem>   
                   {
-                    carreras.map((carrera)=> (
-                      <MenuItem value={carrera.value}>{carrera.nombre}</MenuItem>
+                    carreras.map((carrera, index)=> (
+                      <MenuItem key ={index} value={carrera.value}>{carrera.nombre}</MenuItem>
                     ))
                   }                
                 </Select>
@@ -209,8 +209,8 @@ export const Filtros = ({clasesEstilo, data, setRows}) => {
                 >
                   <MenuItem value=""> <em> Ninguno </em> </MenuItem>
                   {
-                    anios.map((anio)=> (
-                      <MenuItem value={anio}>{anio}</MenuItem>
+                    anios.map((anio, index)=> (
+                      <MenuItem key={index} value={anio}>{anio}</MenuItem>
                     ))
                   }     
                 </Select>

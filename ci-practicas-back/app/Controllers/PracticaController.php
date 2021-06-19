@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\PracticaModel as PracticaModel;
+use App\Models\InstDocumentoModel as InstDocumentoModel;
 
 class PracticaController extends BaseController
 {
@@ -321,16 +322,59 @@ class PracticaController extends BaseController
 		if($result) {
 			echo json_encode($result);
 		} else {
-			echo false;
+			echo "0";
 		}
 
 	}
 
 	public function aceptarSolicitud() {
-		$matricula = $this->request->getVar('matricula');
+		// Update de etapa y estado práctica
+		$id_alumno = $this->request->getVar('idalumno');
 		$numero = $this->request->getVar('numero');
-		echo "matricula: ".$matricula;
-		echo "numero: ".$numero;
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->aceptarSolicitud($numero, $id_alumno);
+		echo "id_alumno: ".$id_alumno;
+		echo "numero: ".$numero."\n";
+		
+		// Creación de instancia documento práctica de alumno
+		$this->InstDocumentoModel = new InstDocumentoModel();
+		$result_Inst = $this->InstDocumentoModel->crearInstanciasAlumno($numero, $id_alumno, $this->request->getVar('documentos'));
+
+	}
+
+	public function inscribirInfo() {
+		echo "ENTRO INSCRIBIR";
+		$id_alumno = $this->request->getVar('id_alumno');
+		$empresa = $this->request->getVar('empresa');
+		$supervisor = $this->request->getVar('supervisor');
+		$fch_inicio = $this->request->getVar('fch_inicio');
+		$fch_termino = $this->request->getVar('fch_termino');
+		$this -> PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->inscribir($id_alumno, $empresa, $supervisor, $fch_inicio, $fch_termino);
+	}
+
+	public function getDatosInscripcionAlumno() {
+		$id = $this->request->getVar('id_alumno');
+		//$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getDatosInscripcionAlumno($id);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo false;
+		}
+	}
+
+	public function aceptarInscripcion() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		//$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->aceptarPractica($id_alumno);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
 	}
 
 	private function sendEmailSolicitudAlumno($correo, $nombre, $fecha){

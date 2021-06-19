@@ -10,7 +10,7 @@ import { Resolucion } from './Resolucion';
 export const FormPostulacion = ({handleSubmit, previousPage}) => {
     const cookies = new Cookies()
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
-    const [mostrarComentario, setmostrarComentario] = useState(true)
+    const [mostrarComentario, setmostrarComentario] = useState(false)
     const datosDefecto = {
         estudiante:4,
         nombre: "Prueba de alumno",
@@ -33,36 +33,39 @@ export const FormPostulacion = ({handleSubmit, previousPage}) => {
             }
         })
     }    
-    const FormSolicitar =()=> {
-      return(
-        <div>
-          
-          <h4>Formulario de Postulacion</h4>
-            <hr/>
-            {mostrarComentario && <Comentario />}
-            <form className="text-center container">
-              <div style={{margin:"15%"}}>
-                <h5> Importante </h5>
-                <p>
-                  Luego de solicitar tu practica (haciendo click en el boton de abajo), el encargado de practicas de tu escuela tiene <strong>7 dias </strong> 
-                  para responder a tu solicitud. Tendrás que esperar por la resolución.
-                </p>
-                <Button className="btn btn-primary" onClick={postPractica}>
-                    Solicitar Practica
-                </Button> 
-              </div>
-            </form>       
-        </div>
-      )
-    }
     
     return (
-        <div className="animate__animated animate__fadeIn animate__faster">
+        <div>
           {mostrarResolucion 
           ? <Resolucion 
             previousPage={previousPage} 
             handleSubmit={handleSubmit}/> 
-          : <FormSolicitar/> }
+          : 
+          (
+            <div>
+              <h4>Formulario de Postulacion</h4>
+                <hr/>
+                {mostrarComentario && 
+                (
+                  <div>
+                    <h4>Cursando</h4>
+                    <Comentario />
+                  </div>
+                )}
+                <form className="text-center container">
+                  <div style={{margin:"15%"}}>
+                    <h5> Importante </h5>
+                    <p>
+                      Luego de solicitar tu practica (haciendo click en el boton de abajo), el encargado de practicas de tu escuela tiene <strong>7 dias </strong> 
+                      para responder a tu solicitud. Tendrás que esperar por la resolución.
+                    </p>
+                    <Button className="btn btn-primary" onClick={postPractica}>
+                        Solicitar Practica
+                    </Button> 
+                  </div>
+                </form>       
+            </div>
+          ) }
         </div>        
     )
 }

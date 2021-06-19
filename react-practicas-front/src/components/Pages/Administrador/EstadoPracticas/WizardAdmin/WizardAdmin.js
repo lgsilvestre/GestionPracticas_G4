@@ -7,8 +7,8 @@ import { SolicitarAdmin } from './Estados/SolicitarAdmin';
 import { EvaluacionAdmin } from './Estados/EvaluacionAdmin';
 
 
-const WizardAdmin = ({pageProp=0, idAlumno, nroPractica}) => {
-    console.log("nro recibido en wizard:",nroPractica)
+const WizardAdmin = ({pageProp=0, nroMatricula, nroPractica, idAlumno}) => {
+    
     const steps = [
         {title: "Solicitar"},
         {title: "Inscripción"},
@@ -23,6 +23,7 @@ const WizardAdmin = ({pageProp=0, idAlumno, nroPractica}) => {
     const previousPageFuncion = ()=>{
         setPage(page-1)
     }
+
     return (
         <Card className="container mt-3 mb-3" >
             <Stepper 
@@ -37,26 +38,34 @@ const WizardAdmin = ({pageProp=0, idAlumno, nroPractica}) => {
             
             { page===0 && <SolicitarAdmin 
               previousPage={previousPageFuncion} 
+              nextPage = {nextPage}
               handleSubmit={nextPage} 
-              idAlumno={idAlumno}  
+              nroMatricula={nroMatricula}  
               nroPractica={nroPractica}  
+              idAlumno={idAlumno}
               /> }
             { page===1 && <InscripcionAdmin 
+              nextPage = {nextPage}
+              previousPage={previousPageFuncion} 
               handleSubmit={nextPage} 
-              idAlumno={idAlumno} 
+              nroMatricula={nroMatricula} 
               nroPractica={nroPractica} 
+              idAlumno={idAlumno}
               /> }
             { page===2 && <CursandoAdmin 
               previousPage={previousPageFuncion} 
+              nextPage = {nextPage}
               handleSubmit={nextPage} 
-              idAlumno={idAlumno}
+              nroMatricula={nroMatricula}
               nroPractica={nroPractica} 
+              idAlumno={idAlumno}
               /> }
             { page===3 && <EvaluacionAdmin 
               previousPage={previousPageFuncion} 
               handleSubmit={nextPage} 
-              idAlumno={idAlumno}
+              nroMatricula={nroMatricula}
               nroPractica={nroPractica} 
+              idAlumno={idAlumno}
               /> }
             
             
