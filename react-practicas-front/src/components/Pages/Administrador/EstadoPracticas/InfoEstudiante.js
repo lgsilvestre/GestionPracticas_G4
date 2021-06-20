@@ -10,15 +10,20 @@ const useStyles = makeStyles((theme) => ({
     },
     botonBack:{
         marginBottom:'10px', 
-        background:'#f69b2e', 
-        color:"white"
+        backgroundColor:"grey",
+        color:"white",
+        cursor: 'pointer',
+        transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+        '&:hover': {
+        backgroundColor:'#f69b2e',
+            color: '#fff'
+        }
     }
     
 }));
-export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1}) => {
+export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno}) => {
+    // console.log("nro recibido en infoestudiante:",nroPractica)
     const classes = useStyles();  
-    
-    const [etapaLabel, setEtapaLabel] = useState("")
     const [etapa, setEtapa] = useState(etapaProp)
     useEffect(() => {
         changeEtapaLabel()  
@@ -26,16 +31,16 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1}) => {
     const changeEtapaLabel = () =>{
         switch (etapa) {
             case 0:
-                setEtapaLabel("Solicitar")
+                setEtapa("Solicitar")
                 break;
             case 1:
-                setEtapaLabel("Inscripción")
+                setEtapa("Inscripción")
                 break;
             case 2:
-                setEtapaLabel("Cursando")
+                setEtapa("Cursando")
                 break;
             case 3:
-                setEtapaLabel("Evaluación")
+                setEtapa("Evaluación")
                 break;
             default:
                 break;
@@ -44,14 +49,20 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1}) => {
     return (
         <div className="animate__animated animate__fadeIn animate__faster">
             <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
-                <h4 style={{marginBottom:'15px'}}>
-                    Admin &gt; Prácticas &gt; Alumno
+                <h4 style={{marginBottom:'15px', color: '#1b2d4f'}}>
+                    Prácticas &gt; Alumno
                 </h4>
                 <Button className = {classes.botonBack} startIcon={<IoIosArrowBack/>} onClick={handleChangeStateBack}>
-                    Atras
+                    Volver a tabla 
                 </Button>
-                
-                <WizardAdmin pageProp={etapa} classes={classes}/>
+              
+                <WizardAdmin 
+                  pageProp={etapa} 
+                  classes={classes} 
+                  nroMatricula={nroMatricula} 
+                  nroPractica={nroPractica}
+                  idAlumno={idAlumno}
+                />
             </div>
         </div>
         

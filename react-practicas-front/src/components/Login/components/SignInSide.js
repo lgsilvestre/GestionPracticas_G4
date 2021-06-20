@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +15,8 @@ import logo from '../images/logo.png';
 import { Alert } from 'reactstrap';
 import './EstilosSignInSide.css';
 import { fade } from '@material-ui/core/styles';
+import Cookies from 'universal-cookie';
+
 
 function Copyright() {
   return (
@@ -34,10 +35,10 @@ function Logos() {
   return (
     <Grid container direction="row" justify="space-evenly" alignItems="center">
       <Grid item xs={6} align="center" justify="center">        
-        <img src={process.env.PUBLIC_URL + '/images/logos/utal.png'} style={{width:"70%",height:'auto'}} />       
+        <img alt="" src={process.env.PUBLIC_URL + '/images/logos/utal.png'} style={{width:"70%",height:'auto'}} />       
       </Grid>
       <Grid item xs={6} align="center" justify="center">
-        <img src={process.env.PUBLIC_URL + '/images/logos/facultad.png'} style={{width:"100%",height:'auto'}} />
+        <img alt="" src={process.env.PUBLIC_URL + '/images/logos/facultad.png'} style={{width:"100%",height:'auto'}} />
       </Grid>
     </Grid>
   );
@@ -100,6 +101,8 @@ export default function SignInSide({ history }) {
   const emailRef = React.useRef('');
   const passwordRef = React.useRef('');
   const [wrongPass, setwrongPass] = useState(false)
+  //Se inicializan las coockies
+  const cookies = new Cookies();
   const handleWrongPass = () => {
     setwrongPass(true)
   }
@@ -119,12 +122,15 @@ export default function SignInSide({ history }) {
         //-1 error , 0 alumno , 1 admin
         console.log("respuesta: ", response.data);
 
-        if (response.data.tipo == 1 || response.data.tipo == 2) {
+        if (response.data.tipo === 1 || response.data.tipo === 2) {
           console.log("admin")
           history.replace("/admin")
         }
-        else if (response.data.tipo == 3) {
+        else if (response.data.tipo === 3) {
           console.log("estudiante")
+          // Se setean las coockies
+          cookies.set('id', response.data['id_alumno'], { path: '/' });
+          cookies.set('name', response.data['nombre'], { path: '/' });
           history.replace("/estudiante")
         }
         else {
@@ -178,7 +184,7 @@ export default function SignInSide({ history }) {
             />
             {
               wrongPass && (
-                <Alert color="danger">
+                <Alert color="info">
                   Usuario o contraseña incorrectas.
                 </Alert>)
             }

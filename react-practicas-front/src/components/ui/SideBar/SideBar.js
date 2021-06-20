@@ -24,29 +24,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 function SideBar() {
   const [sidebar, setSidebar] = useState(true);
 
-  //const showSidebar = () => setSidebar(!sidebar);
-
   return (
-
     <Fragment>
-      
-      {/*
-        <div className='navbar'>
-          <Link to='#' className='menu-bars'>
-            <FaIcons.FaBars/>
-          </Link>
-          <div className="justify-content-end">
-            <Badge>
-              <IoNotifications style={{ fontSize: 25 , marginRight: "20px"}}/>
-            </Badge>
-            <Badge>
-              <IoPerson style={{ fontSize: 25 , marginRight: "10px"}}/>
-            </Badge>
-          </div>
-        </div>
-    */}
       <nav className='nav-menu'>
-          <ul className='nav-menu-items'>
+          <ul className='nav-menu-items nav-menu'>
             <li className='navbar-toggle'>
               <Container fluid>
                 <Link to='#' className='menu-bars'>
@@ -95,7 +76,7 @@ function SideBar() {
                 <FaFileAlt />
                 <span className="text">Gestionar Documentos</span>
               </Link>
-            </li>
+            </li> 
 
             <Divider variant="middle" light={true} />
 

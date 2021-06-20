@@ -13,7 +13,7 @@ import { CambiarPassword } from '../Pages/CambiarPassword';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import './AppRouterStyle.css';
-
+import { PracticasAcordeon } from '../Pages/PracticasAcordeon';
 const sendValues = (event) => {
     event.preventDefault();
     axios.get(
@@ -32,27 +32,27 @@ const sendValues = (event) => {
 const VistaEstudiante = ({userChangedPass=false}) => {
 
     return (     
-        <div className="Back">
-            <NavBar/>
+      <>
+        <NavBar/>
+        
+        <div className="Back Scroll">
             {/* {
                 !userChangedPass ? <CambiarPassword/> : <Redirect to ="/estudiante"/>
             } */}
             <div style={{marginBottom:"96px"}}>
             <Switch>
                 <Route path='/estudiante/practicas' component={Practicas} />
+                {/* <Route path='/estudiante/practicas' component={PracticasAcordeon} /> */}
                 <Route path='/estudiante/perfil' component={PerfilEstudiante} /> 
                 <Route path='/estudiante/postulaciones' component={Postulaciones} />                   
                 <Route path='/estudiante/landing' component={Landing} />
                 <Route path="/estudiante/changePass" component={CambiarPassword}/>
             </Switch>  
-            </div>   
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={sendValues}
-            ></Button>
+            </div>  
             <Footer/> 
         </div>     
+      </>
+      
     )
 }
 

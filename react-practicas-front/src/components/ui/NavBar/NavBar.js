@@ -1,13 +1,28 @@
 import React, { Fragment } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import logo from '../SideBar/utalca.svg'
+//import logo from '../SideBar/utalca.svg'
 import "./NavBar.css"
+import { useEffect } from 'react'
+import Cookies from 'universal-cookie'
+import logo from '../SideBar/logos/whitelogo-1.png';
+//import logo1 from './logos/whitelogo-1.png';
 
-export const NavBar = ({username = "Juan Perez", tipo_usuario = "Estudiante"}) => {
+export const NavBar = ({tipo_usuario = "Estudiante"}) => {
+
+    const cookies = new Cookies();
+
+    useEffect(() => {
+        // Update the document title using the browser API
+        console.log(cookies.get('id'))
+        console.log(cookies.get('name'))
+        console.log("USE EFECT NAVBAR")
+        
+    });
+
     return (
         <Fragment>
             {/* Componente extraido de Bootstrap! */}
-            <nav className="navbar navbar-expand-sm navbar-dark">
+            <nav className="navbar navbar-expand-sm navbar-dark naax">
                 <Link to='/' className='menu-bars'>
                     <img src={logo} className="logo" alt="Utalca Logo" />
                 </Link>
@@ -18,19 +33,19 @@ export const NavBar = ({username = "Juan Perez", tipo_usuario = "Estudiante"}) =
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/landing"
-                        > Landing </NavLink>
+                        > Home </NavLink>
                         <NavLink
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/practicas"
-                        > Practicas </NavLink>
+                        > Prácticas </NavLink>
                         <NavLink
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/postulaciones"
-                        > Postulacion </NavLink>
+                        > Documentos </NavLink>
                     </div>
                 </div>
                 <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
@@ -40,7 +55,7 @@ export const NavBar = ({username = "Juan Perez", tipo_usuario = "Estudiante"}) =
                             className="nav-item nav-link"
                             exact
                             to="/estudiante/changePass"
-                        > {username} </NavLink>
+                        > {cookies.get('name')} </NavLink>
                         <NavLink
                             className="nav-item nav-lin"
                             exact to="/login">

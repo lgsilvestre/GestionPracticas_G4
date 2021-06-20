@@ -2,8 +2,9 @@ import {makeStyles, withStyles} from '@material-ui/core/styles';
 import { TableCell, TableRow} from '@material-ui/core';
 
 export default makeStyles((theme) => ({
+
   root:{
-    height:'83vh',
+    width: '100%'
   },
     modal: {
       position: 'absolute',
@@ -11,27 +12,24 @@ export default makeStyles((theme) => ({
       backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
+      padding: theme.spacing(2, 4, 3),  
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)'
     },
     iconos:{
-      cursor: 'pointer'
-    },
+      display: 'inline-flex',
+      alignSelf: 'center'
+    }, 
     encabezado:{
-      marginTop: '10vh',
-      marginTop: '10vh',
-      display: 'flex',
-      alignItems: 'center'
+      marginLeft: "-100px"
     },
     titulo:{
-      marginLeft:'10%',
-      display: 'inline-block',
-      color: '#3d84b8',
-      fontFamily: 'Righteous, serif',
-     fontSize: '4em',
-     textShadow: '.05em .05em 0 #3f3697',
+     color: '#1b2d4f'
+    },
+    inputMaterial:{
+      width: '100%',
+      marginTop:'15px'
     },
     table: {
       width:'90vw',
@@ -52,7 +50,7 @@ export default makeStyles((theme) => ({
       '&:hover': {
       backgroundColor: '#f0ebcc',
         color: '#000'
-        }
+      }
     },  
   botonCancelar: {
     marginRight:'20px',
@@ -72,23 +70,4 @@ export default makeStyles((theme) => ({
   
   }));
   
-  export const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: '#fafafa',
-      color: theme.palette.common.black,
-      padding: '6px'
-    },
-    body: {
-      fontSize: '0.875rem',
-      padding: '6px'
-    },
-  }))(TableCell);
-  
-  export const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-  
-    },
-  }))(TableRow);
+ 

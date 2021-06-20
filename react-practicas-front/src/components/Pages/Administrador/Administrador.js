@@ -1,16 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Grow from '@material-ui/core/Grow';
 import useStyles from './styles';
-import funcionarios from '../../routers/assets/funcionarios.svg'
-import { makeStyles } from '@material-ui/core/styles';
-import {StyledTableCell, StyledTableRow} from './styles';
-import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography} from '@material-ui/core';
+import {Table, TableContainer, TableCell, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography, Paper} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import InputLabel from '@material-ui/core/InputLabel';
 import CachedIcon from '@material-ui/icons/Cached';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -18,18 +13,12 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 export default function Administrador() {
   
-  const nombreRef = React.useRef('');
-  const emailRef = React.useRef('');
-  const tipoRef = React.useRef('');
-  const contrasenaRef = React.useRef('');
-
-  
   const classes = useStyles();
-  const [data, setData]=useState([]);
+  const [rows, setRows] = useState([]);
   const [modalInsertar, setModalInsertar]=useState(false);
   const [arrayCarreras, setCarreras]=useState(false);
   const [modalEditar, setModalEditar]=useState(false);
@@ -45,6 +34,19 @@ export default function Administrador() {
     carreras: []
   })
 
+   // Columnas para la tabla de estados
+   const columns = [
+    { id: 'nombre', label: 'Funcionario', minWidth: "25%" },
+    { id: 'correo', label: 'Correo', minWidth: "25%" },
+    { id: 'tipo', label: 'Tipo', minWidth: "25%" },
+    { id: 'contrasenia', label: 'Contraseña', minWidth: "25%" },
+    { id: 'action', label: 'Acción',  minWidth: "25%",  },
+  ];
+
+  function createData(nombre, correo, tipo, contrasenia, action) {
+    return {nombre, correo, tipo, contrasenia, action };
+  }
+
   const handleChange=e=>{
     const {name, value}=e.target;
     setAdministrador (prevState=>({
@@ -52,13 +54,21 @@ export default function Administrador() {
       [name]: value
     }))
     console.log(administrador);
-    console.log(typeof(administrador.apellido));
   }
 
   const peticionGet=async()=>{
     await axios.get('')
     .then(response=>{
-      setData(response.data);
+      const resultado = response.data;
+      // console.log("antes:",rows)
+      const lista = []
+      for(var i=0; i<resultado.length; i++){
+        const fila = createData(resultado[i].nombre , resultado[i].correo , resultado[i].tipo,resultado[i].contrasenia,"button")
+        // console.log(fila)
+        lista.push(fila)
+      }  
+      // console.log(lista)
+      setRows(lista)
     })
   }
 
@@ -67,7 +77,7 @@ export default function Administrador() {
  .id, administrador
  )
     .then(response=>{
-      var dataNueva=data;
+      var dataNueva=rows;
       dataNueva.map(datoAdmi=>{
         if(administrador
      .id===datoAdmi.id){
@@ -81,7 +91,7 @@ export default function Administrador() {
      .contrasenia;
         }
       })
-      setData(dataNueva);
+      setRows(dataNueva);
       abrirCerrarModalEditar();
     })
   }
@@ -90,7 +100,7 @@ export default function Administrador() {
     await axios.delete(''+administrador
  .id)
     .then(response=>{
-      setData(data.filter(consola=>consola.id!==administrador
+      setRows(rows.filter(consola=>consola.id!==administrador
    .id));
       abrirCerrarModalEliminar();
     })
@@ -141,13 +151,13 @@ export default function Administrador() {
       });
   }, []);
   
+  // Funcion que se ocupa de insertar en el back un usuario
   function peticionPost () {
 
     let nombre = administrador.nombre;
     let apellido = administrador.apellido;
     let email = administrador.email;
     let tipo = administrador.tipo;
-    let carrera = administrador.carrera;
     let password = administrador.contrasena;
 
     axios.post(
@@ -161,44 +171,28 @@ export default function Administrador() {
       },
     )
       .then(response => {
-        //trabajar redireccionamiento
-        //-1 error , 0 alumno , 1 admin
+
         console.log("respuesta: ", response.data);
 
-        if (response.data.tipo == 1) {
-
-        }
-        else if (response.data.tipo == 2) {
-
-        }
-        else {
-          console.log("error credenciales")
-        }
       })
       .catch(error => {
         console.log("login error: ", error);
       });
   }
 
+  // Funcion que se ocupa de traer las carreras desde el back
   function getDocumentos () {
 
     axios.get(
       "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
     )
       .then(response => {
-
-        console.log("respuesta: ", response.data);
-        arrayCarreras = JSON.parse(response.data);
-        console.log("cascasda: ", arrayCarreras);
-        //let respJson = JSON.parse(response.data);
-        /*
-        for(var i in response.data)
-          arrayCarreras.push([i, response.data [i]]);
-        */
-
+        console.log("respuesta: ", response.data)
+        administrador.carreras = response.data
+        console.log(administrador.carreras)
       })
       .catch(error => {
-        console.log("login error: ", error);
+        console.log("login error: ", error)
       });
   }
 
@@ -225,7 +219,7 @@ function handleValidation() {
   if (nombre != "") {
     let regex = new RegExp("^[a-zA-Z]+$");
     if (regex.test(nombre)) {
-      nuevoUserValidado = true;
+      nuevoUserValidado = true
     }
   }
 
@@ -277,6 +271,7 @@ const bodyInsertar=(
     <TextField variant="outlined" name="apellido" id="apellido" className={classes.inputMaterial} label="Apellido" onChange={handleChange}/>
 
     <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
+
     <FormControl className={classes.inputMaterial} variant="outlined" >
                            <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
                           <Select
@@ -285,20 +280,13 @@ const bodyInsertar=(
                             onChange={handleChange}
                             label="Carrera"
                           >
-           { /*                 
-                    arrayCarreras.map( (carrera) => (
-                     
-                            <MenuItem >{carrera.nombre}</MenuItem>
-                       
-                    ))
-                    */}
-         
-             
+                    {administrador.carreras.map((carrera) => (
+                       <MenuItem>{carrera}</MenuItem>
+                    ))}           
                     
          </Select>
+
      </FormControl>
-      
-     
 
     <TextField variant="outlined" name="tipo" id="tipo" className={classes.inputMaterial} label="Tipo" onChange={handleChange}/>
     
@@ -379,62 +367,81 @@ const bodyEliminar=(
 
 
   return (
+    
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
     <div className={classes.encabezado}>
-      <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} > <img  heigth ={20} src={funcionarios} alt='funcionarios'/></motion.div>
-      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={classes.titulo} >FUNCIONARIOS</h1></motion.div>
+      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo} >Funcionarios</Typography></motion.div>
     </div>
-
-    
      
     <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
       <br /><br />
-     <TableContainer>
-       <Table className={classes.table}>
-         <TableHead>
-           <TableRow>
-             <StyledTableCell>Nombre</StyledTableCell>
-             <StyledTableCell>Correo</StyledTableCell>
-             <StyledTableCell>Tipo</StyledTableCell>
-             <StyledTableCell>Contrase&ntilde;a</StyledTableCell>
-             <StyledTableCell>Acciones</StyledTableCell>
-           </TableRow>
-         </TableHead>
+      <hr/> 
+      <Paper className={classes.root}>
+      {/* Tabla de Practicas */}
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="sticky table">
+          {/* Headers de la tabla */}
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {/* Cuerpo de la Tabla */}
+          <TableBody>
+            {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
+            {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
+            {rows.map((row) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (                           
+                      <TableCell key={column.id} align={column.align}>
+                      {value ==="button" ? 
+                      <div>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
+                      &nbsp;&nbsp;&nbsp;
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
+                      </div>
+                      : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-         <TableBody>
-           {data.map(administrador=>(
-             <StyledTableRow key={administrador.id}>
-               <StyledTableCell>{administrador.nombre}</StyledTableCell>
-               <StyledTableCell>{administrador.correo}</StyledTableCell>
-               <StyledTableCell>{administrador.tipo}</StyledTableCell>
-               <StyledTableCell>{administrador.contrasenia}</StyledTableCell>
-               <StyledTableCell>
-                 <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
-                 &nbsp;&nbsp;&nbsp;
-                 <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
-                 </StyledTableCell>
-             </StyledTableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
+    </Paper>
      <Modal
      open={modalInsertar}
      onClose={abrirCerrarModalInsertar}>
         {bodyInsertar}
      </Modal>
 
-     <Modal
-     open={modalEditar}
-     onClose={abrirCerrarModalEditar}>
-        {bodyEditar}
-     </Modal>
+        <Modal
+        open={modalEditar}
+        onClose={abrirCerrarModalEditar}>
+            {bodyEditar}
+        </Modal>
 
-     <Modal
-     open={modalEliminar}
-     onClose={abrirCerrarModalEliminar}>
-        {bodyEliminar}
-     </Modal>
-    </div>
+        <Modal
+        open={modalEliminar}
+        onClose={abrirCerrarModalEliminar}>
+            {bodyEliminar}
+        </Modal>
+      </div>
+    
   );
 }

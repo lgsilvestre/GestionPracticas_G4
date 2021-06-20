@@ -1,20 +1,13 @@
-import React, { Fragment, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import {IconButton} from '@material-ui/core';
+import React, {useEffect, useState } from 'react';
 import {AiOutlineEye} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
 import { motion } from "framer-motion"
 import { Filtros } from './Filtros';
-import practicas from '../../../routers/assets/practicas.svg';
+import {makeStyles, Table, TableContainer, TableHead, TableBody, 
+  TableRow, TableCell, IconButton, Paper,TablePagination, Typography} 
+  from '@material-ui/core';
+import Cookies from 'universal-cookie';
 
 //Estilos
 const useStyles = makeStyles((theme) => ({
@@ -22,18 +15,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   encabezado:{
-    marginTop: '10vh',
-    marginTop: '10vh',
-    display: 'flex',
-    alignItems: 'center'
+    marginLeft: '-88px'
   },
   titulo:{
-    marginLeft:'10%',
-    display: 'inline-block',
-    color: '#3d84b8',
-    fontFamily: 'Righteous, serif',
-   fontSize: '4em',
-   textShadow: '.05em .05em 0 #3f3697',
+    color: '#1b2d4f'
   },
   container: {
     maxHeight: "50%",
@@ -53,77 +38,96 @@ const useStyles = makeStyles((theme) => ({
     color:'#f69b2e'
   },
   botonFiltro: {
-    background:"#f69b2e",
-    color:"white"
+    backgroundColor:"grey",
+    color:"white",
+    cursor: 'pointer',
+    transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+    '&:hover': {
+    backgroundColor:'#f69b2e',
+      color: '#fff'
+      }
   } 
 }));
 
 export const TablaEstados = ({history}) =>  {
-
+  const cookies = new Cookies();
   const clasesEstilo = useStyles();
   // Columnas para la tabla de estados
   const columns = [
-    { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
-    { id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
-    { id: 'carrera', label: 'Carrera', minWidth: "25%" },
-    {
-      id: 'anio',
-      label: 'Año',
-      minWidth: "25%",
-    },
-    {
-      id: 'etapa',
-      label: 'Etapa',
-      minWidth: "25%",
-    },
-    {
-      id: 'estado',
-      label: 'Estado',
-      minWidth: "25%",
-    },
-    {
-      id: 'fechaEnd',
-      label: 'Fecha de Término',
-      minWidth: "25%",
-    },
-    {
-      id: 'action',
-      label: 'Acción',
-      minWidth: "25%",
-    },
+    {id: 'nombre', label: 'Estudiante', minWidth: "25%" },
+    {id: 'matricula', label: 'Nro Matricula', minWidth: "25%" },
+    {id: 'carrera', label: 'Carrera', minWidth: "25%" },
+    {id: 'anio',label: 'Año',minWidth: "25%"},
+    {id: 'etapa',label: 'Etapa',minWidth: "25%"},
+    {id: 'estado',label: 'Estado', minWidth: "25%"},
+    {id: 'fechaEnd',label: 'Fecha de Término', minWidth: "25%"},
+    {id: 'nroPractica',label: 'N° Práctica', minWidth: "25%"},
+    {id: 'action',label: 'Acción',minWidth: "25%"},
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
-  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, action) {
-    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, action };
+  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
+    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, nroPractica, action };
   }
-  //Datos locales para mostrar temporalmente en la tabla
-  const data = [
-    // ("Nombre", carrera, año, estado, fecha termino)
-    createData('Diego Perez', '1', 'Ingenieria civil en computación', "2021","Solicitud", "Pendiente", "","button"),
-    createData('Camila Lopez','2', 'Ingenieria civil industrial', "2021","Inscripción", "Aprobada", "31/04/21","button"),
-    createData('Fernando Fuenzalida','3', 'Ingenieria civil mecatronica', "2021", "Cursando","", "31/04/21","button"),
-    createData('Rodrigo Abarca','4', 'Ingenieria civil en computacion', "2021", "Evaluación","Pendiente", "","button"),
-    createData('Pia Gomez','5', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "24/06/21","button"),
-    createData('Eliot Anderson','6', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "16/04/21","button"),
-    createData('Pedro Fuentes','7', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "17/04/21","button"),
-    createData('Simon Lopez','8', 'Ingenieria civil mecatronica', "2021","Inscripción", "Pendiente", "25/07/21","button"),
-    createData('Marcelo Muñoz','9', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "14/09/21","button"),
-    createData('Humberto Suazo','10', 'Ingenieria civil de Minas ', "2021","Inscripción", "Pendiente", "09/05/21","button"),
-    createData('Eduardo Carrasco','11', 'Ingenieria civil Electrica', "2021","Inscripción", "Pendiente", "05/05/21","button"),
-    createData('Rocio Villalobos','12', 'Ingenieria civil industrial', "2021","Inscripción", "Pendiente", "31/04/21","button"),
-    createData('Henry Agusto','13', 'Ingenieria civil en computacion', "2021","Inscripción", "Pendiente", "15/07/21","button"),
-    createData('Carlos Penaloza','14', 'Ingenieria civil Mecanica', "2021", "Inscripción","Pendiente", "19/08/21","button"),
-    createData('Felipe Ramirez','15', 'Ingenieria civil en Obras Civiles', "2021","Inscripción", "Pendiente", "21/07/21","button")
-  ];
+  const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
-  const [rows, setRows] = useState(data);
+  const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [changeState, setChangeState] = useState(false)
   const [seleccionado, setSeleccionado] = useState('')
+  const [nroMatriculaSelected, setNroMatriculaSelected] = useState("")
+  const [nroPractica, setnroPractica] = useState("")
+  const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
+  useEffect(async()=>{
+    petitionGetPracticaAlumno()
+  },[])
+
+  const petitionGetPracticaAlumno = async () =>{
+    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumno")
+    .then(response=>{
+      console.log(response.data)
+      const resultado = response.data;
+      // console.log("antes:",rows)
+      const lista = []
+      for(var i=0; i<resultado.length; i++){
+        const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
+          resultado[i].estado, resultado[i].fecha_termino, resultado[i].numero,"button")
+        // console.log(fila)
+        lista.push(fila)
+      }  
+      // console.log(lista)
+      setRows(lista)
+      setOriginalData(lista)
+      
+    })
+  }
+
+  const petitionGetPracticaAlumnoFiltrada = async () =>{
+    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaFiltrada",{
+    },
+  )
+    .then(response=>{
+      console.log(response.data)
+      // // console.log(response.data)
+      // const resultado = response.data;
+      // // console.log("antes:",rows)
+      // const lista = []
+      // for(var i=0; i<resultado.length; i++){
+      //   const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
+      //     resultado[i].estado, resultado[i].fecha_termino,"button")
+      //   // console.log(fila)
+      //   lista.push(fila)
+      // }  
+      // // console.log(lista)
+      // setRows(lista)
+      // setOriginalData(lista)
+      
+    })
+  }
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  const [estudiante, setEstudiante] = useState("")
+ 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -147,27 +151,46 @@ export const TablaEstados = ({history}) =>  {
         break;
     }
   }
-  const handleChangeState = (etapa, idAlumno="") => {
-    setChangeState(!changeState)
-    //setEstudiante(idAlumno)
-    changeSelected(etapa)
-    
+  const getIdAlumno = async (etapa, matricula, numero) => {
+    console.log("SOLICITANDO ID ALUMNO  CON ",matricula) 
+    await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoIdMatricula",{
+      matricula: matricula
+    })
+    .then(response => {
+      setIdAlumnoSelected(response.data[0].id_alumno)
+      console.log("RESPONSE GETIDALUMNO:", response.data)  
+      setnroPractica(numero)
+      setNroMatriculaSelected(matricula)    
+      cookies.set('alumnoactual', '4', { path: '/' });
+      changeSelected(etapa)
+      setChangeState(!changeState)
+    })
   }
+  
+  const handleChangeState = (etapa, matricula, numero) => {     
+    getIdAlumno(etapa, matricula, numero) 
+  }
+  
   const handleChangeStateBack = () =>{
     setChangeState(!changeState)
   }
   if(changeState){
-    return <InfoEstudiante handleChangeStateBack={handleChangeStateBack} estudiante = {estudiante} etapaProp={seleccionado}/>
+    return <InfoEstudiante 
+      handleChangeStateBack={handleChangeStateBack} 
+      nroMatricula = {nroMatriculaSelected} 
+      etapaProp={seleccionado}
+      nroPractica={nroPractica}
+      idAlumno={idAlumnoSelected}
+      />
   }
   else{
     return (  
       <div className="animate__animated animate__fadeIn animate__faster" style={{marginTop:'20px', marginBottom:'30px'}}>
         <div className={clasesEstilo.encabezado}>
-        <motion.div   animate={{ scale: 4 }}   transition={{ duration: 0.5 }} >  <img  heigth ={20} src={practicas} alt='practicas'/>  </motion.div>
-        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <h1 className={clasesEstilo.titulo}  >PRACTICAS</h1></motion.div>
+        <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }}><Typography variant="h3" className={clasesEstilo.titulo} style={{color:''}}>Practicas</Typography></motion.div>
         </div>
         <div>
-          <Filtros clasesEstilo={clasesEstilo} data={data} setRows={setRows}/>
+          <Filtros clasesEstilo={clasesEstilo} data={originalData} setRows={setRows}/>
           <hr/> 
           <Paper className={clasesEstilo.root}>
             {/* Tabla de Practicas */}
@@ -202,7 +225,7 @@ export const TablaEstados = ({history}) =>  {
                               {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}
                               {value ==="button" ? 
                               <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
-                                onClick={() => handleChangeState(row.etapa)}>
+                                onClick={() => handleChangeState(row.etapa, row.matricula, row.nroPractica)}>
                                 <AiOutlineEye fontSize="inherit"/>
                               </IconButton>
                               : value}
@@ -226,7 +249,10 @@ export const TablaEstados = ({history}) =>  {
               labelRowsPerPage ="Filas por página"
             />
           </Paper>
-        </div> 
+        </div>
+        {/* <Button  className={clasesEstilo.botonFiltro} variant="contained" onClick={petitionGetPracticaAlumnoFiltrada}>
+                Filtrar
+        </Button>  */}
       </div>
  
     )

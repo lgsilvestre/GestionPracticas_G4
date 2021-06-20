@@ -13,18 +13,6 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
     return (
         <div className="animate__animated animate__fadeIn animate__faster">          
             <h4>Resolucion</h4>
-            
-            <Button className="btn btn-primary mr-1" onClick={()=> handleChangeState(2)}>
-                Pendiente
-            </Button>
-            <Button className="btn btn-primary mr-1" onClick={()=> handleChangeState(1)}>
-                Rechazada
-            </Button>
-            <Button className="btn btn-primary" onClick={()=> handleChangeState(0)}>
-                Aceptada
-            </Button>
-
-            
             <div className="text-center">
                 <div> 
                     <h5 > La solicitud de practica se encuentra en el estado: </h5>  
@@ -37,8 +25,7 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
                                 </IconContext.Provider>
                                 <h4>Aceptado</h4>
                                 <hr/>               
-                                <p>¡Tu solicitud de practica se encuentra aprobada! Ya puedes seguir con el siguiente paso
-                                para subir los documentos requeridos por tu escuela. </p> 
+                                <p>¡Esta etapa se encuentra aprobada! Ya puedes seguir con el siguiente paso </p> 
                             </div>                                                
                         </div>)
                     }
@@ -52,8 +39,8 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
                                 </IconContext.Provider>
                                 <h4>Rechazada</h4>
                                 <hr/>
-                                <p >¡Tu solicitud de practica se encuentra rechazada! Puedes solicitar la informacion de tu resolucion 
-                                enviando un correo electronico a practicas@utal.cl </p>
+                                <p >¡Esta etapa se encuentra rechazada! Puedes ver mas informacion de tu resolucion 
+                                en el correo enviado </p>
                             </div>    
                         </div>)
                     }
@@ -67,26 +54,13 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
                                 </IconContext.Provider>
                                 <h4>Pendiente</h4>
                                 <hr/>
-                                <p> Tu solicitud de practica esta a la espera de la resolucion de escuela. </p>
+                                <p> Esta etapa se encuentra esta a la espera de una resolucion </p>
                             </div>    
                         </div>    )
                     }
 
                 </div>
-            </div>          
-            <form onSubmit={handleSubmit}>
-                <div style={{ paddingBottom: 30 }}>
-                    <Button color="primary" className="btn-pill pull-left" onClick={previousPage} style={{marginLeft: '20px' , marginRight:'10px'}}>
-                        <i className="fa fa-chevron-left" />
-                            &nbsp; Back
-                    </Button>
-                    <Button color="primary" className="btn-pill pull-right" type="submit" style={{marginRight: '20px'}}>
-                        Next &nbsp;
-                        <i className="fa fa-chevron-right" />
-                    </Button>
-                </div>
-            </form>
-          
+            </div>                
         </div>
     )
 }

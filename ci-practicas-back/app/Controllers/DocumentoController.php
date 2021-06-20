@@ -63,7 +63,7 @@ class DocumentoController extends  BaseController
                 $arr['etapa'] = $row->etapa;
                 $arr['requerido'] = $row->requerido;
             }
-            echo json_encode($arr);
+        echo json_encode($result);
         } else {
             echo "error";
         }
