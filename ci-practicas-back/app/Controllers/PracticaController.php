@@ -27,13 +27,13 @@ class PracticaController extends BaseController
 				// 'numero' => 'required|integer'
             ];
             $errors = [			// faltan errores por definir
-				
+
             ];
             if(!$this->validate($rules, $errors)){
 				echo " no valido";
                 $data['validation'] = $this->validator;
             } else {
-				
+
 				//Primero hay que validar que no
 				$Estudiante = $this->request->getVar('estudiante');
 				$Nropractica = $this->request->getVar('nropractica');
@@ -57,7 +57,7 @@ class PracticaController extends BaseController
 		// 	return false;
 		// }
 		// if($model->where('estado',0).count==1)
-		// {	
+		// {
 		// 	echo "no se puede 1";
 		// 	return false;
 		// }
@@ -377,4 +377,79 @@ class PracticaController extends BaseController
 		}
 	}
 
+	private function sendEmailSolicitudAlumno($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Estado solicitud de práctica');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su solicitud de práctica ha sido enviada y esta proxima a ser evaluada :).</p>
+                <p>Estado solicitud: Enviada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	private function sendEmailSolicitudUser($correo, $nombre, $matricula, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Nueva solicitud de práctica');
+        $email->setMessage('
+                <p>Hay una nueva solicitud de práctica de.</p>
+				<p>Nombre: '.$nombre.'</p>
+				<p>Matrícula: '.$matricula.'</p>
+                <p>Estado solicitud: Enviada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	private function sendEmailSolicitudAceptada($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Solicitud aceptada');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, tu solicitud de práctica ha sido aceptada.</p>
+				<p>Para continuar con el proceso debes ingresar al portal de centro de practicas y completar la documentacón necesaria.</p>
+                <p>Estado solicitud: Aceptada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
 }
+

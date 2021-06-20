@@ -134,7 +134,7 @@ export default function SignInSide({ history }) {
           history.replace("/estudiante")
         }
         else {
-          console.log("error credenciales")
+          console.log("error credenciales");
           handleWrongPass()
         }
       })
@@ -156,13 +156,14 @@ export default function SignInSide({ history }) {
           <Typography component="h1" variant="h5">
             Iniciar Sesión
           </Typography>
-          <form className={classes.form} onSubmit={sendValues} noValidate>
+          <form className={classes.form} onSubmit={sendValues}>
             <TextField
               className={classes.input}
               variant="outlined"
               margin="normal"
               required
               fullWidth
+              type="email"
               id="email"
               label="Usuario"
               name="email"

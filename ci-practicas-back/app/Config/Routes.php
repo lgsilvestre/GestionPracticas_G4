@@ -50,6 +50,9 @@ $routes->post('solicitarPractica', 'PracticaController::solicitarPractica');
 $routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
 $routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
 $routes->post('getUserId', 'UsersController::getUserId');
+$routes->post('registerAlumno', 'UsersController::registerAlumno');
+
+$routes->post('registerAlumnoExcel', 'UsersController::registerAlumnoExcel');
 // Documentos
 $routes->get('getDocumentos', 'DocumentoController::getDocumentos');
 $routes->get('getDocumento', 'DocumentoController::getDocumento');
