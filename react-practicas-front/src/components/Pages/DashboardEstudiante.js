@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme)=>({
     height:"7vh",
     marginBottom:"1vh"
   },
+  cardFechaCritica:{
+    backgroundColor:"#FF8886",
+    width:"60vh",
+    height:"7vh",
+    marginBottom:"1vh"
+  },
   titleCard:{
     marginLeft:"2vh", 
     marginTop:"2vh",
@@ -95,7 +101,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
               </div>
               <div className="container">
                 <div className="row justify-content-md-center">
-                  <Card className={classes.cardFecha}>
+                  <Card className={classes.cardFechaCritica}>
                     <div className="col-auto">
                       <div className="row align-items-center" style={{height:"7vh"}}>
                         <div className="col-auto" 
