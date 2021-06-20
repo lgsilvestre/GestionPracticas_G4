@@ -37,16 +37,16 @@ export const PracticasTab = ({nroPractica, setNroPractica}) => {
   }
   // "#8EADE8"
   return (
-    <div style={{backgroundColor:"#8EADE8"}}>
+    <div style={{backgroundColor:"#2D4C85"}}>
       <div className="container" >
-        <div className="row justify-content-md-center" >
-          <div className="col" style={{marginTop:20}}>
+        {/* <div className="row justify-content-md-center" >
+          <div className="col" style={{marginTop:10}}>
             <h2 style={{color:"white"}}>Prácticas disponibles</h2>
           </div>
-        </div>
-        <div className="row" style={{marginTop:10}}>
+        </div> */}
+        <div className="row" >
           <div className="col">      
-            <div style={{backgroundColor: '#8EADE8'}}>
+            <div style={{backgroundColor: '#2D4C85'}}>
               <StyledTabs value={nroPractica} onChange={handleChange} aria-label="styled tabs example">
                 <StyledTab label="Práctica 1" />
                 <StyledTab label="Práctica 2" />

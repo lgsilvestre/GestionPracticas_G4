@@ -60,6 +60,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       // setMostrarResolucion(!mostrarResolucion)
     }
     const enviarDatosInscripcion = () => {
+      
       axios.post(
         "http://localhost/GestionPracticas_G4/ci-practicas-back/public/inscribirInfo",
         {
