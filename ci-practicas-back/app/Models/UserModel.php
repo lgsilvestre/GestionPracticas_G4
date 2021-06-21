@@ -15,7 +15,6 @@ class UserModel extends Model{
         return $result;
         
     }
-
     
     public function insertUser($nombre, $apellido, $email, $tipo, $password){
         echo $nombre." - ".$apellido." - ".$email." - ".$tipo." - ".$password;
@@ -27,6 +26,15 @@ class UserModel extends Model{
         */
     }
     
+    public function getUsers(){
+
+        $string_query = "Select * from usuario";
+        $query = $this->db->query($string_query);
+        $result = $query->getResult();
+        return $result;
+
+    }
+
     /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];

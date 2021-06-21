@@ -11,7 +11,7 @@ class AlumnoModel extends Model
     protected $allowedFields = ['nombre','correo_ins','correo_per','password','matricula','
     nbe_carrera','cod_carrera','rut','sexo','fecha_nac','plan','via_ingreso','anho_ingreso','sit_actual',
     'sit_actual_anho','sit_actual_periodo','regular','comuna_origen','region','nivel','porc_avance',
-    'ult_punt_prio','al_dia','nivel_99_aprobado','estado','refCarrera'];
+    'ult_punt_prio','al_dia','nivel_99_aprobado','estado_alumno','refCarrera'];
     
     public function login($email, $password){
         
