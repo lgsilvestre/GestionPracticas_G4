@@ -86,7 +86,7 @@ export const AdminDashboard = () => {
             <Grid container>
                 <Grid item sm={12}>
                 <div className={classes.encabezado}>
-                <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo}  >Home</Typography></motion.div>
+                <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo}  >Inicio</Typography></motion.div>
                 
                 </div>
                 </Grid>

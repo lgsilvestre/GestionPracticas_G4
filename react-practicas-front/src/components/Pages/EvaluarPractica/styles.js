@@ -28,7 +28,7 @@ export default makeStyles((theme) => ({
         textAlign: 'center',
 
     },empresa:{
-        marginTop: '10%',   
+        marginTop: '8%',   
     },
     global:{
       height: '100%',
@@ -42,17 +42,19 @@ export default makeStyles((theme) => ({
      marginLeft:'10%',
      marginTop: '10%',
      display: 'inline-block',
-     color: '#3d84b8',
-     fontFamily: 'Righteous, serif',
+     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+     color: '#1b2d4f',
      fontSize: '3em',
-     textShadow: '.05em .05em 0 #3f3697',
+     fontStyle: 'ligth'
     },
     buton:{
+        marginTop: '1%', 
         display: 'flex',
         justifyContent: 'center',
          alignItems: 'center'
     },
     boton: {
+
       marginRight:'20px',
       float:'right',
       margin: '15px',
