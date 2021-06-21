@@ -4,6 +4,8 @@ import React from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { Card } from 'reactstrap';
+import { IconContext } from 'react-icons/lib';
+import { FcCalendar,FcInspection,FcInfo } from "react-icons/fc";
 const useStyles = makeStyles((theme)=>({
   cardDatos:{
     marginTop:"1vh",
@@ -27,9 +29,15 @@ const useStyles = makeStyles((theme)=>({
     height:"7vh",
     marginBottom:"1vh"
   },
+  cardFechaCritica:{
+    backgroundColor:"#FF8886",
+    width:"60vh",
+    height:"7vh",
+    marginBottom:"1vh"
+  },
   titleCard:{
-    marginLeft:"2vh", 
-    marginTop:"2vh",
+    // marginLeft:"2vh", 
+    // marginTop:"2vh",
     fontSize:"3vh",
     margin:0
   },
@@ -59,7 +67,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
             {/* DATOS */}
             <Card className={classes.cardDatos} >              
               <div className="col" >
-                <div className="row">
+                <div className="row align-items-center" style={{marginLeft:"0.3vh", marginTop:"0.7vh"}}>   
+                  <IconContext.Provider value={{size:"4vh"}} >
+                    <FcInspection style={{marginTop:"0.5vh", marginRight:"1vh"}}/>
+                  </IconContext.Provider> 
                   <h4 className={classes.titleCard}><strong>Tus Datos</strong></h4>
                 </div>
                 <hr className={classes.hrSection}/>
@@ -88,14 +99,17 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
             {/* FECHAS IMPORTANTES */}
             <Card className={classes.cardFechas}>
               <div className="col">
-                <div className="row">
+                <div className="row align-items-center" style={{marginLeft:"0.3vh", marginTop:"0.7vh"}}>
+                  <IconContext.Provider value={{size:"4vh"}} >
+                    <FcCalendar style={{marginTop:"0.5vh", marginRight:"1vh"}}/>
+                  </IconContext.Provider> 
                   <h4 className={classes.titleCard}><strong>Fechas importantes</strong></h4>
                 </div>
                 <hr className={classes.hrSection}/>
               </div>
               <div className="container">
                 <div className="row justify-content-md-center">
-                  <Card className={classes.cardFecha}>
+                  <Card className={classes.cardFechaCritica}>
                     <div className="col-auto">
                       <div className="row align-items-center" style={{height:"7vh"}}>
                         <div className="col-auto" 
@@ -173,7 +187,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
           <div className="row justify-content-md-center">
             <Card className={classes.cardInfo} >
               <div className="col">
-                <div className="row">
+                <div className="row align-items-center" style={{marginLeft:"0.3vh", marginTop:"0.7vh"}}>
+                <IconContext.Provider value={{size:"4vh"}} >
+                    <FcInfo style={{marginTop:"0.5vh", marginRight:"1vh"}}/>
+                  </IconContext.Provider> 
                   <h4 className={classes.titleCard}><strong>Información sobre tu práctica</strong></h4>
                 </div>
                 <hr className={classes.hrSection}/>
