@@ -14,6 +14,7 @@ import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import './AppRouterStyle.css';
 import { PracticasAcordeon } from '../Pages/PracticasAcordeon';
+import { DashboardEstudiante } from '../Pages/DashboardEstudiante';
 const sendValues = (event) => {
     event.preventDefault();
     axios.get(
@@ -45,7 +46,7 @@ const VistaEstudiante = ({userChangedPass=false}) => {
                 {/* <Route path='/estudiante/practicas' component={PracticasAcordeon} /> */}
                 <Route path='/estudiante/perfil' component={PerfilEstudiante} /> 
                 <Route path='/estudiante/postulaciones' component={Postulaciones} />                   
-                <Route path='/estudiante/landing' component={Landing} />
+                <Route path='/estudiante/landing' component={DashboardEstudiante} />
                 <Route path="/estudiante/changePass" component={CambiarPassword}/>
             </Switch>  
             </div>  
