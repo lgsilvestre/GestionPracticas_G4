@@ -32,7 +32,7 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
-                            to="/estudiante/landing"
+                            to="/estudiante"
                         > Home </NavLink>
                         <NavLink
                             exact
