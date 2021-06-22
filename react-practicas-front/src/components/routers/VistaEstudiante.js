@@ -7,13 +7,10 @@ import {
 import Practicas from '../Pages/Practicas';
 import PerfilEstudiante from '../Pages/PerfilEstudiante';
 import Postulaciones from '../Pages/Postulaciones';
-import Landing from '../Landing/Landing';
 import { Footer } from '../ui/Footer/Footer';
 import { CambiarPassword } from '../Pages/CambiarPassword';
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
 import './AppRouterStyle.css';
-import { PracticasAcordeon } from '../Pages/PracticasAcordeon';
 import { DashboardEstudiante } from '../Pages/DashboardEstudiante';
 const sendValues = (event) => {
     event.preventDefault();

@@ -62,7 +62,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
           </div>   
         </div>
       </div>
-      <div className="container">
+      <div className="container animate__animated animate__fadeIn animate__faster">
           <div className="row justify-content-md-center">
             {/* DATOS */}
             <Card className={classes.cardDatos} >              

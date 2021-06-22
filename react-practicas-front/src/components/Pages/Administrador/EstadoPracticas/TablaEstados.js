@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import {AiOutlineEye} from "react-icons/ai";
+import {AiOutlineEye,AiFillDelete} from "react-icons/ai";
 import { InfoEstudiante } from './InfoEstudiante';
 import axios from 'axios';
 import { motion } from "framer-motion"
@@ -65,8 +65,8 @@ export const TablaEstados = ({history}) =>  {
     {id: 'action',label: 'Acción',minWidth: "25%"},
   ];
   //Funcion que crea los datos en un objeto para cada alumno o fila
-  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action) {
-    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, nroPractica, action };
+  function createData(nombre, matricula, carrera, anio, etapa, estado, fechaEnd, nroPractica, action,del) {
+    return { nombre, matricula, carrera, anio, estado, etapa, fechaEnd, nroPractica, action ,del};
   }
   const [originalData, setOriginalData] = useState([])
   const [page, setPage] = useState(0);
@@ -90,7 +90,7 @@ export const TablaEstados = ({history}) =>  {
       const lista = []
       for(var i=0; i<resultado.length; i++){
         const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
-          resultado[i].estado, resultado[i].fecha_termino, resultado[i].numero,"button")
+          resultado[i].estado, resultado[i].fecha_termino, resultado[i].numero,"button","del")
         // console.log(fila)
         lista.push(fila)
       }  
@@ -221,13 +221,21 @@ export const TablaEstados = ({history}) =>  {
                         {columns.map((column) => {
                           const value = row[column.id];
                           return (                           
-                            <TableCell key={column.id} align={column.align}>
-                              {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}
-                              {value ==="button" ? 
-                              <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
-                                onClick={() => handleChangeState(row.etapa, row.matricula, row.nroPractica)}>
-                                <AiOutlineEye fontSize="inherit"/>
-                              </IconButton>
+                            <TableCell key={column.id} align={column.align} >
+                              {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}                         
+                              {value ==="button" ? (
+                                <>                              
+                                  <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
+                                    onClick={() => handleChangeState(row.etapa, row.matricula, row.nroPractica)}>
+                                    <AiOutlineEye fontSize="inherit"/>
+                                  </IconButton>
+                                  {/* <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
+                                    onClick={() => {}}>
+                                    <AiFillDelete fontSize="inherit"/>
+                                  </IconButton> */}
+                                </>
+                                
+                              )
                               : value}
                             </TableCell>
                           );

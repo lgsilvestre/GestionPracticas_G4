@@ -25,7 +25,7 @@ const Practicas = () => {
       getEstado()
     }, [])
 
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(3)
 
     const getEstado = () => {
         let id_alumno = cookies.get('id')
@@ -91,8 +91,8 @@ const Practicas = () => {
                     size={40}
                     circleFontSize={18}
                     activeStep={ page }
-                    activeColor={"#f69b2e"}
-                    completeColor = {"#f69b2e"}
+                    activeColor={"#0DC143"}
+                    completeColor = {"#77C78F"}
                 />
                 <hr/>        
                 { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
