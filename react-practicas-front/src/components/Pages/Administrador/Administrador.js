@@ -263,7 +263,7 @@ function handleValidation() {
 const bodyInsertar=(
   <div className={classes.modal}>
     
-    <h3>Nuevo Administrador</h3>
+    <h3>Nuevo Funcionario</h3>
     <br />
     
     <TextField variant="outlined" name="nombre" id="nombre" className={classes.inputMaterial} label="Nombre" onChange={handleChange}/>
@@ -327,7 +327,7 @@ const bodyInsertar=(
 
 const bodyEditar=(
   <div className={classes.modal}>
-    <h3>Editar Administrador</h3>
+    <h3>Editar Funcionario</h3>
     <TextField name="nombre" className={classes.inputMaterial} label="Nombre" onChange={handleChange} value={administrador
   && administrador
  .nombre}/>
@@ -353,7 +353,7 @@ const bodyEditar=(
 
 const bodyEliminar=(
   <div className={classes.modal}>
-    <p>Estás seguro que deseas eliminar el administrador <b>{administrador
+    <p>Estás seguro que deseas eliminar el Funcionario <b>{administrador
 && administrador
 .nombre}</b> ? </p>
     <div align="right">
