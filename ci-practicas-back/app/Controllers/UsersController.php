@@ -609,6 +609,7 @@ class UsersController extends  BaseController
 
     public function registerAlumnoExcel(){
         helper(['form']);
+        echo "entro registro";
         if($this-> request -> getMethod() == 'post') {
             $rules = [
                 'nombre' => 'required|min_length[2]|max_length[99]',
@@ -679,7 +680,7 @@ class UsersController extends  BaseController
                     'ult_punt_prio' => $this->request->getVar('ult_punt_prio'),
                     'al_dia' => $this->request->getVar('al_dia'),
                     'nivel_99_aprobado' => $this->request->getVar('nivel_99_aprobado'),
-                    'refCarrera' => $this->request->getVar($refCarrera),
+                    'refCarrera' => $refCarrera,
                     'estado' => 1,
                 ];
                 $model ->save($newsData);

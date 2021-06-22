@@ -15,6 +15,13 @@ export default makeStyles((theme) => ({
           color: '#000'
           }
     }, 
+    input: {
+        display: 'none',
+        float:'right',
+        margin: '15px',
+        backgroundColor: '#344fa1',
+        color: '#fff', 
+    },
       
 }));
     

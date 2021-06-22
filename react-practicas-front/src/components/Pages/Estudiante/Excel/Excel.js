@@ -4,7 +4,8 @@ import MaterialTable from 'material-table'
 import XLSX from 'xlsx'
 import Button from '@material-ui/core/Button';
 import useStyles from '../Excel/ExcelStyle';
-import Input from '@material-ui/core/Input';
+
+
 
 //import { Tooltip } from '@material-ui/core';
 
@@ -44,7 +45,7 @@ export default function  Excel() {
   */
   const peticionPost = async(fila)=>{
       
-      await axios.post("", 
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcel", 
         {
           nombre: fila.nombre,
           correo_ins:fila.correo_ins,
@@ -119,6 +120,7 @@ export default function  Excel() {
       row.forEach((element, index) => {
         rowData[headers[index]] = element
       })
+      
 
       rows.push(rowData)
 
@@ -139,7 +141,7 @@ export default function  Excel() {
       const workSheet = workBook.Sheets[workSheetName]
       //convierte a string
       const fileData = XLSX.utils.sheet_to_json(workSheet, { header: 1 })
-      console.log(fileData)
+      //console.log(fileData)
       const headers = headerTable
       const heads = headers.map(head => ({ title: head, field: head }))
       setColDefs(heads)
@@ -162,17 +164,33 @@ export default function  Excel() {
       setColDefs([])
     }
   }
-  const subirArchivos = () =>{
-    <div>
-      
-    </div>
 
-    
+  //
+  const subirArchivos = () =>{
+    console.log(data)
+    data.map((fila) => {
+      peticionPost(fila)
+      return console.log(fila)
+    })    
   }
+
   return (
     <div>
       <h4 align='center'>Importe alumnos usando un archivo csv o xlsx</h4>
-      <Input type="file" onChange={importExcel}> </Input>
+    
+      <input
+        className={classes.input}
+        id="contained-button-file"
+        multiple
+        type="file"
+        onChange={importExcel}
+      />
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" color="primary" component="span">
+            Upload
+          </Button>
+        </label>
+      <input  className={classes.input} id="icon-button-file" type="file" />
 
       <MaterialTable
         //setEstudiante={setEstudiante}
