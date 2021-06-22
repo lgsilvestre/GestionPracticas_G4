@@ -697,58 +697,57 @@ class UsersController extends  BaseController
 
     public function registerAlumnoExcelData(){
         helper(['form']);
-       // echo "entró";
         $data = $this->request->getVar('data');
         //print_r($data);
         $model = new AlumnoModel();
-        for ($i = 0; $i < count($data); $i++){
-            $value = get_object_vars($data[$i]);
-            
-            if($this-request->getVar($value['Nombre carrera'])=='INGENIERÍA CIVIL EN MINAS'){
-                $refCarrera = 1;
+        if($this-> request -> getMethod() == 'post') {
+            for ($i = 0; $i < count($data); $i++){
+                $value = get_object_vars($data[$i]);
+                if($value['Nombre carrera']=='INGENIERÍA CIVIL EN MINAS'){
+                    $refCarrera = 1;
+                }
+                elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN COMPUTACIÓN'){
+                    $refCarrera = 2;
+                }
+                elseif($value['Nombre carrera']=='INGENIERÍA CIVIL INDUSTRIAL'){
+                    $refCarrera = 3;
+                }
+                elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN OBRAS CIVILES'){
+                    $refCarrera = 4;
+                }
+                $newsData =[
+                    'nombre' => $value['Nombre Alumno'],
+                    'correo_ins' => $value['Correo Institucional'],
+                    'correo_per' => $value['Correo Personal'],
+                    'password' => $this->generatePass(6),
+                    'matricula' => $value['Matricula'],
+                    'nbe_carrera' => $value['Nombre carrera'],
+                    'cod_carrera' => $value['Codigo Carrera'],
+                    'rut' => $value['RUT'],
+                    'sexo' => $value['Sexo'],
+                    'fecha_nac' => $value['Fecha Nacimiento'],
+                    'plan' => $value['Plan'],
+                    'via_ingreso' => $value['Via Ingreso'],
+                    'anho_ingreso' => $value['Año Ingreso'],
+                    'sit_actual' => $value['Situcacion Actual'],
+                    'sit_actual_anho' => $value['Situacion Actual Año'],
+                    'sit_actual_periodo' => $value['Situacion Actual Periodo'],
+                    'regular' => $value['Regular'],
+                    'comuna_origen' => $value['Comuna Origen'],
+                    'region' => $value['Region'],
+                    'nivel' => $value['Nivel'],
+                    'porc_avance' => $value['Porcentaje Avance'],
+                    'ult_punt_prio' => $value['Ultima Puntuacion Prioridad'],
+                    'al_dia' => $value['Al Día'],
+                    'nivel_99_aprobado' => $value['Nivel 99 Aprobado'],
+                    'refCarrera' =>$refCarrera,
+                    'estado_alumno' => '1'
+                ];
+                $model ->save($newsData);
+                // $value['nombre'];
+                // $value['id_documento'];
+                // $value['requerido'];
             }
-            elseif($this-request->getVar($value['Nombre carrera'])=='INGENIERÍA CIVIL EN COMPUTACIÓN'){
-                $refCarrera = 2;
-            }
-            elseif($this-request->getVar($value['Nombre carrera'])=='INGENIERÍA CIVIL INDUSTRIAL'){
-                $refCarrera = 3;
-            }
-            elseif($this-request->getVar($value['Nombre carrera'])=='INGENIERÍA CIVIL EN OBRAS CIVILES'){
-                $refCarrera = 4;
-            }
-            $newsData =[
-                'nombre' => $this->request->getVar($value['Nombre Alumno']),
-                'correo_ins' => $this->request->getVar($value['Correo Institucional']),
-                'correo_per' => $this->request->getVar($value['Correo Personal']),
-                'password' => $this->generatePass(6),
-                'matricula' => $this->request->getVar($value['Matricula']),
-                'nbe_carrera' => $this->request->getVar($value['Nombre carrera']),
-                'cod_carrera' => $this->request->getVar($value['Codigo Carrera']),
-                'rut' => $this->request->getVar($value['RUT']),
-                'sexo' => $this->request->getVar($value['Sexo']),
-                'fecha_nac' => $this->request->getVar($value['Fecha Nacimiento']),
-                'plan' => $this->request->getVar($value['Plan']),
-                'via_ingreso' => $this->request->getVar($value['Via Ingreso']),
-                'anho_ingreso' => $this->request->getVar($value['Año Ingreso']),
-                'sit_actual' => $this->request->getVar($value['Situcacion Actual']),
-                'sit_actual_anho' => $this->request->getVar($value['Situacion Actual Año']),
-                'sit_actual_periodo' => $this->request->getVar($value['Situacion Actual Periodo']),
-                'regular' => $this->request->getVar($value['Regular']),
-                'comuna_origen' => $this->request->getVar($value['Comuna Origen']),
-                'region' => $this->request->getVar($value['Region']),
-                'nivel' => $this->request->getVar($value['Nivel']),
-                'porc_avance' => $this->request->getVar($value['Porcentaje Avance']),
-                'ult_punt_prio' => $this->request->getVar($value['Ultima Puntuacion Prioridad']),
-                'al_dia' => $this->request->getVar($value['Al Día']),
-                'nivel_99_aprobado' => $this->request->getVar($value['Nivel 99 Aprobado']),
-                'refCarrera' =>$refCarrera,
-                'estado' => 1
-            ];
-            $model ->save($newsData);
-            // $value['nombre'];
-            // $value['id_documento'];
-            // $value['requerido'];
-           
         }
         // if($this-> request -> getMethod() == 'post') {
         //     $rules = [
