@@ -30,7 +30,7 @@ const Ofertas = () => {
            <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo}  >Gestionar Practicas</Typography></motion.div>
           
          </div>
-         <Button className={classes.boton} onClick={handleClickOpen}>         Agregar Practica          </Button>
+         <Button className={classes.boton} onClick={handleClickOpen}>Agregar Practica</Button>
         <br />      
         <br />
         <hr/> 

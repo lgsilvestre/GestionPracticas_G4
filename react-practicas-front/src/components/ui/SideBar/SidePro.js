@@ -44,8 +44,8 @@ const SidePro = () => {
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                        <MdWork/>
-                        <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>
+                        <MdWork style={{fontWeight:'500', fontSize:'20px'}}/>
+                        <span className="text" style={{fontWeight:'500', fontSize:'22px', marginLeft:'10px'}}>
                             Prácticas
                         </span>
                     </Link>
@@ -55,8 +55,8 @@ const SidePro = () => {
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                        <MdPeople />
-                        <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}} >Estudiantes</span>
+                        <MdPeople style={{fontWeight:'500', fontSize:'20px'}}/>
+                        <span className="text" style={{fontWeight:'500', fontSize:'22px', marginLeft:'10px'}} >Estudiantes</span>
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}} value="funcionarios" onClick={handleChange}>
@@ -64,8 +64,8 @@ const SidePro = () => {
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                        <IoKeySharp />
-                        <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>Funcionarios</span>
+                        <IoKeySharp style={{fontWeight:'500', fontSize:'20px'}}/>
+                        <span className="text" style={{fontWeight:'500', fontSize:'22px', marginLeft:'10px'}}>Funcionarios</span>
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}} value="gestionar_p" onClick={handleChange}>
@@ -73,8 +73,8 @@ const SidePro = () => {
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                        <MdLocalOffer />
-                        <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>Gestionar Práctica</span>
+                        <MdLocalOffer style={{fontWeight:'500', fontSize:'20px'}}/>
+                        <span className="text" style={{fontWeight:'500', fontSize:'22px', marginLeft:'10px'}}>Gestionar Práctica</span>
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}} value="documentos" onClick={handleChange}>
@@ -82,8 +82,8 @@ const SidePro = () => {
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                        <FaFileAlt />
-                        <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>Documentos</span>
+                        <FaFileAlt style={{fontWeight:'500', fontSize:'20px'}}/>
+                        <span className="text" style={{fontWeight:'500', fontSize:'22px', marginLeft:'10px'}}>Documentos</span>
                     </Link>
                 </MenuItem>
             </Menu>
