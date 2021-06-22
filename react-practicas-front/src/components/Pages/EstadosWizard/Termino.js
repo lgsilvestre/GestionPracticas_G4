@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme)=>({
   root: {
     // maxWidth: ladoCard,
     borderRadius: '25px',
-    width:"34vh"
+    width:"36vh"
     // height: '78%'
   },
   area : {
