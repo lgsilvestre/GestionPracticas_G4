@@ -136,7 +136,7 @@ export default function Administrador() {
   }
 
   useEffect(async()=>{
-    await peticionGet();
+  //  await peticionGet();
   },[])
 
   const bodyInsertar=(

@@ -44,7 +44,6 @@ export default function  Excel() {
   })
   */
   const peticionPost = async(fila)=>{
-      
       await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcel", 
         {
           nombre: fila.nombre,
@@ -73,7 +72,25 @@ export default function  Excel() {
         },
       )
       .then(response => {
-        console.log("Datos Enviados: " ,response)
+        //console.log("Datos Enviados: " ,response)
+        if(response.data === true){
+          console.log("Es true")
+        }
+      })
+      .catch(error => {console.log("Error enviando datos ", error)
+      })
+      
+    }
+
+    const peticionPostData = async()=>{
+      let dataUno = data
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcelData", 
+        {
+          data: dataUno
+        },
+      )
+      .then(response => {
+        console.log("Datos Enviados: " ,response.data)
         if(response.data === true){
           console.log("Es true")
         }
@@ -167,11 +184,7 @@ export default function  Excel() {
 
   //
   const subirArchivos = () =>{
-    console.log(data)
-    data.map((fila) => {
-      peticionPost(fila)
-      return console.log(fila)
-    })    
+    peticionPostData()
   }
 
   return (
