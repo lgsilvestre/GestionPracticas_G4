@@ -11,6 +11,7 @@ import {Table, TableContainer, TableHead, TableBody, TableRow, Modal, TableCell,
 import {Edit, Delete} from '@material-ui/icons';
 import FormAlumno from '../../FormAlumno/FormAlumno';
 import { motion } from "framer-motion"
+import Excel from '../Estudiante/Excel/Excel'
 
 
 export default function Administrador() {
@@ -235,8 +236,11 @@ export default function Administrador() {
         </Table>
       </TableContainer>
 
+      
+
     </Paper>
-  
+
+    <Excel/>        
 
      <Modal open={modalVerMas}   onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >        
         <div className={classes.modal}>          
