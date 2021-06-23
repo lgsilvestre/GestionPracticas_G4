@@ -579,8 +579,6 @@ class UsersController extends  BaseController
     }
 
 
-
-    
     private function sendEmailRegisterUser($nombre, $correo, $contraseña){
         $email = \Config\Services::email();
 
@@ -610,165 +608,64 @@ class UsersController extends  BaseController
 
     }
 
-    public function registerAlumnoExcel(){
-        helper(['form']);
-        if($this-> request -> getMethod() == 'post') {
-            $rules = [
-                'nombre' => 'required|min_length[2]|max_length[99]',
-                'correo_ins' => 'required',
-                'correo_per' => 'required',
-                'matricula' => 'required',
-                'nbe_carrera' => 'required',
-                'cod_carrera' => 'required',
-                'rut' => 'required',
-                'sexo' => 'required',
-                'fecha_nac' => 'required',
-                'plan' => 'required',
-                'via_ingreso' => 'required',
-                'anho_ingreso' => 'required',
-                'sit_actual' => 'required',
-                'sit_actual_anho' => 'required',
-                'sit_actual_periodo' => 'required',
-                'regular' => 'required',
-                'comuna_origen' => 'required',
-                'region' => 'required',
-                'nivel' => 'required',
-                'porc_avance' => 'required',
-                'ult_punt_prio' => 'required',
-                'al_dia' => 'required',
-                'nivel_99_aprobado' => 'required'
-            ];
-            $errors = [
-            ];
-
-            if(!$this->validate($rules, $errors)){
-                echo "error";
-                $data['validation'] = $this->validator;
-            } else {
-                echo "ta weno";
-                $model = new AlumnoModel();
-                if($this-request->getVar('nombre')=='INGENIERÍA CIVIL EN MINAS'){
-                    $refCarrera = 1;
-                }
-                elseif($this-request->getVar('nombre')=='INGENIERÍA CIVIL EN COMPUTACIÓN'){
-                    $refCarrera = 2;
-                }
-                elseif($this-request->getVar('nombre')=='INGENIERÍA CIVIL INDUSTRIAL'){
-                    $refCarrera = 3;
-                }
-                elseif($this-request->getVar('nombre')=='INGENIERÍA CIVIL EN OBRAS CIVILES'){
-                    $refCarrera = 4;
-                }
-                $newsData =[
-                    'nombre' => $this->request->getVar('nombre'),
-                    'correo_ins' => $this->request->getVar('correo_ins'),
-                    'correo_per' => $this->request->getVar('correo_per'),
-                    'password' => $this->request->getVar('password'),
-                    'matricula' => $this->request->getVar('matricula'),
-                    'nbe_carrera' => $this->request->getVar('nbe_carrera'),
-                    'cod_carrera' => $this->request->getVar('cod_carrera'),
-                    'rut' => $this->request->getVar('rut'),
-                    'sexo' => $this->request->getVar('sexo'),
-                    'fecha_nac' => $this->request->getVar('fecha_nac'),
-                    'plan' => $this->request->getVar('plan'),
-                    'via_ingreso' => $this->request->getVar('via_ingreso'),
-                    'anho_ingreso' => $this->request->getVar('anho_ingreso'),
-                    'sit_actual' => $this->request->getVar('sit_actual'),
-                    'sit_actual_anho' => $this->request->getVar('sit_actual_anho'),
-                    'sit_actual_periodo' => $this->request->getVar('sit_actual_periodo'),
-                    'regular' => $this->request->getVar('regular'),
-                    'comuna_origen' => $this->request->getVar('comuna_origen'),
-                    'region' => $this->request->getVar('region'),
-                    'nivel' => $this->request->getVar('nivel'),
-                    'porc_avance' => $this->request->getVar('porc_avance'),
-                    'ult_punt_prio' => $this->request->getVar('ult_punt_prio'),
-                    'al_dia' => $this->request->getVar('al_dia'),
-                    'nivel_99_aprobado' => $this->request->getVar('nivel_99_aprobado'),
-                    'refCarrera' =>$refCarrera,
-                    'estado' => 1
-                ];
-                $model ->save($newsData);
-
-                //$this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-            }
-        //return redirect()->to('/dashbordAlumno');          VistaRegistro
-        }
-    }
-
     public function registerAlumnoExcelData(){
         helper(['form']);
         $data = $this->request->getVar('data');
         //print_r($data);
         $model = new AlumnoModel();
         if($this-> request -> getMethod() == 'post') {
-            for ($i = 0; $i < count($data); $i++){
+            for ($i = 0; $i < count((array)$data); $i++){
                 $value = get_object_vars($data[$i]);
-                if($value['Nombre carrera']=='INGENIERÍA CIVIL EN MINAS'){
-                    $refCarrera = 1;
+                if(!isset($value['Nombre carrera'])){
+                    echo "basura";
                 }
-                elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN COMPUTACIÓN'){
-                    $refCarrera = 2;
+                else{
+                    if($value['Nombre carrera']=='INGENIERÍA CIVIL EN MINAS'){
+                        $refCarrera = 1;
+                    }
+                    elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN COMPUTACIÓN'){
+                        $refCarrera = 2;
+                    }
+                    elseif($value['Nombre carrera']=='INGENIERÍA CIVIL INDUSTRIAL'){
+                        $refCarrera = 3;
+                    }
+                    elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN OBRAS CIVILES'){
+                        $refCarrera = 4;
+                    }
+                    $pass = $this->generatePass(6);
+                    $newsData =[
+                        'nombre' => $value['Nombre Alumno'],
+                        'correo_ins' => $value['Correo Institucional'],
+                        'correo_per' => $value['Correo Personal'],
+                        'password' => $pass,
+                        'matricula' => $value['Matricula'],
+                        'nbe_carrera' => $value['Nombre carrera'],
+                        'cod_carrera' => $value['Codigo Carrera'],
+                        'rut' => $value['RUT'],
+                        'sexo' => $value['Sexo'],
+                        'fecha_nac' => $value['Fecha Nacimiento'],
+                        'plan' => $value['Plan'],
+                        'via_ingreso' => $value['Via Ingreso'],
+                        'anho_ingreso' => $value['Año Ingreso'],
+                        'sit_actual' => $value['Situcacion Actual'],
+                        'sit_actual_anho' => $value['Situacion Actual Año'],
+                        'sit_actual_periodo' => $value['Situacion Actual Periodo'],
+                        'regular' => $value['Regular'],
+                        'comuna_origen' => $value['Comuna Origen'],
+                        'region' => $value['Region'],
+                        'nivel' => $value['Nivel'],
+                        'porc_avance' => $value['Porcentaje Avance'],
+                        'ult_punt_prio' => $value['Ultima Puntuacion Prioridad'],
+                        'al_dia' => $value['Al Día'],
+                        'nivel_99_aprobado' => $value['Nivel 99 Aprobado'],
+                        'refCarrera' =>$refCarrera,
+                        'estado_alumno' => '1'
+                    ];
+                   // $this->sendEmailRegisterUser($value['Nombre Alumno'], $value['Correo Institucional'],$pass);
+                    $model ->save($newsData);
                 }
-                elseif($value['Nombre carrera']=='INGENIERÍA CIVIL INDUSTRIAL'){
-                    $refCarrera = 3;
-                }
-                elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN OBRAS CIVILES'){
-                    $refCarrera = 4;
-                }
-                $newsData =[
-                    'nombre' => $value['Nombre Alumno'],
-                    'correo_ins' => $value['Correo Institucional'],
-                    'correo_per' => $value['Correo Personal'],
-                    'password' => $this->generatePass(6),
-                    'matricula' => $value['Matricula'],
-                    'nbe_carrera' => $value['Nombre carrera'],
-                    'cod_carrera' => $value['Codigo Carrera'],
-                    'rut' => $value['RUT'],
-                    'sexo' => $value['Sexo'],
-                    'fecha_nac' => $value['Fecha Nacimiento'],
-                    'plan' => $value['Plan'],
-                    'via_ingreso' => $value['Via Ingreso'],
-                    'anho_ingreso' => $value['Año Ingreso'],
-                    'sit_actual' => $value['Situcacion Actual'],
-                    'sit_actual_anho' => $value['Situacion Actual Año'],
-                    'sit_actual_periodo' => $value['Situacion Actual Periodo'],
-                    'regular' => $value['Regular'],
-                    'comuna_origen' => $value['Comuna Origen'],
-                    'region' => $value['Region'],
-                    'nivel' => $value['Nivel'],
-                    'porc_avance' => $value['Porcentaje Avance'],
-                    'ult_punt_prio' => $value['Ultima Puntuacion Prioridad'],
-                    'al_dia' => $value['Al Día'],
-                    'nivel_99_aprobado' => $value['Nivel 99 Aprobado'],
-                    'refCarrera' =>$refCarrera,
-                    'estado_alumno' => '1'
-                ];
-                $model ->save($newsData);
-                // $value['nombre'];
-                // $value['id_documento'];
-                // $value['requerido'];
             }
         }
-        // if($this-> request -> getMethod() == 'post') {
-        //     $rules = [
-        //    //     'nivel_99_aprobado' => 'required'
-        //     ];
-        //     $errors = [
-        //     ];
-
-        //     if(!$this->validate($rules, $errors)){
-        //         $data['validation'] = $this->validator;
-        //     } else {
-        //         $model = new AlumnoModel();
-        //         $newsData =[
-        //         //    'nivel_99_aprobado' => $this->request->getVar('nivel_99_aprobado')
-        //         ];
-        //         $model ->save($newsData);
-
-        //         //$this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-        //     }
-        // //return redirect()->to('/dashbordAlumno');          VistaRegistro
-        // }
     }
 }
 
