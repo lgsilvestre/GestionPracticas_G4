@@ -19,6 +19,9 @@ export default makeStyles((theme) => ({
       regiones:{
         marginTop:'8%'
       },
+      carreras:{
+        marginTop:'4%'
+      },
       icono:{
       flex:' 0 0 43.333333%',
       maxWidth: '43.333333%',

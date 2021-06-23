@@ -1,13 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState}  from 'react';
 import { Bar } from 'react-chartjs-2';
 import { motion } from "framer-motion";
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
+
+
+
+export default function VerticalBar() {
+{/* cantidad de practicas por carrera de los graficos */}
+  const [cantidades , setCantidades ] = useState([])
+
+
+  {/* captura de cantidades */}
+  useEffect(() => {
+    axios.get(
+      ""
+    )
+      .then(response => {
+        let respuesta = JSON.parse(response.data);
+        setCantidades(respuesta);
+
+      })
+      .catch(error => {
+        console.log("login error: ", error);
+      });
+  }, []);
+
 const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  labels: ['Computacion', 'Industrial', 'Mineria', 'Mecanica', 'Mecatronica', 'Electrica'],
   datasets: [
     {
       label: 'Cantidad de Practicas ',
-      data: [12, 19, 3, 5, 2, 3],
+      data: [cantidades],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -41,7 +65,8 @@ const options = {
   },
 };
 
-const VerticalBar = () => (
+return (
+ 
   <>
     <div className='header'>  
     <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} ><Typography  variant="h4" >Carreras</Typography> </motion.div>
@@ -49,5 +74,5 @@ const VerticalBar = () => (
     <Bar data={data} options={options} />
   </>
 );
+}
 
-export default VerticalBar;
