@@ -195,38 +195,40 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
             <Card className={classes.cardInfo} >
               <div className="col">
                 <div className="row align-items-center" style={{marginLeft:"0.3vh", marginTop:"0.7vh"}}>
-                <IconContext.Provider value={{size:"4vh"}} >
+                  <IconContext.Provider value={{size:"4vh"}} >
                     <FcInfo style={{marginTop:"0.5vh", marginRight:"1vh"}}/>
                   </IconContext.Provider> 
                   <h4 className={classes.titleCard}><strong>Información sobre tu práctica</strong></h4>
                 </div>
                 <hr className={classes.hrSection}/>
-                <div className="container" style={{marginTop:"3vh"}}>
-                  <div className="row" style={{marginBottom:"1vh"}}> 
-                    <div className="col">
-                      <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica 1</h7>
+                <div className="row">
+                  <div className="col " style={{marginTop:"3vh"}}>
+                    <div className="row" style={{marginBottom:"1vh"}}> 
+                      <div className="col align-self-center">
+                        <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica 1</h7>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row" style={{marginBottom:"1vh"}}> 
-                    <div className="col">
-                      <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> Solicitud Pendiente</h7>
+                    <div className="row" style={{marginBottom:"1vh"}}> 
+                      <div className="col">
+                        <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> Solicitud Pendiente</h7>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row" style={{marginBottom:"1vh"}}> 
-                    <div className="col">
-                      <h7 className={classes.textoInfo}><strong>Información de etapa:</strong></h7>
-                      <p className={classes.textoInfo} style={{margin:0}}>En esta primera etapa debes solicitar la práctica para que el encargado de tu carrera analice tu situación.
-                      Si acepta tu solicitud, se te enviarán los documentos correspondientes para que los presentes en la entrevista
-                      con tu empresa elegida. Si es rechazada, se te enviara las razones del rechazo.
-                      </p>
+                    <div className="row" style={{marginBottom:"1vh"}}> 
+                      <div className="col">
+                        <h7 className={classes.textoInfo}><strong>Información de etapa:</strong></h7>
+                        <p className={classes.textoInfo} style={{margin:0}}>En esta primera etapa debes solicitar la práctica para que el encargado de tu carrera analice tu situación.
+                        Si acepta tu solicitud, se te enviarán los documentos correspondientes para que los presentes en la entrevista
+                        con tu empresa elegida. Si es rechazada, se te enviara las razones del rechazo.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row"> 
-                    <div className="col">
-                      <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> Ve a Prácticas y luego solicita tu práctica</h7>
+                    <div className="row"> 
+                      <div className="col">
+                        <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> Ve a Prácticas y luego solicita tu práctica</h7>
+                      </div>
                     </div>
-                  </div>
-                </div>              
+                  </div>              
+                </div>
               </div>
             </Card>
           </div>
