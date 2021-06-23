@@ -7,21 +7,28 @@ import { Card } from 'reactstrap';
 import { IconContext } from 'react-icons/lib';
 import { FcCalendar,FcInspection,FcInfo } from "react-icons/fc";
 const useStyles = makeStyles((theme)=>({
+
   cardDatos:{
     marginTop:"1vh",
     height:"32vh",
     width:"62vh",
-    marginRight:"1vh"
+    marginRight:"1vh",
+    borderRadius:'20px', 
+    backgroundColor:'#fafafa'
   },
   cardFechas:{
     marginTop:"1vh",
     height:"32vh",
     width:"62vh",
+    borderRadius:'20px', 
+    backgroundColor:'#fafafa'
   },
   cardInfo:{
     height:"50vh",
     width:"125vh",
     margin: "1vh",
+    borderRadius:'20px', 
+    backgroundColor:'#fafafa'
   },
   cardFecha:{
     backgroundColor:"#E4E4E4",
@@ -62,7 +69,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
           </div>   
         </div>
       </div>
-      <div className="container">
+      <div className="container animate__animated animate__fadeIn animate__faster">
           <div className="row justify-content-md-center">
             {/* DATOS */}
             <Card className={classes.cardDatos} >              
