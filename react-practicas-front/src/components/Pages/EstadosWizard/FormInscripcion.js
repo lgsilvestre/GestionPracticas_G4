@@ -266,7 +266,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
               </div> 
               <hr/>
               <div className=" text-center" style={{marginBottom:20}}>
-                <Button className="btn btn-primary" type="submit">
+                <Button className="btn btn-primary" type="submit" onClick={enviarDatosInscripcion}>
                     Inscribir Practica
                 </Button>
               </div>               

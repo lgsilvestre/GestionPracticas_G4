@@ -11,7 +11,7 @@ class PracticaModel extends Model
     protected $allowedFields = ['etapa', 'estado', 'carrera', 'numero', 'fecha_inicio', 'fecha_termino', 'empresa', 'supervisor', 'evaluacion_uni', 'evaluacion_empreesa', 'refAlumno'];
 
     public function getPracticaAlumno(){
-        $queryPracticaAlumno = "SELECT * FROM practica INNER JOIN alumno ON practica.refAlumno = alumno.id_alumno";
+        $queryPracticaAlumno = "SELECT * FROM practica INNER JOIN alumno ON practica.refAlumno = alumno.id_alumno ORDER BY CASE WHEN etapa = 'Solicitud' THEN 1 ELSE 2 END, etapa";
         $query = $this->db->query($queryPracticaAlumno);
         $result = $query->getResult();
         return $result;

@@ -71,7 +71,8 @@ $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
 // Instancia documento
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');
-
+// Users
+$routes->get('getFuncionarios', 'UserController::getFuncionarios');
 
 
 /*
