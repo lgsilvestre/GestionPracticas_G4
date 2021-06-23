@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -12,70 +11,13 @@ import { IconContext } from "react-icons";
 import { BiNetworkChart } from "react-icons/bi";
 import { CgFileDocument } from "react-icons/cg";
 import { BiTask } from "react-icons/bi";
+import Pie from '../Graficos/Pie'
+import LineChart from '../Graficos/LineChart';
+import VerticalBar from '../Graficos/VerticalBar'
 import Divider from '@material-ui/core/Divider';
 
-const useStyles = makeStyles({
-    root: {
-      maxWidth: 345,
-      borderRadius: '25px',
-      height: '78%'
-   
-    },
-    media: {
-      height: 140,
-    },
-    encabezado:{
-        marginLeft: "-100px",
-        marginBottom: "3vh"
-      },
-      titulo:{
-       color: '#1b2d4f',
-      },
-      icono:{
-      flex:' 0 0 43.333333%',
-      maxWidth: '43.333333%',
-      alignSelf: 'left'
-      },
-      label: {
-        boxSizing: 'border-box',
-        display: 'block',
-      
-        marginRight:'1em',
-        textAlign: 'right',
-        color: '#9A9A9A',
-        fontSize: '23px',
-        lineHeight: '1.4em'
-      },
-      cardContent: {
-        display: 'flex',
-        justifyContent: 'space-between'
-      },
-      cantidad: {
-        textAlign: 'right',
-        fontSize: '2em',
-        marginRight: '2em',
-        marginTop: '-2em',
-        fontFamily: '"Montserrat", "Helvetica Neue", Arial, sans-serif'
-      },
-      area : {
-          padding: '0'
-      },
-      boton: {
-        backgroundColor: '#fff',
-        color: '#f1A2B4Bff',  
-        cursor: 'pointer',
-        transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
-        '&:hover': {
-        backgroundColor: '#f0ebcc',
-          color: '#000'
-        }
-      }, 
-      areaBoton: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }
-  });
+import useStyles from './styles';
+
 
 export const AdminDashboard = () => {
 
@@ -92,7 +34,6 @@ export const AdminDashboard = () => {
                 </Grid>
                 <Grid item sm={12}>
                     <Grid container>
-
                     <Grid item sm={4}>
                         <Card className={classes.root} style={{height:'100%'}}>
                             <CardActionArea className={classes.area}>
@@ -172,13 +113,21 @@ export const AdminDashboard = () => {
                             </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item sm={12}>
-                                                                    
                     </Grid>
-
+                    <Grid container  direction="row"  justify="space-around"   alignItems="center">
+                    <Grid item xs={6} className={classes.carreras}>     
+                        <VerticalBar />                                      
+                    </Grid>
+                    <Grid item xs={4} className={classes.regiones} >           
+                        <Pie  />                                  
+                    </Grid>
+                    <Grid item xs={12}>
+                        <LineChart />       
+                    </Grid>
                     </Grid>
                 </Grid>
             </Grid>
+           
 
         </div>
     );
