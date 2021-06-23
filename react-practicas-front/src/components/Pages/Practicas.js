@@ -25,7 +25,7 @@ const Practicas = () => {
       getEstado()
     }, [])
 
-    const [page, setPage] = useState(3)
+    const [page, setPage] = useState(1)
 
     const getEstado = () => {
         let id_alumno = cookies.get('id')
@@ -85,7 +85,13 @@ const Practicas = () => {
           />
         {
           nroPractica===0 ?(
-            <Card className=" animate__animated animate__fadeIn animate__faster container mt-3 mb-3" >
+            <Card 
+              className=" animate__animated animate__fadeIn animate__faster container mt-3 mb-3"
+              style={{
+                borderRadius:'20px', 
+                backgroundColor:'#fafafa'
+              }}
+              >
                 <Stepper 
                     steps={steps}
                     size={40}

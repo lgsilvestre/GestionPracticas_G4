@@ -41,7 +41,6 @@ const VistaEstudiante = ({userChangedPass=false}) => {
             <Switch>
                 <Route path='/estudiante/practicas' component={Practicas} />
                 {/* <Route path='/estudiante/practicas' component={PracticasAcordeon} /> */}
-                <Route path='/estudiante/perfil' component={PerfilEstudiante} /> 
                 <Route path='/estudiante/postulaciones' component={Postulaciones} />                   
                 {/* <Route path='/estudiante/landing' component={DashboardEstudiante} /> */}
                 <Route path="/estudiante/changePass" component={CambiarPassword}/>
