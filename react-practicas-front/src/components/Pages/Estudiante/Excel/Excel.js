@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PacmanLoader from "react-spinners/PacmanLoader";
 import axios from 'axios';
 import MaterialTable from 'material-table'
 import XLSX from 'xlsx'
@@ -16,11 +17,16 @@ export default function  Excel() {
   const [colDefs, setColDefs] = useState()
   const [data, setData] = useState()
 
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+   // setLoading(true)
+  }, [])
   //const [selectedRows, setSelectedRows] = useState()
   /*
   const [estudiante , setEstudiante ]=useState({
     nombre: '',
-    correo_ins: '',    
+    correo_ins: '',
     correo_per: '',
     password: '',
     matricula: '',
@@ -44,7 +50,7 @@ export default function  Excel() {
   })
   */
   const peticionPost = async(fila)=>{
-      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcel", 
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcel",
         {
           nombre: fila.nombre,
           correo_ins:fila.correo_ins,
@@ -80,10 +86,12 @@ export default function  Excel() {
       .catch(error => {console.log("Error enviando datos ", error)
       })
       
+
     }
 
     const peticionPostData = async()=>{
       let dataUno = data
+      setLoading(true)
       await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcelData", 
         {
           data: dataUno
@@ -94,6 +102,7 @@ export default function  Excel() {
         if(response.data === true){
           console.log("Es true")
         }
+        setLoading(false)
       })
       .catch(error => {console.log("Error enviando datos ", error)
       })
@@ -190,7 +199,7 @@ export default function  Excel() {
   return (
     <div>
       <h4 align='center'>Importe alumnos usando un archivo csv o xlsx</h4>
-    
+
       <input
         className={classes.input}
         id="contained-button-file"
@@ -205,26 +214,42 @@ export default function  Excel() {
         </label>
       <input  className={classes.input} id="icon-button-file" type="file" />
 
-      <MaterialTable
-        //setEstudiante={setEstudiante}
-        //estudiante={estudiante}
-        title="Vista previa de los Alumnos en el archivo" 
-        data={data} 
-        columns={colDefs}
-        //onSelectedChange = {(rows) => setSelectedRows(rows)}
-        options={{
-          selection:true }}
-        
-        actions={[
-          {
-            icon:'delete',
-            tooltip : "las columnas seleccionadas se eliminaran de la vista previa ", 
-            //onClick:()=>handleBulkDelete()
+      {
+        loading ? (
 
-          }
-        ]}
+          <div>
+            <PacmanLoader
+            size={50}
+            color={"#123abc"}
+            loading={loading}
+          />
+          </div>
         
-      />
+        ):(
+        <MaterialTable
+          //setEstudiante={setEstudiante}
+          //estudiante={estudiante}
+          title="Vista previa de los Alumnos en el archivo" 
+          data={data} 
+          columns={colDefs}
+          //onSelectedChange = {(rows) => setSelectedRows(rows)}
+          options={{
+            selection:true }}
+          
+          actions={[
+            {
+              icon:'delete',
+              tooltip : "las columnas seleccionadas se eliminaran de la vista previa ", 
+              //onClick:()=>handleBulkDelete()
+
+            }
+          ]}
+          
+        />
+        )
+
+      }
+
       <Button className={classes.boton} onClick={() => subirArchivos()} >Agregar Estudiantes</Button>
     </div>
   );

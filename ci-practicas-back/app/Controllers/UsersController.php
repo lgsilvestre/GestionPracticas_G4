@@ -615,6 +615,7 @@ class UsersController extends  BaseController
         $model = new AlumnoModel();
         if($this-> request -> getMethod() == 'post') {
             for ($i = 0; $i < count((array)$data); $i++){
+                echo count((array)$data);
                 $value = get_object_vars($data[$i]);
                 if(!isset($value['Nombre carrera'])){
                     echo "basura";
@@ -661,7 +662,7 @@ class UsersController extends  BaseController
                         'refCarrera' =>$refCarrera,
                         'estado_alumno' => '1'
                     ];
-                   // $this->sendEmailRegisterUser($value['Nombre Alumno'], $value['Correo Institucional'],$pass);
+                    $this->sendEmailRegisterUser($value['Nombre Alumno'], $value['Correo Institucional'],$pass);
                     $model ->save($newsData);
                 }
             }
