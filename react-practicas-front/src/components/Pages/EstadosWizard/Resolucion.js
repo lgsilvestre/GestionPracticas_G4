@@ -12,10 +12,9 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
     }
     return (
         <div className="animate__animated animate__fadeIn animate__faster">          
-            <h4>Resolucion</h4>
             <div className="text-center">
                 <div> 
-                    <h5 > La solicitud de practica se encuentra en el estado: </h5>  
+                    <h5 > Esta etapa de tu práctica se encuentra en el estado: </h5>  
                     {
                         estadoSolicitud===0 &&
                         (<div className="card mb-3">
@@ -39,7 +38,7 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
                                 </IconContext.Provider>
                                 <h4>Rechazada</h4>
                                 <hr/>
-                                <p >¡Esta etapa se encuentra rechazada! Puedes ver mas informacion de tu resolucion 
+                                <p >¡Esta etapa se encuentra rechazada! Puedes ver mas información de tu resolución 
                                 en el correo enviado </p>
                             </div>    
                         </div>)
@@ -50,11 +49,12 @@ export const Resolucion = ({previousPage, handleSubmit}) => {
                         <div className="card mb-3" >
                             <div className="p-5">
                                 <IconContext.Provider value={{size:"5em"}} >
-                                    <FcClock/>
+                                  <FcClock/>
                                 </IconContext.Provider>
                                 <h4>Pendiente</h4>
                                 <hr/>
-                                <p> Esta etapa se encuentra esta a la espera de una resolucion </p>
+                                <p> Esta etapa se encuentra esta a la espera de una resolución por parte del encargado de escuela.
+                                Te notificaremos mediamte correo electrónico cuando haya alguna respuesta.</p>
                             </div>    
                         </div>    )
                     }

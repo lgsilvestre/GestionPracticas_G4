@@ -27,8 +27,6 @@ export const Cursando = ({previousPage, handleSubmit}) => {
                     <Button color="secondary" onClick={toggle}>Cancelar</Button>
                 </ModalFooter>
             </Modal>
-            <h4>Cursando Practica</h4>
-            <hr/>
             <div className="text-center">      
                 <div className="card mb-3">
                     <div className="p-5">

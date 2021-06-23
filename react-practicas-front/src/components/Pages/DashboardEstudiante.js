@@ -145,7 +145,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                     </div>
                   </Card>
                   <Card className={classes.cardFecha}>
-                  <div className="col-auto">
+                    <div className="col-auto">
                       <div className="row align-items-center" style={{height:"7vh"}}>
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
@@ -158,34 +158,6 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                       </div>
                     </div>
                   </Card>
-                  {/* <Card className={classes.cardFecha}>
-                  <div className="col-auto">
-                      <div className="row align-items-center" style={{height:"7vh"}}>
-                        <div className="col-auto" 
-                          style={{borderRight:" 0.1vh solid black"}}
-                        >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
-                        </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                  <Card className={classes.cardFecha}>
-                  <div className="col-auto">
-                      <div className="row align-items-center" style={{height:"7vh"}}>
-                        <div className="col-auto" 
-                          style={{borderRight:" 0.1vh solid black"}}
-                        >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
-                        </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
-                        </div>
-                      </div>
-                    </div>
-                  </Card> */}
                 </div>
               </div>
             </Card>    
@@ -204,7 +176,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                 <div className="row">
                   <div className="col " style={{marginTop:"3vh"}}>
                     <div className="row" style={{marginBottom:"1vh"}}> 
-                      <div className="col align-self-center">
+                      <div className="col">
                         <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica 1</h7>
                       </div>
                     </div>
@@ -232,8 +204,6 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
               </div>
             </Card>
           </div>
-
-           
       </div>
       
     </div>

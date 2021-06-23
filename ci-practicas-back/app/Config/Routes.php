@@ -56,6 +56,10 @@ $routes->get('getDocumento', 'DocumentoController::getDocumento');
 // Carreras
 $routes->get('getCarreras', 'CarreraController::getCarreras');
 // Practicas
+$routes->post('pasarEstadoEvaluar', 'PracticaController::pasarEstadoEvaluar');
+$routes->post('getEvaluacionEmpresa', 'PracticaController::getEvaluacionEmpresa');
+$routes->post('evaluarPractica', 'PracticaController::evaluarPractica');
+$routes->post('getEvaluacionPracticaUni', 'PracticaController::getEvaluacionPracticaUni');
 $routes->post('getPracticas', 'PracticaController::getPracticas');
 $routes->post('ingresarPractica', 'PracticaController::ingresarPractica');
 $routes->get('servePracticaAlumno', 'PracticaController::servePracticaAlumno');

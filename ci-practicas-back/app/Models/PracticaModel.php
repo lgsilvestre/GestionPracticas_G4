@@ -25,7 +25,7 @@ class PracticaModel extends Model
     }
 
     public function newPracticaAlumno($id, $np){
-        $queryPracticaAlumno = 'INSERT INTO practica(etapa,estado,numero,fecha_inicio, fecha_termino,empresa,supervisor,evaluacion_uni,evaluacion_empresa,refAlumno) VALUES("Solicitud","Pendiente",'.$np.',"","","","","","",'.$id.')';
+        $queryPracticaAlumno = 'INSERT INTO practica(etapa,estado,numero,fecha_inicio, fecha_termino,empresa,supervisor,evaluacion_uni,evaluacion_empresa,refAlumno) VALUES("Solicitud","Pendiente",'.$np.',"","","","","0","0",'.$id.')';
         $query = $this->db->query($queryPracticaAlumno);
         if ($query) {
             return true;
@@ -72,6 +72,33 @@ class PracticaModel extends Model
         $result = $this->db->affectedRows();
         return $result;
     }
+
+    public function pasarEstadoEvaluar($id_alumno){
+        $queryPracticaAlumno = "UPDATE practica SET etapa = 'Evaluación', estado = 'Pendiente' WHERE practica.refAlumno = '".$id_alumno."' and practica.etapa != 'Evaluada'"; 
+        $this->db->query($queryPracticaAlumno)->getResult();
+        $result = $this->db->affectedRows();
+        return $result;
+    }
+
+    public function getEvaluacionEmpresa($id_alumno){
+        $queryPracticaAlumno = "SELECT evaluacion_empresa, supervisor from practica WHERE practica.refAlumno = '".$id_alumno."' and practica.etapa != 'Evaluada'"; 
+        $result = $this->db->query($queryPracticaAlumno)->getResult();
+        return $result;
+    }
+
+    public function evaluarPractica($id_alumno, $nota){
+        $queryPracticaAlumno = "UPDATE practica SET evaluacion_uni = '".$nota."' WHERE practica.refAlumno = '".$id_alumno."' and practica.etapa != 'Evaluada'"; 
+        $this->db->query($queryPracticaAlumno)->getResult();
+        $result = $this->db->affectedRows();
+        return $result;
+    }    
+
+    public function getEvaluacionPracticaUni($id_alumno){
+        $queryPracticaAlumno = "SELECT evaluacion_uni from practica WHERE practica.refAlumno = '".$id_alumno."' and practica.etapa != 'Evaluada'"; 
+        $result = $this->db->query($queryPracticaAlumno)->getResult();
+        return $result;
+    }
+
 
 }
 ?>

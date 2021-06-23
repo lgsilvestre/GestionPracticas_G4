@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno}) => {
     // console.log("nro recibido en infoestudiante:",nroPractica)
     const classes = useStyles();  
-    // const [etapa, setEtapa] = useState(etapaProp)
-    const [etapa, setEtapa] = useState(3)
+    const [etapa, setEtapa] = useState(etapaProp)
+    // const [etapa, setEtapa] = useState(2)
     useEffect(() => {
         changeEtapaLabel()  
     }, [etapa])
