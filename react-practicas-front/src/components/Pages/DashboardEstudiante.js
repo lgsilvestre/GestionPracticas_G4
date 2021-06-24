@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme)=>({
   cardDatos:{
     marginTop:"1vh",
     height:"32vh",
-    width:"62vh",
+    width:"57.5vh",
+    maxWidth:"57.5vh",
     marginRight:"1vh",
     borderRadius:'20px', 
     backgroundColor:'#fafafa'
@@ -19,26 +20,27 @@ const useStyles = makeStyles((theme)=>({
   cardFechas:{
     marginTop:"1vh",
     height:"32vh",
-    width:"62vh",
+    width:"57.5vh",
+    maxWidth:"57.5vh",
     borderRadius:'20px', 
     backgroundColor:'#fafafa'
   },
   cardInfo:{
     height:"50vh",
-    width:"125vh",
+    width:"116vh",
     margin: "1vh",
     borderRadius:'20px', 
     backgroundColor:'#fafafa'
   },
   cardFecha:{
     backgroundColor:"#E4E4E4",
-    width:"60vh",
+    width:"56vh",
     height:"7vh",
     marginBottom:"1vh"
   },
   cardFechaCritica:{
     backgroundColor:"#FF8886",
-    width:"60vh",
+    width:"56vh",
     height:"7vh",
     marginBottom:"1vh"
   },

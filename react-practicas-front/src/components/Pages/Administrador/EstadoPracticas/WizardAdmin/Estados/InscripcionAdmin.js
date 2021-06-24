@@ -156,150 +156,234 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
     }, [])    
 
     return (
-        <div className="animate__animated animate__fadeIn animate__faster">       
-            {
-              mostrarAlertaInfo && (
-                <Alert severity="info">
-                    A la espera de que el alumno suba la información de la empresa donde realizará su practica.
-                </Alert>
-                    
-              )
-            }  
-            {/*Datos de Empresa  */}
-            <Box className={clasesEstilo.mainbox} boxShadow={1}>
-                <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Empresa</h4>
-                <hr/>
-                <Grid container direction="row" justify="flex-start" alignItems="flex-start" >    
-
-                    <Grid item xs>
-                        <Box className={clasesEstilo.box}>
-                            <Box fontWeight="fontWeightMedium">
-                                {infoLabelsEmpresa[0]}
-                            </Box>
-                            <Box>
-                                {dataInscripcion.empresa}
-                            </Box>
-                        </Box> 
-                    </Grid>
-                    <Grid item xs >
-                        <Box className={clasesEstilo.box}>
-                            <Box fontWeight="fontWeightMedium">
-                                {infoLabelsEmpresa[1]}
-                            </Box>
-                            <Box>
-                                {dataInscripcion.supervisor}
-                            </Box>
-                        </Box>
-                    </Grid>                                               
-                </Grid>
-                <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
-                    <Grid item xs>
-                        <Box className={clasesEstilo.box}>
-                            <Box fontWeight="fontWeightMedium">
-                                {infoLabelsEmpresa[2]}
-                            </Box>
-                            <Box>
-                                {dataInscripcion.fecha_inicio}
-                            </Box>
-                        </Box> 
-                    </Grid>
-                    <Grid item xs >
-                        <Box className={clasesEstilo.box}>
-                            <Box fontWeight="fontWeightMedium">
-                                {infoLabelsEmpresa[3]}
-                            </Box>
-                            <Box>
-                                {dataInscripcion.fecha_termino}
-                            </Box>
-                        </Box>
-                    </Grid>                                               
-                </Grid>
-            </Box>   
-            {
-              mostrarAlertaDoc && (
-                <Alert severity="info">
-                    A la espera de que el alumno suba los documentos requeridos por su escuela.
-                </Alert>
-                    
-              )
-            }  
-            {/* Archivos */}
-            <Box className={clasesEstilo.mainbox} boxShadow={1}>
-                <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Documentos Subidos</h4>
-                <hr/>                          
-                <List>
-                  {docsInscripcion.map( (file,index) => (
-                    <div key={index} className="container">
-                      <div className="row">
-                        <ListItem>
-                          <div className="col-sm-auto">
-                            <ListItemIcon style={{color:'#f69b2e'}}>
-                              <VscFilePdf className={clasesEstilo.icon}/>
-                            </ListItemIcon>
-                          </div>
-                          <div className="col-sm">                           
-                              {file.nombre}                                                           
-                          </div>
-                          <div className="col-sm-auto" style={{minWidth:"200px"}}>
-                            <ListItemSecondaryAction>                         
-                              <IconButton  style={{color:'#f69b2e'}}>
-                                <MdFileDownload />
-                              </IconButton>                                                 
-                              <IconButton  >
-                                <FcCheckmark />
-                              </IconButton>                                                 
-                              <IconButton  onClick={() => handleCancelDoc(file.id_instancia_documento)} >
-                                <FcCancel />
-                              </IconButton>                           
-                            </ListItemSecondaryAction>                                                                
-                          </div>                       
-                        </ListItem>
+      <div className="animate__animated animate__fadeIn animate__faster">       
+          {
+            mostrarAlertaInfo && (
+              <Alert severity="info">
+                  A la espera de que el alumno suba la información correspondiente a su práctica.
+              </Alert>        
+            )
+          }  
+          {/*Datos de Empresa  */}
+          <Box className={clasesEstilo.mainbox} boxShadow={1}>
+            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Práctica</h4>
+            <hr/>
+            <Grid container direction="row" justify="flex-start" alignItems="flex-start" >    
+              <Grid item xs>
+                  <Box className={clasesEstilo.box}>
+                      <Box fontWeight="fontWeightMedium">
+                          Fecha de Inicio:
+                      </Box>
+                      <Box>
+                          {dataInscripcion.fecha_inicio}
+                      </Box>
+                  </Box> 
+              </Grid>
+              <Grid item xs >
+                  <Box className={clasesEstilo.box}>
+                      <Box fontWeight="fontWeightMedium">
+                          Fecha de Término:
+                      </Box>
+                      <Box>
+                          {dataInscripcion.fecha_termino}
+                      </Box>
+                  </Box>
+              </Grid>                                               
+            </Grid>
+          </Box>  
+          <Box className={clasesEstilo.mainbox} boxShadow={1}>
+            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Empresa</h4>
+            <hr/>
+            <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
+              <Grid item xs>
+                <Box className={clasesEstilo.box}>
+                  <Box fontWeight="fontWeightMedium">
+                    Nombre de Empresa:
+                  </Box>
+                  <Box>
+                    {dataInscripcion.empresa}
+                  </Box>
+                </Box> 
+              </Grid>
+              <Grid item xs >
+                <Box className={clasesEstilo.box}>
+                  <Box fontWeight="fontWeightMedium">
+                    Rut de Empresa:
+                  </Box>
+                  <Box>
+                    {dataInscripcion.rut_empresa}
+                  </Box>
+                </Box>
+              </Grid>                                               
+            </Grid>
+            <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
+              <Grid item xs>
+                  <Box className={clasesEstilo.box}>
+                      <Box fontWeight="fontWeightMedium">
+                          Nombre del Supervisor:
+                      </Box>
+                      <Box>
+                          {dataInscripcion.supervisor}
+                      </Box>
+                  </Box> 
+              </Grid>
+              <Grid item xs >
+                <Box className={clasesEstilo.box}>
+                  <Box fontWeight="fontWeightMedium">
+                    Correo del Supervisor:
+                  </Box>
+                  <Box>
+                    {dataInscripcion.correo_supervisor}
+                  </Box>
+                </Box>
+              </Grid>                                               
+            </Grid>
+            <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
+              <Grid item xs>
+                  <Box className={clasesEstilo.box}>
+                      <Box fontWeight="fontWeightMedium">
+                          Teléfono del Supervisor:
+                      </Box>
+                      <Box>
+                          {dataInscripcion.tel_supervisor}
+                      </Box>
+                  </Box> 
+              </Grid>                                              
+            </Grid>
+            <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
+              <Grid item xs>
+                  <Box className={clasesEstilo.box}>
+                      <Box fontWeight="fontWeightMedium">
+                          Ubicación (Región o Internacional):
+                      </Box>
+                      <Box>
+                          {dataInscripcion.region}
+                      </Box>
+                  </Box> 
+              </Grid>
+              <Grid item xs >
+                <Box className={clasesEstilo.box}>
+                  <Box fontWeight="fontWeightMedium">
+                  Ubicación (Comuna o País):
+                  </Box>
+                  <Box>
+                    {dataInscripcion.comuna}
+                  </Box>
+                </Box>
+              </Grid>                                               
+            </Grid>
+          </Box> 
+          <Box className={clasesEstilo.mainbox} boxShadow={1}>
+            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos de Emergencia</h4>
+            <hr/>
+            <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
+              <Grid item xs>
+                <Box className={clasesEstilo.box}>
+                  <Box fontWeight="fontWeightMedium">
+                    Nombre Contacto:
+                  </Box>
+                  <Box>
+                    {dataInscripcion.nombre_emergencia}
+                  </Box>
+                </Box> 
+              </Grid>
+              <Grid item xs >
+                <Box className={clasesEstilo.box}>
+                  <Box fontWeight="fontWeightMedium">
+                    Teléfono Contacto:
+                  </Box>
+                  <Box>
+                    {dataInscripcion.tel_emergencia}
+                  </Box>
+                </Box>
+              </Grid>                                               
+            </Grid>
+          </Box>
+          {
+            mostrarAlertaDoc && (
+              <Alert severity="info">
+                  A la espera de que el alumno suba los documentos requeridos por su escuela.
+              </Alert>
+                  
+            )
+          }  
+          {/* Archivos */}
+          <Box className={clasesEstilo.mainbox} boxShadow={1}>
+            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Documentos Subidos</h4>
+            <hr/>                          
+            <List>
+              {docsInscripcion.map( (file,index) => (
+                <div key={index} className="container">
+                  <div className="row">
+                    <ListItem>
+                      <div className="col-sm-auto">
+                        <ListItemIcon style={{color:'#f69b2e'}}>
+                          <VscFilePdf className={clasesEstilo.icon}/>
+                        </ListItemIcon>
                       </div>
-                      <div className="row">
-                        <ListItem> 
-                          <div className="col">
-                            <Collapse isOpen={isOpen}>
-                              {idDocCancelado === file.id_instancia_documento 
-                              &&                    
-                              (      
-                              <div className="row">
-                                <div className="col">
-                                  <Input                                                    
-                                  placeholder="Ingrese retroalimentación..."                                
-                                  type="textarea" 
-                                  invalid="true"                              
-                                  />  
-                                </div>
-                                <div className="col">
-                                  <Button className={clasesEstilo.boton}>
-                                    Guardar
-                                  </Button>                               
-                                </div>
-                                </div>
-                                
-                              ) 
-                              }                  
-                              
-                            </Collapse>                                                         
-                          </div>                                             
-                        </ListItem>                   
-                      </div>                                                               
-                    </div>
-                    
-                  ))}
-                </List>            
-                              
-            </Box>
-            <Box className={clasesEstilo.boxBotones} display="flex" boxShadow={1}>
-            <div style={{padding:"30px"}}>
-              <Button className={clasesEstilo.boton} startIcon={<GoCheck/>} onClick={handleAceptarInscripcion} >
-                Aceptar
-              </Button>
-              <Button className={clasesEstilo.botonRechazo} startIcon={<GoCircleSlash/>} >
-                Rechazar
-              </Button>
-            </div>       
-            </Box>
+                      <div className="col-sm">                           
+                          {file.nombre}                                                           
+                      </div>
+                      <div className="col-sm-auto" style={{minWidth:"200px"}}>
+                        <ListItemSecondaryAction>                         
+                          <IconButton  style={{color:'#f69b2e'}}>
+                            <MdFileDownload />
+                          </IconButton>                                                 
+                          <IconButton  >
+                            <FcCheckmark />
+                          </IconButton>                                                 
+                          <IconButton  onClick={() => handleCancelDoc(file.id_instancia_documento)} >
+                            <FcCancel />
+                          </IconButton>                           
+                        </ListItemSecondaryAction>                                                                
+                      </div>                       
+                    </ListItem>
+                  </div>
+                  <div className="row">
+                    <ListItem> 
+                      <div className="col">
+                        <Collapse isOpen={isOpen}>
+                          {idDocCancelado === file.id_instancia_documento 
+                          &&                    
+                          (      
+                          <div className="row">
+                            <div className="col">
+                              <Input                                                    
+                              placeholder="Ingrese retroalimentación..."                                
+                              type="textarea" 
+                              invalid="true"                              
+                              />  
+                            </div>
+                            <div className="col">
+                              <Button className={clasesEstilo.boton}>
+                                Guardar
+                              </Button>                               
+                            </div>
+                            </div>
+                            
+                          ) 
+                          }                  
+                          
+                        </Collapse>                                                         
+                      </div>                                             
+                    </ListItem>                   
+                  </div>                                                               
+                </div>
+                
+              ))}
+            </List>            
+                            
+          </Box>
+          <Box className={clasesEstilo.boxBotones} display="flex" boxShadow={1}>
+          <div style={{padding:"30px"}}>
+            <Button className={clasesEstilo.boton} startIcon={<GoCheck/>} onClick={handleAceptarInscripcion} >
+              Aceptar
+            </Button>
+            <Button className={clasesEstilo.botonRechazo} startIcon={<GoCircleSlash/>} >
+              Rechazar
+            </Button>
+          </div>       
+          </Box>
         </div>
         
     )
