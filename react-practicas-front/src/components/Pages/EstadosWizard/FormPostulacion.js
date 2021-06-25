@@ -42,9 +42,7 @@ export const FormPostulacion = ({handleSubmit, previousPage}) => {
             handleSubmit={handleSubmit}/> 
           : 
           (
-            <div>
-              <h4>Formulario de Postulacion</h4>
-                <hr/>
+            <div>          
                 {mostrarComentario && 
                 (
                   <div>

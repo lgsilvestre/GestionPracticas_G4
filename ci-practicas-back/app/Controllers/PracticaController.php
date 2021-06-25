@@ -377,4 +377,50 @@ class PracticaController extends BaseController
 		}
 	}
 
+	public function pasarEstadoEvaluar() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		//$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->pasarEstadoEvaluar($id_alumno);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getEvaluacionEmpresa() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEvaluacionEmpresa($id_alumno);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
+	public function evaluarPractica() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$nota = $this->request->getVar('nota');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->evaluarPractica($id_alumno, $nota);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getEvaluacionPracticaUni() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEvaluacionPracticaUni($id_alumno);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
 }

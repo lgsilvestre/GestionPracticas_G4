@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FcGraduationCap } from 'react-icons/fc';
 import { IconContext } from 'react-icons/lib';
-import { CardActionArea, makeStyles } from '@material-ui/core';
+import { Button, CardActionArea, makeStyles } from '@material-ui/core';
 import {
     CustomInput
     } from 'reactstrap';
@@ -11,14 +11,16 @@ import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 import Divider from '@material-ui/core/Divider';
 import { FcSurvey } from "react-icons/fc";
+import Alert from '@material-ui/lab/Alert';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+
 const ladoCard = "25vh"
 const useStyles = makeStyles((theme)=>({
 
   root: {
-    // maxWidth: ladoCard,
     borderRadius: '25px',
     width:"36vh"
-    // height: '78%'
   },
   area : {
     padding: '0'
@@ -51,10 +53,76 @@ const useStyles = makeStyles((theme)=>({
   description:{
     margin:"1.5vh",
     textAlign:"center"
+  },
+  boton:{
+    marginRight:'10px',
+    backgroundColor:"grey",
+    color:"white",
+    cursor: 'pointer',
+    transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+    '&:hover': {
+    backgroundColor:'#0DC143',
+        color: '#fff'
+        }
+  },
+  botonRechazo:{
+    backgroundColor:"grey",
+    color:"white",
+    cursor: 'pointer',
+    transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+    '&:hover': {
+    backgroundColor:'red',
+        color: '#fff'
+        }
   }
 }))
 export const Termino = ({previousPage}) => {
+    const [mostrarAlertaDias, setMostrarAlertaDias] = useState(true)
+    const [mostrarAlertaCriticaDias, setmostrarAlertaCriticaDias] = useState(false)
+    const [documentoSubido, setDocumentoSubido] = useState(false)
+    const [notaEmpresa, setNotaEmpresa] = useState("--")
+    const [notaEscuela, setNotaEscuela] = useState("--")
     const classes = useStyles()
+    const cookies = new Cookies()
+    const id_alumno = cookies.get('id')
+    
+    const getNotaEmpresa = () => {
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionEmpresa",{
+        id_alumno:id_alumno
+      })
+      .then(response =>{   
+        //0 No hay evaluacion
+        //>0 Es evaluacion
+        if(response.data[0].evaluacion_empresa!=="0"){
+          setNotaEmpresa(response.data[0].evaluacion_empresa)
+        }
+      }
+      )
+      .catch(error => {
+
+        console.log("Error: ", error)
+      });
+    }
+    const getNotaUni = () => {
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionPracticaUni",{
+        id_alumno:id_alumno
+      })
+      .then(response =>{      
+        //0 No hay evaluacion
+        //>0 Es evaluacion
+        if(response.data[0].evaluacion_uni!=="0"){
+          setNotaEscuela(response.data[0].evaluacion_uni)
+        }            
+      }
+      )
+      .catch(error => {
+        console.log("Error: ", error)
+      });
+    }
+    useEffect(() => {
+      getNotaEmpresa()
+      getNotaUni()
+    }, [])
     return (
         <div className="animate__animated animate__fadeIn animate__faster">  
           <div >      
@@ -72,6 +140,23 @@ export const Termino = ({previousPage}) => {
                 </div>              
              
                 <div className="container" style={{marginTop:"4vh"}}>
+                  {!documentoSubido && 
+                    mostrarAlertaDias && (
+                      <div className="row justify-content-center" style={{marginBottom:"20px"}}>
+                        <Alert severity="info">
+                          ¡Quedan <strong>15</strong> días para subir tu informe de práctica, apresúrate!
+                        </Alert>
+                      </div>
+                  )}
+                  {!documentoSubido &&
+                    mostrarAlertaCriticaDias &&(
+                      <div className="row justify-content-center" style={{marginBottom:"20px"}}>
+                          <Alert severity="error">
+                            ¡Quedan solamente <strong>4</strong> días para subir tu informe de práctica, no te arriesgues a reprobar tu práctica!
+                          </Alert>
+                      </div>
+                    )
+                  }
                   <div className="row justify-content-center">
                     <div className="col-6">
                       <CustomInput 
@@ -81,6 +166,21 @@ export const Termino = ({previousPage}) => {
                         label="Sube tu informe de práctica"                                     
                       />
                     </div>
+                    <div className="col-auto">
+                      <Button className={classes.boton}>
+                        Guardar
+                      </Button>
+                      <Button className={classes.botonRechazo}>
+                        Eliminar
+                      </Button>
+                    </div>
+                  {documentoSubido && (
+                    <div className="row justify-content-center" style={{marginTop:"20px"}}>
+                      <Alert severity="success">
+                        ¡Has subido tu informe de práctica a tiempo! Espera por tus calificaciones.
+                      </Alert>
+                  </div>
+                  )}
                   </div>
                   <div className="row justify-content-center" style={{marginTop:"3vh"}}>
                     {/* NOTA EMPRESA */}
@@ -97,7 +197,7 @@ export const Termino = ({previousPage}) => {
                                   
                           </CardContent>
                           <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                            6.0
+                            {notaEmpresa}
                           </Typography> 
                         </CardActionArea>
                         <Divider variant="middle" light={true} />
@@ -120,7 +220,7 @@ export const Termino = ({previousPage}) => {
                                   
                           </CardContent>
                           <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                            6.0
+                            {notaEscuela}
                           </Typography> 
                         </CardActionArea>
                         <Divider variant="middle" light={true} />
@@ -130,7 +230,7 @@ export const Termino = ({previousPage}) => {
                       </Card>                      
                     </div>
                     {/* NOTA FINAL */}
-                    <div className="col-auto" style={{margin:"1vh"}}>
+                    {/* <div className="col-auto" style={{margin:"1vh"}}>
                       <Card className={classes.root}>
                         <CardActionArea className={classes.area}>
                           <CardContent className={classes.cardContent}>
@@ -151,7 +251,7 @@ export const Termino = ({previousPage}) => {
                           Corresponde a la nota final de tu práctica.                          
                         </Typography>
                       </Card>    
-                    </div>
+                    </div> */}
                     
                   </div>
                 </div>   
