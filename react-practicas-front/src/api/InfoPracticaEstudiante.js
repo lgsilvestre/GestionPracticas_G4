@@ -1,15 +1,19 @@
 export const InfoPracticaEstudiante = [
-
+  {
+    etapa:"No es posible obtener informacion",
+    info:"No es posible obtener informacion",
+    pasos:"No es posible obtener informacion"
+  },
   {
     etapa:"Solicitud",
     info:"En esta primera etapa debes solicitar la práctica para que el encargado "+
-    "de tu carrera analice tu situación. Si acepta tu solicitud, se te enviarán los "+
-    "documentos correspondientes para que los presentes en la entrevista con tu empresa "+
-    "elegida. Si es rechazada, se te enviara las razones del rechazo.",
+    "de tu carrera analice tu situación. Si acepta tu solicitud, se te habilitarán los "+
+    "documentos necesarios para presentarlos en la entrevista con tu empresa "+
+    "elegida. Si es rechazada, se te enviarán las razones del rechazo.",
     pasos:"Ve a Prácticas y luego solicita tu práctica"
   },
   {
-    etapa:"Inscripcion",
+    etapa:"Inscripción",
     info:"En esta segunda etapa ya puedes comenzar a llenar tu formulario de inscripcion "+
     "de tu práctica. Debes realizar la entrevista en la empresa que elegiste y luego con "+
     "llenar el formulario con la información solicitada y subir los documentos que se soliciten.",
@@ -25,7 +29,7 @@ export const InfoPracticaEstudiante = [
     "extiende la fecha de término para tu práctica."
   },
   {
-    etapa:"Evaluacion",
+    etapa:"Evaluación",
     info:"Ya has concluido tu práctica. En esta última etapa de tu práctica debes subir "+
     "el informe de práctica a la plataforma dentro del plazo correspondiente y luego esperar "+
     "por tus calificaciones.",

@@ -1,12 +1,12 @@
 import { makeStyles } from '@material-ui/core';
-import React from 'react'
-// import Calendar from 'react-awesome-calendar';
-import Calendar from 'react-calendar'
+import React, { useEffect, useState } from 'react'
 import 'react-calendar/dist/Calendar.css';
+import axios from 'axios';
 import { Card } from 'reactstrap';
 import { IconContext } from 'react-icons/lib';
 import { FcCalendar,FcInspection,FcInfo } from "react-icons/fc";
 import { InfoPracticaEstudiante } from '../../api/InfoPracticaEstudiante';
+import Cookies from 'universal-cookie';
 
 const useStyles = makeStyles((theme)=>({
 
@@ -60,13 +60,15 @@ const useStyles = makeStyles((theme)=>({
   }
 }))
 export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
-  const dataEstudiante = {
+  const cookies = new Cookies()
+  const id_alumno = cookies.get('id')
+  const dataEstudianteEj = {
     nombre:nombre,
-    correo:"correo@alumnos.utalca.cl",
+    correo_ins:"correo@alumnos.utalca.cl",
     matricula:"12345678",
-    carrera:"Ingeniería Civil en Computación"
+    nbe_carrera:"Ingeniería Civil en Computación"
   }
-  const FechasImportantes = [
+  const FechasImportantesEj = [
     {
       fecha:"16/06",
       evento:"Fin de Plazo para presentar solicitud de práctica."
@@ -80,6 +82,59 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
       evento:"Comienzo de Segundo Semestre."
     },
   ]
+  const [dataEstudiante, setdataEstudiante] = useState(dataEstudianteEj)
+  const [fechasImportantes, setfechasImportantes] = useState(FechasImportantesEj)
+  const [etapa, setEtapa] = useState(0)
+  const [infoPractica, setInfoPractica] = useState(InfoPracticaEstudiante[0])
+  const [nroPractica, setNroPractica] = useState(0)
+  const getInfoAlumno = () => {
+    console.log("Solicitando alumno con id: ",id_alumno)
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoId",
+      {
+        id_alumno:id_alumno
+      }
+    )
+    .then(response=>{
+      console.log("Info Alumno:" ,response.data)
+      setdataEstudiante(response.data[0])
+    })
+  }
+  const getEtapaPracticaActiva = () => {
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEstadoPracticaActiva",
+      {
+        id_alumno:id_alumno
+      }
+    )
+    .then(response=>{
+      console.log("etapa:" ,response.data)      
+      switch (response.data[0].etapa) {
+        case "Solicitud":
+          setEtapa(1)
+          setInfoPractica(InfoPracticaEstudiante[1])
+          break;
+        case "Inscripción":
+          setEtapa(2)
+          setInfoPractica(InfoPracticaEstudiante[2])
+          break;
+        case "Cursando":
+          setEtapa(3)
+          setInfoPractica(InfoPracticaEstudiante[3])
+          break;
+        case "Evaluación":
+          setEtapa(4)
+          setInfoPractica(InfoPracticaEstudiante[4])
+          break;    
+        default:
+          break;
+      }
+      console.log("InfoPractica: ",infoPractica)
+    })
+  }
+  
+  useEffect(() => {
+    getInfoAlumno()
+    getEtapaPracticaActiva()
+  }, [])
   const classes = useStyles();
   return (
     <div>
@@ -112,7 +167,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                   </div>
                   <div className="col">
                     <h6 className={classes.textoInfo}><strong>Correo</strong></h6>
-                    <h7 className={classes.textoInfo}>{dataEstudiante.correo}</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.correo_ins}</h7>
                   </div>
                 </div>
                 <div className="row">
@@ -122,7 +177,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                   </div>
                   <div className="col">
                     <h6 className={classes.textoInfo}><strong>Carrera</strong></h6>
-                    <h7 className={classes.textoInfo}>{dataEstudiante.carrera}</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.nbe_carrera}</h7>
                   </div>
                 </div>
               </div>
@@ -146,10 +201,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{FechasImportantes[0].fecha}</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{fechasImportantes[0].fecha}</strong></h1>
                         </div>
                         <div className="col-9" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>{FechasImportantes[0].evento}</h1>
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{fechasImportantes[0].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -160,10 +215,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{FechasImportantes[1].fecha}</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{fechasImportantes[1].fecha}</strong></h1>
                         </div>
                         <div className="col-9" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>{FechasImportantes[1].evento}</h1>
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{fechasImportantes[1].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -174,10 +229,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{FechasImportantes[2].fecha}</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{fechasImportantes[2].fecha}</strong></h1>
                         </div>
                         <div className="col-9" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>{FechasImportantes[2].evento}</h1>
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{fechasImportantes[2].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -206,19 +261,19 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> {InfoPracticaEstudiante[1].etapa}</h7>
+                        <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> {infoPractica.etapa}</h7>
                       </div>
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
                         <h7 className={classes.textoInfo}><strong>Información de etapa:</strong></h7>
-                        <p className={classes.textoInfo} style={{margin:0}}> {InfoPracticaEstudiante[1].info}
+                        <p className={classes.textoInfo} style={{margin:0}}> {infoPractica.info}
                         </p>
                       </div>
                     </div>
                     <div className="row"> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> {InfoPracticaEstudiante[1].pasos}</h7>
+                        <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> {infoPractica.pasos}</h7>
                       </div>
                     </div>
                   </div>              
