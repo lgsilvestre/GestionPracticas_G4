@@ -6,6 +6,8 @@ import 'react-calendar/dist/Calendar.css';
 import { Card } from 'reactstrap';
 import { IconContext } from 'react-icons/lib';
 import { FcCalendar,FcInspection,FcInfo } from "react-icons/fc";
+import { InfoPracticaEstudiante } from '../../api/InfoPracticaEstudiante';
+
 const useStyles = makeStyles((theme)=>({
 
   cardDatos:{
@@ -58,6 +60,26 @@ const useStyles = makeStyles((theme)=>({
   }
 }))
 export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
+  const dataEstudiante = {
+    nombre:nombre,
+    correo:"correo@alumnos.utalca.cl",
+    matricula:"12345678",
+    carrera:"Ingeniería Civil en Computación"
+  }
+  const FechasImportantes = [
+    {
+      fecha:"16/06",
+      evento:"Fin de Plazo para presentar solicitud de práctica."
+    },
+    {
+      fecha:"19/07",
+      evento:"Cierre de Primer Semestre"
+    },
+    {
+      fecha:"09/08",
+      evento:"Comienzo de Segundo Semestre."
+    },
+  ]
   const classes = useStyles();
   return (
     <div>
@@ -66,7 +88,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
         <div className="container" >
           <div className="row justify-content-md-center" >
             <div className="col" style={{marginTop:10}}>
-              <h3 style={{color:"white"}}>¡Bienvenido {nombre}!</h3>
+              <h3 style={{color:"white"}}>¡Bienvenido {dataEstudiante.nombre}!</h3>
             </div>
           </div>   
         </div>
@@ -86,21 +108,21 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                 <div className="row" style={{marginTop:"3vh"}}>
                   <div className="col" style={{marginBottom:"3vh"}}>
                     <h6 className={classes.textoInfo}><strong>Nombre</strong></h6>
-                    <h7 className={classes.textoInfo}>Camilo Villalobos</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.nombre}</h7>
                   </div>
                   <div className="col">
                     <h6 className={classes.textoInfo}><strong>Correo</strong></h6>
-                    <h7 className={classes.textoInfo}>correo@alumnos.utalca.cl</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.correo}</h7>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col">
-                    <h6 className={classes.textoInfo}><strong>Matricula</strong></h6>
-                    <h7 className={classes.textoInfo}>12345678</h7>
+                    <h6 className={classes.textoInfo}><strong>Matrícula</strong></h6>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.matricula}</h7>
                   </div>
                   <div className="col">
                     <h6 className={classes.textoInfo}><strong>Carrera</strong></h6>
-                    <h7 className={classes.textoInfo}>Ingeniería Civil en Computación</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.carrera}</h7>
                   </div>
                 </div>
               </div>
@@ -112,7 +134,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                   <IconContext.Provider value={{size:"4vh"}} >
                     <FcCalendar style={{marginTop:"0.5vh", marginRight:"1vh"}}/>
                   </IconContext.Provider> 
-                  <h4 className={classes.titleCard}><strong>Fechas importantes</strong></h4>
+                  <h4 className={classes.titleCard}><strong>Fechas importantes 2021</strong></h4>
                 </div>
                 <hr className={classes.hrSection}/>
               </div>
@@ -124,10 +146,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{FechasImportantes[0].fecha}</strong></h1>
                         </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
+                        <div className="col-9" >
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{FechasImportantes[0].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -138,10 +160,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{FechasImportantes[1].fecha}</strong></h1>
                         </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
+                        <div className="col-9" >
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{FechasImportantes[1].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -152,10 +174,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{FechasImportantes[2].fecha}</strong></h1>
                         </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
+                        <div className="col-9" >
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{FechasImportantes[2].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -184,21 +206,19 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> Solicitud Pendiente</h7>
+                        <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> {InfoPracticaEstudiante[1].etapa}</h7>
                       </div>
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
                         <h7 className={classes.textoInfo}><strong>Información de etapa:</strong></h7>
-                        <p className={classes.textoInfo} style={{margin:0}}>En esta primera etapa debes solicitar la práctica para que el encargado de tu carrera analice tu situación.
-                        Si acepta tu solicitud, se te enviarán los documentos correspondientes para que los presentes en la entrevista
-                        con tu empresa elegida. Si es rechazada, se te enviara las razones del rechazo.
+                        <p className={classes.textoInfo} style={{margin:0}}> {InfoPracticaEstudiante[1].info}
                         </p>
                       </div>
                     </div>
                     <div className="row"> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> Ve a Prácticas y luego solicita tu práctica</h7>
+                        <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> {InfoPracticaEstudiante[1].pasos}</h7>
                       </div>
                     </div>
                   </div>              
