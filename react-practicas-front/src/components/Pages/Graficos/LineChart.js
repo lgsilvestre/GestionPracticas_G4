@@ -7,17 +7,17 @@ import axios from 'axios';
 
 export default function LineChart () {
   {/* cantidad de practicas por anio de los graficos */}
-  const [cantidades , setCantidades ] = useState([])
+  const [cantidades , setCantidades ] = useState()
   {/* Historial de anios */}
-  const [anios , setAnios ] = useState([])
+  const [anios , setAnios ] = useState()
 
-  {/* captura de cantidades */}
+{/* captura de cantidades */}
 useEffect(() => {
   axios.get(
     ""
   )
     .then(response => {
-      let respuesta = JSON.parse(response.data);
+      let respuesta = response.data;
       setCantidades(respuesta);
 
     })
@@ -26,12 +26,27 @@ useEffect(() => {
     });
 }, []);
 
+{/* captura de anios */}
+useEffect(() => {
+  axios.get(
+    ""
+  )
+    .then(response => {
+      let respuesta = response.data;
+      setAnios(respuesta);
+
+    })
+    .catch(error => {
+      console.log("login error: ", error);
+    });
+}, []);
+
 const data = {
-  labels: ['1', '2', '3', '4', '5', '6'],
+  labels: anios,
   datasets: [
     {
       label: 'Cantidad de Practicas ',
-      data: [12, 19, 3, 5, 2, 3],
+      data: cantidades,
       fill: true,
       backgroundColor: 'rgba(54, 162, 235, 0.2)',
       borderColor: 'rgba(54, 162, 235, 0.2)',
