@@ -16,6 +16,12 @@ export const Info = () => {
                             Admin
                         </button>
                     </Link>
+                    <h3>para trabajar en en vista Supervisor o Jefe Carrera : /supervisor</h3>   
+                    <Link to="/supervisor">
+                        <button className ="btn btn-secondary">
+                        supervisor
+                        </button>
+                    </Link>
                     <h3>para trabajar en vista Login : /login</h3>   
                     <Link to="/login">
                         <button className ="btn btn-secondary">
