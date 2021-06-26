@@ -53,19 +53,11 @@ class AlumnoController extends BaseController
 
     public function showData(){
         echo "hola desde alumno";
-        /*
-        echo $_SESSION['nombre'];
-        echo $_SESSION['correo_ins'];
-        echo $_SESSION['matricula'];
-        echo $_SESSION['nbe_carrera'];
-        echo $_SESSION['refCarrera'];
-        */
     }
 
 	public function getAlumnoMatricula(){
 		$matricula = $this->request->getVar('matricula');
         $model = new AlumnoModel();
-		// $model->;
         $user = $model->where('matricula', $matricula)->first();   
         echo json_encode($user);
     }
@@ -76,7 +68,27 @@ class AlumnoController extends BaseController
         $result = $model->getIdMatricula($matricula);   
         echo json_encode($result);
     }
+
+	public function getAlumnosAdmin(){
+		$model = new AlumnoModel();
+		$result = $model->getAlumnosAdmin();   
+        echo json_encode($result);
+	}
    
+	public function getAlumnosEscuela(){
+		$carrera = $this->request->getVar('carrera');
+		$model = new AlumnoModel();
+		$result = $model->getAlumnosEscuela($carrera);   
+        echo $result;
+	}
+
+	public function getCarreraAlumno($id){
+		$id = $this->request->getVar('id_alumno');
+		$model = new AlumnoModel();
+		$result = $model->getAlumnosEscuela($carrera);   
+        echo $result;
+	}
+
 }
 
 
