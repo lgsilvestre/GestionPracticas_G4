@@ -123,6 +123,11 @@ export default function SignInSide({ history }) {
         console.log("respuesta: ", response.data);
 
         if (response.data.tipo === 1 || response.data.tipo === 2) {
+         
+          history.replace("/supervisor")
+          
+        }
+        else if (response.data.tipo === 0) {
           console.log("admin")
           history.replace("/admin")
         }

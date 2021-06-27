@@ -57,22 +57,22 @@ export default function Administrador() {
     console.log(administrador);
   }
 
-  const peticionGet = async () => {
-    await axios.get('http://localhost/GestionPracticas_G4/ci-practicas-back/public/getFuncionarios')
-      .then(response => {
-        const resultado = response.data
-        // console.log("antes:",rows)
-        const lista = []
-        for (var i = 0; i < resultado.length; i++) {
-          const fila = createData(resultado[i].nombre, resultado[i].apellido, resultado[i].email, resultado[i].tipo, resultado[i].password, "button")
-          // console.log(fila)
-          lista.push(fila)
-        }
-        // console.log(lista)
-        setRows(lista)
-      }).catch(error => {
-        console.log("Error catch: ", error)
-      })
+
+
+  const peticionGet=async()=>{
+    await axios.get('')
+    .then(response=>{
+      const resultado = response.data;
+      // console.log("antes:",rows)
+      const lista = []
+      for(var i=0; i<resultado.length; i++){
+        const fila = createData(resultado[i].nombre , resultado[i].correo , resultado[i].tipo,resultado[i].contrasenia,"button")
+        // console.log(fila)
+        lista.push(fila)
+      }  
+      // console.log(lista)
+      setRows(lista)
+    })
   }
 
   const peticionPut = async () => {
@@ -129,9 +129,9 @@ export default function Administrador() {
     setModalEliminar(!modalEliminar);
   }
 
-  const seleccionarAdministrador = (administrador, caso) => {
-    setAdministrador(administrador);
-    (caso === 'Editar') ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
+  const seleccionarAdministrador=(rows, caso)=>{
+    setAdministrador (rows);
+    (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
   }
 
   const handleClickShowPassword = () => {
@@ -417,9 +417,9 @@ export default function Administrador() {
                       <TableCell key={column.id} align={column.align}>
                       {value ==="button" ? 
                       <div>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(row, 'Editar')}/>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Editar')}/>
                       &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(row, 'Eliminar')}/>
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Eliminar')}/>
                       </div>
                       : value}
                       </TableCell>
