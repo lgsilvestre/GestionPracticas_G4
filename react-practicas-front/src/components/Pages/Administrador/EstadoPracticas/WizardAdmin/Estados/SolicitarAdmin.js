@@ -180,10 +180,25 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
       });
     }
 
+    const rechazarSolicitud = () =>{  
+        // axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/rechazarSolicitud",{
+        //   idalumno:idAlumno
+        // }).then(response =>{
+        //   //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
+        //   console.log("respuesta enviar info solicitud: ",response.data)
+        //   nextPage()
+        // }
+        // )
+        // .catch(error => {
+        //   //FALSE PRACTICA NO AGREGADA
+        //   //MOSTRAR ALERTA
+        //   console.log("Error: ", error)
+        // });
+      }
+
     const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
 
     const handleAceptarPractica = () =>{
-      console.log("ACEPTANDO PRACTICA")
       enviarInformacionSolicitud()
     }
 

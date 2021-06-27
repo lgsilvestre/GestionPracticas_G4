@@ -26,6 +26,22 @@ useEffect(() => {
     });
 }, []);
 
+
+  {/* captura de anios */}
+  useEffect(() => {
+    axios.get(
+      ""
+    )
+      .then(response => {
+        let respuesta = JSON.parse(response.data);
+        setAnios(respuesta);
+  
+      })
+      .catch(error => {
+        console.log("login error: ", error);
+      });
+  }, []);
+
 const data = {
   labels: ['1', '2', '3', '4', '5', '6'],
   datasets: [

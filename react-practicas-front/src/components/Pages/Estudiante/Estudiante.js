@@ -113,8 +113,8 @@ export default function Administrador() {
   }
 
   const peticionDelete = async () => {
-    await axios.delete('' + estudiante
-      .id)
+    console.log(estudiante.id)
+    await axios.delete('' + estudiante.id)
       .then(response => {
         setRows(rows.filter(consola => consola.id !== estudiante
           .id));

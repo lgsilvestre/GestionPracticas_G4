@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Dropdown } from 'rsuite';
-import 'rsuite/dist/styles/rsuite-default.css'; 
+import 'rsuite/lib/styles/common.less';
 import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import styles from './NavBarStyle.css';
 import HelpIcon from '@material-ui/icons/Help';
-
-
 
 const NavBarr = ({ onSelect, activeKey, ...props }) => {
 

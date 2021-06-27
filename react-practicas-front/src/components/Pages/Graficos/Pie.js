@@ -8,6 +8,7 @@ import axios from 'axios';
 export default function PieChart()  {
 {/* cantidad de practicas por region de los graficos */}
 const [cantidades , setCantidades ] = useState([])
+const [regiones , setRegiones ] = useState([])
 
 {/* captura de cantidades */}
 useEffect(() => {
@@ -17,6 +18,21 @@ useEffect(() => {
     .then(response => {
       let respuesta = JSON.parse(response.data);
       setCantidades(respuesta);
+
+    })
+    .catch(error => {
+      console.log("login error: ", error);
+    });
+}, []);
+
+{/* captura de regiones */}
+useEffect(() => {
+  axios.get(
+    ""
+  )
+    .then(response => {
+      let respuesta = JSON.parse(response.data);
+      setRegiones(respuesta);
 
     })
     .catch(error => {
