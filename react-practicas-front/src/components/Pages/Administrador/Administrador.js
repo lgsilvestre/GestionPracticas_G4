@@ -408,9 +408,9 @@ const bodyEliminar=(
                       <TableCell key={column.id} align={column.align}>
                       {value ==="button" ? 
                       <div>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Editar')}/>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(row, 'Editar')}/>
                       &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(administrador, 'Eliminar')}/>
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(row, 'Eliminar')}/>
                       </div>
                       : value}
                       </TableCell>

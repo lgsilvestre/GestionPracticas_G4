@@ -220,9 +220,9 @@ export default function Administrador() {
                       <TableCell key={column.id} align={column.align}>
                       {value ==="button" ? 
                       <div>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Editar')}/>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(row, 'Editar')}/>
                       &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(estudiante, 'Eliminar')}/>
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(row, 'Eliminar')}/>
                       </div>
                       : value}
                       </TableCell>
