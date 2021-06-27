@@ -8,16 +8,15 @@ import axios from 'axios';
 
 export default function VerticalBar() {
 {/* cantidad de practicas por carrera de los graficos */}
-  const [cantidades , setCantidades ] = useState([])
-
+  const [cantidades , setCantidades ] = useState()
 
   {/* captura de cantidades */}
   useEffect(() => {
     axios.get(
-      ""
+      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCantidadPracticasCarreras"
     )
       .then(response => {
-        let respuesta = JSON.parse(response.data);
+        let respuesta = response.data;
         setCantidades(respuesta);
 
       })
@@ -31,7 +30,7 @@ const data = {
   datasets: [
     {
       label: 'Cantidad de Practicas ',
-      data: [cantidades],
+      data: cantidades,
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',

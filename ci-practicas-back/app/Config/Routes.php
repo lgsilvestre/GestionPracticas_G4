@@ -73,14 +73,14 @@ $routes->post('aceptarSolicitud', 'PracticaController::aceptarSolicitud');
 $routes->post('inscribirInfo', 'PracticaController::inscribirInfo');
 $routes->post('getDatosInscripcionAlumno', 'PracticaController::getDatosInscripcionAlumno');
 $routes->post('aceptarInscripcion', 'PracticaController::aceptarInscripcion');
-$routes->post('getEstadoPracticaActiva', 'PracticaController::getEstadoPracticaActiva');
-$routes->post('getEvaluacion', 'PracticaController::getEvaluacion');
 $routes->post('filtros', 'PracticaController::filtros');
-
+$routes->get('getCantidadPracticasCarreras', 'PracticaController::getCantidadPracticasCarreras');
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
-$routes->post('getAlumnoId', 'AlumnoController::getAlumnoId');
+$routes->get('getAlumnosAdmin', 'AlumnoController::getAlumnosAdmin');
+$routes->get('getAlumnosEscuela', 'AlumnoController::getAlumnosEscuela');
+$routes->get('getCarreraAlumno', 'AlumnoController::getCarreraAlumno');
 // Instancia documento
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');

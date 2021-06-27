@@ -32,6 +32,24 @@ class AlumnoModel extends Model
         return $result;
     }
 
+    public function getAlumnosAdmin(){
+        $query = $this->db->query("Select * from alumno");
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getAlumnosEscuela($carrera){
+        $query = $this->db->query("Select * from alumno where carrera = '".$carrera."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getCarreraAlumno($id){
+        $query = $this->db->query("Select carrera from alumno where id_alumno = '".$id."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
     /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];

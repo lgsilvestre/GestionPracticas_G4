@@ -6,8 +6,7 @@ import { useEffect, useState } from 'react'
 import Cookies from 'universal-cookie'
 import logo from '../SideBar/logos/whitelogo-nav.png';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Dropdown } from 'rsuite';
-import 'rsuite/dist/styles/rsuite-default.css'; 
+import Dropdown from 'rsuite/lib/Dropdown';
 import PersonIcon from '@material-ui/icons/Person';
 //import logo1 from './logos/whitelogo-1.png';
 

@@ -524,5 +524,16 @@ class PracticaController extends BaseController
             return false;
         }
     }
+	public function getCantidadPracticasCarreras() {
+		$arr = array();
+		$arr[] = 4;
+		$arr[] = 2;
+		$arr[] = 3;
+		$arr[] = 4;
+		$arr[] = 4;
+		$arr[] = 5;
+		echo json_encode($arr);
+	}
+
 }
 

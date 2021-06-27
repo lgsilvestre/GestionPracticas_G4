@@ -35,8 +35,8 @@ class PracticaModel extends Model
         return false;
     }
 
-    public function getEstadoAlumno($id, $numero){
-        $queryPracticaAlumno = "SELECT etapa, estado FROM practica where practica.refAlumno = ".$id." and practica.numero = ".$numero;
+    public function getEstadoAlumno($id){
+        $queryPracticaAlumno = "SELECT etapa, estado FROM practica where practica.refAlumno = ".$id." and practica.etapa != 'Evaluada'";
         $query = $this->db->query($queryPracticaAlumno);
         $result = $query->getResult();
         return $result;
