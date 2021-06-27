@@ -32,7 +32,7 @@ const SidePro = () => {
             <Menu iconShape="square">   
 
                 <MenuItem className={styles.navItem} style={{marginTop:'20px', marginBottom:'20px'}}>
-                    <Link to="/admin" >
+                    <Link to="/supervisor" >
                         <img src={logo1} className={styles.centerimage} alt="Utalca Logo"/>
                     </Link>
                 </MenuItem>
