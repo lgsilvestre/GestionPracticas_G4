@@ -16,8 +16,8 @@ export default function VerticalBar() {
       "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCantidadPracticasCarreras"
     )
       .then(response => {
-        console.log("Respuesta: ",response.data)
-        setCantidades(response.data);
+        let respuesta = response.data;
+        setCantidades(respuesta);
 
       })
       .catch(error => {
