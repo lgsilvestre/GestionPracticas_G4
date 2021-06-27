@@ -24,20 +24,7 @@ useEffect(() => {
     });
 }, []);
 
-{/* captura de regiones */}
-useEffect(() => {
-  axios.get(
-    ""
-  )
-    .then(response => {
-      let respuesta = response.data;
-      setregiones(respuesta);
 
-    })
-    .catch(error => {
-      console.log("login error: ", error);
-    });
-}, []);
 
 const data = {
   labels: ['Arica y Parinacota', 'Tarapacá', 'Antofagasta', 'Atacama', 'Coquimbo', 'Valparaíso','Santiago', 'Libertador Bernardo O’Higgins', 'Maule', 'Ñuble', 'Biobío', 'Ríos', 'Lagos', 'Carlos Ibáñez del Campo', 'Magallanes' ], 
