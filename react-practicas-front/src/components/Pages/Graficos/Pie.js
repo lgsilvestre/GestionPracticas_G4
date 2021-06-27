@@ -8,7 +8,6 @@ import axios from 'axios';
 export default function PieChart()  {
 {/* cantidad de practicas por region de los graficos */}
 const [cantidades , setCantidades ] = useState()
-const [regiones , setregiones ] = useState()
 
 {/* captura de cantidades */}
 useEffect(() => {
@@ -41,7 +40,7 @@ useEffect(() => {
 }, []);
 
 const data = {
-  labels: regiones,
+  labels: ['Arica y Parinacota', 'Tarapacá', 'Antofagasta', 'Atacama', 'Coquimbo', 'Valparaíso','Santiago', 'Libertador Bernardo O’Higgins', 'Maule', 'Ñuble', 'Biobío', 'Ríos', 'Lagos', 'Carlos Ibáñez del Campo', 'Magallanes' ], 
   datasets: [
     {
       label: 'Cantidad de practicas',
