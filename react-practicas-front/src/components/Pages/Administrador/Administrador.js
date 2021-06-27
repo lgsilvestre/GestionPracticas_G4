@@ -56,6 +56,8 @@ export default function Administrador() {
     console.log(administrador);
   }
 
+
+
   const peticionGet=async()=>{
     await axios.get('')
     .then(response=>{
@@ -124,8 +126,8 @@ export default function Administrador() {
     setModalEliminar(!modalEliminar);
   }
 
-  const seleccionarAdministrador=(administrador, caso)=>{
-    setAdministrador (administrador);
+  const seleccionarAdministrador=(rows, caso)=>{
+    setAdministrador (rows);
     (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
   }
 
@@ -408,9 +410,9 @@ const bodyEliminar=(
                       <TableCell key={column.id} align={column.align}>
                       {value ==="button" ? 
                       <div>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(row, 'Editar')}/>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Editar')}/>
                       &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(row, 'Eliminar')}/>
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Eliminar')}/>
                       </div>
                       : value}
                       </TableCell>

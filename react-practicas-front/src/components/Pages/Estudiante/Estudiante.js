@@ -124,8 +124,8 @@ export default function Administrador() {
     setModalVerMas(!modalVerMas);
   }
 
-  const seleccionarEstudiante=(estudiante, caso)=>{
-    setEstudiante (estudiante);
+  const seleccionarEstudiante=(rows, caso)=>{
+    setEstudiante (rows);
     (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
   }
 
@@ -220,9 +220,9 @@ export default function Administrador() {
                       <TableCell key={column.id} align={column.align}>
                       {value ==="button" ? 
                       <div>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(row, 'Editar')}/>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(rows, 'Editar')}/>
                       &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(row, 'Eliminar')}/>
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(rows, 'Eliminar')}/>
                       </div>
                       : value}
                       </TableCell>
