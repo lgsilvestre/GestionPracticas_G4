@@ -46,8 +46,8 @@ class PracticaModel extends Model
     public function aceptarSolicitud($numero, $id){
         //$queryPracticaAlumno = "SELECT etapa, estado FROM practica where practica.refAlumno = ".$id." and practica.numero = ".$numero;
         $queryPracticaAlumno = "UPDATE practica SET etapa = 'Inscripción', estado = 'Por inscribir' where practica.refAlumno = ".$id." and practica.numero = ".$numero;
-        $query = $this->db->query($queryPracticaAlumno);
-        $result = $query->getResult();
+        $this->db->query($queryPracticaAlumno)->getResult();
+        $result = $this->db->affectedRows();
         return $result;
     }
 

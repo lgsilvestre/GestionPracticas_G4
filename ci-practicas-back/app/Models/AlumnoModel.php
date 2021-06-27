@@ -50,6 +50,12 @@ class AlumnoModel extends Model
         return $result;
     }
 
+    public function getCorreoNombreApellido($id){
+        $query = $this->db->query("Select nombre, correo_ins from alumno where id_alumno = '".$id."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
     /*
     protected $beforeInsert = ['beforeInsert'];
     protected $beforeUpdate = ['beforeUpdate'];
