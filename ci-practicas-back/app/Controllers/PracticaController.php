@@ -111,26 +111,27 @@ class PracticaController extends BaseController
 		return true;
 	}
 
-    public function filtos(){
+    public function filtros(){
         helper(['form']);
-
+				// echo "Filtros: ".$Etapa." ".$Estado." ".$Carrera." ".$anio;
         if($this-> request -> getMethod() == 'post') {
             $rules = [
-                'EtapaFilter' => 'min_length[2]|max_length[20]',
-                'EstadoFilter' => 'min_length[2]|max_length[20]',
-                'CarreraFilter' => 'min_length[2]|max_length[20]',
-				'anioFilter' => 'min_length[2]|max_length[20]',
+                'etapa_filtro' => 'max_length[20]',
+                'estado_filtro' => 'max_length[20]',
+                'carrera_filtro' => 'max_length[20]',
+                'anio_filtro' => 'max_length[20]',
             ];
             $errors = [
             ];
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
-				$Etapa = $this->request->getVar('EtapaFilter');
-				$Estado =$this->request->getVar('EstadoFilter');
-				$Carrera = $this->request->getVar('CarreraFilter');
-				$anio = $this->request->getVar('anioFilter');
-
+				//echo "POST: ".$this->request->getVar('etapa_filtro')." ".$this->request->getVar('estado_filtro')." ".$this->request->getVar('carrera_filtro')." ".$this->request->getVar('anio_filtro');
+				$Etapa = $this->request->getVar('etapa_filtro');
+				$Estado =$this->request->getVar('estado_filtro');
+				$Carrera = $this->request->getVar('carrera_filtro');
+				$anio = $this->request->getVar('anio_filtro');
+				//echo "Filtros: ".$Etapa." ".$Estado." ".$Carrera." ".$anio;
 				$resutaldo = $this->resultadoFiltros($Etapa, $Estado, $Carrera, $anio);
 				echo json_encode($resutaldo);
             }
@@ -139,6 +140,7 @@ class PracticaController extends BaseController
 
 	public function resultadoFiltros($Etapa, $Estado, $Carrera, $anio)
 	{
+		// echo "RESULTADOS: ".$Etapa." ".$Estado." ".$Carrera." ".$anio;
 		$model = new PracticaModel();
 		if($Etapa =='' && $Estado =='' && $Carrera=='' && $anio =='')
 		{
@@ -376,6 +378,77 @@ class PracticaController extends BaseController
 			echo 0;
 		}
 	}
+
+	public function pasarEstadoEvaluar() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		//$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->pasarEstadoEvaluar($id_alumno);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getEvaluacionEmpresa() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEvaluacionEmpresa($id_alumno);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
+	public function evaluarPractica() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$nota = $this->request->getVar('nota');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->evaluarPractica($id_alumno, $nota);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getEvaluacionPracticaUni() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEvaluacionPracticaUni($id_alumno);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getEstadoPracticaActiva() {
+		$id = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEstadoPracticaActiva($id);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo "0";
+		}
+	}
+
+	/*
+	Función por implement
+	public function getEvaluacion() {
+		$id = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEstadoPracticaActiva($id);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo "0";
+		}
+	}
+	*/
 
 	private function sendEmailSolicitudAlumno($correo, $nombre, $fecha){
         $email = \Config\Services::email();

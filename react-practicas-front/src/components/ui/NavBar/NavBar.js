@@ -45,8 +45,7 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
-                            to="/estudiante/landing"
-                            style={{marginLeft:'15px', marginRight:'15px', fontSize:'22px', fontWeight:'400'}}
+                            to="/estudiante"
                         > Home </NavLink>
                         <NavLink
                             exact

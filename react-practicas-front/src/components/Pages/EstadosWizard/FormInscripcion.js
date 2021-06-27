@@ -26,9 +26,6 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       zonaempresa:"",
       nombre_emer:"",
       tel_emer:"",
-
-
-
     })
     const [archivos, setArchivos] = useState([])
     const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -59,7 +56,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       // enviarDatosInscripcion()
       // setMostrarResolucion(!mostrarResolucion)
     }
-    const enviarDatosInscripcion = () => {
+    const enviarDatosInscripcion = () => {    
       axios.post(
         "http://localhost/GestionPracticas_G4/ci-practicas-back/public/inscribirInfo",
         {
@@ -67,7 +64,13 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
           empresa:formValues.empresa,
           supervisor:formValues.supervisor,
           fch_inicio:formValues.fechaStart,
-          fch_termino:formValues.fechaEnd
+          fch_termino:formValues.fechaEnd,
+          correo_supervisor:formValues.correosupervisor,
+          tel_supervisor: formValues.fonosupervisor,
+          region_empresa: formValues.regionempresa,
+          zona_empresa:formValues.zonaempresa,
+          nombre_emer:formValues.nombre_emer,
+          tel_emer: formValues.tel_emer
         },
       )
       .then(response=>{
@@ -265,7 +268,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
               </div> 
               <hr/>
               <div className=" text-center" style={{marginBottom:20}}>
-                <Button className="btn btn-primary" type="submit" onClick={enviarDatosInscripcion}>
+                <Button className="btn btn-primary" type="submit">
                     Inscribir Practica
                 </Button>
               </div>               

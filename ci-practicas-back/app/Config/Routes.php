@@ -60,6 +60,10 @@ $routes->get('getDocumento', 'DocumentoController::getDocumento');
 // Carreras
 $routes->get('getCarreras', 'CarreraController::getCarreras');
 // Practicas
+$routes->post('pasarEstadoEvaluar', 'PracticaController::pasarEstadoEvaluar');
+$routes->post('getEvaluacionEmpresa', 'PracticaController::getEvaluacionEmpresa');	// Entrega evaluacion empresa, si es 0 aún no se evalua
+$routes->post('evaluarPractica', 'PracticaController::evaluarPractica');
+$routes->post('getEvaluacionPracticaUni', 'PracticaController::getEvaluacionPracticaUni');	// Entrega evaluación empresa, si es 0 aún no se evalua
 $routes->post('getPracticas', 'PracticaController::getPracticas');
 $routes->post('ingresarPractica', 'PracticaController::ingresarPractica');
 $routes->get('servePracticaAlumno', 'PracticaController::servePracticaAlumno');
@@ -69,9 +73,14 @@ $routes->post('aceptarSolicitud', 'PracticaController::aceptarSolicitud');
 $routes->post('inscribirInfo', 'PracticaController::inscribirInfo');
 $routes->post('getDatosInscripcionAlumno', 'PracticaController::getDatosInscripcionAlumno');
 $routes->post('aceptarInscripcion', 'PracticaController::aceptarInscripcion');
+$routes->post('getEstadoPracticaActiva', 'PracticaController::getEstadoPracticaActiva');
+$routes->post('getEvaluacion', 'PracticaController::getEvaluacion');
+$routes->post('filtros', 'PracticaController::filtros');
+
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
+$routes->post('getAlumnoId', 'AlumnoController::getAlumnoId');
 // Instancia documento
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');

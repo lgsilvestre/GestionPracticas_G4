@@ -11,7 +11,7 @@ class PracticaModel extends Model
     protected $allowedFields = ['etapa', 'estado', 'carrera', 'numero', 'fecha_inicio', 'fecha_termino', 'empresa', 'supervisor', 'evaluacion_uni', 'evaluacion_empreesa', 'refAlumno'];
 
     public function getPracticaAlumno(){
-        $queryPracticaAlumno = "SELECT * FROM practica INNER JOIN alumno ON practica.refAlumno = alumno.id_alumno";
+        $queryPracticaAlumno = "SELECT * FROM practica INNER JOIN alumno ON practica.refAlumno = alumno.id_alumno ORDER BY CASE WHEN etapa = 'Solicitud' THEN 1 ELSE 2 END, etapa";
         $query = $this->db->query($queryPracticaAlumno);
         $result = $query->getResult();
         return $result;
@@ -25,7 +25,7 @@ class PracticaModel extends Model
     }
 
     public function newPracticaAlumno($id, $np){
-        $queryPracticaAlumno = 'INSERT INTO practica(etapa,estado,numero,fecha_inicio, fecha_termino,empresa,supervisor,evaluacion_uni,evaluacion_empresa,refAlumno) VALUES("Solicitud","Pendiente",'.$np.',"","","","","","",'.$id.')';
+        $queryPracticaAlumno = 'INSERT INTO practica(etapa,estado,numero,fecha_inicio, fecha_termino,empresa,supervisor,evaluacion_uni,evaluacion_empresa,refAlumno) VALUES("Solicitud","Pendiente",'.$np.',"","","","","0","0",'.$id.')';
         $query = $this->db->query($queryPracticaAlumno);
         if ($query) {
             return true;
@@ -70,6 +70,45 @@ class PracticaModel extends Model
         $queryPracticaAlumno = "UPDATE practica SET etapa = 'Cursando', estado = 'Cursando' WHERE practica.refAlumno = '".$id_alumno."'"; //" and practica.numero = ".$numero;
         $this->db->query($queryPracticaAlumno)->getResult();
         $result = $this->db->affectedRows();
+        return $result;
+    }
+
+    public function pasarEstadoEvaluar($id_alumno){
+        $queryPracticaAlumno = "UPDATE practica SET etapa = 'Evaluación', estado = 'Pendiente' WHERE practica.refAlumno = '".$id_alumno."' and practica.estado != 'Evaluada'"; 
+        $this->db->query($queryPracticaAlumno)->getResult();
+        $result = $this->db->affectedRows();
+        return $result;
+    }
+
+    public function getEvaluacionEmpresa($id_alumno){
+        $queryPracticaAlumno = "SELECT evaluacion_empresa, supervisor from practica WHERE practica.refAlumno = '".$id_alumno."' and practica.estado != 'Evaluada'"; 
+        $result = $this->db->query($queryPracticaAlumno)->getResult();
+        return $result;
+    }
+
+    public function evaluarPractica($id_alumno, $nota){
+        $queryPracticaAlumno = "UPDATE practica SET evaluacion_uni = '".$nota."' WHERE practica.refAlumno = '".$id_alumno."' and practica.estado != 'Evaluada'"; 
+        $this->db->query($queryPracticaAlumno)->getResult();
+        $result = $this->db->affectedRows();
+        return $result;
+    }    
+
+    public function getEvaluacionPracticaUni($id_alumno){
+        $queryPracticaAlumno = "SELECT evaluacion_uni from practica WHERE practica.refAlumno = '".$id_alumno."' and practica.estado != 'Evaluada'"; 
+        $result = $this->db->query($queryPracticaAlumno)->getResult();
+        return $result;
+    }
+
+    public function getEstadoPracticaActiva($id){
+        $queryPracticaAlumno = "SELECT etapa, estado FROM practica where practica.refAlumno = ".$id." and practica.estado != 'Evaluada'";
+        $query = $this->db->query($queryPracticaAlumno);
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getEvaluacion($id_alumno) {
+        $query = $this->db->query("Select evaluacion_uni, numero from alumno where practica.refAlumno = '".$id_alumno."' and practica.estado = 'Evaluada'");
+        $result = $query->getResult();
         return $result;
     }
 

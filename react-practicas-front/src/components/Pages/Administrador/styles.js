@@ -19,7 +19,8 @@ export default makeStyles((theme) => ({
     },
     iconos:{
       display: 'inline-flex',
-      alignSelf: 'center'
+      alignSelf: 'center',
+      color: '#f69b2e'
     }, 
     encabezado:{
       marginLeft: "-100px"

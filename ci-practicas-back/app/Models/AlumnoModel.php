@@ -26,6 +26,11 @@ class AlumnoModel extends Model
         $result = $query->getResult();
         return $result;
     }
+    public function getAlumno($id_alumno) {
+        $query = $this->db->query("Select * from alumno where id_alumno = '".$id_alumno."'");
+        $result = $query->getResult();
+        return $result;
+    }
 
     /*
     protected $beforeInsert = ['beforeInsert'];

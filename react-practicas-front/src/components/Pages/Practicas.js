@@ -25,7 +25,7 @@ const Practicas = () => {
       getEstado()
     }, [])
 
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(1)
 
     const getEstado = () => {
         let id_alumno = cookies.get('id')
@@ -85,14 +85,20 @@ const Practicas = () => {
           />
         {
           nroPractica===0 ?(
-            <Card className=" animate__animated animate__fadeIn animate__faster container mt-3 mb-3" >
+            <Card 
+              className=" animate__animated animate__fadeIn animate__faster container mt-3 mb-3"
+              style={{
+                borderRadius:'20px', 
+                backgroundColor:'#fafafa'
+              }}
+              >
                 <Stepper 
                     steps={steps}
                     size={40}
                     circleFontSize={18}
                     activeStep={ page }
-                    activeColor={"#f69b2e"}
-                    completeColor = {"#f69b2e"}
+                    activeColor={"#0DC143"}
+                    completeColor = {"#77C78F"}
                 />
                 <hr/>        
                 { page===0 && <FormPostulacion handleSubmit={nextPage} /> }

@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use App\Models\AlumnoModel as AlumnoModel;
 use App\Models\UserModel as UserModel;
+use App\Models\PracticaModel as PracticaModel;
 
 /**
  * Class BaseController
@@ -100,6 +101,10 @@ class UsersController extends  BaseController
                     $arr['refCarrera'] = $row->refCarrera;
                     $arr['tipo'] = 3;
                 }
+
+                // $evaluada = $alumnomodel->getEvaluacion($result->id_alumno);
+                // $arr['evaluada'] = $evaluada;
+                // $arr['cantidad'] = sizeof($evaluada);
                 echo json_encode($arr);
 
             } else {

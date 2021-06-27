@@ -127,10 +127,13 @@ export default function SignInSide({ history }) {
           history.replace("/admin")
         }
         else if (response.data.tipo === 3) {
-          console.log("estudiante")
+          console.log(response.data)
           // Se setean las coockies
           cookies.set('id', response.data['id_alumno'], { path: '/' });
           cookies.set('name', response.data['nombre'], { path: '/' });
+          if(response.data['evaluada']==="0"){
+            
+          }
           history.replace("/estudiante")
         }
         else {

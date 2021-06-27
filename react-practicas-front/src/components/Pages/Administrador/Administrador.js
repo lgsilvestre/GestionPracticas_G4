@@ -263,8 +263,8 @@ export default function Administrador() {
   const bodyInsertar = (
     <div className={classes.modal}>
 
-      <h3>Nuevo Administrador</h3>
-      <br />
+    <h3>Nuevo Funcionario</h3>
+    <br />
 
       <TextField variant="outlined" name="nombre" id="nombre" className={classes.inputMaterial} label="Nombre" onChange={handleChange} />
 
