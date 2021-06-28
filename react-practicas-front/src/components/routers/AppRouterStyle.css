@@ -1,0 +1,43 @@
+.Back{
+  
+  /* background-color: #f6f7f9; */
+  background-color:white;
+  height: 100vh;    
+}
+
+.Container {
+    background: linear-gradient(
+      165deg, 
+      #f6f7f9 0%, 
+      #f6f7f9 30%, 
+      #eaedf1 70%, 
+      #F6F7F9 100%
+    );
+}
+
+.Scroll {
+    overflow-y:scroll;
+    height: 100vh;
+}
+
+body {
+    overflow: hidden; /* Hide scrollbars */
+    height:100%;
+}
+
+html{
+    height: 100%;
+}
+
+/*
+body { 
+    background: url("./assets/blue-snow.png") repeat-x center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+*/
+nav {
+    box-shadow: 0 0 20px 0 rgba(0,0,0,.3);
+}

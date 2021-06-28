@@ -33,6 +33,60 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->post('login', 'UsersController::login');
+$routes->get('showDataU', 'UsersController::showData');
+$routes->post('insertUser', 'UsersController::insertUser');
+$routes->post('registerUser', 'UsersController::registerUser');
+$routes->post('deleteUserID', 'UsersController::deleteUserID');
+$routes->post('adminEdit', 'UsersController::adminEdit');
+$routes->post('registerAlumno', 'UsersController::registerAlumno');
+$routes->post('getUserActive', 'UsersController::getUserActive');
+$routes->post('getUsersAlumnos', 'UsersController::getUsersAlumnos');		//retorna todos los alumnos
+$routes->post('getUserAlumno', 'UsersController::getUserAlumno');			//retorna un alumno
+$routes->get('tablaPracticas', 'PracticaController::index');				//Devuelve la tabla de practicas
+$routes->get('getPracticas', 'PracticaController::getPracticas');
+$routes->post('filtrosTP', 'PracticaController::filtros');
+$routes->post('solicitarPractica', 'PracticaController::solicitarPractica');
+$routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
+$routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
+$routes->post('getUserId', 'UsersController::getUserId');
+$routes->post('registerAlumno', 'UsersController::registerAlumno');
+
+$routes->post('registerAlumnoExcel', 'UsersController::registerAlumnoExcel');
+$routes->post('registerAlumnoExcelData', 'UsersController::registerAlumnoExcelData');
+// Documentos
+$routes->get('getDocumentos', 'DocumentoController::getDocumentos');
+$routes->get('getDocumento', 'DocumentoController::getDocumento');
+// Carreras
+$routes->get('getCarreras', 'CarreraController::getCarreras');
+// Practicas
+$routes->post('pasarEstadoEvaluar', 'PracticaController::pasarEstadoEvaluar');
+$routes->post('getEvaluacionEmpresa', 'PracticaController::getEvaluacionEmpresa');	// Entrega evaluacion empresa, si es 0 aún no se evalua
+$routes->post('evaluarPractica', 'PracticaController::evaluarPractica');
+$routes->post('getEvaluacionPracticaUni', 'PracticaController::getEvaluacionPracticaUni');	// Entrega evaluación empresa, si es 0 aún no se evalua
+$routes->post('getPracticas', 'PracticaController::getPracticas');
+$routes->post('ingresarPractica', 'PracticaController::ingresarPractica');
+$routes->get('servePracticaAlumno', 'PracticaController::servePracticaAlumno');
+$routes->post('servePracticaAlumnoFiltrada', 'PracticaController::servePracticaFiltrada');
+$routes->post('getEstadoPracticaAlumno', 'PracticaController::getEstadoPracticaAlumno');
+$routes->post('aceptarSolicitud', 'PracticaController::aceptarSolicitud');
+$routes->post('inscribirInfo', 'PracticaController::inscribirInfo');
+$routes->post('getDatosInscripcionAlumno', 'PracticaController::getDatosInscripcionAlumno');
+$routes->post('aceptarInscripcion', 'PracticaController::aceptarInscripcion');
+$routes->post('filtros', 'PracticaController::filtros');
+$routes->get('getCantidadPracticasCarreras', 'PracticaController::getCantidadPracticasCarreras');
+// Alumno
+$routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
+$routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
+$routes->get('getAlumnosAdmin', 'AlumnoController::getAlumnosAdmin');
+$routes->get('getAlumnosEscuela', 'AlumnoController::getAlumnosEscuela');
+$routes->get('getCarreraAlumno', 'AlumnoController::getCarreraAlumno');
+// Instancia documento
+$routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
+$routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');
+// Users
+$routes->get('getFuncionarios', 'UserController::getFuncionarios');
+
 
 /*
  * --------------------------------------------------------------------
@@ -47,6 +101,11 @@ $routes->get('/', 'Home::index');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
+
+//$routes->match(['get','post'],'login', 'UsersController::login',['filter' => 'NoAuth']);
+//$routes->match(['get','post'],'login', 'UsersController::login');
+//$routes->match(['get','post'],'profile', 'UsersController::profile');
+
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
 {
 	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';

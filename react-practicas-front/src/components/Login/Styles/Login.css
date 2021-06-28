@@ -1,0 +1,15 @@
+.html,body{
+    margin: 0;
+    padding: 0;
+}
+
+
+.parte_izquierda{
+    width: 600px;
+    height: 100%;
+}
+
+.parte_derecha{
+    width: 350px;
+    height: 100%;
+}
