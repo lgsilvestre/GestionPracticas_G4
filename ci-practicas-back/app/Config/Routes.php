@@ -70,6 +70,7 @@ $routes->post('inscribirInfo', 'PracticaController::inscribirInfo');
 $routes->post('getDatosInscripcionAlumno', 'PracticaController::getDatosInscripcionAlumno');
 $routes->post('aceptarInscripcion', 'PracticaController::aceptarInscripcion');
 $routes->get('getCantidadPracticasCarreras', 'PracticaController::getCantidadPracticasCarreras');
+$routes->get('rechazarSolicitud', 'PracticaController::rechazarSolicitud');
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
