@@ -338,10 +338,17 @@ class PracticaController extends BaseController
 		$result = $this->PracticaModel->aceptarSolicitud($numero, $id_alumno);
 		echo "id_alumno: ".$id_alumno;
 		echo "numero: ".$numero."\n";
-		$comentario = 'Etapa 1 (Solicitud) del alumno aceptada, pasa a etapa 2 (inscripción)';
-		$this->generarHistorial($id_alumno, -1, -1, $numero, $comentario);
 		if($result) {
-			// DENTRO DE AKI SI TA WENO
+			// Geneneración historial
+			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			foreach ($practica as $row)
+			{
+				$etapa = $row->etapa;
+				$numPractica = $row->numero;
+			}
+			$comentario = 'Etapa 1 (Solicitud) del alumno aceptada, pasa a etapa 2 (inscripción)';
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario);
+			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 
 			// Creación de instancia documento práctica de alumno
 			$this->InstDocumentoModel = new InstDocumentoModel();
@@ -393,11 +400,17 @@ class PracticaController extends BaseController
 		$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->aceptarPractica($id_alumno);
-		//$practica = $this->PracticaModel->getPracticaAlumno();
-		$refAlumno, $refAdmin, $etapa, $practica, $comentario
 		if($result) {
 			//Generación historial
-			$this->generarHistorial($id_alumno, -1, '')
+			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			foreach ($practica as $row)
+			{
+				$etapa = $row->etapa;
+				$numPractica = $row->numero;
+			}
+			$comentario = 'Etapa 2 (Incripción) del alumno aceptada, pasa a etapa 3 (Cursando)';
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario);
+			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 			// Envio correo
 			$this -> AlumnoModel = new AlumnoModel();
 			$resultAlumno = $this->AlumnoModel->getCorreoNombreApellido($id_alumno);
@@ -646,7 +659,6 @@ class PracticaController extends BaseController
 				'practica' => $practica,
 			];
 		}
-
 		$model ->save($newsData);
 
 	}
