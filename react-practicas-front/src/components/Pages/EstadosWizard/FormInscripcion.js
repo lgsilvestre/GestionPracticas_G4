@@ -54,7 +54,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       event.preventDefault()
       console.log("Info a enviar:",formValues)
       // enviarDatosInscripcion()
-      // setMostrarResolucion(!mostrarResolucion)
+      setMostrarResolucion(!mostrarResolucion)
     }
     const enviarDatosInscripcion = () => {    
       axios.post(

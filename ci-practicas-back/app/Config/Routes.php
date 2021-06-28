@@ -72,11 +72,11 @@ $routes->post('aceptarInscripcion', 'PracticaController::aceptarInscripcion');
 $routes->post('getEstadoPracticaActiva', 'PracticaController::getEstadoPracticaActiva');
 $routes->post('getEvaluacion', 'PracticaController::getEvaluacion');
 $routes->post('filtros', 'PracticaController::filtros');
-
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
 $routes->post('getAlumnoId', 'AlumnoController::getAlumnoId');
+$routes->post('recibirArchivo', 'AlumnoController::recibirArchivo');
 // Instancia documento
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');

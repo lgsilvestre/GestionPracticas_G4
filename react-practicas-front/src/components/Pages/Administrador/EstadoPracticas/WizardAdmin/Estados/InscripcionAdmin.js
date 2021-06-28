@@ -7,21 +7,18 @@ import {
     ListItem,  
     ListItemIcon,  
     ListItemSecondaryAction,  
-    ListItemText,  
     makeStyles,
-    Button,
-    TextField} from '@material-ui/core'
+    Button
+    } from '@material-ui/core'
 import { VscFilePdf } from 'react-icons/vsc';
 import { MdFileDownload } from 'react-icons/md';
 import { FcCancel, FcCheckmark } from 'react-icons/fc';
-import { useForm } from '../../../../../../hooks/useForm';
-import { AiOutlineSearch } from 'react-icons/ai';
-import {InputCollapse, CardBody, Card, Collapse, Input } from 'reactstrap';
+import {Collapse, Input,CustomInput } from 'reactstrap';
 import { GoCheck } from "react-icons/go";
 import { GoCircleSlash } from "react-icons/go";
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
-import Cookies from 'universal-cookie';
+import {useForm} from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -72,8 +69,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}) => {
-    const cookies = new Cookies();
-    
+    const {register, handleSubmit} = useForm()
     const [idDocCancelado, setIdDocCancelado] = useState(0)
     const [isOpen, setisOpen] = useState(false)
     const [mostrarAlertaInfo, setmostrarAlertaInfo] = useState(true)
@@ -81,9 +77,9 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
     // const [practicaAceptada, setpracticaAceptada] = useState(false)
     const clasesEstilo = useStyles();
     const [dataInscripcion, setDataInscripcion] = useState({})
-    const infoLabelsEmpresa = ["Nombre Empresa:", "Nombre de Supervisor:", "Fecha de Inicio:", "Fecha de término:"]
+    // const infoLabelsEmpresa = ["Nombre Empresa:", "Nombre de Supervisor:", "Fecha de Inicio:", "Fecha de término:"]
     const [docsInscripcion, setDocsInscripcion] = useState([])
-        
+    const [archivo, setArchivo] = useState()
     const handleCancelDoc = (id) => {
       setIdDocCancelado(id)
       setisOpen(!isOpen)
@@ -99,7 +95,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
         //TRUE 1 PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
         if(response.data===1){
-          nextPage()
+          // nextPage()
         }
       }
       )
@@ -146,6 +142,45 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       .catch(error=>{
         console.log("Error: ", error)
       })
+    }
+    const guardarArchivo = (data) => {
+      console.log(data)
+      //console.log("FILE: ",archivo)
+      let formData = new FormData()
+      console.log(archivo[0])
+      formData.append("file",archivo[0])
+      // formData.append("data","seguroPrueba")
+      console.log("ENVIANDO: ",formData)
+      // formData = {file:archivo[0], nombre_file:"seguroPrueba"}
+        axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",formData,    
+         {headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(response=>console.log("Respuesta subir file: ",response.data))
+        .catch(error=>{
+          console.log("Error: ", error)
+        })  
+      // let reader = new FileReader()
+      // reader.readAsDataURL(archivo[0])
+      // reader.onload=(e)=>{
+      //   console.log("FILE READER: ",e.target.result)
+      //   const formData = {file:e.target.result, nombre_file:"seguroPrueba"}
+      //   axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",
+      //   {
+      //     formData, 
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data'
+      //     }
+      //   })
+      //   .then(response=>console.log("Respuesta subir file: ",response.data))
+      //   .catch(error=>{
+      //     console.log("Error: ", error)
+      //   })  
+      // }
+    }
+    const handleChangeFile = (e) => {
+      setArchivo(e.target.files)
     }
     
     useEffect(() => {
@@ -303,8 +338,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
             mostrarAlertaDoc && (
               <Alert severity="info">
                   A la espera de que el alumno suba los documentos requeridos por su escuela.
-              </Alert>
-                  
+              </Alert>                
             )
           }  
           {/* Archivos */}
@@ -374,6 +408,32 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
             </List>            
                             
           </Box>
+          {/* SEGURO DE PRACTICA */}
+          <Alert severity="warning">
+            <strong>IMPORTANTE:</strong> Debes subir el seguro del alumno antes de aceptar la Inscripción.
+          </Alert>
+          <Box className={clasesEstilo.mainbox} boxShadow={1}>
+            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Subir Seguro de Práctica</h4>
+            <hr/>  
+            <div className="row justify-content-center" >
+              <form onSubmit={handleSubmit(guardarArchivo)}>
+                <div className="col-6" style={{marginBottom:16}} >
+                  <CustomInput    
+                    ref={register}      
+                    type="file" 
+                    name="seguroPractica"
+                    onChange={(e)=>handleChangeFile(e)}
+                    id= "seguroPractica"
+                    label="Suba el seguro"                                     
+                  />               
+                </div>
+                <div className="col">
+                  <Button type="submit">Guardar</Button>
+                </div>
+              </form>
+            </div>
+          </Box>
+          {/* BOX BOTONES ACEPTAR/RECHAZAR */}
           <Box className={clasesEstilo.boxBotones} display="flex" boxShadow={1}>
           <div style={{padding:"30px"}}>
             <Button className={clasesEstilo.boton} startIcon={<GoCheck/>} onClick={handleAceptarInscripcion} >
