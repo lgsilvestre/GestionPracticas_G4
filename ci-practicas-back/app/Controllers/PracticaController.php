@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\PracticaModel as PracticaModel;
 use App\Models\AlumnoModel as AlumnoModel;
+use App\Models\HistorialModel as HistorialModel;
 use App\Models\InstDocumentoModel as InstDocumentoModel;
 
 class PracticaController extends BaseController
@@ -327,7 +328,6 @@ class PracticaController extends BaseController
 		} else {
 			echo "0";
 		}
-
 	}
 
 	public function aceptarSolicitud() {
@@ -338,7 +338,8 @@ class PracticaController extends BaseController
 		$result = $this->PracticaModel->aceptarSolicitud($numero, $id_alumno);
 		echo "id_alumno: ".$id_alumno;
 		echo "numero: ".$numero."\n";
-
+		$comentario = 'Etapa 1 (Solicitud) del alumno aceptada, pasa a etapa 2 (inscripción)';
+		$this->generarHistorial($id_alumno, -1, -1, $numero, $comentario);
 		if($result) {
 			// DENTRO DE AKI SI TA WENO
 
@@ -387,13 +388,16 @@ class PracticaController extends BaseController
 		}
 	}
 
-	public function aceptarInscripcion() {	
+	public function aceptarInscripcion() {
 		$id_alumno = $this->request->getVar('id_alumno');
 		$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->aceptarPractica($id_alumno);
-		$result = true;
+		//$practica = $this->PracticaModel->getPracticaAlumno();
+		$refAlumno, $refAdmin, $etapa, $practica, $comentario
 		if($result) {
+			//Generación historial
+			$this->generarHistorial($id_alumno, -1, '')
 			// Envio correo
 			$this -> AlumnoModel = new AlumnoModel();
 			$resultAlumno = $this->AlumnoModel->getCorreoNombreApellido($id_alumno);
@@ -616,6 +620,35 @@ class PracticaController extends BaseController
 		$arr[] = 4;
 		$arr[] = 5;
 		echo json_encode($arr);
+	}
+
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario){
+		$model = new HistorialModel();
+
+		$newsData =[
+			'etapa' => $etapa,
+			'comentario' => $comentario
+		];
+		if($refAlumno != -1){
+			$newsData +=[
+				'refAlumno' => $refAlumno
+			];
+		}
+		if($refAdmin != -1)
+		{
+			$newsData +=[
+				'refAdmin' => $refAdmin
+			];
+		}
+		if($practica != -1)
+		{
+			$newsData +=[
+				'practica' => $practica,
+			];
+		}
+
+		$model ->save($newsData);
+
 	}
 
 }
