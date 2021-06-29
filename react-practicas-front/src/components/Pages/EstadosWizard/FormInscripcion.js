@@ -11,7 +11,8 @@ import { useForm } from '../../../hooks/useForm'
 import { Comentario } from './Comentario';
 import {regiones} from '../../../api/regiones';
 export const FormInscripcion = ({previousPage, handleSubmit}) => {
-
+     // new Date(),date= today.getFullYear()+"-"+today.getMonth()+"-"+today.getDay()
+     //hoy.getFullYear() + "-" + hoy.getMonth()+"-"+ hoy.getDate()
     const cookies = new Cookies()
     const id_alumno = cookies.get('id')
     const [formValues, handleInputChange] = useForm({
@@ -27,6 +28,38 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       nombre_emer:"",
       tel_emer:"",
     })
+
+    function fechaInicioPractica(fecha){
+       var mesInicio = fecha.getMonth()+1
+       var mes
+       if (mesInicio<= 9){
+        mes = "0"+ mesInicio
+        
+      }else{
+        mes = mesInicio
+      }
+      var fec = fecha.getFullYear()+"-"+mes+"-"+fecha.getDate()
+      return fec
+    } 
+    const today = fechaInicioPractica(new Date())
+
+    function fechaFinalPractica(fecha){
+      //if(fecha === ""){
+        fecha = new Date()
+      //}
+        fecha.setMonth(fecha.getMonth() + 2)
+        var aux = fechaInicioPractica(fecha)
+        return aux
+    }
+    const fechaStart = formValues.fechaStart
+    const finPractica = fechaFinalPractica(fechaStart)
+    console.log("fecha re ql "+fechaStart)
+
+    
+
+    
+    
+    
     const [archivos, setArchivos] = useState([])
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
@@ -145,12 +178,12 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                     {/* Input para fecha de inicio */}
                     <div className="col">
                       <Label for = "fechaStart"> Fecha de inicio</Label>
-                      <Input type="date" name="fechaStart" onChange={handleInputChange}/>      
+                      <Input type="date" name="fechaStart" min={today} onChange={handleInputChange} required/>      
                     </div>
                     {/* Input para fecha de termino */}
                     <div className="col">
                       <Label  for = "fechaEnd"> Fecha de término</Label>
-                      <Input type="date" name="fechaEnd" onChange={handleInputChange}/>            
+                      <Input type="date" name="fechaEnd" min={finPractica} onChange={handleInputChange} required/>            
                     </div>
                   </div>  
                 <h4 style={{marginTop:"30px"}}>Datos de Empresa</h4>
@@ -159,13 +192,13 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                   {/* Input para rut de empresa */}
                   <div className="col-sm">
                     <Label  for = "empresa"> Nombre de Empresa </Label>
-                    <Input type="text" name="empresa" onChange={handleInputChange}/>
+                    <Input type="text"  minLength="2" maxLength="100" required name="empresa" onChange={handleInputChange}/>
                   </div>
                   
                   {/* Input para rut de empresa */}
                   <div className="col-sm">
                     <Label for = "rutempresa">RUT de Empresa</Label>
-                    <Input type="text" name="rutempresa" onChange={handleInputChange} />  
+                    <Input type="text" name="rutempresa" required  onChange={handleInputChange} />  
                   </div>
                   
                 </div> 
@@ -173,18 +206,18 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                   {/* Input para nombre de supervisor */} 
                   <div className="col-sm">
                     <Label for = "supervisor"> Nombre de Supervisor </Label>
-                    <Input type="text" name="supervisor" onChange={handleInputChange} />                   
+                    <Input type="text" minLength="2" maxLength="70" name="supervisor" onChange={handleInputChange} />                   
                   </div>
                   <div className="col-sm">
                   <Label for = "correosupervisor">Correo de Supervisor</Label>
-                    <Input type="email" name="correosupervisor" onChange={handleInputChange} />                  
+                    <Input type="email" minLength="5" maxLength="70" name="correosupervisor" onChange={handleInputChange} />                  
                   </div>
                 </div>  
                 <div className="row" style={{marginBottom:"15px"}}>
                   {/* Input para rut de empresa */}       
                   <div className="col-sm">
                     <Label for = "fonosupervisor">Teléfono Supervisor</Label>
-                    <Input type="text" name="fonosupervisor" onChange={handleInputChange} />  
+                    <Input type="number" minLength="6" maxLength="11" name="fonosupervisor" onChange={handleInputChange} />  
                   </div>
                   <div className="col-sm">
                                 
@@ -215,11 +248,11 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 <div className="row" style={{marginBottom:"15px"}}>
                   <div className="col-sm">
                     <Label for = "nombre_emer">Nombre</Label>
-                    <Input type="text" name="nombre_emer" onChange={handleInputChange}/>                
+                    <Input type="text" minLength="2" maxLength="70" name="nombre_emer" onChange={handleInputChange}/>                
                   </div>
                   <div className="col-sm">
                     <Label for = "tel_emer">Télefono</Label>
-                    <Input type="number" name="tel_emer" onChange={handleInputChange}/>  
+                    <Input type="number" minLength="6" maxLength="11" name="tel_emer" onChange={handleInputChange}/>  
                   </div>
                 </div>                              
                 <h4 style={{marginTop:"30px"}}>
