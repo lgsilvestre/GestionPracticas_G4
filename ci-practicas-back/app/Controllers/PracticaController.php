@@ -347,12 +347,25 @@ class PracticaController extends BaseController
 	public function inscribirInfo() {
 		echo "ENTRO INSCRIBIR";
 		$id_alumno = $this->request->getVar('id_alumno');
+		$nro_practica = $this->request->getVar('nropractica');
 		$empresa = $this->request->getVar('empresa');
 		$supervisor = $this->request->getVar('supervisor');
 		$fch_inicio = $this->request->getVar('fch_inicio');
 		$fch_termino = $this->request->getVar('fch_termino');
+		$rut_empresa = $this->request->getVar('rut_empresa');
+		$email_supervisor = $this->request->getVar('correo_supervisor');
+		$tel_supervisor = $this->request->getVar('tel_supervisor');
+		$region_empresa = $this->request->getVar('region_empresa');
+		$zona_empresa = $this->request->getVar('zona_empresa');
+		$tel_emer = $this->request->getVar('tel_emer');
+		$nombre_emer = $this->request->getVar('nombre_emer');
 		$this -> PracticaModel = new PracticaModel();
-		$result = $this->PracticaModel->inscribir($id_alumno, $empresa, $supervisor, $fch_inicio, $fch_termino);
+		$result = $this->PracticaModel->inscribir($nro_practica,$id_alumno, $empresa, $supervisor, $fch_inicio, $fch_termino,$rut_empresa, $email_supervisor, $tel_supervisor,$region_empresa,$zona_empresa,$tel_emer,$nombre_emer);
+    if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
 	}
 
 	public function getDatosInscripcionAlumno() {
@@ -372,6 +385,18 @@ class PracticaController extends BaseController
 		//$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->aceptarPractica($id_alumno);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+
+	public function pasarCursando() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		//$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->pasarCursando($id_alumno);
 		if($result) {
 			echo 1;
 		} else {
@@ -409,6 +434,26 @@ class PracticaController extends BaseController
 		$result = $this->PracticaModel->evaluarPractica($id_alumno, $nota);
 		if($result) {
 			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	public function practicaInactiva() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->practicaInactiva($id_alumno);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+	public function getNumeroSiguientePractica() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getNumeroSiguientePractica($id_alumno);
+		if($result) {
+			echo json_encode($result);
 		} else {
 			echo 0;
 		}

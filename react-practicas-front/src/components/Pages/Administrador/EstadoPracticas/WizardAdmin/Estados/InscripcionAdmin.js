@@ -19,6 +19,7 @@ import { GoCircleSlash } from "react-icons/go";
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
 import {useForm} from 'react-hook-form';
+import { regiones } from '../../../../../../api/regiones';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -108,19 +109,23 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       console.log("ACEPTANDO PRACTICA")
       confirmarInscipcion() 
     }
-
+    //rut_empresa, email_supervisor,telefono_supervisor,region,comuna,nombre_contacto,telefono_contacto
     const getInfoInscripcion = async () => {
+      console.log(regiones[8].region)
       await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getDatosInscripcionAlumno",{
         matricula:nroMatricula,
         numero:nroPractica,
         id_alumno:idAlumno
       })
       .then(response=>{
-        console.log("respuesta info inscripcion: ",response.data)
+        var data = response.data[0]
+        var region = regiones[parseInt(data.region)].region
+        console.log("respuesta info inscripcion: ",data)
+        data.region=region
         if(response.data[0].empresa.length>0){
           setmostrarAlertaInfo(false)
         }   
-        setDataInscripcion(response.data[0])
+        setDataInscripcion(data)
       })
       .catch(error=>{
         console.log("Error: ", error)
@@ -145,39 +150,19 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
     }
     const guardarArchivo = (data) => {
       console.log(data)
-      //console.log("FILE: ",archivo)
       let formData = new FormData()
       console.log(archivo[0])
       formData.append("file",archivo[0])
-      // formData.append("data","seguroPrueba")
       console.log("ENVIANDO: ",formData)
-      // formData = {file:archivo[0], nombre_file:"seguroPrueba"}
-        axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",formData,    
-         {headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then(response=>console.log("Respuesta subir file: ",response.data))
-        .catch(error=>{
-          console.log("Error: ", error)
-        })  
-      // let reader = new FileReader()
-      // reader.readAsDataURL(archivo[0])
-      // reader.onload=(e)=>{
-      //   console.log("FILE READER: ",e.target.result)
-      //   const formData = {file:e.target.result, nombre_file:"seguroPrueba"}
-      //   axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",
-      //   {
-      //     formData, 
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data'
-      //     }
-      //   })
-      //   .then(response=>console.log("Respuesta subir file: ",response.data))
-      //   .catch(error=>{
-      //     console.log("Error: ", error)
-      //   })  
-      // }
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",formData,    
+        {headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response=>console.log("Respuesta subir file: ",response.data))
+      .catch(error=>{
+        console.log("Error: ", error)
+      })  
     }
     const handleChangeFile = (e) => {
       setArchivo(e.target.files)
@@ -268,7 +253,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                     Correo del Supervisor:
                   </Box>
                   <Box>
-                    {dataInscripcion.correo_supervisor}
+                    {dataInscripcion.email_supervisor}
                   </Box>
                 </Box>
               </Grid>                                               
@@ -280,7 +265,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                           Teléfono del Supervisor:
                       </Box>
                       <Box>
-                          {dataInscripcion.tel_supervisor}
+                          {dataInscripcion.telefono_supervisor}
                       </Box>
                   </Box> 
               </Grid>                                              
@@ -292,7 +277,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                           Ubicación (Región o Internacional):
                       </Box>
                       <Box>
-                          {dataInscripcion.region}
+                        {dataInscripcion.region}
                       </Box>
                   </Box> 
               </Grid>
@@ -318,7 +303,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                     Nombre Contacto:
                   </Box>
                   <Box>
-                    {dataInscripcion.nombre_emergencia}
+                    {dataInscripcion.nombre_contacto}
                   </Box>
                 </Box> 
               </Grid>
@@ -328,7 +313,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                     Teléfono Contacto:
                   </Box>
                   <Box>
-                    {dataInscripcion.tel_emergencia}
+                    {dataInscripcion.telefono_contacto}
                   </Box>
                 </Box>
               </Grid>                                               

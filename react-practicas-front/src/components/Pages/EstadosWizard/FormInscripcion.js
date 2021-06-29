@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useForm } from '../../../hooks/useForm' 
 import { Comentario } from './Comentario';
 import {regiones} from '../../../api/regiones';
-export const FormInscripcion = ({previousPage, handleSubmit}) => {
+export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
 
     const cookies = new Cookies()
     const id_alumno = cookies.get('id')
@@ -32,6 +32,8 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
     const [regionElegida, setregionElegida] = useState(0)
+    const [estado, setEstado] = useState("")
+    // const [estadoPractica, setEstadoPractica] = useState({})
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
     }
@@ -49,22 +51,22 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         console.log("descargando " ,namefile)    
     }
     
-    //AXIOS POST INSCRIPCION A BASE DE DATOS
     const postInscripcion = (event) =>{
       event.preventDefault()
       console.log("Info a enviar:",formValues)
-      // enviarDatosInscripcion()
-      setMostrarResolucion(!mostrarResolucion)
+      enviarDatosInscripcion()
     }
     const enviarDatosInscripcion = () => {    
       axios.post(
         "http://localhost/GestionPracticas_G4/ci-practicas-back/public/inscribirInfo",
         {
           id_alumno:id_alumno,
+          nropractica:nroPractica,
           empresa:formValues.empresa,
           supervisor:formValues.supervisor,
           fch_inicio:formValues.fechaStart,
           fch_termino:formValues.fechaEnd,
+          rut_empresa:formValues.rutempresa,
           correo_supervisor:formValues.correosupervisor,
           tel_supervisor: formValues.fonosupervisor,
           region_empresa: formValues.regionempresa,
@@ -77,22 +79,43 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         console.log("RESPUESTA ENVIAR DATOS INSC: ",response)
         if(response.data===true){
           console.log("ES TRUE")
-          // setMostrarResolucion(!mostrarResolucion)
+          setMostrarResolucion(!mostrarResolucion)
         }
       })
       .catch(error =>{
         console.log("Error enviando datos inscripcion: ", error)
       })
     }
-
-    const getDocs = () => {
+    const getEstadoPractica = async() => {
+      await axios.post(
+        "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEstadoPracticaActiva",
+        {
+          id_alumno: id_alumno,
+          nropractica:nroPractica,
+        },
+      )
+        .then(response => {
+          // console.log("RESPUESTA ESTADO PRACTICA ACTIVA:  ",response.data)
+          if(response.data[0].estado!=="Por Inscribir"){
+            setEstado("Aprobada")
+            setMostrarResolucion(true)
+          }
+          // setEstadoPractica(response.data[0])
+          // setArchivos(response.data)
+        })
+        .catch(error => {
+          console.log("login error: ", error);
+    });
+    }
+    
+    const getDocs = async() => {
         let id_alumno = cookies.get('id')
-        let numeropractica = 1
-        axios.post(
+        // let numeropractica = 1
+        await axios.post(
             "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getInstDocuAlumno",
             {
               id_alumno: id_alumno,
-              numero: numeropractica,
+              numero: nroPractica,
             },
           )
             .then(response => {
@@ -111,6 +134,8 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
     useEffect(() => {
       getDocs()
+      getEstadoPractica()
+      
     }, [])
     
     return (
@@ -118,7 +143,9 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
           {mostrarResolucion 
           ? <Resolucion 
             previousPage={previousPage} 
-            handleSubmit={handleSubmit}/> 
+            handleSubmit={handleSubmit}
+            estado={estado}
+            /> 
           : 
           <div>
             <Modal isOpen={modal} toggle={toggle} >

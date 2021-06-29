@@ -98,6 +98,21 @@ export const EvaluacionAdmin = ({idAlumno}) => {
       setnotaPractica(event.target.value)
       // actualizarNota(event.target.value)
     }
+    const cambiarPracticaInactiva = () => {
+
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/practicaInactiva",{
+        id_alumno:idAlumno,
+      })
+      .then(response=>{
+        //1 EVALUADA 0 ERROR
+        console.log(response.data)
+      })
+    }
+    
+    const finalizarPractica = () => {
+      actualizarNotaPractica()
+      cambiarPracticaInactiva()
+    }
     
     const actualizarNotaPractica = () => {
       console.log("Axios con nota: ",notaPractica)
@@ -257,7 +272,7 @@ export const EvaluacionAdmin = ({idAlumno}) => {
                     <Input value={notaPractica} style={{width:"70px"}} type="number" name="nota" onChange={handleCambiarNota}/>
                   </div>
                   <div className="col-auto">
-                    <Button className={classes.boton} onClick={actualizarNotaPractica}>
+                    <Button className={classes.boton} onClick={finalizarPractica}>
                       Guardar
                     </Button>
                   </div>

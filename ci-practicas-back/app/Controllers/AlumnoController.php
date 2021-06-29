@@ -85,12 +85,13 @@ class AlumnoController extends BaseController
 	}
 
 	public function recibirArchivo(){
-
-		if (move_uploaded_file($_FILES["file"]["tmp_name"], "documentos/".$_FILES['file']['name'])) {
+    $PATH="D:/xampp/htdocs/GestionPracticas_G4/documentos/";
+    // $PATH_="documentos/";
+		if (move_uploaded_file($_FILES["file"]["tmp_name"], $PATH.$_FILES['file']['name'])) {
 			echo "done";
 		}
 
-		// file_put_contents( "documentos/", $_FILES["file"]["tmp_name"] );
+		// file_put_contents( "documentos\\", $_FILES["file"]["tmp_name"] );
 
 		// $data = $this->request->getVar('file');
 		// echo $_FILES[0];

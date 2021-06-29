@@ -7,24 +7,15 @@ import Cookies from 'universal-cookie'
 import { Comentario } from './Comentario';
 import { Resolucion } from './Resolucion';
 
-export const FormPostulacion = ({handleSubmit, previousPage}) => {
+export const FormPostulacion = ({handleSubmit, previousPage,nroPractica}) => {
     const cookies = new Cookies()
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
-    const datosDefecto = {
-        estudiante:4,
-        nombre: "Prueba de alumno",
-        carrera: "Prueba de carrera",
-        correo_inst: "prueba@prueba.cl",
-        correo_per: "prueba@alumnos.utalca.cl",
-        rut: "123456789",
-        matricula: "2016407111"
-    }
 
     const postPractica = async() =>{
         await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/ingresarPractica",{
             'id_alumno': cookies.get('id'),
-            'nropractica': 1
+            'nropractica': nroPractica
         })
         .then(response=>{
             if (response.data == true){

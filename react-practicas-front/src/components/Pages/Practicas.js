@@ -9,32 +9,33 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { PracticaInvalida } from './PracticaInvalida';
 import { PracticasTab } from '../ui/PracticasTab/PracticasTab';
+
 const Practicas = () => {
 
     const cookies = new Cookies();
-    const [nroPractica, setNroPractica] = useState(0)
-    console.log("nroPractica: ",nroPractica)
+    const nroPracticaActual = cookies.get('practica_next')
+    const [nroPractica, setNroPractica] = useState(nroPracticaActual)
+    console.log("PRACTICA ACTUAL:",nroPracticaActual,"PRACTICA VER ",nroPractica)
     const steps = [
         {title: "Solicitar"},
         {title: "Inscripción"},
         {title: "Cursando"},
         {title: "Evaluación"} 
     ]
+    const mostrarPractica = (numeroPractica) => {
+      setNroPractica(numeroPractica)
+    }
     
-    useEffect(() => {       
-      getEstado()
-    }, [])
-
     const [page, setPage] = useState(1)
 
     const getEstado = () => {
         let id_alumno = cookies.get('id')
-        let numeropractica = 1
+        // let numeropractica = 1
         axios.post(
           "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEstadoPracticaAlumno",
           {
             id_alumno: id_alumno,
-            numero: numeropractica,
+            numero: nroPractica,
           },
         )
           .then(response => {
@@ -70,21 +71,26 @@ const Practicas = () => {
             console.log("login error: ", error);
           });
     }
-    
     const nextPage = () =>{       
         setPage(page+1)
     }
     const previousPageFuncion = ()=>{
         setPage(page-1)
     }
+    
+    useEffect(() => {       
+      getEstado()
+    }, [nroPractica])
+
     return (
       <>
         <PracticasTab 
           nroPractica={nroPractica}
           setNroPractica={setNroPractica}
+          mostrarPractica={mostrarPractica}
           />
         {
-          nroPractica===0 ?(
+          nroPractica <= nroPracticaActual ?(
             <Card 
               className=" animate__animated animate__fadeIn animate__faster container mt-3 mb-3"
               style={{
@@ -101,10 +107,10 @@ const Practicas = () => {
                     completeColor = {"#77C78F"}
                 />
                 <hr/>        
-                { page===0 && <FormPostulacion handleSubmit={nextPage} /> }
-                { page===1 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-                { page===2 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-                { page===3 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage}/> }          
+                { page===0 && <FormPostulacion handleSubmit={nextPage} nroPractica={nroPractica} /> }
+                { page===1 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage} nroPractica={nroPractica}/> }
+                { page===2 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage} nroPractica={nroPractica}/> }
+                { page===3 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage} nroPractica={nroPractica}/> }          
             </Card>
           )
           : (
