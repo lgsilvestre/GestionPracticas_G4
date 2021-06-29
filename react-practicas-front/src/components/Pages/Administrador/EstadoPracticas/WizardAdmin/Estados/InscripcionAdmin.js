@@ -75,16 +75,14 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
     const [isOpen, setisOpen] = useState(false)
     const [mostrarAlertaInfo, setmostrarAlertaInfo] = useState(true)
     const [mostrarAlertaDoc, setmostrarAlertaDoc] = useState(true)
-    // const [practicaAceptada, setpracticaAceptada] = useState(false)
     const clasesEstilo = useStyles();
     const [dataInscripcion, setDataInscripcion] = useState({})
-    // const infoLabelsEmpresa = ["Nombre Empresa:", "Nombre de Supervisor:", "Fecha de Inicio:", "Fecha de término:"]
     const [docsInscripcion, setDocsInscripcion] = useState([])
+    const [mostrarAlertaCursar, setMostrarAlertaCursar] = useState(false)
     const [archivo, setArchivo] = useState()
     const handleCancelDoc = (id) => {
       setIdDocCancelado(id)
       setisOpen(!isOpen)
-      // console.log("cancelando doc ",id)
     }
     const confirmarInscipcion= async() =>{  
       await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarInscripcion",{
@@ -96,7 +94,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
         //TRUE 1 PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
         if(response.data===1){
-          // nextPage()
+          setMostrarAlertaCursar(true)
         }
       }
       )
@@ -182,6 +180,14 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
               <Alert severity="info">
                   A la espera de que el alumno suba la información correspondiente a su práctica.
               </Alert>        
+            )
+          }
+          {
+            mostrarAlertaCursar && (
+              <Alert severity="success">
+                  Has aprobado satisfactoriamente esta etapa de inscripción. Ahora, debes esperar a que el alumno descargue su seguro de práctica
+                  y continue hacia la etapa de Cursando.
+              </Alert>
             )
           }  
           {/*Datos de Empresa  */}

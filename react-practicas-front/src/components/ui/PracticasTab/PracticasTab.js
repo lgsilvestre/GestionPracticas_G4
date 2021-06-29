@@ -31,10 +31,12 @@ const StyledTab = withStyles((theme) => ({
   },
 }))((props) => <Tab disableRipple {...props} />);
 
-export const PracticasTab = ({nroPractica, setNroPractica,mostrarPractica}) => {
+export const PracticasTab = ({nroPractica,mostrarPractica}) => {
   const nroTab = nroPractica-1
+  // console.log("Tab actual:",nroTab)
   const handleChange = (event, newValue) => {
-    console.log("orden mostrar: ",newValue)
+    // console.log("orden mostrar: ",newValue)
+    console.log("Mostrando practica ",newValue+1)
     mostrarPractica(newValue+1)
     // setNroPractica(newValue)
   }

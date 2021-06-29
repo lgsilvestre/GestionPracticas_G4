@@ -345,7 +345,7 @@ class PracticaController extends BaseController
 	}
 
 	public function inscribirInfo() {
-		echo "ENTRO INSCRIBIR";
+		// echo "ENTRO INSCRIBIR";
 		$id_alumno = $this->request->getVar('id_alumno');
 		$nro_practica = $this->request->getVar('nropractica');
 		$empresa = $this->request->getVar('empresa');
@@ -418,8 +418,9 @@ class PracticaController extends BaseController
 
 	public function getEvaluacionEmpresa() {
 		$id_alumno = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
-		$result = $this->PracticaModel->getEvaluacionEmpresa($id_alumno);
+		$result = $this->PracticaModel->getEvaluacionEmpresa($id_alumno, $numero);
 		if($result) {
 			echo json_encode($result);
 		} else {
@@ -461,8 +462,9 @@ class PracticaController extends BaseController
 
 	public function getEvaluacionPracticaUni() {
 		$id_alumno = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
-		$result = $this->PracticaModel->getEvaluacionPracticaUni($id_alumno);
+		$result = $this->PracticaModel->getEvaluacionPracticaUni($id_alumno, $numero);
 		if($result) {
 			echo json_encode($result);
 		} else {
@@ -480,6 +482,18 @@ class PracticaController extends BaseController
 			echo "0";
 		}
 	}
+	public function getSolicitud() {
+		$id = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('nropractica');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getSolicitud($id,$numero);
+    // echo json_encode($result);
+		if($result) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
 
 	/*
 	Función por implement
@@ -494,5 +508,16 @@ class PracticaController extends BaseController
 		}
 	}
 	*/
+
+	public function getFechas(){
+		$id = $this->request->getVar('id_alumno');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getFechas($id);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
 
 }

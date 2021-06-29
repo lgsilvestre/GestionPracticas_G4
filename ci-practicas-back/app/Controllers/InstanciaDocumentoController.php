@@ -56,7 +56,8 @@ class InstanciaDocumentoController extends BaseController
 	public function getInstanciasDocumento() {
 		
 		$id_alumno = $this->request->getVar('id_alumno');
-		$result = $this->InstDocumentoModel->getInstanciasDocumentos($id_alumno);
+		$numero = $this->request->getVar('numero');
+		$result = $this->InstDocumentoModel->getInstanciasDocumentos($id_alumno, $numero);
 		if ($result) {
 			return json_encode($result, JSON_UNESCAPED_UNICODE);
 		}

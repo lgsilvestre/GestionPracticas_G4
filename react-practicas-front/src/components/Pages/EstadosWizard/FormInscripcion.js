@@ -32,7 +32,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
     const [regionElegida, setregionElegida] = useState(0)
-    const [estado, setEstado] = useState("")
+    const [estado, setEstado] = useState("Por inscribir")
     // const [estadoPractica, setEstadoPractica] = useState({})
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -76,10 +76,10 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
         },
       )
       .then(response=>{
-        console.log("RESPUESTA ENVIAR DATOS INSC: ",response)
-        if(response.data===true){
-          console.log("ES TRUE")
-          setMostrarResolucion(!mostrarResolucion)
+        // console.log("RESPUESTA ENVIAR DATOS INSC: ",response)
+        if(response.data===1){
+          // console.log("ES TRUE")
+          setMostrarResolucion(true)
         }
       })
       .catch(error =>{
@@ -95,8 +95,8 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
         },
       )
         .then(response => {
-          // console.log("RESPUESTA ESTADO PRACTICA ACTIVA:  ",response.data)
-          if(response.data[0].estado!=="Por Inscribir"){
+          console.log("RESPUESTA ESTADO PRACTICA ACTIVA:  ",response.data)
+          if(response.data[0].estado!=="Por inscribir"){
             setEstado("Aprobada")
             setMostrarResolucion(true)
           }
@@ -123,7 +123,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
               setArchivos(response.data)
             })
             .catch(error => {
-              console.log("login error: ", error);
+              console.log("ERROR EN GET DOCUMENTOS: ", error);
         });
     }
     const handleChangeRegion = (event) => {
@@ -132,10 +132,9 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       handleInputChange(event)
     }
 
-    useEffect(() => {
-      getDocs()
+    useEffect(() => {   
       getEstadoPractica()
-      
+      getDocs()    
     }, [])
     
     return (

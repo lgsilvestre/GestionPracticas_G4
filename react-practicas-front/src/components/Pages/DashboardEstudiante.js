@@ -86,7 +86,8 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
   const [fechasImportantes, setfechasImportantes] = useState(FechasImportantesEj)
   const [etapa, setEtapa] = useState(0)
   const [infoPractica, setInfoPractica] = useState(InfoPracticaEstudiante[0])
-  const [nroPractica, setNroPractica] = useState(0)
+  const [nroPractica, setNroPractica] = useState(1)
+  const [sinPractica, setSinPractica] = useState(true)
   const getInfoAlumno = () => {
     // console.log("Solicitando alumno con id: ",id_alumno)
     axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoId",
@@ -143,20 +144,21 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
     )
     .then(response=>{
       if(response.data !==0){
+        setSinPractica(false)
         const arrayNumeros = []
         console.log("Practicas Terminadas:" ,response.data)
         response.data.map((objeto)=>(
           arrayNumeros.push(objeto.numero)
         ))
         // console.log("rray numeros",arrayNumeros)
-        const mayor = Math.max(...arrayNumeros)
-        // console.log("mayor: ",mayor)
-        setNroPractica(mayor+1)
-        cookies.set('practica_next', mayor+1, { path: '/' });
+        const mayor = Math.max(...arrayNumeros)+1
+        console.log("mayor: ",mayor)
+        setNroPractica(mayor)
+        cookies.set('practica_next', mayor, { path: '/' });
       }
       else{
         console.log("No hay practicas")
-        cookies.set('practica_next', 0, { path: '/' })
+        cookies.set('practica_next', 1, { path: '/' })
       }
     })
   }
@@ -287,7 +289,11 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                   <div className="col " style={{marginTop:"3vh"}}>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica {nroPractica}</h7>
+                        {!sinPractica ? (
+                          <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica {nroPractica}</h7>
+                        ):(
+                          <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> No has solicitado ninguna práctica</h7>
+                        )}
                       </div>
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 

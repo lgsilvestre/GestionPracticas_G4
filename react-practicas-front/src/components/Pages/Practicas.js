@@ -13,9 +13,9 @@ import { PracticasTab } from '../ui/PracticasTab/PracticasTab';
 const Practicas = () => {
 
     const cookies = new Cookies();
-    const nroPracticaActual = cookies.get('practica_next')
+    const nroPracticaActual = parseInt(cookies.get('practica_next'))
     const [nroPractica, setNroPractica] = useState(nroPracticaActual)
-    console.log("PRACTICA ACTUAL:",nroPracticaActual,"PRACTICA VER ",nroPractica)
+    // console.log("PRACTICA ACTUAL:",nroPracticaActual,"PRACTICA VER ",nroPractica)
     const steps = [
         {title: "Solicitar"},
         {title: "Inscripción"},
@@ -23,15 +23,16 @@ const Practicas = () => {
         {title: "Evaluación"} 
     ]
     const mostrarPractica = (numeroPractica) => {
+      // console.log("Seteando nro practica ",numeroPractica)
       setNroPractica(numeroPractica)
     }
     
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState()
 
-    const getEstado = () => {
+    const getEstado = async() => {
         let id_alumno = cookies.get('id')
         // let numeropractica = 1
-        axios.post(
+        await axios.post(
           "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEstadoPracticaAlumno",
           {
             id_alumno: id_alumno,
@@ -40,32 +41,32 @@ const Practicas = () => {
         )
           .then(response => {
 
-            console.log(response.data)
-
             if (response.data=="0"){
+              console.log("Sin Estado de practica")
                 setPage(0)
+            }
+            else{
+              if (response.data[0].etapa=="Solicitud"){
+                  console.log(response.data[0].etapa)
+                  setPage(0)
+              } 
+  
+              if (response.data[0].etapa=="Inscripción"){
+                  console.log(response.data[0].etapa)
+                  setPage(1)
+              }
+  
+              if (response.data[0].etapa=="Cursando"){
+                  console.log(response.data[0].etapa)
+                  setPage(2)
+              }
+  
+              if (response.data[0].etapa=="Evaluación"){
+                  console.log(response.data[0].etapa)
+                  setPage(3)
+              }
             } 
             
-            if (response.data[0].etapa=="Solicitud"){
-                console.log(response.data[0].etapa)
-                setPage(0)
-            } 
-
-            if (response.data[0].etapa=="Inscripción"){
-                console.log(response.data[0].etapa)
-                setPage(1)
-            }
-
-            if (response.data[0].etapa=="Cursando"){
-                console.log(response.data[0].etapa)
-                setPage(2)
-            }
-
-            if (response.data[0].etapa=="Evaluación"){
-                console.log(response.data[0].etapa)
-                setPage(3)
-            }
-
           })
           .catch(error => {
             console.log("login error: ", error);
@@ -78,15 +79,15 @@ const Practicas = () => {
         setPage(page-1)
     }
     
-    useEffect(() => {       
+    useEffect(() => {
+      console.log("Nro practica actualizado: ",nroPractica)       
       getEstado()
-    }, [nroPractica])
+    }, [nroPractica,page])
 
     return (
       <>
         <PracticasTab 
           nroPractica={nroPractica}
-          setNroPractica={setNroPractica}
           mostrarPractica={mostrarPractica}
           />
         {

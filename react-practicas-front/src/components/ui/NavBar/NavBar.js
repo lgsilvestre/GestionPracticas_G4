@@ -26,8 +26,8 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
 
     useEffect(() => {
         // Update the document title using the browser API
-        console.log(cookies.get('id'))
-        console.log(cookies.get('name'))
+        // console.log(cookies.get('id'))
+        // console.log(cookies.get('name'))
         console.log("USE EFECT NAVBAR")
         
     });

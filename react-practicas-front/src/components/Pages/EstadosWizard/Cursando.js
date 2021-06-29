@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FcBusiness } from 'react-icons/fc';
 import { IconContext } from 'react-icons/lib';
 import {
@@ -11,18 +11,33 @@ import {
   ListItemSecondaryAction, } from '@material-ui/core'
 import { VscFilePdf } from 'react-icons/vsc';
 import { MdFileDownload } from 'react-icons/md';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+
 
 export const Cursando = ({previousPage, handleSubmit}) => {
-
+  const cookies = new Cookies()
+  const id_alumno = cookies.get('id')
   const [fechas, setFechas] = useState({
-    fechaInicio:"0000-00-00",
-    fechaTermino:"0000-00-00"
   })
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
   const handleTime = ()=>{
       toggle()
   }
+  const getFechas = () => {
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getFechas",{
+      id_alumno:id_alumno
+    }).then(response=>{
+      console.log("GetFechas:",response.data[0])
+      setFechas(response.data[0])
+    }).catch(error=>{
+      console.log("Error con getFechas", error)
+    })
+  }
+  useEffect(() => {
+    getFechas()
+  }, [])
   return (
       <div className="animate__animated animate__fadeIn animate__faster">
           <Modal isOpen={modal} toggle={toggle}>
@@ -49,10 +64,10 @@ export const Cursando = ({previousPage, handleSubmit}) => {
                       <p> Estas cursando tu práctica. ¡Buena suerte y da lo mejor de ti! </p>  
                       <div className="container">
                           <div className="col">
-                              <p><strong>Fecha inicio: </strong> {fechas.fechaInicio} </p>
+                              <p><strong>Fecha inicio: </strong> {fechas.fecha_inicio} </p>
                           </div>
                           <div className="col">
-                              <p><strong>Fecha termino: </strong> {fechas.fechaTermino} </p>
+                              <p><strong>Fecha termino: </strong> {fechas.fecha_termino} </p>
                           </div>
                       </div>
                       <Button className="btn btn-primary" onClick={handleTime}>

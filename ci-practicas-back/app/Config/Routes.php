@@ -75,6 +75,8 @@ $routes->post('getEstadoPracticaActiva', 'PracticaController::getEstadoPracticaA
 $routes->post('getEvaluacion', 'PracticaController::getEvaluacion');
 $routes->post('filtros', 'PracticaController::filtros');
 $routes->post('getNumeroSiguientePractica', 'PracticaController::getNumeroSiguientePractica');
+$routes->post('getSolicitud', 'PracticaController::getSolicitud');
+$routes->post('getFechas', 'PracticaController::getFechas');
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');

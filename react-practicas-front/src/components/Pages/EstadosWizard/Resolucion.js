@@ -15,12 +15,14 @@ const useStyles = makeStyles((theme) => ({
       height:"30px"
     }
       }));
-export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true,estado="Pendiente"}) => {
-
+export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true, estado="Pendiente", nroPractica}) => {
+  
+  // console.log("estado: ",estado)
   const cookies = new Cookies()
   const id_alumno = cookies.get('id')
   const clasesEstilo = useStyles();
-  const [estadoSolicitud, setEstadoSolicitud] = useState(2)
+  const [estadoSolicitud, setEstadoSolicitud] = useState(estado)
+
   const avanzarInsripcion = () => {
     cambiarCursando()
     handleSubmit()
@@ -28,7 +30,8 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true,estad
   const cambiarCursando = () => {
     
     axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/pasarCursando",{
-      id_alumno:id_alumno
+      id_alumno:id_alumno,
+      nropractica:nroPractica
     })
     .then(response=>{
       if(response.data===1){
@@ -39,14 +42,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true,estad
       console.log("EEROR ",error)
     })
   }
-  useEffect(() => {
-    if(estado==="Aprobada"){
-      setEstadoSolicitud(0)
-    }
-    else if(estado==="Rechazada"){
-      setEstadoSolicitud(1)
-    }
-  }, [])
+  
   return (
     <div className="animate__animated animate__fadeIn animate__faster">          
       <div className="container">
@@ -55,7 +51,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true,estad
         </div>
         {
           //APROBADA
-          estadoSolicitud===0 && (
+          estadoSolicitud==="Aprobada" && (
           <div className="col card mb-3">
             <div className="row justify-content-center" style={{marginTop:"5vh"}}>
               <IconContext.Provider value={{size:"5em"}} >
@@ -115,7 +111,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true,estad
         }
           {
             //RECHAZO
-            estadoSolicitud===1 &&
+            estadoSolicitud==="Rechazada" &&
             (
               <div className="col card mb-3">
                 <div className="row justify-content-center" style={{marginTop:"5vh"}}>
@@ -135,7 +131,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true,estad
           }
           {
             //PENDIENTE
-            estadoSolicitud===2 &&
+            (estadoSolicitud==="Pendiente" || estadoSolicitud==="Por inscribir") &&
             (
               <div className="col card mb-3">
                 <div className="row justify-content-center" style={{marginTop:"10vh"}}>
