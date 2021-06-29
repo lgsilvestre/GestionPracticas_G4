@@ -89,6 +89,14 @@ class AlumnoController extends BaseController
         echo $result;
 	}
 
+	public function recibirArchivo($id){
+		move_uploaded_file(
+			$_FILES['file']['tmp_name'],
+			'C:\Users\Windows 10\xampp\htdocs\GestionPracticas_G4\documentos',
+		);
+        echo "REVISAR ARCHIVO";
+	}
+
 }
 
 

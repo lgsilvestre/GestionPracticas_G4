@@ -1,26 +1,31 @@
 import React, { Fragment } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 //import logo from '../SideBar/utalca.svg'
 import "./NavBar.css"
 import { useEffect, useState } from 'react'
 import Cookies from 'universal-cookie'
 import logo from '../SideBar/logos/whitelogo-nav.png';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Dropdown from 'rsuite/lib/Dropdown';
 import PersonIcon from '@material-ui/icons/Person';
 //import logo1 from './logos/whitelogo-1.png';
 
-export const NavBar = ({tipo_usuario = "Estudiante"}) => {
+export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
 
     const cookies = new Cookies();
+    
     const [showPer, setShowPer] = useState(false);
+
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const toggle = () => setDropdownOpen(prevState => !prevState);
 
     const showDropdownPer = () => {
         setShowPer(!showPer);
-      }
-      
+    }
+
     const hideDropdownPer = () => {
-      setShowPer(false);
+        setShowPer(false);
     }
 
     useEffect(() => {
@@ -28,7 +33,7 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
         console.log(cookies.get('id'))
         console.log(cookies.get('name'))
         console.log("USE EFECT NAVBAR")
-        
+
     });
 
     return (
@@ -51,14 +56,14 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/practicas"
-                            style={{marginLeft:'15px', marginRight:'15px', fontSize:'22px', fontWeight:'400'}}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
                         > Prácticas </NavLink>
                         <NavLink
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/postulaciones"
-                            style={{marginLeft:'15px', marginRight:'15px', fontSize:'22px', fontWeight:'400'}}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
                         > Documentos </NavLink>
                     </div>
                 </div>
@@ -69,9 +74,25 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
                             className="nav-item nav-link"
                             exact
                             to="/estudiante/changePass"
-                            style={{marginLeft:'15px', marginRight:'15px', fontSize:'22px', fontWeight:'400'}}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
                         >
-                            <Dropdown 
+                            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                                <DropdownToggle caret>
+                                    Dropdown
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem header>Header</DropdownItem>
+                                    <DropdownItem>Some Action</DropdownItem>
+                                    <DropdownItem text>Dropdown Item Text</DropdownItem>
+                                    <DropdownItem disabled>Action (disabled)</DropdownItem>
+                                    <DropdownItem divider />
+                                    <DropdownItem>Foo Action</DropdownItem>
+                                    <DropdownItem>Bar Action</DropdownItem>
+                                    <DropdownItem>Quo Action</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+
+                            {/* <Dropdown 
                                 icon={<PersonIcon />} 
                                 open={showPer}
                                 onMouseEnter={showDropdownPer}
@@ -81,7 +102,7 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
                                 <Dropdown.Item eventKey="4">{cookies.get('name')}</Dropdown.Item>
                                 <Dropdown.Item eventKey="5">Configuración</Dropdown.Item>
                                 <Dropdown.Item eventKey="6">Historial</Dropdown.Item>
-                            </Dropdown>
+                            </Dropdown> */}
                             {/* <p>
                                 {cookies.get('name')}
                             </p>   */}
@@ -89,7 +110,7 @@ export const NavBar = ({tipo_usuario = "Estudiante"}) => {
                         <NavLink
                             className="nav-item nav-link"
                             exact to="/login"
-                            style={{marginLeft:'15px', marginRight:'15px', fontSize:'22px', fontWeight:'400'}}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
                         >
                             <ExitToAppIcon />
                         </NavLink>

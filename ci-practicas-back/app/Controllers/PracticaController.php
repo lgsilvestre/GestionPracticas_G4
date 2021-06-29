@@ -372,6 +372,14 @@ class PracticaController extends BaseController
 		}
 	}
 
+	public function rechazarSolicitud() {
+		// Update de etapa y estado práctica
+		$id_alumno = $this->request->getVar('idalumno');
+		$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->recahzarSolicitud($id_alumno);
+	}
+
 	public function inscribirInfo() {
 		echo "ENTRO INSCRIBIR";
 		$id_alumno = $this->request->getVar('id_alumno');
