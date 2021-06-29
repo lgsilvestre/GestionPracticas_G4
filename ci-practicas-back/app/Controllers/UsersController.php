@@ -70,11 +70,6 @@ class UsersController extends  BaseController
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
 
-        // $nombre = 'pepe';
-        // $correo = 'lnicolas15@alumnos.utalca.cl';
-        // $contraseña = 'c0nt4s3ñ4';
-        // $this->sendEmail($nombre, $correo, $contraseña);
-
         $usermodel = new UserModel();
         $alumnomodel = new AlumnoModel();
 
@@ -669,10 +664,50 @@ class UsersController extends  BaseController
                     ];
                     $this->sendEmailRegisterUser($value['Nombre Alumno'], $value['Correo Institucional'],$pass);
                     $model ->save($newsData);
+
+                    // Generar historial
+                    
+                    // $refAlumno = $model->getIdAlumno($value['matricula']);
+                    // $this->generarHistorial($refAlumno, -1, -1, -1, "Nuevo alumno ingresado");
+
+                    // //$refAlumno, $refAdmin, $etapa, $practica, $comentario
+
                 }
             }
         }
     }
+
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario){
+		$model = new HistorialModel();
+
+		$newsData =[
+			'comentario' => $comentario
+		];
+		if($etapa != -1){
+			$newsData +=[
+				'etapa' => $etapa
+			];
+		}
+		if($refAlumno != -1){
+			$newsData +=[
+				'refAlumno' => $refAlumno
+			];
+		}
+		if($refAdmin != -1)
+		{
+			$newsData +=[
+				'refAdmin' => $refAdmin
+			];
+		}
+		if($practica != -1)
+		{
+			$newsData +=[
+				'practica' => $practica,
+			];
+		}
+		$model ->save($newsData);
+
+	}
 }
 
 

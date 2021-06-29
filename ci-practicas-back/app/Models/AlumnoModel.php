@@ -32,6 +32,12 @@ class AlumnoModel extends Model
         return $result;
     }
 
+    public function getIdAlumno($matricula) {
+        $query = $this->db->query("Select * from alumno where matricula = '".$matricula."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
     public function getAlumnosAdmin(){
         $query = $this->db->query("Select * from alumno");
         $result = $query->getResult();

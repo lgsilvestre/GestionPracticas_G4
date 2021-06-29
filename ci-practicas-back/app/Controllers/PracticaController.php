@@ -281,7 +281,6 @@ class PracticaController extends BaseController
         } else {
             echo "error";
         }
-
 	}
 
 	public function servePracticaFiltrada () {
@@ -378,6 +377,36 @@ class PracticaController extends BaseController
 		$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->recahzarSolicitud($id_alumno);
+
+		if($result) {
+			//Generación historial
+			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			foreach ($practica as $row)
+			{
+				$etapa = $row->etapa;
+				$numPractica = $row->numero;
+			}
+			$comentario = 'Etapa 1 (Solicitud) rechazada';
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario);
+			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
+
+			// Envio correo
+			$this -> AlumnoModel = new AlumnoModel();
+			$resultAlumno = $this->AlumnoModel->getCorreoNombreApellido($id_alumno);
+			$correo = "";
+			$nombre = "";
+			foreach ($resultAlumno as $row)
+			{
+				$nombre = $row->nombre;
+				$correo = $row->correo_ins;
+			}
+			$date = date('d/m/Y');
+			$this->sendEmailSolicitudRechazada($correo, $nombre, $date);
+		} else {
+			echo 0;
+		}
+
+
 	}
 
 	public function inscribirInfo() {
@@ -647,9 +676,13 @@ class PracticaController extends BaseController
 		$model = new HistorialModel();
 
 		$newsData =[
-			'etapa' => $etapa,
 			'comentario' => $comentario
 		];
+		if($etapa != -1){
+			$newsData +=[
+				'etapa' => $etapa
+			];
+		}
 		if($refAlumno != -1){
 			$newsData +=[
 				'refAlumno' => $refAlumno
