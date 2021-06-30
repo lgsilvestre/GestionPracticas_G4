@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Button
   } from 'reactstrap';
@@ -7,39 +7,52 @@ import Cookies from 'universal-cookie'
 import { Comentario } from './Comentario';
 import { Resolucion } from './Resolucion';
 
-export const FormPostulacion = ({handleSubmit, previousPage}) => {
+export const FormPostulacion = ({handleSubmit, previousPage,nroPractica}) => {
     const cookies = new Cookies()
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
-    const datosDefecto = {
-        estudiante:4,
-        nombre: "Prueba de alumno",
-        carrera: "Prueba de carrera",
-        correo_inst: "prueba@prueba.cl",
-        correo_per: "prueba@alumnos.utalca.cl",
-        rut: "123456789",
-        matricula: "2016407111"
-    }
 
-    const postPractica = async() =>{
-        await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/ingresarPractica",{
-            'id_alumno': cookies.get('id'),
-            'nropractica': 1
+    const getSolicitud = async() => {   
+      // console.log("Get solicitud ",nroPractica)
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getSolicitud",{
+          'id_alumno': cookies.get('id'),
+          'nropractica': nroPractica
         })
         .then(response=>{
-            if (response.data == true){
-                console.log("INGRESADA")
-                setMostrarResolucion(true)
-            }
+          // console.log("Estado solicitud:",response.data)
+          if(response.data===1){
+            // console.log("Existe una solicitud pendiente")
+            setMostrarResolucion(true)
+          }
+          else{
+            // console.log("No existe solicitud aun")
+          }
         })
-    }    
+    }
     
+    const postPractica = async() =>{
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/ingresarPractica",{
+          'id_alumno': cookies.get('id'),
+          'nropractica': nroPractica
+      })
+      .then(response=>{
+          if (response.data == true){
+              // console.log("INGRESADA")
+              setMostrarResolucion(true)
+          }
+      })
+    }    
+    useEffect(() => {
+      getSolicitud()
+    }, [])
     return (
         <div>
           {mostrarResolucion 
           ? <Resolucion 
             previousPage={previousPage} 
-            handleSubmit={handleSubmit}/> 
+            handleSubmit={handleSubmit}
+            nroPractica = {nroPractica}
+            /> 
           : 
           (
             <div>          

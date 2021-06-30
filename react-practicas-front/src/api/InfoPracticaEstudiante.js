@@ -34,7 +34,6 @@ export const InfoPracticaEstudiante = [
     "el informe de práctica a la plataforma dentro del plazo correspondiente y luego esperar "+
     "por tus calificaciones.",
     pasos:"Ve a Prácticas y sube tu informe de práctica."
-  }
-
+  },
   
 ]

@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export const EvaluacionAdmin = ({idAlumno}) => {
+export const EvaluacionAdmin = ({idAlumno, nroPractica}) => {
     const classes = useStyles()
     const [openComentario, setOpenComentario] = useState(false)
     const [mostrarAlertaInforme, setmostrarAlertaInforme] = useState(true)
@@ -70,14 +70,17 @@ export const EvaluacionAdmin = ({idAlumno}) => {
     }
     //Axios para obtenet la nota que subio el supervisor.
     const getNotaEmpresa = () => {
+      console.log("nro Practica ",nroPractica)
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionEmpresa",{
-        id_alumno:idAlumno
+        id_alumno:idAlumno,
+        numero:nroPractica
       })
       .then(response =>{
+        console.log(response.data)
         setnombreSupervisor(response.data[0].supervisor)
         //0 No hay evaluacion
         //>0 Es evaluacion
-        if(response.data[0].evaluacion_empresa==="0"){
+        if(response.data[0].evaluacion_empresa==0){
           setnotaPracticaEmpresa("--")
         }
         else{
@@ -92,27 +95,11 @@ export const EvaluacionAdmin = ({idAlumno}) => {
         console.log("Error: ", error)
       });
     }
-    const handleCambiarNota = (event) => {
-      event.preventDefault()
-      console.log(event.target.value)
-      setnotaPractica(event.target.value)
-      // actualizarNota(event.target.value)
-    }
-    
-    const actualizarNotaPractica = () => {
-      console.log("Axios con nota: ",notaPractica)
-      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/evaluarPractica",{
-        id_alumno:idAlumno,
-        nota:notaPractica
-      })
-      .then(response=>{
-        //1 EVALUADA 0 ERROR
-        console.log(response.data)
-      })
-    }
     const getNotaUni = () => {
+      console.log("nro Practica ",nroPractica)
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionPracticaUni",{
-        id_alumno:idAlumno
+        id_alumno:idAlumno,
+        numero:nroPractica
       })
       .then(response =>{      
         //0 No hay evaluacion
@@ -131,6 +118,50 @@ export const EvaluacionAdmin = ({idAlumno}) => {
         console.log("Error: ", error)
       });
     }
+    const handleCambiarNota = (event) => {
+      event.preventDefault()
+      console.log(event.target.value)
+      setnotaPractica(event.target.value)
+      // actualizarNota(event.target.value)
+    }
+    const cambiarPracticaInactiva = () => {
+
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/practicaInactiva",{
+        id_alumno:idAlumno,
+      })
+      .then(response=>{
+        //1 EVALUADA 0 ERROR
+        console.log(response.data)
+      })
+    }
+    
+    const finalizarPractica = () => {
+      actualizarNotaPractica()
+
+    }
+    
+    const actualizarNotaPractica = () => {
+      
+      console.log("Axios con nota: ",notaPractica)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/evaluarPractica",{
+        id_alumno:idAlumno,
+        nota:notaPractica
+      })
+      .then(response=>{
+        //1 EVALUADA 0 ERROR
+        if(response.data===1){
+          console.log("Evaluada correctamente")
+          cambiarPracticaInactiva()
+        }
+        else{
+          console.log("No se pudo evaluar")
+        }
+        console.log(response.data)
+      }).catch(error =>{
+        console.log("ERROR EVALUANDO", error)
+      })
+    }
+    
     
     const file={
       nombre: "Informe de Práctica",
@@ -257,7 +288,7 @@ export const EvaluacionAdmin = ({idAlumno}) => {
                     <Input value={notaPractica} style={{width:"70px"}} type="number" name="nota" onChange={handleCambiarNota}/>
                   </div>
                   <div className="col-auto">
-                    <Button className={classes.boton} onClick={actualizarNotaPractica}>
+                    <Button className={classes.boton} onClick={finalizarPractica}>
                       Guardar
                     </Button>
                   </div>

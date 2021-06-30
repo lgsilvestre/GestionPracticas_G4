@@ -7,21 +7,19 @@ import {
     ListItem,  
     ListItemIcon,  
     ListItemSecondaryAction,  
-    ListItemText,  
     makeStyles,
-    Button,
-    TextField} from '@material-ui/core'
+    Button
+    } from '@material-ui/core'
 import { VscFilePdf } from 'react-icons/vsc';
 import { MdFileDownload } from 'react-icons/md';
 import { FcCancel, FcCheckmark } from 'react-icons/fc';
-import { useForm } from '../../../../../../hooks/useForm';
-import { AiOutlineSearch } from 'react-icons/ai';
-import {InputCollapse, CardBody, Card, Collapse, Input } from 'reactstrap';
+import {Collapse, Input,CustomInput } from 'reactstrap';
 import { GoCheck } from "react-icons/go";
 import { GoCircleSlash } from "react-icons/go";
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
-import Cookies from 'universal-cookie';
+import {useForm} from 'react-hook-form';
+import { regiones } from '../../../../../../api/regiones';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -72,22 +70,19 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}) => {
-    const cookies = new Cookies();
-    
+    const {register, handleSubmit} = useForm()
     const [idDocCancelado, setIdDocCancelado] = useState(0)
     const [isOpen, setisOpen] = useState(false)
     const [mostrarAlertaInfo, setmostrarAlertaInfo] = useState(true)
     const [mostrarAlertaDoc, setmostrarAlertaDoc] = useState(true)
-    // const [practicaAceptada, setpracticaAceptada] = useState(false)
     const clasesEstilo = useStyles();
     const [dataInscripcion, setDataInscripcion] = useState({})
-    const infoLabelsEmpresa = ["Nombre Empresa:", "Nombre de Supervisor:", "Fecha de Inicio:", "Fecha de término:"]
     const [docsInscripcion, setDocsInscripcion] = useState([])
-        
+    const [mostrarAlertaCursar, setMostrarAlertaCursar] = useState(false)
+    const [archivo, setArchivo] = useState()
     const handleCancelDoc = (id) => {
       setIdDocCancelado(id)
       setisOpen(!isOpen)
-      // console.log("cancelando doc ",id)
     }
     const confirmarInscipcion= async() =>{  
       await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarInscripcion",{
@@ -99,7 +94,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
         //TRUE 1 PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
         if(response.data===1){
-          nextPage()
+          setMostrarAlertaCursar(true)
         }
       }
       )
@@ -112,19 +107,23 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       console.log("ACEPTANDO PRACTICA")
       confirmarInscipcion() 
     }
-
+    //rut_empresa, email_supervisor,telefono_supervisor,region,comuna,nombre_contacto,telefono_contacto
     const getInfoInscripcion = async () => {
+      console.log(regiones[8].region)
       await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getDatosInscripcionAlumno",{
         matricula:nroMatricula,
         numero:nroPractica,
         id_alumno:idAlumno
       })
       .then(response=>{
-        console.log("respuesta info inscripcion: ",response.data)
+        var data = response.data[0]
+        var region = regiones[parseInt(data.region)].region
+        console.log("respuesta info inscripcion: ",data)
+        data.region=region
         if(response.data[0].empresa.length>0){
           setmostrarAlertaInfo(false)
         }   
-        setDataInscripcion(response.data[0])
+        setDataInscripcion(data)
       })
       .catch(error=>{
         console.log("Error: ", error)
@@ -147,6 +146,25 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
         console.log("Error: ", error)
       })
     }
+    const guardarArchivo = (data) => {
+      console.log(data)
+      let formData = new FormData()
+      console.log(archivo[0])
+      formData.append("file",archivo[0])
+      console.log("ENVIANDO: ",formData)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",formData,    
+        {headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response=>console.log("Respuesta subir file: ",response.data))
+      .catch(error=>{
+        console.log("Error: ", error)
+      })  
+    }
+    const handleChangeFile = (e) => {
+      setArchivo(e.target.files)
+    }
     
     useEffect(() => {
       // console.log("ALUMNO ACTUAAAL:", cookies.get('alumnoactual'))
@@ -162,6 +180,14 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
               <Alert severity="info">
                   A la espera de que el alumno suba la información correspondiente a su práctica.
               </Alert>        
+            )
+          }
+          {
+            mostrarAlertaCursar && (
+              <Alert severity="success">
+                  Has aprobado satisfactoriamente esta etapa de inscripción. Ahora, debes esperar a que el alumno descargue su seguro de práctica
+                  y continue hacia la etapa de Cursando.
+              </Alert>
             )
           }  
           {/*Datos de Empresa  */}
@@ -233,7 +259,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                     Correo del Supervisor:
                   </Box>
                   <Box>
-                    {dataInscripcion.correo_supervisor}
+                    {dataInscripcion.email_supervisor}
                   </Box>
                 </Box>
               </Grid>                                               
@@ -245,7 +271,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                           Teléfono del Supervisor:
                       </Box>
                       <Box>
-                          {dataInscripcion.tel_supervisor}
+                          {dataInscripcion.telefono_supervisor}
                       </Box>
                   </Box> 
               </Grid>                                              
@@ -257,7 +283,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                           Ubicación (Región o Internacional):
                       </Box>
                       <Box>
-                          {dataInscripcion.region}
+                        {dataInscripcion.region}
                       </Box>
                   </Box> 
               </Grid>
@@ -283,7 +309,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                     Nombre Contacto:
                   </Box>
                   <Box>
-                    {dataInscripcion.nombre_emergencia}
+                    {dataInscripcion.nombre_contacto}
                   </Box>
                 </Box> 
               </Grid>
@@ -293,7 +319,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                     Teléfono Contacto:
                   </Box>
                   <Box>
-                    {dataInscripcion.tel_emergencia}
+                    {dataInscripcion.telefono_contacto}
                   </Box>
                 </Box>
               </Grid>                                               
@@ -303,8 +329,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
             mostrarAlertaDoc && (
               <Alert severity="info">
                   A la espera de que el alumno suba los documentos requeridos por su escuela.
-              </Alert>
-                  
+              </Alert>                
             )
           }  
           {/* Archivos */}
@@ -374,6 +399,32 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
             </List>            
                             
           </Box>
+          {/* SEGURO DE PRACTICA */}
+          <Alert severity="warning">
+            <strong>IMPORTANTE:</strong> Debes subir el seguro del alumno antes de aceptar la Inscripción.
+          </Alert>
+          <Box className={clasesEstilo.mainbox} boxShadow={1}>
+            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Subir Seguro de Práctica</h4>
+            <hr/>  
+            <div className="row justify-content-center" >
+              <form onSubmit={handleSubmit(guardarArchivo)}>
+                <div className="col-6" style={{marginBottom:16}} >
+                  <CustomInput    
+                    ref={register}      
+                    type="file" 
+                    name="seguroPractica"
+                    onChange={(e)=>handleChangeFile(e)}
+                    id= "seguroPractica"
+                    label="Suba el seguro"                                     
+                  />               
+                </div>
+                <div className="col">
+                  <Button type="submit">Guardar</Button>
+                </div>
+              </form>
+            </div>
+          </Box>
+          {/* BOX BOTONES ACEPTAR/RECHAZAR */}
           <Box className={clasesEstilo.boxBotones} display="flex" boxShadow={1}>
           <div style={{padding:"30px"}}>
             <Button className={clasesEstilo.boton} startIcon={<GoCheck/>} onClick={handleAceptarInscripcion} >
