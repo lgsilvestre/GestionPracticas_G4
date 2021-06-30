@@ -8,7 +8,6 @@ import {makeStyles, Table, TableContainer, TableHead, TableBody,
   TableRow, TableCell, IconButton, Paper,TablePagination, Typography} 
   from '@material-ui/core';
 import Cookies from 'universal-cookie';
-
 //Estilos
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   botonPerso: {
-    color:'#f69b2e'
+    color:'#f69b2e',
+    backgroundColor:"white"
   },
   botonFiltro: {
     backgroundColor:"grey",
@@ -46,10 +46,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:'#f69b2e',
       color: '#fff'
       }
+  },
+  red:{
+    backgroundColor:"#FFAEAC"
   } 
+  
 }));
 
-export const TablaEstados = ({history}) =>  {
+export const TablaEstados = () =>  {
   const cookies = new Cookies();
   const clasesEstilo = useStyles();
   // Columnas para la tabla de estados
@@ -174,6 +178,13 @@ export const TablaEstados = ({history}) =>  {
   const handleChangeStateBack = () =>{
     setChangeState(!changeState)
   }
+  const getBackGroundRow = (etapa) => {
+    // console.log("Entrando con",etapa)
+    if(etapa==="Solicitud"){
+      return clasesEstilo.red
+    }
+  }
+  
   if(changeState){
     return <InfoEstudiante 
       handleChangeStateBack={handleChangeStateBack} 
@@ -216,12 +227,12 @@ export const TablaEstados = ({history}) =>  {
                   {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
                   {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                      <TableRow  hover role="checkbox" tabIndex={-1} key={row.code}>
                         {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
-                        {columns.map((column) => {
+                        {columns.map((column,index) => {
                           const value = row[column.id];
                           return (                           
-                            <TableCell key={column.id} align={column.align} >
+                            <TableCell key={column.id}className={getBackGroundRow(row.etapa)} claskey={column.id} align={column.align} >
                               {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}                         
                               {value ==="button" ? (
                                 <>                              

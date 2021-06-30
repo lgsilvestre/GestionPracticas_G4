@@ -9,7 +9,7 @@ import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstado
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { AdminDashboard } from '../Pages/AdminDashboard/AdminDashboard';
-import NavBarr from './componentes/NavBarBtrap';
+// import NavBarr from './componentes/NavBarBtrap';
 import './AppRouterStyle.css';
 import Divider from '@material-ui/core/Divider';
 
@@ -38,7 +38,7 @@ const VistaAdmin = () => {
                     <SidePro />
                 </Grid>
                 <Grid item xs={10} sm={10} className="Container Scroll">
-                    <NavBarr />
+                    {/* <NavBarr /> */}
                     <Divider variant="middle" light={true} />  
                     <div className="container">
                         <Switch>

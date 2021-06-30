@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { IoIosArrowBack } from "react-icons/io";
 import WizardAdmin from './WizardAdmin/WizardAdmin';
-import { Navbar, Nav, Dropdown } from 'rsuite';
+// import { Navbar, Nav, Dropdown } from 'rsuite';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -117,7 +117,7 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
                     </Button>
                   </div>
                   <div className="col-auto">
-                    <Dropdown 
+                    {/* <Dropdown 
                       icon={<MoreVertIcon />} 
                       open={show}
                       onMouseEnter={showDropdown}
@@ -129,7 +129,7 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
                       eventKey="1"
                       onSelect={handleDenegar}
                       >DENEGAR</Dropdown.Item>
-                    </Dropdown>
+                    </Dropdown> */}
                   </div>
                 </div>
                 <WizardAdmin 
