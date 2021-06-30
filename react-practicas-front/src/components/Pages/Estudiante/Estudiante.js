@@ -140,7 +140,7 @@ export default function Administrador() {
 
   const bodyInsertar=(
       <div>
-      <FormAlumno setEstudiante={setEstudiante} estudiante={estudiante}/>
+      <FormAlumno estudiante={estudiante} setEstudiante={setEstudiante}/>
       <DialogActions className={classes.encabezado}>
       <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(estudiante)}>Agregar</Button>
       <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>

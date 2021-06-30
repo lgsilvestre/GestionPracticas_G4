@@ -3,16 +3,8 @@ import axios from 'axios';
 import useStyles from './styles';
 import {Table, TableContainer, TableCell, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography, Paper} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
-import InputLabel from '@material-ui/core/InputLabel';
-import CachedIcon from '@material-ui/icons/Cached';
-import Select from '@material-ui/core/Select';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
+import DialogActions from '@material-ui/core/DialogActions';
+import FormFuncionario from '../../FormFuncionario/FormFuncionario';
 import { motion } from "framer-motion";
 
 export default function Administrador() {
@@ -263,67 +255,13 @@ function handleValidation() {
 }
 
 const bodyInsertar=(
-  <div className={classes.modal}>
+  <div>
+  <FormFuncionario administrador={administrador} setAdministrador={setAdministrador} />
+  <DialogActions className={classes.encabezado}>
+  <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(administrador)}>Agregar</Button>
+  <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
+    </DialogActions>
     
-    <h3>Nuevo Funcionario</h3>
-    <br />
-    
-    <TextField variant="outlined" name="nombre" id="nombre" className={classes.inputMaterial} label="Nombre" onChange={handleChange}/>
-    
-    <TextField variant="outlined" name="apellido" id="apellido" className={classes.inputMaterial} label="Apellido" onChange={handleChange}/>
-
-    <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Mail" onChange={handleChange}/>
-
-    <FormControl className={classes.inputMaterial} variant="outlined" >
-                           <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
-                          <Select
-                            labelId="demo-simple-select-outlined-label"
-                            id="demo-simple-select-outlined"
-                            onChange={handleChange}
-                            label="Carrera"
-                          >
-                    {administrador.carreras.map((carrera) => (
-                       <MenuItem>{carrera}</MenuItem>
-                    ))}           
-                    
-         </Select>
-
-     </FormControl>
-
-    <TextField variant="outlined" name="tipo" id="tipo" className={classes.inputMaterial} label="Tipo" onChange={handleChange}/>
-    
-    <FormControl className={classes.inputMaterial} variant="outlined">
-    <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            label="Contraseña"
-            value={administrador.contrasena}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="change"
-                  edge="end"
-                  onClick={generarPassUser}
-                >
-                <CachedIcon/>
-                </IconButton>
-                <IconButton
-                  aria-label="toggle password visibility"
-                  edge="end"
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-    </FormControl>
-          
-
-    <div align="right">
-      <Button  className={classes.boton} color="primary" onClick={handleValidation}>Insertar</Button>
-      <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
-    </div>
-
   </div>
 )
 
