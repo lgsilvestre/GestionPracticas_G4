@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 
-export default function VerticalBar() {
+export default function PracticasCarrera() {
 {/* cantidad de practicas por carrera de los graficos */}
   const [cantidades , setCantidades ] = useState()
 

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 
 
-export default function LineChart () {
+export default function PracticasAnio () {
   {/* cantidad de practicas por anio de los graficos */}
   const [cantidades , setCantidades ] = useState()
   {/* Historial de anios */}
