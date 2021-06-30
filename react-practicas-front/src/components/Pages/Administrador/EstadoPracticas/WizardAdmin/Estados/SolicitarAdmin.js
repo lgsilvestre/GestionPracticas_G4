@@ -183,8 +183,18 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
 
     const handleAceptarPractica = () =>{
-      console.log("ACEPTANDO PRACTICA")
       enviarInformacionSolicitud()
+    }
+
+    const handleRechazarPractica = async () =>{
+        await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/rechazarSolicitud",{
+            params:{
+                idalumno:idAlumno
+            }
+        })
+        .then(response =>{
+            console.log(response.data)
+        })
     }
 
     useEffect(async() => {
@@ -370,7 +380,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
               <Button className={classes.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
                 Aceptar
               </Button>
-              <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} >
+              <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} onClick={handleRechazarPractica} >
                 Rechazar
               </Button>
             </div>       

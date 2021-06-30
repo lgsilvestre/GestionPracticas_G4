@@ -50,6 +50,10 @@ $routes->post('solicitarPractica', 'PracticaController::solicitarPractica');
 $routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
 $routes->post('guardarInscripcion', 'PracticaController::guardarInscripcion');
 $routes->post('getUserId', 'UsersController::getUserId');
+$routes->post('registerAlumno', 'UsersController::registerAlumno');
+
+$routes->post('registerAlumnoExcel', 'UsersController::registerAlumnoExcel');
+$routes->post('registerAlumnoExcelData', 'UsersController::registerAlumnoExcelData');
 // Documentos
 $routes->get('getDocumentos', 'DocumentoController::getDocumentos');
 $routes->get('getDocumento', 'DocumentoController::getDocumento');
@@ -71,15 +75,18 @@ $routes->post('pasarCursando', 'PracticaController::pasarCursando');
 $routes->post('inscribirInfo', 'PracticaController::inscribirInfo');
 $routes->post('getDatosInscripcionAlumno', 'PracticaController::getDatosInscripcionAlumno');
 $routes->post('aceptarInscripcion', 'PracticaController::aceptarInscripcion');
-$routes->post('getEstadoPracticaActiva', 'PracticaController::getEstadoPracticaActiva');
-$routes->post('getEvaluacion', 'PracticaController::getEvaluacion');
 $routes->post('filtros', 'PracticaController::filtros');
+$routes->get('getCantidadPracticasCarreras', 'PracticaController::getCantidadPracticasCarreras');
+$routes->get('rechazarSolicitud', 'PracticaController::rechazarSolicitud');
 $routes->post('getNumeroSiguientePractica', 'PracticaController::getNumeroSiguientePractica');
 $routes->post('getSolicitud', 'PracticaController::getSolicitud');
 $routes->post('getFechas', 'PracticaController::getFechas');
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
+$routes->get('getAlumnosAdmin', 'AlumnoController::getAlumnosAdmin');
+$routes->get('getAlumnosEscuela', 'AlumnoController::getAlumnosEscuela');
+$routes->get('getCarreraAlumno', 'AlumnoController::getCarreraAlumno');
 $routes->post('getAlumnoId', 'AlumnoController::getAlumnoId');
 $routes->post('recibirArchivo', 'AlumnoController::recibirArchivo');
 // Instancia documento

@@ -57,6 +57,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       enviarDatosInscripcion()
     }
     const enviarDatosInscripcion = () => {    
+      console.log(regionElegida, "-",formValues.zonaempresa)
       axios.post(
         "http://localhost/GestionPracticas_G4/ci-practicas-back/public/inscribirInfo",
         {
@@ -293,8 +294,8 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                 }
               </div> 
               <hr/>
-              <div className=" text-center" style={{marginBottom:20}}>
-                <Button className="btn btn-primary" type="submit">
+              <div className="text-center" style={{marginBottom:20}}>
+                <Button className="btn btn-primary" type="submit" onClick={enviarDatosInscripcion}>
                     Inscribir Practica
                 </Button>
               </div>               

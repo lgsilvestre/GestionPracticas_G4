@@ -57,22 +57,22 @@ export default function Administrador() {
     console.log(administrador);
   }
 
-  const peticionGet = async () => {
-    await axios.get('http://localhost/GestionPracticas_G4/ci-practicas-back/public/getFuncionarios')
-      .then(response => {
-        const resultado = response.data
-        // console.log("antes:",rows)
-        const lista = []
-        for (var i = 0; i < resultado.length; i++) {
-          const fila = createData(resultado[i].nombre, resultado[i].apellido, resultado[i].email, resultado[i].tipo, resultado[i].password, "button")
-          // console.log(fila)
-          lista.push(fila)
-        }
-        // console.log(lista)
-        setRows(lista)
-      }).catch(error => {
-        console.log("Error catch: ", error)
-      })
+
+
+  const peticionGet=async()=>{
+    await axios.get('')
+    .then(response=>{
+      const resultado = response.data;
+      // console.log("antes:",rows)
+      const lista = []
+      for(var i=0; i<resultado.length; i++){
+        const fila = createData(resultado[i].nombre , resultado[i].correo , resultado[i].tipo,resultado[i].contrasenia,"button")
+        // console.log(fila)
+        lista.push(fila)
+      }  
+      // console.log(lista)
+      setRows(lista)
+    })
   }
 
   const peticionPut = async () => {
@@ -129,9 +129,9 @@ export default function Administrador() {
     setModalEliminar(!modalEliminar);
   }
 
-  const seleccionarAdministrador = (administrador, caso) => {
-    setAdministrador(administrador);
-    (caso === 'Editar') ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
+  const seleccionarAdministrador=(rows, caso)=>{
+    setAdministrador (rows);
+    (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
   }
 
   const handleClickShowPassword = () => {
@@ -386,51 +386,51 @@ export default function Administrador() {
       <br /><br />
       <hr />
       <Paper className={classes.root}>
-        {/* Tabla de Practicas */}
-        <TableContainer className={classes.container}>
-          <Table stickyHeader aria-label="sticky table">
-            {/* Headers de la tabla */}
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            {/* Cuerpo de la Tabla */}
-            <TableBody>
-              {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
-              {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
-              {rows.map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value === "button" ?
-                            <div>
-                              <Edit className={classes.iconos} onClick={() => seleccionarAdministrador(administrador, 'Editar')} />
-                              &nbsp;&nbsp;&nbsp;
-                              <Delete className={classes.iconos} onClick={() => seleccionarAdministrador(administrador, 'Eliminar')} />
-                            </div>
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      {/* Tabla de Practicas */}
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="sticky table">
+          {/* Headers de la tabla */}
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {/* Cuerpo de la Tabla */}
+          <TableBody>
+            {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
+            {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
+            {rows.map((row) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (                           
+                      <TableCell key={column.id} align={column.align}>
+                      {value ==="button" ? 
+                      <div>
+                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Editar')}/>
+                      &nbsp;&nbsp;&nbsp;
+                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Eliminar')}/>
+                      </div>
+                      : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       </Paper>
       <Modal

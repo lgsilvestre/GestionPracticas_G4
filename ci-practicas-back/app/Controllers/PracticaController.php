@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Models\PracticaModel as PracticaModel;
+use App\Models\AlumnoModel as AlumnoModel;
+use App\Models\HistorialModel as HistorialModel;
 use App\Models\InstDocumentoModel as InstDocumentoModel;
 
 class PracticaController extends BaseController
@@ -27,13 +29,13 @@ class PracticaController extends BaseController
 				// 'numero' => 'required|integer'
             ];
             $errors = [			// faltan errores por definir
-				
+
             ];
             if(!$this->validate($rules, $errors)){
 				echo " no valido";
                 $data['validation'] = $this->validator;
             } else {
-				
+
 				//Primero hay que validar que no
 				$Estudiante = $this->request->getVar('estudiante');
 				$Nropractica = $this->request->getVar('nropractica');
@@ -57,7 +59,7 @@ class PracticaController extends BaseController
 		// 	return false;
 		// }
 		// if($model->where('estado',0).count==1)
-		// {	
+		// {
 		// 	echo "no se puede 1";
 		// 	return false;
 		// }
@@ -279,7 +281,6 @@ class PracticaController extends BaseController
         } else {
             echo "error";
         }
-
 	}
 
 	public function servePracticaFiltrada () {
@@ -326,7 +327,6 @@ class PracticaController extends BaseController
 		} else {
 			echo "0";
 		}
-
 	}
 
 	public function aceptarSolicitud() {
@@ -337,10 +337,75 @@ class PracticaController extends BaseController
 		$result = $this->PracticaModel->aceptarSolicitud($numero, $id_alumno);
 		echo "id_alumno: ".$id_alumno;
 		echo "numero: ".$numero."\n";
-		
-		// Creación de instancia documento práctica de alumno
-		$this->InstDocumentoModel = new InstDocumentoModel();
-		$result_Inst = $this->InstDocumentoModel->crearInstanciasAlumno($numero, $id_alumno, $this->request->getVar('documentos'));
+		if($result) {
+			// Geneneración historial
+			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			foreach ($practica as $row)
+			{
+				$etapa = $row->etapa;
+				$numPractica = $row->numero;
+			}
+			$comentario = 'Etapa 1 (Solicitud) del alumno aceptada, pasa a etapa 2 (inscripción)';
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario);
+			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
+
+			// Creación de instancia documento práctica de alumno
+			$this->InstDocumentoModel = new InstDocumentoModel();
+			$result_Inst = $this->InstDocumentoModel->crearInstanciasAlumno($numero, $id_alumno, $this->request->getVar('documentos'));
+
+			// Envio correo
+			$this -> AlumnoModel = new AlumnoModel();
+			$resultAlumno = $this->AlumnoModel->getCorreoNombreApellido($id_alumno);
+			$correo = "";
+			$nombre = "";
+			foreach ($resultAlumno as $row)
+			{
+				$nombre = $row->nombre;
+				$correo = $row->correo_ins;
+			}
+			$date = date('d/m/Y');
+			$this->sendEmailSolicitudAceptada($correo, $nombre, $date);
+
+		} else {
+			// AQUÍ ENTRA SI NO SE ESCRIBIÓ CORRECTAMENTE LA BD
+		}
+	}
+
+	public function rechazarSolicitud() {
+		// Update de etapa y estado práctica
+		$id_alumno = $this->request->getVar('idalumno');
+		$numero = $this->request->getVar('numero');
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->recahzarSolicitud($id_alumno);
+
+		if($result) {
+			//Generación historial
+			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			foreach ($practica as $row)
+			{
+				$etapa = $row->etapa;
+				$numPractica = $row->numero;
+			}
+			$comentario = 'Etapa 1 (Solicitud) rechazada';
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario);
+			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
+
+			// Envio correo
+			$this -> AlumnoModel = new AlumnoModel();
+			$resultAlumno = $this->AlumnoModel->getCorreoNombreApellido($id_alumno);
+			$correo = "";
+			$nombre = "";
+			foreach ($resultAlumno as $row)
+			{
+				$nombre = $row->nombre;
+				$correo = $row->correo_ins;
+			}
+			$date = date('d/m/Y');
+			$this->sendEmailSolicitudRechazada($correo, $nombre, $date);
+		} else {
+			echo 0;
+		}
+
 
 	}
 
@@ -382,11 +447,32 @@ class PracticaController extends BaseController
 
 	public function aceptarInscripcion() {
 		$id_alumno = $this->request->getVar('id_alumno');
-		//$numero = $this->request->getVar('numero');
+		$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->aceptarPractica($id_alumno);
 		if($result) {
-			echo 1;
+			//Generación historial
+			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			foreach ($practica as $row)
+			{
+				$etapa = $row->etapa;
+				$numPractica = $row->numero;
+			}
+			$comentario = 'Etapa 2 (Incripción) del alumno aceptada, pasa a etapa 3 (Cursando)';
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario);
+			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
+			// Envio correo
+			$this -> AlumnoModel = new AlumnoModel();
+			$resultAlumno = $this->AlumnoModel->getCorreoNombreApellido($id_alumno);
+			$correo = "";
+			$nombre = "";
+			foreach ($resultAlumno as $row)
+			{
+				$nombre = $row->nombre;
+				$correo = $row->correo_ins;
+			}
+			$date = date('d/m/Y');
+			$this->sendEmailInscripcionAceptada($correo, $nombre, $date);
 		} else {
 			echo 0;
 		}
@@ -520,4 +606,173 @@ class PracticaController extends BaseController
 		}
 	}
 
+	private function sendEmailSolicitudAlumno($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Estado solicitud de práctica');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su solicitud de práctica ha sido enviada y esta proxima a ser evaluada :).</p>
+                <p>Estado solicitud: Enviada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	private function sendEmailSolicitudUser($correo, $nombre, $matricula, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Nueva solicitud de práctica');
+        $email->setMessage('
+                <p>Hay una nueva solicitud de práctica de.</p>
+				<p>Nombre: '.$nombre.'</p>
+				<p>Matrícula: '.$matricula.'</p>
+                <p>Estado solicitud: Enviada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	private function sendEmailSolicitudAceptada($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Solicitud aceptada');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, tu solicitud de práctica ha sido aceptada.</p>
+				<p>Para continuar con el proceso debes ingresar al portal de centro de practicas y completar la documentacón necesaria.</p>
+                <p>Estado solicitud: Aceptada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	private function sendEmailInscripcionAceptada($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Inscripción aceptada');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, tu inscripción de práctica ha sido aceptada.</p>
+				<p>Ya puedes comenzar tu práctica!.</p>
+                <p>Estado inscripción: Aceptada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	private function sendEmailSolicitudRechazada($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Solicitud rechazada');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, tu solicitud de práctica ha sido rechazada.</p>
+				<p>Para saber el motivo debes ingresar al portal de centro de practicas.</p>
+                <p>Estado solicitud: Rechazada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	public function getCantidadPracticasCarreras() {
+		$arr = array();
+		$arr[] = 4;
+		$arr[] = 2;
+		$arr[] = 3;
+		$arr[] = 4;
+		$arr[] = 4;
+		$arr[] = 5;
+		echo json_encode($arr);
+	}
+
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario){
+		$model = new HistorialModel();
+
+		$newsData =[
+			'comentario' => $comentario
+		];
+		if($etapa != -1){
+			$newsData +=[
+				'etapa' => $etapa
+			];
+		}
+		if($refAlumno != -1){
+			$newsData +=[
+				'refAlumno' => $refAlumno
+			];
+		}
+		if($refAdmin != -1)
+		{
+			$newsData +=[
+				'refAdmin' => $refAdmin
+			];
+		}
+		if($practica != -1)
+		{
+			$newsData +=[
+				'practica' => $practica,
+			];
+		}
+		$model ->save($newsData);
+
+	}
+
 }
+

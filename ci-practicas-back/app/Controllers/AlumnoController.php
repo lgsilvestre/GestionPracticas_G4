@@ -51,24 +51,16 @@ class AlumnoController extends BaseController
 		$this->AlumnoModel = new AlumnoModel();
 	}
 
-	public function showData(){
-		echo "hola desde alumno";
-		/*
-		echo $_SESSION['nombre'];
-		echo $_SESSION['correo_ins'];
-		echo $_SESSION['matricula'];
-		echo $_SESSION['nbe_carrera'];
-		echo $_SESSION['refCarrera'];
-		*/
-	}
+    public function showData(){
+        echo "hola desde alumno";
+    }
 
 	public function getAlumnoMatricula(){
 		$matricula = $this->request->getVar('matricula');
-		$model = new AlumnoModel();
-		// $model->;
-		$user = $model->where('matricula', $matricula)->first();   
-		echo json_encode($user);
-	}
+        $model = new AlumnoModel();
+        $user = $model->where('matricula', $matricula)->first();   
+        echo json_encode($user);
+    }
 
 	public function getAlumnoIdMatricula(){
 		$matricula = $this->request->getVar('matricula');
@@ -101,7 +93,34 @@ class AlumnoController extends BaseController
 		// );
         // echo $data;
 	}
+	public function getAlumnosAdmin(){
+		$model = new AlumnoModel();
+		$result = $model->getAlumnosAdmin();   
+        echo json_encode($result);
+	}
    
+	public function getAlumnosEscuela(){
+		$carrera = $this->request->getVar('carrera');
+		$model = new AlumnoModel();
+		$result = $model->getAlumnosEscuela($carrera);   
+        echo $result;
+	}
+
+	public function getCarreraAlumno($id){
+		$id = $this->request->getVar('id_alumno');
+		$model = new AlumnoModel();
+		$result = $model->getAlumnosEscuela($carrera);   
+        echo $result;
+	}
+
+	public function recibirArchivo($id){
+		move_uploaded_file(
+			$_FILES['file']['tmp_name'],
+			'C:\Users\Windows 10\xampp\htdocs\GestionPracticas_G4\documentos',
+		);
+        echo "REVISAR ARCHIVO";
+	}
+
 }
 
 

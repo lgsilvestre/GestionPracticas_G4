@@ -83,7 +83,8 @@ class FormLogin extends Component{
                             <label>Correo</label>
                             <input
                                 className="form-control"
-                                type="user"
+                                type="email"
+                                required
                                 name="user"
                                 placeholder="Usuario"
                                 maxLength="50"
