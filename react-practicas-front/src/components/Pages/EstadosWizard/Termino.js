@@ -202,7 +202,7 @@ export const Termino = ({previousPage, nroPractica}) => {
                   </div>
                   <div className="row justify-content-center" style={{marginTop:"3vh"}}>
                     {/* NOTA EMPRESA */}
-                    <div className="col-auto" style={{margin:"1vh"}}>
+                    {/* <div className="col-auto" style={{margin:"1vh"}}>
                       <Card className={classes.root}>
                         <CardActionArea className={classes.area}>
                           <CardContent className={classes.cardContent}>
@@ -223,7 +223,7 @@ export const Termino = ({previousPage, nroPractica}) => {
                           Corresponde a la nota puesta por el supervisor de tu práctica.                          
                         </Typography>
                       </Card>             
-                    </div>
+                    </div> */}
                     {/* NOTA ESCUELA */}
                     <div className="col-auto" style={{margin:"1vh"}}>
                       <Card className={classes.root}>
@@ -232,7 +232,7 @@ export const Termino = ({previousPage, nroPractica}) => {
                           <IconContext.Provider value={{ size: "5em" , color: "#5E8B7E"}} className={classes.icono}>
                               <FcSurvey  />
                               <Typography gutterBottom variant="h5" component="h2" className={classes.label}>
-                                  Nota Escuela
+                                  Nota de Practica
                               </Typography>                                                            
                           </IconContext.Provider>                                    
                                   
@@ -243,7 +243,7 @@ export const Termino = ({previousPage, nroPractica}) => {
                         </CardActionArea>
                         <Divider variant="middle" light={true} />
                         <Typography variant="body2" component="p" className={classes.description}>
-                          Corresponde a la nota puesta por el encargado de práctica de tu carrera.                          
+                          Corresponde a la evaluación final de tu práctica.                          
                         </Typography>
                       </Card>                      
                     </div>

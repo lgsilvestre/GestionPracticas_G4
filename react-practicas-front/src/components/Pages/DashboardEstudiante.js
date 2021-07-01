@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import 'react-calendar/dist/Calendar.css';
 import axios from 'axios';
 import { Card } from 'reactstrap';
@@ -298,7 +299,8 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> {infoPractica.etapa}</h7>
+                        <h7 className={classes.textoInfo}>
+                        <strong>Etapa actual:</strong> {infoPractica.etapa}</h7>
                       </div>
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
@@ -310,7 +312,11 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                     </div>
                     <div className="row"> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> {infoPractica.pasos}</h7>
+                        <h7 className={classes.textoInfo}>
+                        <strong>Pasos a seguir:</strong> Ve a <Link to='estudiante/practica' >
+                        Practicas  
+                        </Link>{infoPractica.pasos} 
+                        </h7>
                       </div>
                     </div>
                   </div>              
