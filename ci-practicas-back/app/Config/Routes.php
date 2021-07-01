@@ -85,6 +85,7 @@ $routes->post('getEstadoPracticaActiva', 'PracticaController::getEstadoPracticaA
 $routes->post('ingresarPracticaCorreo', 'PracticaController::ingresarPracticaCorreo');
 $routes->post('handleRechazo', 'PracticaController::handleRechazo');
 $routes->post('handlerRechazarCorreo', 'PracticaController::handlerRechazarCorreo');
+$routes->post('getRetroalimentacion', 'PracticaController::getRetroalimentacion');
 
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');

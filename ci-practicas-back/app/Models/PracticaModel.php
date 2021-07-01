@@ -154,7 +154,7 @@ class PracticaModel extends Model
     }
     
     public function getSolicitud($id, $numero){
-        $queryPracticaAlumno = "SELECT estado FROM practica where practica.refAlumno = '".$id."' and practica.etapa = 'Solicitud' and practica.numero = '".$numero."'" ;
+        $queryPracticaAlumno = "SELECT estado FROM practica where practica.refAlumno = '".$id."' and practica.etapa = 'Solicitud' and practica.numero = '".$numero."' ORDER BY id_practica DESC LIMIT 1" ;
         $query = $this->db->query($queryPracticaAlumno);
         $result = $query->getResult();
         // $this->db->query($queryPracticaAlumno)->getResult();

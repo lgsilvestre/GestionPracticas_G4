@@ -97,10 +97,18 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       )
         .then(response => {
           console.log("RESPUESTA ESTADO PRACTICA ACTIVA:  ",response.data)
-          if(response.data[0].estado!=="Por inscribir"){
+          if(response.data[0].estado==="Rechazada"){
+            setEstado("Rechazada")
+            setMostrarResolucion(true)
+          }
+          if(response.data[0].estado==="Aprobada"){
             setEstado("Aprobada")
             setMostrarResolucion(true)
           }
+          else if(response.data[0].estado!=="Por inscribir"){
+
+          }
+          
           // setEstadoPractica(response.data[0])
           // setArchivos(response.data)
         })

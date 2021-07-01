@@ -288,6 +288,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     }
     const handleEscribirRetroAli = (event) => {
       console.log("escribiendo", event.target.value)
+      setRetroAli(event.target.value)
     }
     
     useEffect(async() => {
