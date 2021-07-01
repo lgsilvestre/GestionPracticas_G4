@@ -4,11 +4,11 @@ import useStyles from './styles';
 import {Table, TableContainer, TableCell, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography, Paper} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import DialogActions from '@material-ui/core/DialogActions';
-import FormFuncionario from '../../FormFuncionario/FormFuncionario';
-import { motion } from "framer-motion";
+import FormDocumento from '../../FormDocumento/FormDocumento';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
+import { motion } from "framer-motion";
 
 export default function Administrador() {
   
@@ -31,10 +31,9 @@ export default function Administrador() {
 
    // Columnas para la tabla de estados
    const columns = [
-    { id: 'nombre', label: 'Funcionario', minWidth: "25%" },
-    { id: 'correo', label: 'Correo', minWidth: "25%" },
+    { id: 'nombre', label: 'Nombre Documento', minWidth: "25%" },
     { id: 'tipo', label: 'Tipo', minWidth: "25%" },
-    { id: 'contrasenia', label: 'Contraseña', minWidth: "25%" },
+    { id: 'requerido', label: 'Requerido', minWidth: "25%" },
     { id: 'action', label: 'Acción',  minWidth: "25%",  },
   ];
 
@@ -259,7 +258,7 @@ function handleValidation() {
 
 const bodyInsertar=(
   <div>
-  <FormFuncionario administrador={administrador} setAdministrador={setAdministrador} generarPassUser={generarPassUser} showPassword={showPassword}/>
+  <FormDocumento  />
   <DialogActions className={classes.encabezado}>
   <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(administrador)}>Agregar</Button>
   <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
@@ -313,10 +312,10 @@ const bodyEliminar=(
     
     <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
     <div className={classes.encabezado}>
-      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo} >Funcionarios</Typography></motion.div>
+      <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} > <Typography variant="h3" className={classes.titulo} >Documentos</Typography></motion.div>
     </div>
      
-    <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
+    <Button className={classes.boton} onClick={()=>abrirCerrarModalInsertar()}>Agregar Documento</Button>
       <br /><br />
       <hr/> 
       <Paper className={classes.root}>
@@ -368,7 +367,7 @@ const bodyEliminar=(
 
     </Paper>
     <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
-          <DialogTitle id="form-dialog-title">Nuevo Funcionario</DialogTitle>
+          <DialogTitle id="form-dialog-title">Nuevo Documento</DialogTitle>
           <DialogContent>         
           {bodyInsertar}
           </DialogContent>

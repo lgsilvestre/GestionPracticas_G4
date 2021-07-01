@@ -4,6 +4,7 @@ import SidePro from '../ui/SideBar/SidePro';
 import Estudiante from '../Pages/Estudiante/Estudiante';
 import Postulaciones from '../Pages/Postulaciones';
 import Ofertas from '../Pages/Ofertas/Ofertas';
+import Documentos from '../Pages/Documentos/Documentos';
 import Administrador from '../Pages/Administrador/Administrador';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 import Grid from '@material-ui/core/Grid';
@@ -47,6 +48,7 @@ const VistaAdmin = () => {
                             <Route path='/admin/estudiantes' component={Estudiante} />
                             <Route path='/admin/postulaciones' component={Postulaciones} />
                             <Route path='/admin/ofertas' component={Ofertas} />
+                            <Route path='/admin/documentos' component={Documentos} />
                             <Route path="/admin">
                                 <AdminDashboard />
                             </Route>

@@ -41,26 +41,26 @@ const Practicas = () => {
 
             console.log(response.data)
 
-            if (response.data=="0"){
+            if (response.data==="0"){
                 setPage(0)
             } 
             
-            if (response.data[0].etapa=="Solicitud"){
+            if (response.data[0].etapa==="Solicitud"){
                 console.log(response.data[0].etapa)
                 setPage(0)
             } 
 
-            if (response.data[0].etapa=="Inscripción"){
+            if (response.data[0].etapa==="Inscripción"){
                 console.log(response.data[0].etapa)
                 setPage(1)
             }
 
-            if (response.data[0].etapa=="Cursando"){
+            if (response.data[0].etapa==="Cursando"){
                 console.log(response.data[0].etapa)
                 setPage(2)
             }
 
-            if (response.data[0].etapa=="Evaluación"){
+            if (response.data[0].etapa==="Evaluación"){
                 console.log(response.data[0].etapa)
                 setPage(3)
             }

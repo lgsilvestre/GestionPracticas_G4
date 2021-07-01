@@ -1,7 +1,5 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react'
-// import Calendar from 'react-awesome-calendar';
-import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { Card } from 'reactstrap';
 const useStyles = makeStyles((theme)=>({
@@ -51,7 +49,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
             <div className="col" style={{marginTop:10}}>
               <h3 style={{color:"white"}}>¡Bienvenido {nombre}!</h3>
             </div>
-          </div>   
+          </div>  
         </div>
       </div>
       <div className="container">

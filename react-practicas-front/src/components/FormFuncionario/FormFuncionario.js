@@ -29,8 +29,6 @@ export default function FormFuncionario({administrador, setAdministrador,generar
   return (
         <form onSubmit = {methods.handleSubmit((data) => test({ ...data, administrador}))} >
           <Grid container spacing={2}>
-            
-            <FormControl variant="outlined" fullWidth required className={classes.formControl}>
               <Grid item xs={12} >
                 <TextField variant="outlined" name="nombre" id="Nombre" value={administrador.nombre} label="Nombre" onChange={handleChange} fullWidth  required/>
               </Grid>
@@ -41,7 +39,7 @@ export default function FormFuncionario({administrador, setAdministrador,generar
                 <TextField variant="outlined" name="email" id="email" value={administrador.email}label="Mail" onChange={handleChange} fullWidth  required/>
               </Grid>
               <Grid item xs={12} >
-              <FormControl className={classes.inputMaterial} variant="outlined" >
+              <FormControl fullWidth required className={classes.formControl} variant="outlined" >
               <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
               <Select labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined"
                   onChange={handleChange} label="Carrera">
@@ -85,7 +83,7 @@ export default function FormFuncionario({administrador, setAdministrador,generar
                 </FormControl>
               </Grid>         
           
-            </FormControl>
+      
           </Grid>          
           
           <br />

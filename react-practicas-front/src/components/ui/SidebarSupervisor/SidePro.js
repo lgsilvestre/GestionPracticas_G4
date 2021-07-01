@@ -1,26 +1,17 @@
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { MdWork } from "react-icons/md";
 import { MdPeople } from "react-icons/md";
 import { MdLocalOffer } from "react-icons/md";
-import { IoKeySharp } from "react-icons/io5";
-import { FaFileAlt } from "react-icons/fa";
-import { IoPerson } from "react-icons/io5";
-import { IoExit } from "react-icons/io5";
-import { IoNotifications } from "react-icons/io5";
 import styles from "./sidePro.scss";
-import logo from './utalca.svg';
 import logo1 from './logos/whitelogo-1.png';
-import Container from 'react-bootstrap/Container';
-import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
+import { IoDocumentText } from "react-icons/io5";
 import Backside from "./back/backside.png";
-import { useState } from 'react';
 
 const SidePro = () => {
 
-    const [weight, setweight] = useState(600);
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -40,7 +31,7 @@ const SidePro = () => {
                 <Divider variant="middle" light={true} style={{backgroundColor:'#969696'}} fluid/>     
 
                 <MenuItem className={styles.navItem} style={{marginTop:'20px', marginBottom:'10px'}} value="practicas" onClick={handleChange}>
-                    <Link to="/admin/practicas" style={{
+                    <Link to="/supervisor/practicas" style={{
                         display: 'flex',
                         alignItems: 'center',
                     }}>
@@ -51,7 +42,7 @@ const SidePro = () => {
                     </Link>
                 </MenuItem>
                 <MenuItem style={{marginBottom:'10px'}} value="estudiantes" onClick={handleChange}>
-                    <Link to="/admin/estudiantes" style={{
+                    <Link to="/supervisor/estudiantes" style={{
                         display: 'flex',
                         alignItems: 'center',
                     }}>
@@ -61,7 +52,7 @@ const SidePro = () => {
                 </MenuItem>
     
                 <MenuItem style={{marginBottom:'10px'}} value="gestionar_p" onClick={handleChange}>
-                    <Link to="/admin/ofertas" style={{
+                    <Link to="/supervisor/ofertas" style={{
                         display: 'flex',
                         alignItems: 'center',
                     }}>
@@ -69,15 +60,16 @@ const SidePro = () => {
                         <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>Gestionar Práctica</span>
                     </Link>
                 </MenuItem>
-                <MenuItem style={{marginBottom:'10px'}} value="documentos" onClick={handleChange}>
-                    <Link to="/admin/plan" style={{
+                <MenuItem style={{marginBottom:'10px'}} value="gestionar_p" onClick={handleChange}>
+                    <Link to="/supervisor/documentos" style={{
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                        <FaFileAlt />
+                        <IoDocumentText  />
                         <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>Documentos</span>
                     </Link>
                 </MenuItem>
+              
             </Menu>
 
         </ProSidebar>
