@@ -10,6 +10,7 @@ import styles from "./sidePro.scss";
 import logo1 from './logos/whitelogo-1.png';
 import Divider from '@material-ui/core/Divider';
 import Backside from "./back/backside.png";
+import { GoFileDirectory } from "react-icons/go";
 
 const SidePro = () => {
 
@@ -28,7 +29,7 @@ const SidePro = () => {
                         <img src={logo1} className={styles.centerimage} alt="Utalca Logo"/>
                     </Link>
                 </MenuItem>
-                     
+                    
                 <Divider variant="middle" light={true} style={{backgroundColor:'#969696'}} fluid/>     
 
                 <MenuItem className={styles.navItem} style={{marginTop:'20px', marginBottom:'10px'}} value="practicas" onClick={handleChange}>
@@ -39,6 +40,17 @@ const SidePro = () => {
                         <MdWork/>
                         <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>
                             Prácticas
+                        </span>
+                    </Link>
+                </MenuItem>
+                <MenuItem className={styles.navItem} style={{marginTop:'20px', marginBottom:'10px'}} value="practicas" onClick={handleChange}>
+                    <Link to="/admin/inactivas" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}>
+                        <GoFileDirectory/>
+                        <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>
+                            Prácticas Inactivas
                         </span>
                     </Link>
                 </MenuItem>

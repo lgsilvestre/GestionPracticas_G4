@@ -8,6 +8,7 @@ import Documentos from '../Pages/Documentos/Documentos';
 import Administrador from '../Pages/Administrador/Administrador';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 import Grid from '@material-ui/core/Grid';
+import {PracticasInactivas} from '../Pages/PracticasInactivas/PracticasInactivas'
 import { makeStyles } from '@material-ui/core/styles';
 import { SupervisorDashboard } from '../Pages/SupervisorDashboard/SupervisorDashboard';
 import NavBarr from './componentes/NavBar';
@@ -44,6 +45,7 @@ const VistaSupervidor = () => {
                     <div className="container">
                         <Switch>
                             <Route path='/supervisor/practicas' component={TablaEstados} />
+                            <Route path='/supervisor/inactivas' component={PracticasInactivas} />
                             <Route path='/supervisor/administradores' component={Administrador} />
                             <Route path='/supervisor/estudiantes' component={Estudiante} />
                             <Route path='/supervisor/postulaciones' component={Postulaciones} />
