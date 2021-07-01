@@ -77,25 +77,31 @@ const useStyles = makeStyles((theme)=>({
   }
 }))
 export const Termino = ({previousPage, nroPractica}) => {
-  
+    console.log("Renderizando componente con practica",nroPractica)
     const [mostrarAlertaDias, setMostrarAlertaDias] = useState(true)
     const [mostrarAlertaCriticaDias, setmostrarAlertaCriticaDias] = useState(false)
     const [documentoSubido, setDocumentoSubido] = useState(false)
+    // const [nroPracticaEtapa, setnroPracticaEtapa] = useState(0)
     const [notaEmpresa, setNotaEmpresa] = useState("--")
-    const [notaEscuela, setNotaEscuela] = useState("--")
+    const [notaEscuela, setNotaEscuela] = useState("--")  
     const classes = useStyles()
     const cookies = new Cookies()
     const id_alumno = cookies.get('id')
     
-    const getNotaEmpresa = () => {
-      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionEmpresa",{
+    const getNotaEmpresa = async() => {
+      console.log("Preguntando nota ",nroPractica)
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionEmpresa",{
         id_alumno:id_alumno,
         numero:nroPractica
       })
       .then(response =>{   
+        console.log("respuesta nota empresa:" ,response.data)
         //0 No hay evaluacion
         //>0 Es evaluacion
-        if(response.data[0].evaluacion_empresa!=="0"){
+        if(response.data[0].evaluacion_empresa==="0"){
+          setNotaEmpresa("--")
+        }
+        else{
           setNotaEmpresa(response.data[0].evaluacion_empresa)
         }
       }
@@ -105,28 +111,36 @@ export const Termino = ({previousPage, nroPractica}) => {
         console.log("Error: ", error)
       });
     }
-    const getNotaUni = () => {
-      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionPracticaUni",{
+    const getNotaUni = async() => {
+      console.log("Preguntando nota ",nroPractica)
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEvaluacionPracticaUni",{
         id_alumno:id_alumno,
         numero:nroPractica
       })
       .then(response =>{      
-        //0 No hay evaluacion
-        //>0 Es evaluacion
-        if(response.data[0].evaluacion_uni!=="0"){
-          setNotaEscuela(response.data[0].evaluacion_uni)
+        console.log("respuesta nota uni:" ,response.data)
+        if(response.data[0].evaluacion_uni==="0"){
+          setNotaEscuela("--")
         }            
+        else{
+          setNotaEscuela(response.data[0].evaluacion_uni)
+        }
       }
       )
       .catch(error => {
         console.log("Error: ", error)
       });
     }
+    
+    
     useEffect(() => {
+         
       console.log("Consultando notas de practica: ",nroPractica)
       getNotaEmpresa()
-      getNotaUni()
-    }, [])
+      getNotaUni()  
+    }, [nroPractica])
+      
+    
     return (
         <div className="animate__animated animate__fadeIn animate__faster">  
           <div >      

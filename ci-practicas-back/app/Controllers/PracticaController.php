@@ -451,6 +451,7 @@ class PracticaController extends BaseController
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->aceptarPractica($id_alumno);
 		if($result) {
+      echo 1;
 			//Generación historial
 			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
 			foreach ($practica as $row)
@@ -505,12 +506,27 @@ class PracticaController extends BaseController
 	public function getEvaluacionEmpresa() {
 		$id_alumno = $this->request->getVar('id_alumno');
 		$numero = $this->request->getVar('numero');
+    // echo "numero recibido empresa: ".$numero. " ";
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getEvaluacionEmpresa($id_alumno, $numero);
 		if($result) {
 			echo json_encode($result);
 		} else {
-			echo 0;
+			echo -1;
+		}
+	}
+
+  public function getEvaluacionPracticaUni() {
+		$id_alumno = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('numero');
+    // echo "numero recibido empresa: ".$numero. " ";
+    
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getEvaluacionPracticaUni($id_alumno, $numero);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo -1;
 		}
 	}
 
@@ -546,17 +562,7 @@ class PracticaController extends BaseController
 		}
 	}
 
-	public function getEvaluacionPracticaUni() {
-		$id_alumno = $this->request->getVar('id_alumno');
-		$numero = $this->request->getVar('numero');
-		$this->PracticaModel = new PracticaModel();
-		$result = $this->PracticaModel->getEvaluacionPracticaUni($id_alumno, $numero);
-		if($result) {
-			echo json_encode($result);
-		} else {
-			echo 0;
-		}
-	}
+	
 
 	public function getEstadoPracticaActiva() {
 		$id = $this->request->getVar('id_alumno');
@@ -697,11 +703,11 @@ class PracticaController extends BaseController
         ');
 
         if($email->send()){
-            echo 'Correo enviado';
+            // echo 'Correo enviado';
             return true;
         }
         else{
-            echo 'Correo no enviado';
+            // echo 'Correo no enviado';
             return false;
         }
     }
@@ -722,11 +728,11 @@ class PracticaController extends BaseController
         ');
 
         if($email->send()){
-            echo 'Correo enviado';
+            // echo 'Correo enviado';
             return true;
         }
         else{
-            echo 'Correo no enviado';
+            // echo 'Correo no enviado';
             return false;
         }
     }

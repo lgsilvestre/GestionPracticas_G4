@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { 
     Box,
     Grid,  
@@ -84,6 +84,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       setIdDocCancelado(id)
       setisOpen(!isOpen)
     }
+    
     const confirmarInscipcion= () =>{  
        axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarInscripcion",{
         matricula:nroMatricula,

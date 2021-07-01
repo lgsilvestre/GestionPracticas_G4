@@ -33,14 +33,10 @@ const StyledTab = withStyles((theme) => ({
 
 export const PracticasTab = ({nroPractica,mostrarPractica}) => {
   const nroTab = nroPractica-1
-  // console.log("Tab actual:",nroTab)
   const handleChange = (event, newValue) => {
-    // console.log("orden mostrar: ",newValue)
-    console.log("Mostrando practica ",newValue+1)
+    // console.log("Mostrando practica ",newValue+1)
     mostrarPractica(newValue+1)
-    // setNroPractica(newValue)
   }
-  // "#8EADE8"
   return (
     <div style={{backgroundColor:"#2D4C85"}}>
       <div className="container" >
