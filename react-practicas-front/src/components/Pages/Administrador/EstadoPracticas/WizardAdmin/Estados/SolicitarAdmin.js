@@ -116,7 +116,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor:'red',
           color: '#fff'
           }
-    }
+    },
+    botonAceptar:{
+      marginRight:'10px',
+      backgroundColor:"grey",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'#f69b2e',
+          color: '#fff'
+          }
+    },
 }));
 export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
     const clasesEstilo = useStyles();
@@ -124,7 +135,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     console.log("Numero de practica: ", nroPractica)
     const [docs, setDocs] = useState([])
     const [rechazada, setRechazada] = useState(false)
-    const [retroAli, setretroAli] = useState("")
+    const [retroAli, setRetroAli] = useState("")
     const classes = useStyles();
 
     //Datos por defecto 
@@ -253,7 +264,8 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
         await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handleRechazo",{ 
             idalumno:idAlumno,
             numero:nroPractica,
-            etapa:"Solicitud"   
+            etapa:"Solicitud",
+            retroalimentacion: retroAli   
         }).then(response=>{
             console.log("Respuesta rechazo: ",response.data)
             if(response.data=1){
@@ -273,6 +285,9 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
         }).catch(error=>{
             console.log("ERROR EN RECHAZO: ",error)
         })
+    }
+    const handleEscribirRetroAli = (event) => {
+      console.log("escribiendo", event.target.value)
     }
     
     useEffect(async() => {
@@ -473,9 +488,11 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
                     <div className="row justify-content-center">
                         <div className="col-6">
                             <InputRechazo
+                            // value={retroAli}
                             placeholder="Ingrese retroalimentación..."                                
                             type="textarea" 
-                            invalid="true"                              
+                            invalid="true"      
+                            onChange = {(event) => handleEscribirRetroAli(event)}                        
                             />  
                         </div>
                     </div>         
