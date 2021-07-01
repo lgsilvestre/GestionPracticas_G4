@@ -86,6 +86,15 @@ $routes->post('ingresarPracticaCorreo', 'PracticaController::ingresarPracticaCor
 $routes->post('handleRechazo', 'PracticaController::handleRechazo');
 $routes->post('handlerRechazarCorreo', 'PracticaController::handlerRechazarCorreo');
 $routes->post('getRetroalimentacion', 'PracticaController::getRetroalimentacion');
+$routes->post('aceptarInscripcionCorreo', 'PracticaController::aceptarInscripcionCorreo');
+$routes->post('aceptarSolicitudCorreo', 'PracticaController::aceptarSolicitudCorreo');
+$routes->post('inscribirInfoCorreo', 'PracticaController::inscribirInfoCorreo');
+$routes->post('pasarEstadoEvaluarCorreo', 'PracticaController::pasarEstadoEvaluarCorreo');
+$routes->post('evaluarPracticaCorreo', 'PracticaController::evaluarPracticaCorreo');
+$routes->post('rechazarPractica', 'PracticaController::rechazarPractica');
+$routes->post('rechazarPracticaCorreo', 'PracticaController::rechazarPracticaCorreo');
+$routes->post('denegarPractica', 'PracticaController::denegarPractica');
+
 
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');

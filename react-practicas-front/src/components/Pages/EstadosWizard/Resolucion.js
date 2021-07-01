@@ -21,7 +21,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true, esta
   const cookies = new Cookies()
   const id_alumno = cookies.get('id')
   const clasesEstilo = useStyles();
-  const [estadoSolicitud, setEstadoSolicitud] = useState(estado)
+  // const [estadoSolicitud, setEstadoSolicitud] = useState(estado)
 
   const avanzarInsripcion = () => {
     cambiarCursando()
@@ -51,7 +51,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true, esta
         </div>
         {
           //APROBADA
-          estadoSolicitud==="Aprobada" && (
+          estado==="Aprobada" && (
           <div className="col card mb-3">
             <div className="row justify-content-center" style={{marginTop:"5vh"}}>
               <IconContext.Provider value={{size:"5em"}} >
@@ -111,7 +111,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true, esta
         }
           {
             //RECHAZO
-            estadoSolicitud==="Rechazada" &&
+            estado==="Rechazada" &&
             (
               <div className="col card mb-3">
                 <div className="row justify-content-center" style={{marginTop:"5vh"}}>
@@ -131,7 +131,7 @@ export const Resolucion = ({previousPage, handleSubmit, mostrarSeguro=true, esta
           }
           {
             //PENDIENTE
-            (estadoSolicitud==="Pendiente" || estadoSolicitud==="Por inscribir") &&
+            (estado==="Pendiente" || estado==="Por inscribir") &&
             (
               <div className="col card mb-3">
                 <div className="row justify-content-center" style={{marginTop:"10vh"}}>

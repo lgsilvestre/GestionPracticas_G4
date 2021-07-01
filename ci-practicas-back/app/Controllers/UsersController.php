@@ -677,11 +677,12 @@ class UsersController extends  BaseController
         }
     }
 
-	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario){
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario, $retroalimentacion){
 		$model = new HistorialModel();
 
 		$newsData =[
-			'comentario' => $comentario
+			'comentario' => $comentario,
+			'retroalimentacion' => $retroalimentacion
 		];
 		if($etapa != -1){
 			$newsData +=[

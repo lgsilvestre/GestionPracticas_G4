@@ -2,7 +2,11 @@ import React from 'react'
 import logo from "./../../assets/do-not-pass-hi.png"
 export const PracticaInvalida = () => {
   return (
-    <div className="container animate__animated animate__fadeIn animate__faster" style={{height:"58.6vh"}}>
+    <div className="container animate__animated animate__fadeIn animate__faster" 
+      style={{height:"58.6vh",
+        borderRadius:'20px', 
+        backgroundColor:'#fafafa'
+      }}>
       <div className="row align-self-center justify-content-md-center">
         <div className="col" style={{
           display:"flex",

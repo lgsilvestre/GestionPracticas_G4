@@ -12,64 +12,6 @@ import { GoCircleSlash } from "react-icons/go";
 import { useForm } from '../../../../../../hooks/useForm';
 import {Collapse,CustomInput, Input as InputRechazo } from 'reactstrap';
 
-// const useStyles = makeStyles((theme) => ({
-//     mainbox:{
-//         marginTop:'10px', 
-//         marginBottom:'30px', 
-//         borderRadius:'20px', 
-//         backgroundColor:'#fafafa'
-//     },
-//     box: {
-//         padding: theme.spacing(2),
-//         textAlign: "left"
-//     },
-//     formControl: {
-//         marginRight: theme.spacing(2),
-//         textAlign: "left",
-//         minWidth: 120,
-//     },
-//     botonAddDoc:{ 
-//         marginLeft:theme.spacing(1),
-//         color:"#f69b2e"
-//     },
-//     icon:{
-//         color:'#f69b2e',
-//         width:"30px", 
-//         height:"30px"
-//     },
-//     logosearch :{
-//         width:"25px", 
-//         height:"25px"
-//     },
-//     boxBotones:{
-//       marginTop:'10px', 
-//       marginBottom:'30px', 
-//       borderRadius:'20px', 
-//       backgroundColor:'#fafafa',
-//       justifyContent:"center"
-//     },
-//     botonAceptar:{
-//       marginRight:'10px',
-//       backgroundColor:"grey",
-//       color:"white",
-//       cursor: 'pointer',
-//       transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
-//       '&:hover': {
-//       backgroundColor:'#f69b2e',
-//           color: '#fff'
-//           }
-//     },
-//     botonRechazo:{
-//       backgroundColor:"grey",
-//       color:"white",
-//       cursor: 'pointer',
-//       transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
-//       '&:hover': {
-//       backgroundColor:'red',
-//           color: '#fff'
-//           }
-//     }
-// }));
 const useStyles = makeStyles((theme) => ({
     mainbox:{
         marginTop:'10px', 
@@ -108,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
           }
     },
     botonRechazo:{
-      backgroundColor:"grey",
+      backgroundColor:"#FF7D7D",
       color:"white",
       cursor: 'pointer',
       transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
@@ -119,12 +61,12 @@ const useStyles = makeStyles((theme) => ({
     },
     botonAceptar:{
       marginRight:'10px',
-      backgroundColor:"grey",
+      backgroundColor:"#77C78F",
       color:"white",
       cursor: 'pointer',
       transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
       '&:hover': {
-      backgroundColor:'#f69b2e',
+      backgroundColor:'#0DC143',
           color: '#fff'
           }
     },
@@ -134,8 +76,9 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     console.log("Solicitando alumno con: ",nroMatricula)
     console.log("Numero de practica: ", nroPractica)
     const [docs, setDocs] = useState([])
-    const [rechazada, setRechazada] = useState(false)
+    const [showRetroAli, setshowRetroAli] = useState(false)
     const [retroAli, setRetroAli] = useState("")
+    const [rechazado, setRechazado] = useState(false)
     const classes = useStyles();
 
     //Datos por defecto 
@@ -152,9 +95,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
 
     const [docSelect, setDocSelect] = useState('')
     const [mostrarAlerta, setmostrarAlerta] = useState(false)
-
     const [practicaAceptada, setpracticaAceptada] = useState(false)
-
     const [archivos, setArchivos] = useState([])
 
     const handleChangeDocSelect = (event) => {
@@ -195,15 +136,6 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     const handleDeleteDoc= () =>{
     }
 
-    const [administrador , setAdministrador ]=useState({
-        nombre: "",
-        apellido: "",
-        correo: "",
-        tipo: "",
-        carrera: "",
-        contrasena: "",
-        carreras: []
-    })
 
     const getDocumentos= () =>{
     
@@ -269,7 +201,8 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
         }).then(response=>{
             console.log("Respuesta rechazo: ",response.data)
             if(response.data=1){
-                setRechazada(true)
+                setRechazado(true)
+                // setExitoRechazo(true)
                 enviarCorreoRechazo()
             }
         }).catch(error=>{
@@ -287,8 +220,11 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
         })
     }
     const handleEscribirRetroAli = (event) => {
-      console.log("escribiendo", event.target.value)
+      // console.log("escribiendo", event.target.value)
       setRetroAli(event.target.value)
+    }
+    const getEstadoSolicitud = () => {
+      
     }
     
     useEffect(async() => {
@@ -325,7 +261,13 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
                 </Alert>       
               )
             }  
-            
+            {
+              rechazado && (
+                <Alert severity="success">
+                  Se ha <strong>rechazado</strong> exitosamente esta solicitud. El alumno deberá solicitar una nueva para continuar.
+                </Alert>
+              )
+            }
             
             {/* Datos de Estudiante */}
             <Box className={classes.mainbox} boxShadow={1}>
@@ -473,19 +415,22 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
             <div className = "container" style={{padding:"30px"}}>
               <div className = "row justify-content-center" >
                 <div className = "col-auto">
-                    <Button className={classes.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
+                    <Button disabled={showRetroAli} className={clasesEstilo.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
                         Aceptar
                     </Button>
                 </div>
                 <div className= "col-auto">
-                    <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} onClick = {() => {setRechazada(true)}}  >
+                    <Button disabled={showRetroAli} className={clasesEstilo.botonRechazo} startIcon={<GoCircleSlash/>} onClick = {() => {setshowRetroAli(true)}}  >
                         Rechazar
                     </Button>
                 </div>    
               </div>
               {
-                rechazada && (
-                <Collapse isOpen={true} style={{marginTop:"3vh"}}>               
+                showRetroAli && (
+                <Collapse isOpen={true} style={{marginTop:"3vh"}}>  
+                    <div className="row justify-content-center">
+                      <h6 style={{color:"red", fontStyle:"italic", fontSize:17}}>Menciona las razones del rechazo</h6>            
+                    </div>             
                     <div className="row justify-content-center">
                         <div className="col-6">
                             <InputRechazo
@@ -499,8 +444,13 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
                     </div>         
                     <div className= "row justify-content-center" style={{marginTop:"3vh"}}>
                         <div className="col-auto">
-                            <Button className={clasesEstilo.boton} onClick={handleRechazarPractica}>
+                            <Button className={clasesEstilo.botonAceptar} onClick={handleRechazarPractica}>
                                 Enviar
+                            </Button>                               
+                        </div>
+                        <div className="col-auto">
+                            <Button className={clasesEstilo.botonRechazo} onClick={()=>{setshowRetroAli(false)}}>
+                                Cancelar
                             </Button>                               
                         </div>
 

@@ -4,6 +4,7 @@ import { Button, Form, FormGroup, Label, Input,
   FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter,
    ButtonGroup,CustomInput} from 'reactstrap';
 import { MdFileDownload } from 'react-icons/md'
+import Alert from '@material-ui/lab/Alert';
 import { Resolucion } from './Resolucion';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
@@ -33,6 +34,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     const [mostrarComentario, setmostrarComentario] = useState(false)
     const [regionElegida, setregionElegida] = useState(0)
     const [estado, setEstado] = useState("Por inscribir")
+    const [retroalimentacion, setRetroalimentacion] = useState("")
     // const [estadoPractica, setEstadoPractica] = useState({})
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -80,6 +82,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
         // console.log("RESPUESTA ENVIAR DATOS INSC: ",response)
         if(response.data===1){
           // console.log("ES TRUE")
+          setEstado("Pendiente")
           setMostrarResolucion(true)
         }
       })
@@ -98,8 +101,11 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
         .then(response => {
           console.log("RESPUESTA ESTADO PRACTICA ACTIVA:  ",response.data)
           if(response.data[0].estado==="Rechazada"){
-            setEstado("Rechazada")
-            setMostrarResolucion(true)
+            // setEstado("Rechazada")          
+            setEstado("")
+            setMostrarResolucion(false)
+            setmostrarComentario(true)
+            solicitarRetroalimentacion()
           }
           if(response.data[0].estado==="Aprobada"){
             setEstado("Aprobada")
@@ -116,7 +122,19 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
           console.log("login error: ", error);
     });
     }
-    
+    const solicitarRetroalimentacion  = () => {
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getRetroalimentacion",{
+        id_alumno:id_alumno,
+        'nropractica': nroPractica
+      }).then(response=>{
+        console.log(response.data)
+        if(response.data !== 0){
+          setRetroalimentacion(response.data[0].retroalimentacion)
+        }
+      }).catch(error=>{
+        console.log("ERROR RETROALIMENTACION ",error)
+      })
+    }
     const getDocs = async() => {
         let id_alumno = cookies.get('id')
         // let numeropractica = 1
@@ -156,6 +174,16 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
             /> 
           : 
           <div>
+            {mostrarComentario && 
+            (
+              <div style={{padding:15}}>             
+                <Alert severity="error" style={{marginBottom:"1vh"}}>
+                  ¡Han rechazado tu inscripción! Podrás completar o corregir la 
+                  información errónea, toma en cuenta la retroalimentación que se muestra a continuación.
+                </Alert>    
+                <Comentario mensaje={retroalimentacion} />
+              </div>
+            )}
             <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Descarga de archivo</ModalHeader>
                 <ModalBody>
@@ -166,12 +194,6 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                 </ModalFooter>
             </Modal>               
             <Form onSubmit={postInscripcion}>
-              {mostrarComentario && (
-                <div>
-                  <h4>Comentarios</h4>
-                  <Comentario />
-                </div>
-              )}
               <div className="container">
                 <h4>Datos de Practica</h4>
                 <hr/>         

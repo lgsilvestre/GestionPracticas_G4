@@ -16,6 +16,7 @@ const Practicas = () => {
     const nroPracticaActual = parseInt(cookies.get('practica_next'))
     const [nroPractica, setNroPractica] = useState(nroPracticaActual)
     const [count, setCount] = useState(0)
+    const [denegada, setDenegada] = useState(false)
     // console.log("PRACTICA ACTUAL:",nroPracticaActual,"PRACTICA VER ",nroPractica)
     const steps = [
         {title: "Solicitar"},
@@ -49,6 +50,12 @@ const Practicas = () => {
             else{
               if (response.data[0].etapa=="Solicitud"){
                   console.log(response.data[0].etapa)
+                  setDenegada(false)
+                  setPage(0)
+              } 
+              if (response.data[0].etapa=="Rechazada"){
+                  console.log(response.data[0].etapa)
+                  setDenegada(true)
                   setPage(0)
               } 
   
@@ -86,7 +93,7 @@ const Practicas = () => {
       // console.log(count)   
       getEstado()
       
-    }, [nroPractica, page])
+    }, [nroPractica, page, denegada])
 
     return (
       <>
@@ -108,18 +115,20 @@ const Practicas = () => {
                     size={40}
                     circleFontSize={18}
                     activeStep={ page }
-                    activeColor={"#0DC143"}
+                    activeColor={denegada ? "#FF3531": "#0DC143"}
                     completeColor = {"#77C78F"}
+                    defaultColor = {denegada ? "#FF3531" : "#C2C2C2" }
                 />
                 <hr/>        
-                { page===0 && <FormPostulacion handleSubmit={nextPage} nroPractica={nroPractica} /> }
+                { page===0 && <FormPostulacion handleSubmit={nextPage} nroPractica={nroPractica} denegada={denegada} /> }
                 { page===1 && <FormInscripcion previousPage={previousPageFuncion} handleSubmit={nextPage} nroPractica={nroPractica}/> }
                 { page===2 && <Cursando previousPage={previousPageFuncion} handleSubmit={nextPage} nroPractica={nroPractica}/> }
                 { page===3 && <Termino previousPage={previousPageFuncion} handleSubmit={nextPage} nroPractica={nroPractica}/> }          
             </Card>
           )
           : (
-            <Card className="container mt-3 mb-3" >
+            <Card className="container mt-3 mb-3" style={{ borderRadius:'20px', 
+        backgroundColor:'#fafafa'}}>
               <PracticaInvalida/>
             </Card>
           )
