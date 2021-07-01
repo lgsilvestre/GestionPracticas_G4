@@ -12,7 +12,7 @@ export const PracticaInvalida = () => {
           marginTop:"10vh",
           marginBottom:"3vh"
           }}>
-          <img src={logo} width={"200vh"} height={"200vh"} style={{opacity:0.3}}></img>
+          <img src={logo} alt="logo" width={"200vh"} height={"200vh"} style={{opacity:0.3}}></img>
         </div>
       </div>
       <hr style={{width:"50vh", marginBottom:"3vh"}}/>

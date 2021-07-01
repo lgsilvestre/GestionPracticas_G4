@@ -1,0 +1,10 @@
+{
+    "liveServer.settings.proxy": {
+        "enable": true
+    },
+    "liveServer.settings.useBrowserPreview": true,
+    "liveServer.settings.useLocalIp": true,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "liveServer.settings.donotVerifyTags": true,
+    "liveServer.settings.fullReload": true
+}

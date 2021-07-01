@@ -4,9 +4,11 @@ import SidePro from '../ui/SideBar/SidePro';
 import Estudiante from '../Pages/Estudiante/Estudiante';
 import Postulaciones from '../Pages/Postulaciones';
 import Ofertas from '../Pages/Ofertas/Ofertas';
+import Documentos from '../Pages/Documentos/Documentos';
 import Administrador from '../Pages/Administrador/Administrador';
 import { TablaEstados } from '../Pages/Administrador/EstadoPracticas/TablaEstados';
 import Grid from '@material-ui/core/Grid';
+import {PracticasInactivas} from '../Pages/PracticasInactivas/PracticasInactivas'
 import { makeStyles } from '@material-ui/core/styles';
 import { AdminDashboard } from '../Pages/AdminDashboard/AdminDashboard';
 // import NavBarr from './componentes/NavBarBtrap';
@@ -45,10 +47,12 @@ const VistaAdmin = ({history}) => {
                         <Switch>
                             <Route exact path='/admin/practicas/historial' component={Historial} />
                             <Route path='/admin/practicas' component={TablaEstados} />
+                            <Route path='/admin/inactivas' component={PracticasInactivas} />
                             <Route path='/admin/administradores' component={Administrador} />
                             <Route path='/admin/estudiantes' component={Estudiante} />
                             <Route path='/admin/postulaciones' component={Postulaciones} />
                             <Route path='/admin/ofertas' component={Ofertas} />
+                            <Route path='/admin/documentos' component={Documentos} />
                             <Route path="/admin">
                                 <AdminDashboard />
                             </Route>

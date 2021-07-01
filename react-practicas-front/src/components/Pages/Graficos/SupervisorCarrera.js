@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 
 
-export default function LineChart () {
+export default function SupervisorCarrera (carrera) {
   {/* cantidad de practicas por anio de los graficos */}
   const [cantidades , setCantidades ] = useState()
   {/* Historial de anios */}
@@ -41,18 +41,16 @@ useEffect(() => {
     });
 }, []);
 
+{/*para especificar carrera es necesario usar variable "carrera" en Label*/}
 const data = {
-  labels: anios,
-  datasets: [
-    {
-      label: 'Cantidad de Practicas ',
+  labels: anios,  
+  datasets: [{        
+      label: 'Practicas Carrera X',
       data: cantidades,
       fill: true,
       backgroundColor: 'rgba(54, 162, 235, 0.2)',
       borderColor: 'rgba(54, 162, 235, 0.2)',
-    },
-  ],
-};
+    },],};
 
 const options = {
   scales: {
@@ -69,7 +67,9 @@ const options = {
 return (
   <>
     <div className='header'>
-    <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} ><Typography  variant="h4" >Historial de Practicas</Typography> </motion.div>
+    {/* agregar {carrera} en el header */}
+    <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} ><Typography  variant="h4" >Practicas de 
+    carrera X</Typography> </motion.div>
   
     </div>
     <Line data={data} options={options} />

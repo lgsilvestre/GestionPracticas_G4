@@ -180,7 +180,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
             <div className="col-auto" style={{marginTop:10}}>
               <h3 style={{color:"white"}}>¡Bienvenido {dataEstudiante.nombre}!</h3>
             </div>
-          </div>   
+          </div>  
         </div>
       </div>
       <div className="container animate__animated animate__fadeIn animate__faster">

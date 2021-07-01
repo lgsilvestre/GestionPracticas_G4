@@ -46,7 +46,7 @@ const Practicas = () => {
             if (response.data=="0"){
               console.log("Sin Estado de practica")
                 setPage(0)
-            }
+            } 
             else{
               if (response.data[0].etapa=="Solicitud"){
                   console.log(response.data[0].etapa)
