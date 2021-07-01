@@ -46,9 +46,9 @@ const VistaAdmin = ({history}) => {
                     <div className="container">
                         <Switch>
                             <Route exact path='/admin/practicas/historial' component={Historial} />
+                            <Route exact path='/admin/administradores' component={Administrador} />
                             <Route path='/admin/practicas' component={TablaEstados} />
                             <Route path='/admin/inactivas' component={PracticasInactivas} />
-                            <Route path='/admin/administradores' component={Administrador} />
                             <Route path='/admin/estudiantes' component={Estudiante} />
                             <Route path='/admin/postulaciones' component={Postulaciones} />
                             <Route path='/admin/ofertas' component={Ofertas} />

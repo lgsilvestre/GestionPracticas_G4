@@ -39,7 +39,6 @@
     "web-vitals": "^1.1.1",
     "wil-react-sticky": "^1.0.5",
     "xlsx": "^0.17.0"
-    "wil-react-sticky": "^1.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

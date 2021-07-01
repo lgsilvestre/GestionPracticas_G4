@@ -3,16 +3,6 @@ import axios from 'axios';
 import useStyles from './styles';
 import { Table, TableContainer, TableCell, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography, Paper } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
-import InputLabel from '@material-ui/core/InputLabel';
-import CachedIcon from '@material-ui/icons/Cached';
-import Select from '@material-ui/core/Select';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormFuncionario from '../../FormFuncionario/FormFuncionario';
 import DialogActions from '@material-ui/core/DialogActions';
 import { motion } from "framer-motion";
@@ -237,12 +227,13 @@ export default function Administrador() {
         nuevoUserValidado = true;
       }
     }
+  }
 
-  //if (tipo !== "") {
-    //if (tipo === "0" || tipo === "1") {
-    //  nuevoUserValidado = true;
-    //}    
-//   }
+      //if (tipo !== "") {
+        //if (tipo === "0" || tipo === "1") {
+        //  nuevoUserValidado = true;
+        //}    
+    //   }
     if (tipo != "") {
       if (tipo == "Jefe de Escuela") {
         administrador.tipo = 1
@@ -267,19 +258,16 @@ export default function Administrador() {
   }
   }
 
-  const bodyInsertar = (
-    <div className={classes.modal}>
-
-const bodyInsertar=(
-  <div>
-  <FormFuncionario administrador={administrador} setAdministrador={setAdministrador} generarPassUser={generarPassUser} showPassword={showPassword}/>
-  <DialogActions className={classes.encabezado}>
-  <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(administrador)}>Agregar</Button>
-  <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
-    </DialogActions>
-    
-  </div>
-)
+  const bodyInsertar=(
+    <div>
+    <FormFuncionario administrador={administrador} setAdministrador={setAdministrador} generarPassUser={generarPassUser} showPassword={showPassword}/>
+    <DialogActions className={classes.encabezado}>
+    <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(administrador)}>Agregar</Button>
+    <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
+      </DialogActions>
+      
+    </div>
+  )
 
 
   const bodyEditar = (
@@ -321,8 +309,6 @@ const bodyInsertar=(
 
     </div>
   )
-
-
   return (
 
     <div className={classes.root} style={{ marginTop: '20px', marginBottom: '30px' }}>
