@@ -117,6 +117,7 @@ class PracticaController extends BaseController
 
 
 
+
 	public function guardarInscripcion()
 	{
 		if($this-> request -> getMethod() == 'post') {
@@ -706,20 +707,6 @@ class PracticaController extends BaseController
 		}
 	}
 
-	/*
-	Función por implement
-	public function getEvaluacion() {
-		$id = $this->request->getVar('id_alumno');
-		$this->PracticaModel = new PracticaModel();
-		$result = $this->PracticaModel->getEstadoPracticaActiva($id);
-		if($result) {
-			echo json_encode($result);
-		} else {
-			echo "0";
-		}
-	}
-	*/
-
 	public function getFechas(){
 		$id = $this->request->getVar('id_alumno');
 		$this->PracticaModel = new PracticaModel();
@@ -736,6 +723,18 @@ class PracticaController extends BaseController
 		$practica = $this->request->getVar('nropractica');
     $this->HistorialModel = new HistorialModel();
 		$result = $this->HistorialModel->getRetroalimentacion($refAlumno, $practica);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+	public function getHistorialPractica(){
+		$id_alumno = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('nropractica');
+    // echo "recibido: ".$id_alumno. " ".$numero;
+    $this->HistorialModel = new HistorialModel();
+		$result = $this->HistorialModel->getHistorialPractica($id_alumno, $numero);
 		if($result) {
 			echo json_encode($result);
 		} else {

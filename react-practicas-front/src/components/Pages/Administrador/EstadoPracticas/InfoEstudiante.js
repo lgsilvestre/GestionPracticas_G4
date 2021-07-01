@@ -10,8 +10,9 @@ import { IoIosArrowBack } from "react-icons/io";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import WizardAdmin from './WizardAdmin/WizardAdmin';
 import { Input,Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { MdDeleteForever,MdMoreVert } from "react-icons/md";
+import { MdDeleteForever,MdMoreVert, MdHistory } from "react-icons/md";
 import axios from 'axios';
+import { useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,19 +54,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno}) => {
+    let history = useHistory()
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [retroAli, setRetroAli] = useState("")
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-
     const handleClose = () => {
       setOpen(false);
     };
     const toggle = () => setDropdownOpen(prevState => !prevState);
-
-    const [mostrarModal, setmostrarModal] = useState(false)
+    
     const cerrarModal = () => {
       setOpen(false)
     }
@@ -97,6 +94,15 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
     const handleEscribirRetroAli = (event) => {
       // console.log("escribiendo", event.target.value)
       setRetroAli(event.target.value)
+    }
+    const mostrarHistorial = () => {
+      history.push({
+        pathname:"/admin/practicas/historial",
+        state:{
+          idAlumno:idAlumno,
+          nroPractica:nroPractica
+        }
+      })
     }
     
     useEffect(() => {
@@ -182,6 +188,12 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
                       <MdMoreVert size={25} style={{color:"#132038"}}/>
                     </DropdownToggle>
                     <DropdownMenu>
+                      <DropdownItem 
+                      onClick={mostrarHistorial}
+                      >
+                        <MdHistory size={20}/> Ver historial
+                      </DropdownItem>
+                      <DropdownItem divider />
                       <DropdownItem 
                       style={{color:"red"}}
                       onClick={handleDenegarPractica}

@@ -12,6 +12,7 @@ import { AdminDashboard } from '../Pages/AdminDashboard/AdminDashboard';
 // import NavBarr from './componentes/NavBarBtrap';
 import './AppRouterStyle.css';
 import Divider from '@material-ui/core/Divider';
+import { Historial } from '../Pages/Administrador/EstadoPracticas/Historial';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const VistaAdmin = () => {
+const VistaAdmin = ({history}) => {
 
     const classes = useStyles();
 
@@ -42,6 +43,7 @@ const VistaAdmin = () => {
                     <Divider variant="middle" light={true} />  
                     <div className="container">
                         <Switch>
+                            <Route exact path='/admin/practicas/historial' component={Historial} />
                             <Route path='/admin/practicas' component={TablaEstados} />
                             <Route path='/admin/administradores' component={Administrador} />
                             <Route path='/admin/estudiantes' component={Estudiante} />

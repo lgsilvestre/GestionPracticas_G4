@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export const TablaEstados = () =>  {
+export const TablaEstados = ({history}) =>  {
   const cookies = new Cookies();
   const clasesEstilo = useStyles();
   // Columnas para la tabla de estados
@@ -81,9 +81,10 @@ export const TablaEstados = () =>  {
   const [nroMatriculaSelected, setNroMatriculaSelected] = useState("")
   const [nroPractica, setnroPractica] = useState("")
   const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
+  const [count, setCount] = useState(0)
   useEffect(async()=>{
     petitionGetPracticaAlumno()
-  },[])
+  },[changeState])
 
   const petitionGetPracticaAlumno = async () =>{
     await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumno")
@@ -176,6 +177,7 @@ export const TablaEstados = () =>  {
   }
   
   const handleChangeStateBack = () =>{
+    setCount(count+1)
     setChangeState(!changeState)
   }
   const getBackGroundRow = (etapa) => {

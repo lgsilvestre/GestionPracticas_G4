@@ -94,6 +94,7 @@ $routes->post('evaluarPracticaCorreo', 'PracticaController::evaluarPracticaCorre
 $routes->post('rechazarPractica', 'PracticaController::rechazarPractica');
 $routes->post('rechazarPracticaCorreo', 'PracticaController::rechazarPracticaCorreo');
 $routes->post('denegarPractica', 'PracticaController::denegarPractica');
+$routes->post('getHistorialPractica', 'PracticaController::getHistorialPractica');
 
 
 // Alumno

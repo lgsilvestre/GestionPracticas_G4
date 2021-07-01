@@ -118,6 +118,7 @@ const Practicas = () => {
                     activeColor={denegada ? "#FF3531": "#0DC143"}
                     completeColor = {"#77C78F"}
                     defaultColor = {denegada ? "#FF3531" : "#C2C2C2" }
+                    
                 />
                 <hr/>        
                 { page===0 && <FormPostulacion handleSubmit={nextPage} nroPractica={nroPractica} denegada={denegada} /> }
