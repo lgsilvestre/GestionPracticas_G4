@@ -10,7 +10,66 @@ import { VscFilePdf } from 'react-icons/vsc';
 import { GoCheck } from "react-icons/go";
 import { GoCircleSlash } from "react-icons/go";
 import { useForm } from '../../../../../../hooks/useForm';
+import {Collapse,CustomInput, Input as InputRechazo } from 'reactstrap';
 
+// const useStyles = makeStyles((theme) => ({
+//     mainbox:{
+//         marginTop:'10px', 
+//         marginBottom:'30px', 
+//         borderRadius:'20px', 
+//         backgroundColor:'#fafafa'
+//     },
+//     box: {
+//         padding: theme.spacing(2),
+//         textAlign: "left"
+//     },
+//     formControl: {
+//         marginRight: theme.spacing(2),
+//         textAlign: "left",
+//         minWidth: 120,
+//     },
+//     botonAddDoc:{ 
+//         marginLeft:theme.spacing(1),
+//         color:"#f69b2e"
+//     },
+//     icon:{
+//         color:'#f69b2e',
+//         width:"30px", 
+//         height:"30px"
+//     },
+//     logosearch :{
+//         width:"25px", 
+//         height:"25px"
+//     },
+//     boxBotones:{
+//       marginTop:'10px', 
+//       marginBottom:'30px', 
+//       borderRadius:'20px', 
+//       backgroundColor:'#fafafa',
+//       justifyContent:"center"
+//     },
+//     botonAceptar:{
+//       marginRight:'10px',
+//       backgroundColor:"grey",
+//       color:"white",
+//       cursor: 'pointer',
+//       transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+//       '&:hover': {
+//       backgroundColor:'#f69b2e',
+//           color: '#fff'
+//           }
+//     },
+//     botonRechazo:{
+//       backgroundColor:"grey",
+//       color:"white",
+//       cursor: 'pointer',
+//       transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+//       '&:hover': {
+//       backgroundColor:'red',
+//           color: '#fff'
+//           }
+//     }
+// }));
 const useStyles = makeStyles((theme) => ({
     mainbox:{
         marginTop:'10px', 
@@ -22,23 +81,13 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         textAlign: "left"
     },
-    formControl: {
-        marginRight: theme.spacing(2),
-        textAlign: "left",
-        minWidth: 120,
-    },
-    botonAddDoc:{ 
-        marginLeft:theme.spacing(1),
-        color:"#f69b2e"
+    filebox:{
+        minWidth:"450px",
+        maxWidth:"450px"
     },
     icon:{
-        color:'#f69b2e',
         width:"30px", 
         height:"30px"
-    },
-    logosearch :{
-        width:"25px", 
-        height:"25px"
     },
     boxBotones:{
       marginTop:'10px', 
@@ -47,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor:'#fafafa',
       justifyContent:"center"
     },
-    botonAceptar:{
+    boton:{
       marginRight:'10px',
       backgroundColor:"grey",
       color:"white",
@@ -69,12 +118,13 @@ const useStyles = makeStyles((theme) => ({
           }
     }
 }));
-
 export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
+    const clasesEstilo = useStyles();
     console.log("Solicitando alumno con: ",nroMatricula)
     console.log("Numero de practica: ", nroPractica)
     const [docs, setDocs] = useState([])
-
+    const [rechazada, setRechazada] = useState(false)
+    const [retroAli, setretroAli] = useState("")
     const classes = useStyles();
 
     //Datos por defecto 
@@ -171,14 +221,27 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
         //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
         nextPage()
-      }
-      )
-      .catch(error => {
+        enviarInformacionSolicitudCorreo()
+      }).catch(error => {
         //FALSE PRACTICA NO AGREGADA
         //MOSTRAR ALERTA
         console.log("Error: ", error)
       });
     }
+
+    const enviarInformacionSolicitudCorreo = () =>{  
+        axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarSolicitudCorreo",{
+          documentos:archivos,
+          matricula:nroMatricula,
+          numero:nroPractica,
+          idalumno:idAlumno
+        }).then(response =>{
+        }).catch(error => {
+          //FALSE PRACTICA NO AGREGADA
+          //MOSTRAR ALERTA
+          console.log("Error envio de correo: ", error)
+        });
+      }
 
     const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
 
@@ -187,16 +250,31 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     }
 
     const handleRechazarPractica = async () =>{
-        await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/rechazarSolicitud",{
-            params:{
-                idalumno:idAlumno
+        await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handleRechazo",{ 
+            idalumno:idAlumno,
+            numero:nroPractica,
+            etapa:"Solicitud"   
+        }).then(response=>{
+            console.log("Respuesta rechazo: ",response.data)
+            if(response.data=1){
+                setRechazada(true)
+                enviarCorreoRechazo()
             }
-        })
-        .then(response =>{
-            console.log(response.data)
+        }).catch(error=>{
+            console.log("ERROR EN RECHAZO: ",error)
         })
     }
-
+    const enviarCorreoRechazo = () => {
+        axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handlerRechazarCorreo",{ 
+            idalumno:idAlumno,
+            etapa:"Solicitud"             
+        }).then(response=>{
+            console.log("Respuesta envio correo: ",response.data)
+        }).catch(error=>{
+            console.log("ERROR EN RECHAZO: ",error)
+        })
+    }
+    
     useEffect(async() => {
         getDocumentos()
         await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoMatricula",{
@@ -376,13 +454,43 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
                 </div>          
             </Box>
             <Box className={classes.boxBotones} display="flex" boxShadow={1}>
-            <div style={{padding:"30px"}}>
-              <Button className={classes.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
-                Aceptar
-              </Button>
-              <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} onClick={handleRechazarPractica} >
-                Rechazar
-              </Button>
+            <div className = "container" style={{padding:"30px"}}>
+              <div className = "row justify-content-center" >
+                <div className = "col-auto">
+                    <Button className={classes.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
+                        Aceptar
+                    </Button>
+                </div>
+                <div className= "col-auto">
+                    <Button className={classes.botonRechazo} startIcon={<GoCircleSlash/>} onClick = {() => {setRechazada(true)}}  >
+                        Rechazar
+                    </Button>
+                </div>    
+              </div>
+              {
+                rechazada && (
+                <Collapse isOpen={true} style={{marginTop:"3vh"}}>               
+                    <div className="row justify-content-center">
+                        <div className="col-6">
+                            <InputRechazo
+                            placeholder="Ingrese retroalimentación..."                                
+                            type="textarea" 
+                            invalid="true"                              
+                            />  
+                        </div>
+                    </div>         
+                    <div className= "row justify-content-center" style={{marginTop:"3vh"}}>
+                        <div className="col-auto">
+                            <Button className={clasesEstilo.boton} onClick={handleRechazarPractica}>
+                                Enviar
+                            </Button>                               
+                        </div>
+
+                    </div>                                            
+                </Collapse>    
+
+                )
+              }
             </div>       
             </Box>
         </div>

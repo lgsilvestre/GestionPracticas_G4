@@ -121,13 +121,13 @@ export default function SignInSide({ history }) {
         //trabajar redireccionamiento
         //-1 error , 0 alumno , 1 admin
         console.log("respuesta: ", response.data);
-
-        if (response.data.tipo === 1 || response.data.tipo === 2) {
+        if (response.data.tipo === "1" || response.data.tipo === "2") {
          
           history.replace("/supervisor")
           
         }
-        else if (response.data.tipo === 0) {
+        
+        else if (response.data.tipo === "0") {
           console.log("admin")
           history.replace("/admin")
         }
