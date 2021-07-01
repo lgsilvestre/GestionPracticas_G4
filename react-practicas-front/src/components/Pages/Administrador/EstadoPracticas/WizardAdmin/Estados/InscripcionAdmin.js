@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { 
     Box,
     Grid,  
@@ -80,12 +80,14 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
     const [docsInscripcion, setDocsInscripcion] = useState([])
     const [mostrarAlertaCursar, setMostrarAlertaCursar] = useState(false)
     const [archivo, setArchivo] = useState()
+    const [seguroSubido, setSeguroSubido] = useState("false")
     const handleCancelDoc = (id) => {
       setIdDocCancelado(id)
       setisOpen(!isOpen)
     }
-    const confirmarInscipcion= async() =>{  
-      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarInscripcion",{
+    
+    const confirmarInscipcion= () =>{  
+       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarInscripcion",{
         matricula:nroMatricula,
         numero:nroPractica,
         id_alumno:idAlumno
@@ -400,29 +402,40 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                             
           </Box>
           {/* SEGURO DE PRACTICA */}
-          <Alert severity="warning">
-            <strong>IMPORTANTE:</strong> Debes subir el seguro del alumno antes de aceptar la Inscripción.
-          </Alert>
+          {seguroSubido ?(              
+              <Alert severity="success">
+                Seguro subido! puedes continuar
+              </Alert>              
+              ):(
+              <Alert severity="warning">
+                <strong>IMPORTANTE:</strong> Debes subir el seguro del alumno antes de aceptar la Inscripción.
+              </Alert>
+              )}
           <Box className={clasesEstilo.mainbox} boxShadow={1}>
             <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Subir Seguro de Práctica</h4>
             <hr/>  
-            <div className="row justify-content-center" >
-              <form onSubmit={handleSubmit(guardarArchivo)}>
-                <div className="col-6" style={{marginBottom:16}} >
-                  <CustomInput    
-                    ref={register}      
+            <form onSubmit={handleSubmit(guardarArchivo)} style={{width:"100%"}}>
+              <div className="row justify-content-center">
+                <div className="col-6" style={{marginBottom:16}}>
+                  <CustomInput 
+                    ref={register}    
                     type="file" 
-                    name="seguroPractica"
+                    name="informeFinal"
                     onChange={(e)=>handleChangeFile(e)}
-                    id= "seguroPractica"
-                    label="Suba el seguro"                                     
-                  />               
+                    id= "informeFinal"
+                    label="Click para subir archivo"                                     
+                  />
                 </div>
-                <div className="col">
-                  <Button type="submit">Guardar</Button>
-                </div>
-              </form>
-            </div>
+                <div className="col-auto">
+                  <Button type="submit" className={clasesEstilo.boton}>
+                    Guardar
+                  </Button>
+                  <Button className={clasesEstilo.botonRechazo}>
+                    Eliminar
+                  </Button>
+                </div>         
+              </div>
+            </form>
           </Box>
           {/* BOX BOTONES ACEPTAR/RECHAZAR */}
           <Box className={clasesEstilo.boxBotones} display="flex" boxShadow={1}>

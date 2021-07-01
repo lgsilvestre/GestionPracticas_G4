@@ -81,6 +81,7 @@ $routes->get('rechazarSolicitud', 'PracticaController::rechazarSolicitud');
 $routes->post('getNumeroSiguientePractica', 'PracticaController::getNumeroSiguientePractica');
 $routes->post('getSolicitud', 'PracticaController::getSolicitud');
 $routes->post('getFechas', 'PracticaController::getFechas');
+$routes->post('getEstadoPracticaActiva', 'PracticaController::getEstadoPracticaActiva');
 $routes->post('ingresarPracticaCorreo', 'PracticaController::ingresarPracticaCorreo');
 $routes->post('handleRechazo', 'PracticaController::handleRechazo');
 $routes->post('handlerRechazarCorreo', 'PracticaController::handlerRechazarCorreo');

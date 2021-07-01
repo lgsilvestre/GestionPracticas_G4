@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Stepper from 'react-stepper-horizontal';
 import { Cursando } from './EstadosWizard/Cursando';
 import { Termino } from './EstadosWizard/Termino';
@@ -15,6 +15,7 @@ const Practicas = () => {
     const cookies = new Cookies();
     const nroPracticaActual = parseInt(cookies.get('practica_next'))
     const [nroPractica, setNroPractica] = useState(nroPracticaActual)
+    const [count, setCount] = useState(0)
     // console.log("PRACTICA ACTUAL:",nroPracticaActual,"PRACTICA VER ",nroPractica)
     const steps = [
         {title: "Solicitar"},
@@ -28,7 +29,7 @@ const Practicas = () => {
     }
     
     const [page, setPage] = useState()
-
+    
     const getEstado = async() => {
         let id_alumno = cookies.get('id')
         // let numeropractica = 1
@@ -62,11 +63,12 @@ const Practicas = () => {
               }
   
               if (response.data[0].etapa=="Evaluación"){
-                  console.log(response.data[0].etapa)
+                  console.log(response.data[0].etapa)            
+                  const num = count + 1
+                  setCount(num)
                   setPage(3)
               }
-            } 
-            
+            }            
           })
           .catch(error => {
             console.log("login error: ", error);
@@ -80,9 +82,11 @@ const Practicas = () => {
     }
     
     useEffect(() => {
-      console.log("Nro practica actualizado: ",nroPractica)       
+      console.log("Nro practica actualizado: ",nroPractica)    
+      // console.log(count)   
       getEstado()
-    }, [nroPractica,page])
+      
+    }, [nroPractica, page])
 
     return (
       <>
