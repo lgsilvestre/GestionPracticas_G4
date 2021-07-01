@@ -81,6 +81,10 @@ $routes->get('rechazarSolicitud', 'PracticaController::rechazarSolicitud');
 $routes->post('getNumeroSiguientePractica', 'PracticaController::getNumeroSiguientePractica');
 $routes->post('getSolicitud', 'PracticaController::getSolicitud');
 $routes->post('getFechas', 'PracticaController::getFechas');
+$routes->post('ingresarPracticaCorreo', 'PracticaController::ingresarPracticaCorreo');
+$routes->post('handleRechazo', 'PracticaController::handleRechazo');
+$routes->post('handlerRechazarCorreo', 'PracticaController::handlerRechazarCorreo');
+
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');

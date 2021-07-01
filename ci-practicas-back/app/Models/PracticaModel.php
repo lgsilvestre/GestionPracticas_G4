@@ -63,9 +63,13 @@ class PracticaModel extends Model
         $queryPracticaAlumno = "UPDATE practica SET etapa = 'Solicitud', estado = 'Rechazada', activa='0' where practica.refAlumno = ".$id." and practica.activa = '1'";
         $this->db->query($queryPracticaAlumno)->getResult();
         $result = $this->db->affectedRows();
-        if ($result){
-		    echo "RECHAZADA";
-        }
+        return $result;
+    }    
+    public function RechazarEtapa($id,$etapa){
+        //$queryPracticaAlumno = "SELECT etapa, estado FROM practica where practica.refAlumno = ".$id." and practica.numero = ".$numero;
+        $queryPracticaAlumno = "UPDATE practica SET etapa = ".$etapa.", estado = 'Rechazada' where practica.refAlumno = ".$id." and practica.activa = '1'";
+        $this->db->query($queryPracticaAlumno)->getResult();
+        $result = $this->db->affectedRows();     
         return $result;
     }    
 

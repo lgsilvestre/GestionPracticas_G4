@@ -39,9 +39,17 @@ export const FormPostulacion = ({handleSubmit, previousPage,nroPractica}) => {
           if (response.data == true){
               // console.log("INGRESADA")
               setMostrarResolucion(true)
+              postPracticaCorreo()
           }
       })
-    }    
+    } 
+    
+    const postPracticaCorreo = () =>{
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/ingresarPracticaCorreo",{
+          'id_alumno': cookies.get('id')
+      })
+    } 
+
     useEffect(() => {
       getSolicitud()
     }, [])
