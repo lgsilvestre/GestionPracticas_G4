@@ -11,7 +11,7 @@ class HistorialModel extends Model
     protected $allowedFields = ['refAlumno', 'refAdmin', 'etapa', 'practica', 'comentario', 'fecha', 'retroalimentacion'];
 
     public function getRetroalimentacion($refAlumno, $practica) {
-        $query = $this->db->query("SELECT max(retroalimentacion) FROM historial WHERE refAlumno = '".$refAlumno."' AND practica = '".$practica."'");
+        $query = $this->db->query("SELECT retroalimentacion FROM `historial` WHERE refAlumno = '11' AND practica = '1' ORDER BY id_historial DESC LIMIT 1");
         $result = $query->getResult();
         return $result;
     }

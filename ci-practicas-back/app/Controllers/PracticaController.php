@@ -7,6 +7,7 @@ use App\Models\UserModel as UserModel;
 use App\Models\HistorialModel as HistorialModel;
 use App\Models\InstDocumentoModel as InstDocumentoModel;
 
+
 class PracticaController extends BaseController
 {
 	public function index()
@@ -661,7 +662,6 @@ class PracticaController extends BaseController
 		}
 	}
 
-	
 
 	public function getEstadoPracticaActiva() {
 		$id = $this->request->getVar('id_alumno');
@@ -678,9 +678,8 @@ class PracticaController extends BaseController
 		$numero = $this->request->getVar('nropractica');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getSolicitud($id,$numero);
-    // echo json_encode($result);
 		if($result) {
-			echo 1;
+			echo json_encode($result);
 		} else {
 			echo 0;
 		}
@@ -706,6 +705,18 @@ class PracticaController extends BaseController
 		$result = $this->PracticaModel->getFechas($id);
 		if($result) {
 			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getRetroalimentacion(){
+		$refAlumno = $this->request->getVar('id_alumno');
+		$practica = $this->request->getVar('practica');
+
+		$result = $this->HistorialModel->getRetroalimentacion($refAlumno, $practica);
+		if($result) {
+			echo $result;
 		} else {
 			echo 0;
 		}

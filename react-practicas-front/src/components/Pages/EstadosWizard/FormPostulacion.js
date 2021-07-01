@@ -11,6 +11,7 @@ export const FormPostulacion = ({handleSubmit, previousPage,nroPractica}) => {
     const cookies = new Cookies()
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
+    const [estado, setEstado] = useState("")
 
     const getSolicitud = async() => {   
       // console.log("Get solicitud ",nroPractica)
@@ -19,14 +20,16 @@ export const FormPostulacion = ({handleSubmit, previousPage,nroPractica}) => {
           'nropractica': nroPractica
         })
         .then(response=>{
-          // console.log("Estado solicitud:",response.data)
-          if(response.data===1){
-            // console.log("Existe una solicitud pendiente")
+          console.log("Estado solicitud:",response.data)
+          if(response.data[0].estado==="Rechazada"){
+
             setMostrarResolucion(true)
           }
           else{
             // console.log("No existe solicitud aun")
           }
+        }).catch(error=>{
+          console.log("ERROR GET ESTADO SOLICITUD", error)
         })
     }
     
