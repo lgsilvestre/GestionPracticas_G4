@@ -3,7 +3,7 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { MdWork } from "react-icons/md";
 import { MdPeople } from "react-icons/md";
-import { MdLocalOffer } from "react-icons/md";
+import { GiPin } from "react-icons/gi";
 import styles from "./sidePro.scss";
 import logo1 from './logos/whitelogo-1.png';
 import Divider from '@material-ui/core/Divider';
@@ -68,7 +68,7 @@ const SidePro = () => {
                         display: 'flex',
                         alignItems: 'center',
                     }}>
-                        <MdLocalOffer />
+                        <GiPin />
                         <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>Gestionar Práctica</span>
                     </Link>
                 </MenuItem>
