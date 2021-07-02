@@ -15,7 +15,7 @@ import { AdminDashboard } from '../Pages/AdminDashboard/AdminDashboard';
 import './AppRouterStyle.css';
 import Divider from '@material-ui/core/Divider';
 import { Historial } from '../Pages/Administrador/EstadoPracticas/Historial';
-
+import NavBarr from './componentes/NavBarBtrap';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +41,7 @@ const VistaAdmin = ({history}) => {
                     <SidePro />
                 </Grid>
                 <Grid item xs={10} sm={10} className="Container Scroll">
-                    {/* <NavBarr /> */}
+                    <NavBarr />
                     <Divider variant="middle" light={true} />  
                     <div className="container">
                         <Switch>
