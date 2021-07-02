@@ -56,6 +56,7 @@ $routes->post('registerAlumnoExcelData', 'UsersController::registerAlumnoExcelDa
 // Documentos
 $routes->get('getDocumentos', 'DocumentoController::getDocumentos');
 $routes->get('getDocumento', 'DocumentoController::getDocumento');
+$routes->get('getDocumentosAdmin', 'DocumentoController::getDocumentosAdmin');
 // Carreras
 $routes->get('getCarreras', 'CarreraController::getCarreras');
 // Practicas

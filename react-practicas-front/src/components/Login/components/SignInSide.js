@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import logo from '../images/logo.png';
+import logo from '../images/logo2.png';
 import { Alert } from 'reactstrap';
 import './EstilosSignInSide.css';
 import { fade } from '@material-ui/core/styles';
@@ -157,7 +157,7 @@ export default function SignInSide({ history }) {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <img className="mb-4" src={logo} alt="" />
+          <img className="mb-4" src={logo} alt="" style={{width:'50%', paddingBottom:'25px', paddingTop:'25px'}} />
           {/* <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar> */}
@@ -212,13 +212,10 @@ export default function SignInSide({ history }) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  ¿Olvidaste la contraseña?
-                </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  ¿No tienes una cuenta?
+                  ¿Olvidaste la contraseña?
                 </Link>
               </Grid>
             </Grid>
