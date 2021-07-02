@@ -25,14 +25,14 @@ const NavBarBtrap = (props) => {
   return (
     <div>
       <Navbar className="shadow-none" color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
+        {/* <NavbarBrand href="/">reactstrap</NavbarBrand> */}
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
 
           <Nav className="ml-auto" navbar>
 
             <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav>
+              <DropdownToggle nav style={{marginLeft: '15px', marginRight: '15px'}}>
                 <NotificationsIcon />
               </DropdownToggle>
               <DropdownMenu right>
@@ -50,7 +50,7 @@ const NavBarBtrap = (props) => {
             </UncontrolledDropdown>
 
             <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav>
+              <DropdownToggle nav style={{marginLeft: '15px', marginRight: '15px'}}>
                 <PersonIcon />
               </DropdownToggle>
               <DropdownMenu right>
@@ -67,7 +67,7 @@ const NavBarBtrap = (props) => {
               </DropdownMenu>
             </UncontrolledDropdown>
 
-            <NavItem>
+            <NavItem style={{marginLeft: '15px', marginRight: '15px'}}>
               <NavLink>
                 <ExitToAppIcon />
               </NavLink>
