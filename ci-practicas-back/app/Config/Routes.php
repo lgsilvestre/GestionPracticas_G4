@@ -97,6 +97,7 @@ $routes->post('denegarPractica', 'PracticaController::denegarPractica');
 $routes->post('getHistorialPractica', 'PracticaController::getHistorialPractica');
 $routes->post('getInfoAlumnoPractica', 'PracticaController::getInfoAlumnoPractica');
 $routes->post('getInfoPracticaById', 'PracticaController::getInfoPracticaById');
+$routes->get('servePracticaAlumnoInactiva', 'PracticaController::servePracticaAlumnoInactiva');
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
@@ -109,6 +110,7 @@ $routes->post('recibirSeguro', 'AlumnoController::recibirSeguro');
 // Instancia documento
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');
+$routes->post('getInstanciasDocumentosURL', 'InstanciaDocumentoController::getInstanciasDocumentosURL');
 // Users
 $routes->get('getFuncionarios', 'UserController::getFuncionarios');
 $routes->get('deleteUser', 'UserController::deleteUser');

@@ -49,7 +49,7 @@ export const AdminDashboard = () => {
                                         
                                 </CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                                        16
+                                        4
                                     </Typography> 
                             </CardActionArea>
                             <Divider variant="middle" light={true} />
@@ -75,7 +75,7 @@ export const AdminDashboard = () => {
                                         
                                 </CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                                        34
+                                        2
                                     </Typography> 
                             </CardActionArea>
                             <Divider variant="middle" light={true} />
@@ -102,7 +102,7 @@ export const AdminDashboard = () => {
                                         
                                 </CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                                        16
+                                        6
                                     </Typography> 
                             </CardActionArea>
                             <Divider variant="middle" light={true} />

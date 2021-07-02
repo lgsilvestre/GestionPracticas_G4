@@ -33,6 +33,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     })
     const [archivos, setArchivos] = useState([])
     const [archivo, setArchivo] = useState()
+    const [urls, setUrls] = useState([])
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
@@ -52,10 +53,12 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     const changeNameDownloaded = (name)=>{
         setnameDownloaded(name)
     }
-    const handleDownload = ( namefile ) => {
-        toggle()
-        changeNameDownloaded(namefile)
-        console.log("descargando " ,namefile)    
+    const descargar = ( event ) => {
+        console.log(event.target)
+        // toggle()
+        // changeNameDownloaded(namefile)
+        // console.log("descargando " ,index)    
+        // window.open("URL", "_blank")
     }
     
     const postInscripcion = (event) =>{
@@ -181,12 +184,44 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
           )
             .then(response => {
               console.log("RESPUESTA INSTANCIAS DOCUMENTOS:  ",response.data)
-              setArchivos(response.data)
+              // const arregloUrl = response.data['url']
+              const data = response.data
+              // delete data['url']
+              // console.log("data: " ,data)
+              setArchivos(data)
+              // data.map((objeto, index)=>(
+              //   objeto.url = arregloUrl[index]
+              // ))
             })
             .catch(error => {
               console.log("ERROR EN GET DOCUMENTOS: ", error);
         });
     }
+    const getDocsUrl = async() => {
+      let id_alumno = cookies.get('id')
+      // let numeropractica = 1
+      await axios.post(
+          "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getInstanciasDocumentosURL",
+          {
+            id_alumno: id_alumno,
+            numero: nroPractica,
+          },
+        )
+          .then(response => {
+            console.log("RESPUESTA URL DOCS:  ",response.data)
+            // const arregloUrl = response.data['url']
+            // const data = response.data
+            // delete data['url']
+            // console.log("data: " ,data)
+            setUrls(response.data)
+            // data.map((objeto, index)=>(
+            //   objeto.url = arregloUrl[index]
+            // ))
+          })
+          .catch(error => {
+            console.log("ERROR EN GET DOCUMENTOS: ", error);
+      });
+  }
     const handleChangeRegion = (event) => {
       console.log(event.target.value)
       setregionElegida(event.target.value)
@@ -198,6 +233,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     useEffect(() => {   
       getEstadoPractica()
       getDocs()    
+      getDocsUrl()
     }, [])
     
     return (
@@ -331,7 +367,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                                 <Label >{file.nombre}</Label>      
                               </div>
                               <div className="col-auto">
-                                <Button onClick={handleDownload} color="info">
+                                <Button id={index} onClick={(event) =>descargar(event)} color="info">
                                     <MdFileDownload/>
                                 </Button> 
                               </div>

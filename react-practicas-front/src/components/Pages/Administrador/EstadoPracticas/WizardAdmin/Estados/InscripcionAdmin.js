@@ -187,28 +187,6 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       })  
     }
 
-    // const subirArchivos = (data) => {
-    //   // console.log(data)
-    //   let formData = new FormData()
-    //   // console.log(archivo[0])
-    //   //idalumno y nropractica
-    //   formData.append("file",archivo[0])
-    //   formData.append("id_alumno",idAlumno)
-    //   formData.append("numero",nroPractica)
-    //   formData.append("documento",documento)
-    //   console.log("ENVIANDO: ",formData)
-    //   axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirSeguro",
-    //     formData,    
-    //     {headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   })
-    //   .then(response=>console.log("Respuesta subir file: ",response.data))
-    //   .catch(error=>{
-    //     console.log("Error: ", error)
-    //   })  
-    // }
-
     const handleChangeFile = (e) => {
       setArchivo(e.target.files)
     }
@@ -544,9 +522,9 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                   <Button type="submit" className={clasesEstilo.boton}>
                     Guardar
                   </Button>
-                  <Button className={clasesEstilo.botonRechazo}>
+                  {/* <Button className={clasesEstilo.botonRechazo}>
                     Eliminar
-                  </Button>
+                  </Button> */}
                 </div>         
               </div>
             </form>

@@ -80,6 +80,7 @@ export const Historial = () => {
     })
   }
   const getInfoPractica = () => {
+    console.log("Info de practica: ",idPractica)
     axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getInfoPracticaById",{
       id_practica:idPractica
     }).then(response =>{
