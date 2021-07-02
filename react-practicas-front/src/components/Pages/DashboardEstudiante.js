@@ -159,6 +159,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
       }
       else{
         console.log("No hay practicas")
+        setNroPractica(1)
         cookies.set('practica_next', 1, { path: '/' })
       }
     })
@@ -176,10 +177,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
       <div style={{backgroundColor:"#2D4C85"}}>
         <div className="container" >
           <div className="row justify-content-md-center" >
-            <div className="col" style={{marginTop:10}}>
+            <div className="col-auto" style={{marginTop:10}}>
               <h3 style={{color:"white"}}>¡Bienvenido {dataEstudiante.nombre}!</h3>
             </div>
-          </div>   
+          </div>  
         </div>
       </div>
       <div className="container animate__animated animate__fadeIn animate__faster">
@@ -290,11 +291,12 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                   <div className="col " style={{marginTop:"3vh"}}>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
-                        {!sinPractica ? (
+                          <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica {nroPractica}</h7>
+                        {/* {!sinPractica ? (
                           <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica {nroPractica}</h7>
                         ):(
                           <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> No has solicitado ninguna práctica</h7>
-                        )}
+                        )} */}
                       </div>
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
@@ -313,7 +315,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                     <div className="row"> 
                       <div className="col">
                         <h7 className={classes.textoInfo}>
-                        <strong>Pasos a seguir:</strong> Ve a <Link to='estudiante/practica' >
+                        <strong>Pasos a seguir:</strong> Ve a <Link to='estudiante/practicas' >
                         Practicas  
                         </Link>{infoPractica.pasos} 
                         </h7>

@@ -1,12 +1,20 @@
-import {Button} from '@material-ui/core'
+import {Button, 
+  Dialog, 
+  DialogActions , 
+  DialogContent ,
+  DialogContentText , 
+  DialogTitle } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { IoIosArrowBack } from "react-icons/io";
+import { BsExclamationCircleFill } from "react-icons/bs";
 import WizardAdmin from './WizardAdmin/WizardAdmin';
-// import { Navbar, Nav, Dropdown } from 'rsuite';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Input,Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { MdDeleteForever,MdMoreVert, MdHistory } from "react-icons/md";
+import { BiDetail } from "react-icons/bi";
+import axios from 'axios';
+import { useHistory} from 'react-router-dom'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -21,45 +29,49 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:'#f69b2e',
             color: '#fff'
         }
-    }
+    },
+    botonRechazo:{
+      backgroundColor:"#FF7D7D",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'red',
+          color: '#fff'
+          }
+    },
+    botonAceptar:{
+      marginRight:'10px',
+      backgroundColor:"#77C78F",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'#0DC143',
+          color: '#fff'
+          }
+    },
     
 }));
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
-export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno}) => {
-    const [show, setShow] = useState(false);
-    const showDropdown = (e)=>{
-      setShow(!show);
-    }
-    const hideDropdown = e => {
-        setShow(false);
-    }
+
+export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno, idPractica}) => {
+    let history = useHistory()
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [retroAli, setRetroAli] = useState("")
+    const handleClose = () => {
+      setOpen(false);
+    };
+    const toggle = () => setDropdownOpen(prevState => !prevState);
     
-    const [mostrarModal, setmostrarModal] = useState(false)
     const cerrarModal = () => {
-      setmostrarModal(false)
+      setOpen(false)
     }
     const abrirModal = () => {
-      setmostrarModal(true)
-    }
-    const toggleModal = () => {
-      setmostrarModal(!mostrarModal)
+      setOpen(true)
     }
     
-    const handleAceptarDelete = () => {
-      console.log("Aceptando delete practica")
-      cerrarModal()
-    }
-    
-    const handleDenegar = () => {
+    const handleDenegarPractica = () => {
       console.log("Preguntando delete practica")
       abrirModal()
     }
@@ -67,6 +79,33 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
     const classes = useStyles();  
     const [etapa, setEtapa] = useState(etapaProp)
     // const [etapa, setEtapa] = useState(2)
+    const DenegarPractica = async () => {
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/denegarPractica",{
+        id_alumno:idAlumno
+      }).then(response=>{
+        console.log("respuesta denegar: ",response.data)
+        if(response.data ===1){
+          cerrarModal()
+        }
+        //confimarCorreoDenegar()
+      }).catch(error =>{
+        console.log("ERROR DENEGANDO", error)
+      })
+    }
+    const handleEscribirRetroAli = (event) => {
+      // console.log("escribiendo", event.target.value)
+      setRetroAli(event.target.value)
+    }
+    const mostrarHistorial = () => {
+      history.push({
+        pathname:"/admin/practicas/historial",
+        state:{
+          idAlumno:idAlumno,
+          nroPractica:nroPractica,
+          idPractica:idPractica
+        }
+      })
+    }
     
     useEffect(() => {
         changeEtapaLabel()  
@@ -91,20 +130,49 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
     }
     return (
       <>
-      <div>
-        {/* <Modal isOpen={mostrarModal} toggle={toggleModal} >
-          <ModalHeader toggle={toggleModal}>Modal title</ModalHeader>
-          <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={handleAceptarDelete}>Aceptar</Button>{' '}
-            <Button color="secondary" onClick={cerrarModal}>Cancelar</Button>
-          </ModalFooter>
-        </Modal> */}       
+      <div>    
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+          <BsExclamationCircleFill size={30} color="red"/> <strong>¡Precaución! Esta es una acción irreversible.</strong>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+            <hr style={{margin:0, marginBottom:10}}/>
+              Estás a punto de denegar esta práctica, esto es muy diferente a rechazar una etapa en particular ya que esta
+              opción inhabilita la práctica por completo. ¿Estás seguro que deseas continuar?
+              <hr/>
+              <div className="row justify-content-center">
+
+                <h6 style={{color:"red", fontStyle:"italic", fontSize:17}}>Menciona las razones de denegar</h6>            
+              </div>             
+              <div className="row justify-content-center">
+                  <div className="col-12">
+                      <Input
+                      // value={retroAli}
+                      placeholder="Escriba aquí..."                                
+                      type="textarea" 
+                      invalid="true"      
+                      onChange = {(event) => handleEscribirRetroAli(event)}                        
+                      />  
+                  </div>
+              </div> 
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} className={classes.botonRechazo} >
+              Cancelar
+            </Button>
+            <Button onClick={DenegarPractica} className={classes.botonAceptar} color="primary" autoFocus>
+              Aceptar
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
-        
-      
         <div className="animate__animated animate__fadeIn animate__faster">
             <div className={classes.root} style={{marginTop:'20px', marginBottom:'30px'}}>
                 <h4 style={{marginBottom:'15px', color: '#1b2d4f'}}>
@@ -117,19 +185,25 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
                     </Button>
                   </div>
                   <div className="col-auto">
-                    {/* <Dropdown 
-                      icon={<MoreVertIcon />} 
-                      open={show}
-                      onMouseEnter={showDropdown}
-                      onMouseLeave={hideDropdown}
-                      noCaret
-                    >
-                      <Dropdown.Item 
-                      icon={<DeleteForeverIcon style={{marginRight:"10px", color:"#E65F5D"}} />}  
-                      eventKey="1"
-                      onSelect={handleDenegar}
-                      >DENEGAR</Dropdown.Item>
-                    </Dropdown> */}
+                  <Dropdown isOpen={dropdownOpen} toggle={toggle} >
+                    <DropdownToggle style={{backgroundColor:"transparent", borderColor:"transparent", color:"white"}}>
+                      <MdMoreVert size={25} style={{color:"#132038"}}/>
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem 
+                      onClick={mostrarHistorial}
+                      >
+                        <BiDetail size={20}/> Detalles
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem 
+                      style={{color:"red"}}
+                      onClick={handleDenegarPractica}
+                      >
+                        <MdDeleteForever size={20} color="red"/> Denegar Práctica
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                   </div>
                 </div>
                 <WizardAdmin 

@@ -46,7 +46,7 @@ const EvaluarPractica = (estudiante, empresa) => {
       
         let calificacionValida = false; 
       
-        if (calificacion != "") {
+        if (calificacion !== "") {
           let regex = new RegExp("/^\d*\.?\d*$/");
           if (regex.test(calificacion)) {
             calificacionValida = true;
@@ -55,7 +55,7 @@ const EvaluarPractica = (estudiante, empresa) => {
      
       
         console.log(calificacionValida);
-        if (calificacionValida == true){
+        if (calificacionValida === true){
           peticionPost();
         } else {
           console.log("Error validación");

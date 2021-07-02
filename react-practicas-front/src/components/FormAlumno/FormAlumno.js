@@ -16,17 +16,6 @@ import 'date-fns';
 export default function FormAlumno({estudiante, setEstudiante}) {
   const classes = useStyles();
   const methods = useForm();
-  //NO USADO
-  // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18'));
-
-  // const handleDateChange = (date) => {
-  //   setSelectedDate(date);
-  //   setEstudiante({
-  //     ...estudiante,
-  //     fecha_nac: date,
-  //   });
-  // };
- 
 
   const handleChange = (e) => {
     setEstudiante({
@@ -44,14 +33,8 @@ export default function FormAlumno({estudiante, setEstudiante}) {
             <Grid item xs={12} >
             <FormControl variant="outlined" fullWidth required className={classes.formControl}>
               <InputLabel id="select-outlined-label">Carrera</InputLabel>
-              <Select
-                labelId="select-outlined-label"
-                id="select-outlined"
-                name= "carrera"
-                value={estudiante.carrera}
-                onChange={handleChange}
-                label="Carrera"
-              >
+              <Select labelId="select-outlined-label" id="select-outlined" name= "carrera"
+               value={estudiante.carrera} onChange={handleChange} label="Carrera">
                 
                 <MenuItem value={'Ingenieria Civil en Computacion'}>Ingenieria Civil en Computacion</MenuItem>
                 <MenuItem value={'Ingenieria Civil en Obras Civiles'}>Ingenieria Civil en Obras Civiles</MenuItem>
@@ -64,24 +47,24 @@ export default function FormAlumno({estudiante, setEstudiante}) {
               
             </Grid>
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "matricula" label="Matricula" value={estudiante.matricula}  onChange={handleChange} fullWidth  required />
+              <TextField  variant="outlined" name= "matricula" label="Matricula" value={estudiante.matricula}  onChange={handleChange} fullWidth  required />
             </Grid>
             
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "anho_ingreso" label="Año Ingreso" value={estudiante.anho_ingreso}  onChange={handleChange} fullWidth  required />
+              <TextField  variant="outlined" name= "anho_ingreso" label="Año Ingreso" value={estudiante.anho_ingreso}  onChange={handleChange} fullWidth  required />
             </Grid>
            
    
 
 
             <Grid item xs={12} >
-            <TextField  variant="outlined" name= "nombre" label="Nombre Completo" value={estudiante.nombre}  onChange={handleChange} fullWidth  required />
+              <TextField  variant="outlined" name= "nombre" label="Nombre Completo" value={estudiante.nombre}  onChange={handleChange} fullWidth  required />
             </Grid>  
             <Grid item xs={12} >
               <TextField  variant="outlined" name= "rut" label="RUT" value={estudiante.rut}  onChange={handleChange} fullWidth  required />
             </Grid>
             <Grid item xs={12} >
-            <TextField  variant="outlined" name= "correo_ins" label="Correo" value={estudiante.correo_ins}  onChange={handleChange} fullWidth  required />
+              <TextField  variant="outlined" name= "correo_ins" label="Correo" value={estudiante.correo_ins}  onChange={handleChange} fullWidth  required />
             </Grid>   
       
             <Grid item xs={12} >
@@ -96,20 +79,20 @@ export default function FormAlumno({estudiante, setEstudiante}) {
             </Grid>
           
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "plan" label="Plan" value={estudiante.plan}  onChange={handleChange} fullWidth   />
+              <TextField  variant="outlined" name= "plan" label="Plan" value={estudiante.plan}  onChange={handleChange} fullWidth   />
             </Grid> 
            
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "sit_actual_periodo" label="Situacion Actual Periodo" value={estudiante.sit_actual_periodo}  onChange={handleChange} fullWidth   />
+              <TextField  variant="outlined" name= "sit_actual_periodo" label="Situacion Actual Periodo" value={estudiante.sit_actual_periodo}  onChange={handleChange} fullWidth   />
             </Grid>
           
             
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "nivel" label="Nivel" value={estudiante.nivel}  onChange={handleChange} fullWidth   />
+              <TextField  variant="outlined" name= "nivel" label="Nivel" value={estudiante.nivel}  onChange={handleChange} fullWidth   />
             </Grid>
           
             <Grid item xs={6} >
-            <TextField  variant="outlined" name= "nivel_99_aprobado" label="Nivel 99 Aprobado" value={estudiante.nivel_99_aprobado}  onChange={handleChange} fullWidth   />
+              <TextField  variant="outlined" name= "nivel_99_aprobado" label="Nivel 99 Aprobado" value={estudiante.nivel_99_aprobado}  onChange={handleChange} fullWidth   />
             </Grid>
           </Grid>          
           

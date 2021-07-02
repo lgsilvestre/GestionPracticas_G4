@@ -55,13 +55,18 @@ class UsersController extends  BaseController
 	}
 
     public function insertUser(){
-        helper(['form']);
         $nombre = $this->request->getVar('nombre');
         $apellido = $this->request->getVar('apellido');
         $email = $this->request->getVar('email');
+        $carrera = $this->request->getVar('carrera');
         $tipo = $this->request->getVar('tipo');
         $password = $this->request->getVar('password');
-        $this->UserModel->insertUser($nombre, $apellido, $email, $tipo, $password);
+        $result = $this->UserModel->insertUser($nombre, $apellido, $email, $tipo, $password, $carrera);
+        if ($result){
+            echo 1;
+        } else {
+            echo 0;
+        }
     }
 
 	public function login(){
@@ -677,11 +682,12 @@ class UsersController extends  BaseController
         }
     }
 
-	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario){
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario, $retroalimentacion, $idPractica){
 		$model = new HistorialModel();
 
 		$newsData =[
-			'comentario' => $comentario
+			'comentario' => $comentario,
+			'retroalimentacion' => $retroalimentacion
 		];
 		if($etapa != -1){
 			$newsData +=[
@@ -705,8 +711,13 @@ class UsersController extends  BaseController
 				'practica' => $practica,
 			];
 		}
+		if($idPractica != -1)
+		{
+			$newsData +=[
+				'refPractica' => $idPractica,
+			];
+		}
 		$model ->save($newsData);
-
 	}
 }
 
