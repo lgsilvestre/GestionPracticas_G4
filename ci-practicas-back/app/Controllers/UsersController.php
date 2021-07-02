@@ -54,13 +54,18 @@ class UsersController extends  BaseController
 	}
 
     public function insertUser(){
-        helper(['form']);
         $nombre = $this->request->getVar('nombre');
         $apellido = $this->request->getVar('apellido');
         $email = $this->request->getVar('email');
+        $carrera = $this->request->getVar('carrera');
         $tipo = $this->request->getVar('tipo');
         $password = $this->request->getVar('password');
-        $this->UserModel->insertUser($nombre, $apellido, $email, $tipo, $password);
+        $result = $this->UserModel->insertUser($nombre, $apellido, $email, $tipo, $password, $carrera);
+        if ($result){
+            echo 1;
+        } else {
+            echo 0;
+        }
     }
 
 	public function login(){

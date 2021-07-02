@@ -231,4 +231,8 @@ class UserController extends BaseController
         echo json_encode($users);
     }
 
+	public function deleteUser(){
+		
+	}
+
 }

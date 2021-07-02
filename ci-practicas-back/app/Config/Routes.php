@@ -35,7 +35,6 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->post('login', 'UsersController::login');
 $routes->get('showDataU', 'UsersController::showData');
-$routes->post('insertUser', 'UsersController::insertUser');
 $routes->post('registerUser', 'UsersController::registerUser');
 $routes->post('deleteUserID', 'UsersController::deleteUserID');
 $routes->post('adminEdit', 'UsersController::adminEdit');
@@ -82,6 +81,8 @@ $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasD
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');
 // Users
 $routes->get('getFuncionarios', 'UserController::getFuncionarios');
+$routes->get('deleteUser', 'UserController::deleteUser');
+$routes->post('insertUser', 'UsersController::insertUser');
 
 
 /*

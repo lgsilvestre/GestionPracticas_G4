@@ -50,6 +50,7 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante"
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
                         > Home </NavLink>
                         <NavLink
                             exact

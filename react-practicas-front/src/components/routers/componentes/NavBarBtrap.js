@@ -13,6 +13,9 @@ import {
   DropdownItem,
   NavbarText
 } from 'reactstrap';
+import PersonIcon from '@material-ui/icons/Person';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const NavBarBtrap = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,20 +24,16 @@ const NavBarBtrap = (props) => {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
+      <Navbar className="shadow-none" color="light" light expand="md">
         <NavbarBrand href="/">reactstrap</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink href="/components/">Components</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>GitHub</NavLink>
-            </NavItem>
+
+          <Nav className="ml-auto" navbar>
+
             <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Options
+              <DropdownToggle nav>
+                <NotificationsIcon />
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
@@ -49,8 +48,33 @@ const NavBarBtrap = (props) => {
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav>
+                <PersonIcon />
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  Option 1
+                </DropdownItem>
+                <DropdownItem>
+                  Option 2
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                  Reset
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+
+            <NavItem>
+              <NavLink>
+                <ExitToAppIcon />
+              </NavLink>
+            </NavItem>
+
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
+
         </Collapse>
       </Navbar>
     </div>

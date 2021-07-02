@@ -71,8 +71,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
+
     console.log("Solicitando alumno con: ",nroMatricula)
+
     console.log("Numero de practica: ", nroPractica)
+
     const [docs, setDocs] = useState([])
 
     const classes = useStyles();
@@ -90,6 +93,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     const [dataEstudiante, setdataEstudiante] = useState(data)
 
     const [docSelect, setDocSelect] = useState('')
+
     const [mostrarAlerta, setmostrarAlerta] = useState(false)
 
     const [practicaAceptada, setpracticaAceptada] = useState(false)
@@ -98,7 +102,8 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
 
     const handleChangeDocSelect = (event) => {
       setDocSelect(event.target.value);
-  };
+    };
+
     const handleAddDoc = () =>{
       const infoDocSelected = docs.find(doc => doc.nombre ===docSelect)
       console.log("VVALOR: ",infoDocSelected);
@@ -171,8 +176,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
         //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
         nextPage()
-      }
-      )
+      })
       .catch(error => {
         //FALSE PRACTICA NO AGREGADA
         //MOSTRAR ALERTA

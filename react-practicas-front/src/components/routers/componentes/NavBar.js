@@ -81,7 +81,7 @@ const NavBarr = ({ onSelect, activeKey, ...props }) => {
                 <Dropdown.Item eventKey="6">Historial</Dropdown.Item>
               </Dropdown>
 
-            <Nav.Item icon={<ExitToAppIcon /> } ></Nav.Item>
+            <Nav.Item icon={<ExitToAppIcon />} ></Nav.Item>
           </Nav>
         </Navbar.Body>
       </Navbar>
