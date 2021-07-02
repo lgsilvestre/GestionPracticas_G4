@@ -10,7 +10,7 @@ import { VscFilePdf } from 'react-icons/vsc';
 import { GoCheck } from "react-icons/go";
 import { GoCircleSlash } from "react-icons/go";
 import { useForm } from '../../../../../../hooks/useForm';
-import {Collapse,CustomInput, Input as InputRechazo } from 'reactstrap';
+import {Collapse, Input as InputRechazo } from 'reactstrap';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -155,7 +155,6 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
             .catch(error => {
               console.log("Error: ", error)
         });
- 
     }
 
     const enviarInformacionSolicitud = () =>{  
@@ -167,8 +166,10 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
       }).then(response =>{
         //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
-        nextPage()
-        enviarInformacionSolicitudCorreo()
+        if(response.data!==false){
+          nextPage()
+          enviarInformacionSolicitudCorreo(response.data)
+        }
       }).catch(error => {
         //FALSE PRACTICA NO AGREGADA
         //MOSTRAR ALERTA
@@ -176,12 +177,13 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
       });
     }
 
-    const enviarInformacionSolicitudCorreo = () =>{  
+    const enviarInformacionSolicitudCorreo = (dato) =>{  
         axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarSolicitudCorreo",{
           documentos:archivos,
           matricula:nroMatricula,
           numero:nroPractica,
-          idalumno:idAlumno
+          idalumno:idAlumno,
+          id_historia:dato
         }).then(response =>{
         }).catch(error => {
           //FALSE PRACTICA NO AGREGADA
@@ -204,19 +206,20 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
             retroalimentacion: retroAli   
         }).then(response=>{
             console.log("Respuesta rechazo: ",response.data)
-            if(response.data=1){
+            if(response.data!==false){
                 setRechazado(true)
                 // setExitoRechazo(true)
-                enviarCorreoRechazo()
+                enviarCorreoRechazo(response.data)
             }
         }).catch(error=>{
             console.log("ERROR EN RECHAZO: ",error)
         })
     }
-    const enviarCorreoRechazo = () => {
+    const enviarCorreoRechazo = (dato) => {
         axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handlerRechazarCorreo",{ 
             idalumno:idAlumno,
-            etapa:"Solicitud"             
+            etapa:"Solicitud",
+            id_historia:dato             
         }).then(response=>{
             console.log("Respuesta envio correo: ",response.data)
         }).catch(error=>{
@@ -227,10 +230,6 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
       // console.log("escribiendo", event.target.value)
       setRetroAli(event.target.value)
     }
-    const getEstadoSolicitud = () => {
-      
-    }
-    
     useEffect(async() => {
         getDocumentos()
         await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoMatricula",{

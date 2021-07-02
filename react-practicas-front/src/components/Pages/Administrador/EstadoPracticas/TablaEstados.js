@@ -104,7 +104,9 @@ export const TablaEstados = ({ history }) => {
           console.log("practica: ",resultado[i])
           const fila = createData(resultado[i].nombre, resultado[i].matricula, resultado[i].nbe_carrera, resultado[i].anho_ingreso, resultado[i].etapa,
             resultado[i].estado, resultado[i].fecha_termino, resultado[i].numero, "button", "del")
+
           fila.idPractica = resultado[i].id_practica
+          
           console.log("row", fila)
           lista.push(fila)
         }

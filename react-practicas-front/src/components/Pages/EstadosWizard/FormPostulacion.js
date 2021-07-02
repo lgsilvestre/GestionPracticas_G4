@@ -60,18 +60,23 @@ export const FormPostulacion = ({handleSubmit, previousPage,nroPractica, denegad
           'nropractica': nroPractica
       })
       .then(response=>{
-          if (response.data == true){
+        console.log("Correo ingresar practica ",response.data)
+          if (response.data !== false){
               // console.log("INGRESADA")
               setEstado("Pendiente")
               setMostrarResolucion(true)  
-              postPracticaCorreo()
+              postPracticaCorreo(response.data)
           }
       })
     } 
     
-    const postPracticaCorreo = () =>{
+    const postPracticaCorreo = (dato) =>{
+      console.log("Enviando correo con ",dato)
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/ingresarPracticaCorreo",{
-          'id_alumno': cookies.get('id')
+          id_alumno: cookies.get('id'),
+          dato:dato
+      }).then(response=>{
+        console.log("Respuesta envio correo: ",response.data)
       })
     } 
 

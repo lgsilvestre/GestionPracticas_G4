@@ -11,6 +11,7 @@ import { BsExclamationCircleFill } from "react-icons/bs";
 import WizardAdmin from './WizardAdmin/WizardAdmin';
 import { Input,Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { MdDeleteForever,MdMoreVert, MdHistory } from "react-icons/md";
+import { BiDetail } from "react-icons/bi";
 import axios from 'axios';
 import { useHistory} from 'react-router-dom'
 
@@ -192,7 +193,7 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
                       <DropdownItem 
                       onClick={mostrarHistorial}
                       >
-                        <MdHistory size={20}/> Ver historial
+                        <BiDetail size={20}/> Detalles
                       </DropdownItem>
                       <DropdownItem divider />
                       <DropdownItem 

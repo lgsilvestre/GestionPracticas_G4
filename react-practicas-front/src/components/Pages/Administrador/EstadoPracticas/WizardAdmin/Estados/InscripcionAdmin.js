@@ -100,9 +100,9 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       ).then(response =>{
         //TRUE 1 PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
         console.log("respuesta enviar info solicitud: ",response.data)
-        if(response.data===1){
+        if(response.data!==false){
           setMostrarAlertaCursar(true)
-          enviarCorreoConfirmacion()
+          enviarCorreoConfirmacion(response.data)
         }
       }
       )
@@ -116,9 +116,10 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       confirmarInscipcion() 
     }
 
-    const enviarCorreoConfirmacion = () => {
+    const enviarCorreoConfirmacion = (dato) => {
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarInscripcionCorreo",{ 
-        idAlumno:idAlumno 
+        idAlumno:idAlumno,
+        id_alumno:dato
       }).then(response=>{
           console.log("Respuesta envio correo: ",response.data)
       }).catch(error=>{
@@ -166,12 +167,16 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
       })
     }
     const guardarArchivo = (data) => {
-      console.log(data)
+      // console.log(data)
       let formData = new FormData()
-      console.log(archivo[0])
+      // console.log(archivo[0])
+      //idalumno y nropractica
       formData.append("file",archivo[0])
+      formData.append("id_alumno",idAlumno)
+      formData.append("numero",nroPractica)
       console.log("ENVIANDO: ",formData)
-      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",formData,    
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirSeguro",
+        formData,    
         {headers: {
           'Content-Type': 'multipart/form-data'
         }

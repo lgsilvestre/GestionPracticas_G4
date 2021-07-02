@@ -8,7 +8,7 @@ class HistorialModel extends Model
 {
     protected $table      = 'historial';
     protected $primaryKey = 'id_historial';
-    protected $allowedFields = ['refAlumno', 'refAdmin', 'etapa', 'practica', 'comentario', 'fecha', 'retroalimentacion'];
+    protected $allowedFields = ['refAlumno', 'refAdmin', 'etapa', 'practica', 'comentario', 'fecha', 'retroalimentacion', 'refPractica'];
 
     public function getRetroalimentacion($refAlumno, $practica) {
         $query = $this->db->query("SELECT retroalimentacion FROM `historial` WHERE refAlumno = '".$refAlumno."' AND practica = '".$practica."' ORDER BY id_historial DESC LIMIT 1");
@@ -22,6 +22,12 @@ class HistorialModel extends Model
       $result = $query->getResult();
       // echo json_encode($result);
       return $result;
+    }
+
+    public function getHistorialId($idPractica){
+        $query = $this->db->query("SELECT id_historial FROM `historial` WHERE historial.refPractica = '".$idPractica."' ORDER BY refPractica DESC LIMIT 1");
+        $result = $query->getResult();
+        return $result;
     }
 }
 
