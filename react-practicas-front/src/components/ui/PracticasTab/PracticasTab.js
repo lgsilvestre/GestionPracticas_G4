@@ -9,12 +9,12 @@ const StyledTabs = withStyles({
     justifyContent: 'center',
     backgroundColor: 'transparent',
     '& > span': {
-      maxWidth: 40,
+      // maxWidth: 60,
       width: '100%',
-      backgroundColor: '#635ee7',
+      backgroundColor: 'white',
     },
   },
-})((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
+})((props) => <Tabs {...props} ink TabIndicatorProps={{ children: <span /> }} />);
 
 const StyledTab = withStyles((theme) => ({
   root: {
@@ -26,36 +26,30 @@ const StyledTab = withStyles((theme) => ({
     marginRight: theme.spacing(1),
     '&:focus': {
       opacity: 1,
+      // backgroundColor:"#132038"
     },
   },
 }))((props) => <Tab disableRipple {...props} />);
 
-export const PracticasTab = ({nroPractica, setNroPractica}) => {
-
+export const PracticasTab = ({nroPractica,mostrarPractica}) => {
+  const nroTab = nroPractica-1
   const handleChange = (event, newValue) => {
-    setNroPractica(newValue)
+    // console.log("Mostrando practica ",newValue+1)
+    mostrarPractica(newValue+1)
   }
-  // "#8EADE8"
   return (
-    <div style={{backgroundColor:"#8EADE8"}}>
+    <div style={{backgroundColor:"#2D4C85"}}>
       <div className="container" >
-        <div className="row justify-content-md-center" >
-          <div className="col" style={{marginTop:20}}>
-            <h2 style={{color:"white"}}>Prácticas disponibles</h2>
-          </div>
-        </div>
-        <div className="row" style={{marginTop:10}}>
+        <div className="row" >
           <div className="col">      
-            <div style={{backgroundColor: '#8EADE8'}}>
-              <StyledTabs value={nroPractica} onChange={handleChange} aria-label="styled tabs example">
-                <StyledTab label="Práctica 1" />
+            <div >
+              <StyledTabs  value={nroTab} onChange={handleChange} aria-label="styled tabs example">
+                <StyledTab label="Práctica 1"/>
                 <StyledTab label="Práctica 2" />
                 <StyledTab label="Práctica 3" />
               </StyledTabs>
             </div>
           </div>
-        </div>
-        <div className="row">
         </div>
       </div>
     </div>

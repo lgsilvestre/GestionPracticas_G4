@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import logo from '../images/logo.png';
+import logo from '../images/logo2.png';
 import { Alert } from 'reactstrap';
 import './EstilosSignInSide.css';
 import { fade } from '@material-ui/core/styles';
@@ -121,20 +121,28 @@ export default function SignInSide({ history }) {
         //trabajar redireccionamiento
         //-1 error , 0 alumno , 1 admin
         console.log("respuesta: ", response.data);
-
-        if (response.data.tipo === 1 || response.data.tipo === 2) {
+        if (response.data.tipo === "1" || response.data.tipo === "2") {
+         
+          history.replace("/supervisor")
+          
+        }
+        
+        else if (response.data.tipo === "0") {
           console.log("admin")
           history.replace("/admin")
         }
         else if (response.data.tipo === 3) {
-          console.log("estudiante")
+          // console.log(response.data)
           // Se setean las coockies
           cookies.set('id', response.data['id_alumno'], { path: '/' });
           cookies.set('name', response.data['nombre'], { path: '/' });
+          if(response.data['evaluada']==="0"){
+            
+          }
           history.replace("/estudiante")
         }
         else {
-          console.log("error credenciales")
+          console.log("error credenciales");
           handleWrongPass()
         }
       })
@@ -149,20 +157,21 @@ export default function SignInSide({ history }) {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <img className="mb-4" src={logo} alt="" />
+          <img className="mb-4" src={logo} alt="" style={{width:'50%', paddingBottom:'25px', paddingTop:'25px'}} />
           {/* <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar> */}
           <Typography component="h1" variant="h5">
             Iniciar Sesión
           </Typography>
-          <form className={classes.form} onSubmit={sendValues} noValidate>
+          <form className={classes.form} onSubmit={sendValues}>
             <TextField
               className={classes.input}
               variant="outlined"
               margin="normal"
               required
               fullWidth
+              type="email"
               id="email"
               label="Usuario"
               name="email"
@@ -203,13 +212,10 @@ export default function SignInSide({ history }) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  ¿Olvidaste la contraseña?
-                </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  ¿No tienes una cuenta?
+                  ¿Olvidaste la contraseña?
                 </Link>
               </Grid>
             </Grid>

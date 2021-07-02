@@ -8,10 +8,10 @@ class AlumnoModel extends Model
 {
     protected $table = 'alumno';
     protected $primarykey = 'id_alumno';
-    protected $allowedFields = ['nombre','correo_ins','correo_per','password','matricula','
-    nbe_carrera','cod_carrera','rut','sexo','fecha_nac','plan','via_ingreso','anho_ingreso','sit_actual',
+    protected $allowedFields = ['nombre','correo_ins','correo_per','password','matricula',
+    'nbe_carrera','cod_carrera','rut','sexo','fecha_nac','plan','via_ingreso','anho_ingreso','sit_actual',
     'sit_actual_anho','sit_actual_periodo','regular','comuna_origen','region','nivel','porc_avance',
-    'ult_punt_prio','al_dia','nivel_99_aprobado','estado','refCarrera'];
+    'ult_punt_prio','al_dia','nivel_99_aprobado','estado_alumno','refCarrera'];
     
     public function login($email, $password){
         
@@ -23,6 +23,41 @@ class AlumnoModel extends Model
 
     public function getIdMatricula($matricula) {
         $query = $this->db->query("Select id_alumno from alumno where matricula = '".$matricula."'");
+        $result = $query->getResult();
+        return $result;
+    }
+    public function getAlumno($id_alumno) {
+        $query = $this->db->query("Select * from alumno where id_alumno = '".$id_alumno."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getIdAlumno($matricula) {
+        $query = $this->db->query("Select * from alumno where matricula = '".$matricula."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getAlumnosAdmin(){
+        $query = $this->db->query("SELECT *, carrera.nombre as nombre_carrera, alumno.nombre as nombre_alumno FROM alumno INNER JOIN carrera ON alumno.refCarrera = carrera.id_carrera");
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getAlumnosEscuela($carrera){
+        $query = $this->db->query("Select * from alumno where carrera = '".$carrera."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getCarreraAlumno($id){
+        $query = $this->db->query("Select carrera from alumno where id_alumno = '".$id."'");
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getCorreoNombreApellido($id){
+        $query = $this->db->query("Select nombre, correo_ins, matricula, refCarrera from alumno where id_alumno = '".$id."'");
         $result = $query->getResult();
         return $result;
     }
