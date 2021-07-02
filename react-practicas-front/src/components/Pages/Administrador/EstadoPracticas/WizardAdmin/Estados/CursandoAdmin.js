@@ -22,16 +22,19 @@ export const CursandoAdmin = ({nextPage, nroMatricula,nroPractica, idAlumno}) =>
       .then(response=>{
         //1 exito 0 fracaso
         console.log("Respuesta Actualizar: " , response.data)
-        enviarCorreoConfirmacion()
-        nextPage()
+        if(response.data!==1){
+          enviarCorreoConfirmacion(response.data)
+          nextPage()
+        }
       })
       .catch(error => {
         console.log("Error: ", error)
       });
     }
-    const enviarCorreoConfirmacion = () => {
+    const enviarCorreoConfirmacion = (dato) => {
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/pasarEstadoEvaluarCorreo",{ 
           idAlumno:idAlumno,
+          id_historial:dato
         }).then(response=>{
             console.log("Respuesta envio correo soli: ",response.data)
         }).catch(error=>{

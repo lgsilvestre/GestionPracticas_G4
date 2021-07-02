@@ -5,6 +5,7 @@ use App\Models\PracticaModel as PracticaModel;
 use App\Models\AlumnoModel as AlumnoModel;
 use App\Models\UserModel as UserModel;
 use App\Models\HistorialModel as HistorialModel;
+use App\Models\NotificacionModel as NotificacionModel;
 use App\Models\InstDocumentoModel as InstDocumentoModel;
 
 
@@ -178,6 +179,16 @@ class PracticaController extends BaseController
         echo 0;
     }
   }  
+  public function p(){
+    $id = $this->request->getVar('id_practica');
+    $this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getInfoPracticaById($id);
+    if ($result){
+      echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    } else {
+        echo 0;
+    }
+  }  
 	public function servePracticaAlumno () {
 
 		$this->PracticaModel = new PracticaModel();
@@ -223,15 +234,17 @@ class PracticaController extends BaseController
 			echo true;
 
 			//Generar historial
-			$practica = $this->PracticaModel->getPracticaAlumnoId($id);
+			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Practica rechazada';
-			$this->generarHistorial($id, -1, $etapa, $numPractica, $comentario, "");
+			$this->generarHistorial($id, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
+			$id_historial = $this->HistorialModel->getHistorialId($idPractica);
 
 		} else {
 			echo false;
@@ -270,18 +283,26 @@ class PracticaController extends BaseController
 		$np = $this->request->getVar('nropractica');
 		$this->PracticaModel = new PracticaModel();
 		if($this->PracticaModel->newPracticaAlumno($id, $np)) {
-			echo true;
+			
 
 			//Generar historial
-			$practica = $this->PracticaModel->getPracticaAlumnoId($id);
+			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Alumno manda solicitud (etapa 1)';
-			$this->generarHistorial($id, -1, $etapa, $numPractica, $comentario, "");
+			$this->generarHistorial($id, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
+			$this->HistorialModel = new HistorialModel();
+			$historial = $this->HistorialModel->getHistorialId($idPractica);
+			foreach ($historial as $row)
+			{
+				$id_historial = $row->id_historial;
+			}
+			echo $id_historial;
 
 		} else {
 			echo false;
@@ -291,6 +312,7 @@ class PracticaController extends BaseController
 	public function ingresarPracticaCorreo(){
 		//Generar correo alumno
 		$id = $this->request->getVar('id_alumno');
+		$id_historial = $this->request->getVar('dato');
 		$this -> AlumnoModel = new AlumnoModel();
 		$resultAlumno = $this->AlumnoModel->getCorreoNombreApellido($id);
 		$correo = "";
@@ -308,13 +330,18 @@ class PracticaController extends BaseController
 
 		//Generar correo admin
 		$this -> UserModel = new UserModel();
+		$this -> NotificacionModel = new NotificacionModel();
 		$resultUser = $this->UserModel->getUsersCarrera($carrera);
 		$correoUser = "";
 		foreach ($resultUser as $row)
 		{
 			$correoUser = $row->email;
+			$idUser = $row->id_usuario;
+			$tipo = $row->tipo;
 			$this->sendEmailSolicitudUser($correoUser, $nombre, $matricula, $date);
 			//$correo, $nombre, $matricula, $fecha
+			//Generar notificación admin
+			$this->NotificacionModel->newNotificacion($idUser, $id_historial, $tipo);
 		}
 	}
 
@@ -340,14 +367,15 @@ class PracticaController extends BaseController
 		echo "numero: ".$numero."\n";
 		if($result) {
 			// Geneneración historial
-			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Etapa 1 (Solicitud) del alumno aceptada, pasa a etapa 2 (inscripción)';
-			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "");
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 
 			// Creación de instancia documento práctica de alumno
@@ -381,27 +409,31 @@ class PracticaController extends BaseController
 		$numero = $this->request->getVar('numero');
 		$etapa = $this->request->getVar('etapa');
 		$retroalimentacion = $this->request->getVar('retroalimentacion');
+		$this->PracticaModel = new PracticaModel();
+		$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
+		foreach ($practica as $row)
+		{
+			$idPractica = $row->id_practica;
+		}
 		
-		if ($etapa=='Solicitud'){
-			$this->PracticaModel = new PracticaModel();
+		if ($etapa=='Solicitud'){			
 			$result = $this->PracticaModel->recahzarSolicitud($id_alumno);
 			if($result) {
 				echo 1;
 				//Generación historial
 				$comentario = 'Etapa de Solicitud rechazada';
-				$this->generarHistorial($id_alumno, -1, $etapa, $numero, $comentario, $retroalimentacion);
+				$this->generarHistorial($id_alumno, -1, $etapa, $numero, $comentario, $retroalimentacion, $idPractica);
 				//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 			} else {
 				echo 0;
 			}
 		}
 		else {
-			$this->PracticaModel = new PracticaModel();
 			$result = $this->PracticaModel->RechazarEtapa($id_alumno,$etapa);
 			if($result) {
 				echo 1;
 				$comentario = "Etapa de ".$etapa." rechazada";
-		    $this->generarHistorial($id_alumno, -1, $etapa, $numero, $comentario, $retroalimentacion);
+		    $this->generarHistorial($id_alumno, -1, $etapa, $numero, $comentario, $retroalimentacion, $idPractica);
 			} else {
 				echo 0;
 			}
@@ -463,14 +495,15 @@ class PracticaController extends BaseController
     	if($result) {
 			echo 1;
 			// Geneneración historial
-			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Alumno registra información etapa inscripción (etapa 2)';
-			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "");
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 			
 		} else {
@@ -528,14 +561,15 @@ class PracticaController extends BaseController
 		if($result) {
 			echo 1;
 			//Generación historial
-			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Etapa 2 (Incripción) del alumno aceptada, pasa a etapa 3 (Cursando)';
-			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "");
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 
 		} else {
@@ -579,14 +613,15 @@ class PracticaController extends BaseController
 		if($result) {			
 			echo 1;
 			//Generación historial
-			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
+				$idPractica = $row->idPractica;
 			}
 			$comentario = 'Etapa 3 (Cursando) del alumno aceptada, pasa a etapa 4 (Evaluación)';
-			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "");
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 		} else {
 			echo 0;
@@ -643,14 +678,15 @@ class PracticaController extends BaseController
 		if($result) {
 			echo 1;
 			//Generación historial
-			$practica = $this->PracticaModel->getPracticaAlumnoId($id_alumno);
+			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Etapa 3 (Cursando) del alumno aceptada, pasa a etapa 4 (Evaluación)';
-			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "");
+			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 		} else {
 			echo 0;
@@ -1013,7 +1049,7 @@ class PracticaController extends BaseController
 		echo json_encode($arr);
 	}
 
-	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario, $retroalimentacion){
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario, $retroalimentacion, $idPractica){
 		$model = new HistorialModel();
 
 		$newsData =[
@@ -1042,6 +1078,13 @@ class PracticaController extends BaseController
 				'practica' => $practica,
 			];
 		}
+		if($idPractica != -1)
+		{
+			$newsData +=[
+				'refPractica' => $idPractica,
+			];
+		}
+
 		$model ->save($newsData);
 
 	}

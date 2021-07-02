@@ -682,7 +682,7 @@ class UsersController extends  BaseController
         }
     }
 
-	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario, $retroalimentacion){
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario, $retroalimentacion, $idPractica){
 		$model = new HistorialModel();
 
 		$newsData =[
@@ -711,8 +711,13 @@ class UsersController extends  BaseController
 				'practica' => $practica,
 			];
 		}
+		if($idPractica != -1)
+		{
+			$newsData +=[
+				'refPractica' => $idPractica,
+			];
+		}
 		$model ->save($newsData);
-
 	}
 }
 

@@ -95,6 +95,7 @@ $routes->post('rechazarPracticaCorreo', 'PracticaController::rechazarPracticaCor
 $routes->post('denegarPractica', 'PracticaController::denegarPractica');
 $routes->post('getHistorialPractica', 'PracticaController::getHistorialPractica');
 $routes->post('getInfoAlumnoPractica', 'PracticaController::getInfoAlumnoPractica');
+$routes->post('getInfoPracticaById', 'PracticaController::getInfoPracticaById');
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');

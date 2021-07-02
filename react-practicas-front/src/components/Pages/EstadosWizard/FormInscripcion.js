@@ -10,9 +10,12 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { useForm } from '../../../hooks/useForm' 
 import { Comentario } from './Comentario';
+import {useForm as useFormDoc} from 'react-hook-form';
 import {regiones} from '../../../api/regiones';
-export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
 
+export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
+    const {register, handleSubmit:handleArchivo} = useFormDoc()
+    
     const cookies = new Cookies()
     const id_alumno = cookies.get('id')
     const [formValues, handleInputChange] = useForm({
@@ -29,12 +32,14 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       tel_emer:"",
     })
     const [archivos, setArchivos] = useState([])
+    const [archivo, setArchivo] = useState()
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
     const [regionElegida, setregionElegida] = useState(0)
     const [estado, setEstado] = useState("Por inscribir")
     const [retroalimentacion, setRetroalimentacion] = useState("")
+    const [idDoc, setIdDoc] = useState(0)
     // const [estadoPractica, setEstadoPractica] = useState({})
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -58,8 +63,29 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       console.log("Info a enviar:",formValues)
       enviarDatosInscripcion()
     }
+    const guardarArchivo = (data) => {
+      // console.log(data)
+      let formData = new FormData()
+      // console.log(archivo[0])
+      //idalumno y nropractica
+      formData.append("file",archivo[0])
+      formData.append("id_alumno",id_alumno)
+      formData.append("numero",nroPractica)
+      formData.append("documento",data)
+      console.log("ENVIANDO: ",idDoc)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",
+        formData,    
+        {headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response=>console.log("Respuesta subir file: ",response.data))
+      .catch(error=>{
+        console.log("Error: ", error)
+      })  
+    }
     const enviarDatosInscripcion = () => {    
-      console.log(regionElegida, "-",formValues.zonaempresa)
+      // console.log(regionElegida, "-",formValues.zonaempresa)
       axios.post(
         "http://localhost/GestionPracticas_G4/ci-practicas-back/public/inscribirInfo",
         {
@@ -158,7 +184,13 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       setregionElegida(event.target.value)
       handleInputChange(event)
     }
-
+    const handleChangeFile = (e) => {
+      const id_doc = e.target.id;
+      setIdDoc(id_doc)
+      console.log("Archivo elegido ",e.target.id)
+      // setArchivo(e.target.files)
+      handleArchivo(guardarArchivo(e.target.files))
+    }
     useEffect(() => {   
       getEstadoPractica()
       getDocs()    
@@ -289,6 +321,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                 {                  
                     archivos.map( (file,index) => (
                         <div key={index} className="container" style={{marginBottom:"10px"}}>
+                        <form  style={{width:"100%"}}>
                           <div className="row">
                               <div className="col-sm">
                                 <Label >{file.nombre}</Label>      
@@ -301,14 +334,18 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                               <div className ="col-sm">
                                 {file.requerido === "1" &&                        
                                     <CustomInput 
+                                      ref={register}  
                                       type="file" 
+                                      onChange={(e)=>handleChangeFile(e)}
                                       name={`namefile${index}`} 
-                                      id={`file${index}`} 
-                                      label="Sube tu archivo"                                     
+                                      id={file.id_instancia_documento} 
+                                      label="Haz click aquí..."                                     
                                     />
                                 }
                               </div>
                           </div>
+                        </form>
+                                    
                           <div className="row">
                             {file.comentario !== "" &&
                             (

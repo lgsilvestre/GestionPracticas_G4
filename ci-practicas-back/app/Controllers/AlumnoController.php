@@ -76,24 +76,6 @@ class AlumnoController extends BaseController
 		$result = $model->getAlumno($id_alumno);   
 		echo json_encode($result);
 	}
-
-	// public function recibirArchivo(){
-    // $PATH="C:\Users\Windows 10\xampp\htdocs\GestionPracticas_G4\documentos";
-    // // $PATH_="documentos/";
-	// 	if (move_uploaded_file($_FILES["file"]["tmp_name"], $PATH.$_FILES['file']['name'])) {
-	// 		echo "done";
-	// 	}
-
-	// 	// file_put_contents( "documentos\\", $_FILES["file"]["tmp_name"] );
-
-	// 	// $data = $this->request->getVar('file');
-	// 	// echo $_FILES[0];
-	// 	// move_uploaded_file(
-	// 	// 	$data,
-	// 	// 	'C:\xampp\htdocs\GestionPracticas_G4\documentos',
-	// 	// );
-    //     // echo $data;
-	// }
 	
 	public function getAlumnosAdmin(){
 		$model = new AlumnoModel();
@@ -116,18 +98,24 @@ class AlumnoController extends BaseController
 	}
 
 	public function recibirArchivo(){
-		$idAlumno = 1;
-		$numeroPractica = 2;
-		move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.'seguro.pdf');
+
+		$idAlumno = $this->request->getVar('id_alumno');
+		$numeroPractica = $this->request->getVar('numero');
+		$documento = $this->request->getVar('documento');
+
+		move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.$documento.'.pdf');
         echo "REVISAR ARCHIVO";
+
 	}
 
 	public function recibirSeguro(){
+
 		$idAlumno = $this->request->getVar('id_alumno');
-		$numeroPractica = $this->request->getVar('$numero');
+		$numeroPractica = $this->request->getVar('numero');
+
 		move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.'seguro.pdf');
-		//move_uploaded_file($_FILES['file']['tmp_name'], 'C:\Users\Windows 10\xampp\htdocs\GestionPracticas_G4\documentos\logo.pdf');
         echo "REVISAR ARCHIVO";
+		
 	}
 
 }

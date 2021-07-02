@@ -149,9 +149,9 @@ export const EvaluacionAdmin = ({idAlumno, nroPractica}) => {
       })
       .then(response=>{
         //1 EVALUADA 0 ERROR
-        if(response.data===1){
+        if(response.data!==1){
           console.log("Evaluada correctamente")
-          confirmarEvaluacionCorreo()
+          confirmarEvaluacionCorreo(response.data)
           cambiarPracticaInactiva()
         }
         else{
@@ -162,9 +162,10 @@ export const EvaluacionAdmin = ({idAlumno, nroPractica}) => {
         console.log("ERROR EVALUANDO", error)
       })
     }
-    const confirmarEvaluacionCorreo = () => {
+    const confirmarEvaluacionCorreo = (dato) => {
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/evaluarPracticaCorreo",{ 
           id_alumno:idAlumno,
+          id_historia:dato
       }).then(response=>{
           console.log("Respuesta envio correo: ",response.data)
       }).catch(error=>{
