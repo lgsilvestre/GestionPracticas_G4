@@ -167,7 +167,17 @@ class PracticaController extends BaseController
 		$arr = array();
         echo json_encode($practica);
     }
-
+  public function getInfoAlumnoPractica(){
+    $id = $this->request->getVar('id_alumno');
+		$np = $this->request->getVar('nropractica');
+    $this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getInfoAlumnoPractica($id,$np);
+    if ($result){
+      echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    } else {
+        echo 0;
+    }
+  }  
 	public function servePracticaAlumno () {
 
 		$this->PracticaModel = new PracticaModel();

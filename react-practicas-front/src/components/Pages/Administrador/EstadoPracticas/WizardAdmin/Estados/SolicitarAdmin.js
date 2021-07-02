@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
-    //const clasesEstilo = useStyles();
+    const clasesEstilo = useStyles();
     console.log("Solicitando alumno con: ",nroMatricula)
 
     console.log("Numero de practica: ", nroPractica)
@@ -155,7 +155,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
             .catch(error => {
               console.log("Error: ", error)
         });
-
+ 
     }
 
     const enviarInformacionSolicitud = () =>{  

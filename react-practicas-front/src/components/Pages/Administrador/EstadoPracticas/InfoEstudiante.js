@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno}) => {
+export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula, nroPractica,idAlumno, idPractica}) => {
     let history = useHistory()
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
@@ -100,7 +100,8 @@ export const InfoEstudiante = ({handleChangeStateBack, etapaProp=1, nroMatricula
         pathname:"/admin/practicas/historial",
         state:{
           idAlumno:idAlumno,
-          nroPractica:nroPractica
+          nroPractica:nroPractica,
+          idPractica:idPractica
         }
       })
     }

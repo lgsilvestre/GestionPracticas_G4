@@ -44,7 +44,9 @@ export const Historial = () => {
   const location = useLocation()
   const idAlumno=location.state.idAlumno
   const nroPractica = location.state.nroPractica
-  console.log("idalumno; ",idAlumno," nro ",nroPractica)
+  const idPractica = location.state.idPractica
+  // console.log("idalumno; ",idAlumno," nro ",nroPractica)
+  const [infoAlumno, setInfoAlumno] = useState({})
   // const {idAlumno,nroPractica} = location.state
   const classes = useStyles();
   const [rows, setRows] = useState([]);
@@ -58,11 +60,11 @@ export const Historial = () => {
       nropractica:nroPractica
     }).then(response =>{
       const resultado = response.data;
-      console.log("Resultado Practica:", response.data)
+      // console.log("Resultado Practica:", response.data)
       const lista = []
       for(var i=resultado.length-1; i>=0; i--){
         const fila = createData(resultado[i].fecha,resultado[i].etapa, resultado[i].comentario, resultado[i].retroalimentacion)
-        console.log("fila: ",fila)
+        // console.log("fila: ",fila)
         lista.push(fila)
       }
       setRows(lista)
@@ -70,9 +72,22 @@ export const Historial = () => {
       console.log("Erorr en historial", error)
     })
   }
+  const servePracticaAlumno = () => {
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getInfoAlumnoPractica",{
+      id_alumno:idAlumno,
+      nropractica:nroPractica
+    })
+    .then(response =>{
+      console.log("Info alumno:", response.data[0])
+      setInfoAlumno(response.data[0])
+    }).catch(error => {
+      console.log("Error get info historial ",error)
+    })
+  }
+  
   useEffect(() => {
     getHistorialPractica()
-    
+    servePracticaAlumno()
   }, [])
   return (
     <div>
@@ -86,6 +101,20 @@ export const Historial = () => {
       </div>
       <div className="animate__animated animate__fadeIn animate__faster">
         <Divider style={{marginTop:"1vh", marginBottom:"2vh"}}/>
+        <div className="container" style={{marginBottom:"2vh"}}>
+          <div className="row">   
+            <h7><strong>Alumno: </strong>{infoAlumno.nombre}</h7>
+          </div>
+          <div className="row">   
+            <h7><strong>Correo: </strong>{infoAlumno.correo_ins}</h7>
+          </div>
+          <div className="row ">
+            <h7><strong>Carrera: </strong>{infoAlumno.nbe_carrera}</h7>
+          </div>
+          <div className="row ">
+            <h7><strong>Práctica: </strong>{nroPractica}</h7>
+          </div>
+        </div>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="customized table">
             <TableHead>

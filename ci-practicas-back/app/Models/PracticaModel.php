@@ -23,7 +23,12 @@ class PracticaModel extends Model
         $result = $query->getResult();
         return $result;
     }
-
+    public function getInfoAlumnoPractica($id,$np){
+      $queryPracticaAlumno = "SELECT * FROM practica INNER JOIN alumno ON practica.refAlumno = alumno.id_alumno WHERE alumno.id_alumno = ".$id." ORDER BY CASE WHEN etapa = 'Solicitud' THEN 1 ELSE 2 END, etapa";
+      $query = $this->db->query($queryPracticaAlumno);
+      $result = $query->getResult();
+      return $result;
+  }
     public function getPracticaAlumnoFiltrada($etapa, $estado, $carrera, $anio){
         $queryPracticaAlumno = "SELECT * FROM practica INNER JOIN alumno ON practica.refAlumno = alumno.id_alumno";
         $query = $this->db->query($queryPracticaAlumno);

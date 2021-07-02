@@ -85,6 +85,7 @@ export const TablaEstados = ({ history }) => {
   const [nroMatriculaSelected, setNroMatriculaSelected] = useState("")
   const [nroPractica, setnroPractica] = useState("")
   const [hideLoader, setLoader] = useState(true)
+  const [idPractica, setIdPractica] = useState("")
   const loaderController = () => setLoader(false)
   const [idAlumnoSelected, setIdAlumnoSelected] = useState("")
   const [count, setCount] = useState(0)
@@ -100,38 +101,17 @@ export const TablaEstados = ({ history }) => {
         // console.log("antes:",rows)
         const lista = []
         for (var i = 0; i < resultado.length; i++) {
+          console.log("practica: ",resultado[i])
           const fila = createData(resultado[i].nombre, resultado[i].matricula, resultado[i].nbe_carrera, resultado[i].anho_ingreso, resultado[i].etapa,
             resultado[i].estado, resultado[i].fecha_termino, resultado[i].numero, "button", "del")
-          // console.log(fila)
+          fila.idPractica = resultado[i].id_practica
+          console.log("row", fila)
           lista.push(fila)
         }
         // console.log(lista)
         loaderController()
         setRows(lista)
         setOriginalData(lista)
-      })
-  }
-
-  const petitionGetPracticaAlumnoFiltrada = async () => {
-    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaFiltrada", {
-    },
-    )
-      .then(response => {
-        console.log(response.data)
-        // // console.log(response.data)
-        // const resultado = response.data;
-        // // console.log("antes:",rows)
-        // const lista = []
-        // for(var i=0; i<resultado.length; i++){
-        //   const fila = createData(resultado[i].nombre , resultado[i].matricula , resultado[i].nbe_carrera,resultado[i].anho_ingreso,resultado[i].etapa,
-        //     resultado[i].estado, resultado[i].fecha_termino,"button")
-        //   // console.log(fila)
-        //   lista.push(fila)
-        // }  
-        // // console.log(lista)
-        // setRows(lista)
-        // setOriginalData(lista)
-
       })
   }
 
@@ -162,12 +142,13 @@ export const TablaEstados = ({ history }) => {
         break;
     }
   }
-  const getIdAlumno = async (etapa, matricula, numero) => {
+  const getIdAlumno = async (etapa, matricula, numero,idpractica) => {
     console.log("SOLICITANDO ID ALUMNO  CON ", matricula)
     await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoIdMatricula", {
       matricula: matricula
     })
       .then(response => {
+        setIdPractica(idpractica)
         setIdAlumnoSelected(response.data[0].id_alumno)
         console.log("RESPONSE GETIDALUMNO:", response.data)
         setnroPractica(numero)
@@ -178,8 +159,8 @@ export const TablaEstados = ({ history }) => {
       })
   }
 
-  const handleChangeState = (etapa, matricula, numero) => {
-    getIdAlumno(etapa, matricula, numero)
+  const handleChangeState = (etapa, matricula, numero, idpractica) => {
+    getIdAlumno(etapa, matricula, numero,idpractica)
   }
   
   const handleChangeStateBack = () =>{
@@ -200,6 +181,7 @@ export const TablaEstados = ({ history }) => {
       etapaProp={seleccionado}
       nroPractica={nroPractica}
       idAlumno={idAlumnoSelected}
+      idPractica={idPractica}
     />
   }
   else {
@@ -244,8 +226,8 @@ export const TablaEstados = ({ history }) => {
                               {/* Si el campo es de tipo boton, agregamos el boton de accion, si no mostramos el dato */}                         
                               {value ==="button" ? (
                                 <>                              
-                                  <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
-                                    onClick={() => handleChangeState(row.etapa, row.matricula, row.nroPractica)}>
+                                    <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
+                                      onClick={() => handleChangeState(row.etapa, row.matricula, row.nroPractica, row.idPractica)}>
                                     <AiOutlineEye fontSize="inherit" />
                                   </IconButton>
                                   {/* <IconButton className={clasesEstilo.botonPerso} aria-label="delete" size="medium" 
