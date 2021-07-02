@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 import { 
     Box,
     Grid,  
@@ -10,7 +10,7 @@ import {
     makeStyles,
     Button,
     Divider
-    } from '@material-ui/core'
+    } from '@material-ui/core';
 import { VscFilePdf } from 'react-icons/vsc';
 import { MdFileDownload } from 'react-icons/md';
 import { FcCancel, FcCheckmark } from 'react-icons/fc';
@@ -186,9 +186,33 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
         console.log("Error: ", error)
       })  
     }
+
+    // const subirArchivos = (data) => {
+    //   // console.log(data)
+    //   let formData = new FormData()
+    //   // console.log(archivo[0])
+    //   //idalumno y nropractica
+    //   formData.append("file",archivo[0])
+    //   formData.append("id_alumno",idAlumno)
+    //   formData.append("numero",nroPractica)
+    //   formData.append("documento",documento)
+    //   console.log("ENVIANDO: ",formData)
+    //   axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirSeguro",
+    //     formData,    
+    //     {headers: {
+    //       'Content-Type': 'multipart/form-data'
+    //     }
+    //   })
+    //   .then(response=>console.log("Respuesta subir file: ",response.data))
+    //   .catch(error=>{
+    //     console.log("Error: ", error)
+    //   })  
+    // }
+
     const handleChangeFile = (e) => {
       setArchivo(e.target.files)
     }
+
     const handleRechazarPractica = async() => {
       await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handleRechazo",{ 
         idalumno:idAlumno,
@@ -206,6 +230,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
           console.log("ERROR EN RECHAZO: ",error)
       })
     }
+    
     const enviarCorreoRechazo = () => {
       axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handlerRechazarCorreo",{ 
           idalumno:idAlumno,
@@ -509,9 +534,9 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                   <CustomInput 
                     ref={register}    
                     type="file" 
-                    name="informeFinal"
+                    name="seguro"
                     onChange={(e)=>handleChangeFile(e)}
-                    id= "informeFinal"
+                    id= "seguro"
                     label="Click para subir archivo"                                     
                   />
                 </div>

@@ -26,6 +26,12 @@ class InstDocumentoModel extends Model
         $queryInstAlumno = 'SELECT * from instancia_documento where refAlumno = "'.$id_alumno.'" and numero_practica = "'.$numero.'"';
         $query = $this->db->query($queryInstAlumno);
         $result = $query->getResult();
+        // if ($result){
+        //     foreach ($result as $row){
+        //         $id_doc = $row -> id_documento;
+        //         $result['url'] -> 
+        //     }
+        // }
         return $result;
     }
 

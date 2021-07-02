@@ -104,7 +104,7 @@ $routes->get('getAlumnosAdmin', 'AlumnoController::getAlumnosAdmin');
 $routes->get('getAlumnosEscuela', 'AlumnoController::getAlumnosEscuela');
 $routes->get('getCarreraAlumno', 'AlumnoController::getCarreraAlumno');
 $routes->post('getAlumnoId', 'AlumnoController::getAlumnoId');
-$routes->post('recibirArchivo', 'AlumnoController::recibirArchivo');
+$routes->post('recibirArchivoAlumno', 'AlumnoController::recibirArchivoAlumno');
 $routes->post('recibirSeguro', 'AlumnoController::recibirSeguro');
 // Instancia documento
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
@@ -113,7 +113,7 @@ $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getIn
 $routes->get('getFuncionarios', 'UserController::getFuncionarios');
 $routes->get('deleteUser', 'UserController::deleteUser');
 $routes->post('insertUser', 'UsersController::insertUser');
-
+$routes->post('subirArchivoAdmin', 'UserController::subirArchivoAdmin');
 
 /*
  * --------------------------------------------------------------------

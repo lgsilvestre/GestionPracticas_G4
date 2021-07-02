@@ -39,7 +39,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     const [regionElegida, setregionElegida] = useState(0)
     const [estado, setEstado] = useState("Por inscribir")
     const [retroalimentacion, setRetroalimentacion] = useState("")
-    const [idDoc, setIdDoc] = useState(0)
+    // const [idDoc, setIdDoc] = useState()
     // const [estadoPractica, setEstadoPractica] = useState({})
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -63,23 +63,31 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       console.log("Info a enviar:",formValues)
       enviarDatosInscripcion()
     }
-    const guardarArchivo = (data) => {
-      // console.log(data)
+    
+    const guardarArchivo = (data,idDoc) => {
+      console.log("Enviando info: ",id_alumno," ",nroPractica,"",idDoc)
       let formData = new FormData()
-      // console.log(archivo[0])
-      //idalumno y nropractica
-      formData.append("file",archivo[0])
+      formData.append("file",data[0])
       formData.append("id_alumno",id_alumno)
       formData.append("numero",nroPractica)
-      formData.append("documento",data)
-      console.log("ENVIANDO: ",idDoc)
-      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",
+      formData.append("documento",idDoc)
+      console.log("ENVIANDO: ",formData)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivoAlumno",
         formData,    
         {headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
-      .then(response=>console.log("Respuesta subir file: ",response.data))
+      .then(response=>{
+        if(response.data === 1){
+          // setDocumentoSubido(true)
+          console.log("Archivo subido!")
+        }
+        if(response.data === 0){
+          // setDocumentoSubido(false)
+          console.log("No se pudo subir")
+        }
+      })
       .catch(error=>{
         console.log("Error: ", error)
       })  
@@ -185,11 +193,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       handleInputChange(event)
     }
     const handleChangeFile = (e) => {
-      const id_doc = e.target.id;
-      setIdDoc(id_doc)
-      console.log("Archivo elegido ",e.target.id)
-      // setArchivo(e.target.files)
-      handleArchivo(guardarArchivo(e.target.files))
+      handleArchivo(guardarArchivo(e.target.files,e.target.id))
     }
     useEffect(() => {   
       getEstadoPractica()
@@ -333,14 +337,14 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                               </div>
                               <div className ="col-sm">
                                 {file.requerido === "1" &&                        
-                                    <CustomInput 
-                                      ref={register}  
-                                      type="file" 
-                                      onChange={(e)=>handleChangeFile(e)}
-                                      name={`namefile${index}`} 
-                                      id={file.id_instancia_documento} 
-                                      label="Haz click aquí..."                                     
-                                    />
+                                  <CustomInput 
+                                    ref={register}  
+                                    type="file" 
+                                    onChange={(e)=>handleChangeFile(e)}
+                                    name={`namefile${index}`} 
+                                    id={file.id_instancia_documento} 
+                                    label="Haz click aquí..."                                     
+                                  />
                                 }
                               </div>
                           </div>
