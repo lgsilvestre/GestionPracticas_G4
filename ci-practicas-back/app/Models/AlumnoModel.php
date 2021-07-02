@@ -39,7 +39,7 @@ class AlumnoModel extends Model
     }
 
     public function getAlumnosAdmin(){
-        $query = $this->db->query("SELECT *, carrera.nombre as nombre_carrera FROM alumno INNER JOIN carrera ON alumno.refCarrera = carrera.id_carrera");
+        $query = $this->db->query("SELECT *, carrera.nombre as nombre_carrera, alumno.nombre as nombre_alumno FROM alumno INNER JOIN carrera ON alumno.refCarrera = carrera.id_carrera");
         $result = $query->getResult();
         return $result;
     }

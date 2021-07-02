@@ -33,12 +33,11 @@ export default function Administrador() {
    const columns = [
     { id: 'nombre', label: 'Nombre Documento', minWidth: "25%" },
     { id: 'tipo', label: 'Tipo', minWidth: "25%" },
-    { id: 'requerido', label: 'Requerido', minWidth: "25%" },
     { id: 'action', label: 'Acción',  minWidth: "25%",  },
   ];
 
-  function createData(nombre, correo, tipo, contrasenia, action) {
-    return {nombre, correo, tipo, contrasenia, action };
+  function createData(id, nombre, tipo, action) {
+    return {id, nombre, tipo, action };
   }
 
   const handleChange=e=>{
@@ -53,13 +52,19 @@ export default function Administrador() {
 
 
   const peticionGet=async()=>{
-    await axios.get('')
+    await axios.get('http://localhost/GestionPracticas_G4/ci-practicas-back/public/getDocumentosAdmin')
     .then(response=>{
       const resultado = response.data;
       // console.log("antes:",rows)
       const lista = []
       for(var i=0; i<resultado.length; i++){
-        const fila = createData(resultado[i].nombre , resultado[i].correo , resultado[i].tipo,resultado[i].contrasenia,"button")
+        let tipo = "";
+        if (resultado[i].requerido == 1) {
+          tipo = "Requerido"
+        } else if (resultado[i].requerido == 0) {
+          tipo = "Presentable"
+        }
+        const fila = createData(resultado[i].id_documento , resultado[i].nombre , tipo, "button")
         // console.log(fila)
         lista.push(fila)
       }  
@@ -134,17 +139,7 @@ export default function Administrador() {
   };
 
   useEffect(() => {
-    axios.get(
-      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
-    )
-      .then(response => {
-        let carreras = JSON.parse(response.data);
-        setCarreras(carreras);
-
-      })
-      .catch(error => {
-        console.log("login error: ", error);
-      });
+    peticionGet()
   }, []);
   
   // Funcion que se ocupa de insertar en el back un usuario

@@ -69,6 +69,15 @@ class DocumentoController extends  BaseController
         }
         
     }
+
+    public function getDocumentosAdmin(){
+		$result = $this->DocumentoModel->getDocumentos();
+        if ($result) {
+            echo json_encode($result);
+        } else {
+            echo 0;
+        }
+    }
     
 	public function getDocumento(){
 		echo "entró a documento";
@@ -83,7 +92,7 @@ class DocumentoController extends  BaseController
         } else {
             echo "error";
         }
-    }
+    }    
 
 	private function sendEmailDocumentosCargadosAlumno($correo, $nombre, $fecha){
         $email = \Config\Services::email();

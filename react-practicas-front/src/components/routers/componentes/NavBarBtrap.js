@@ -11,7 +11,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
+  NavbarText,
+  Link
 } from 'reactstrap';
 import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -21,6 +22,11 @@ const NavBarBtrap = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const exit = () => {
+
+  }
+
 
   return (
     <div>
@@ -32,7 +38,7 @@ const NavBarBtrap = (props) => {
           <Nav className="ml-auto" navbar>
 
             <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav style={{marginLeft: '15px', marginRight: '15px'}}>
+              <DropdownToggle nav style={{ marginLeft: '15px', marginRight: '15px' }}>
                 <NotificationsIcon />
               </DropdownToggle>
               <DropdownMenu right>
@@ -50,7 +56,7 @@ const NavBarBtrap = (props) => {
             </UncontrolledDropdown>
 
             <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav style={{marginLeft: '15px', marginRight: '15px'}}>
+              <DropdownToggle nav style={{ marginLeft: '15px', marginRight: '15px' }}>
                 <PersonIcon />
               </DropdownToggle>
               <DropdownMenu right>
@@ -67,8 +73,12 @@ const NavBarBtrap = (props) => {
               </DropdownMenu>
             </UncontrolledDropdown>
 
-            <NavItem style={{marginLeft: '15px', marginRight: '15px'}}>
-              <NavLink>
+            <NavItem >
+              <NavLink
+                className="nav-item nav-link"
+                exact to="/login"
+                style={{ marginLeft: '15px', marginRight: '15px' }}
+              >
                 <ExitToAppIcon />
               </NavLink>
             </NavItem>

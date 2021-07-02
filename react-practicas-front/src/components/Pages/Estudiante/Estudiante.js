@@ -62,7 +62,7 @@ export default function Administrador() {
         // console.log("antes:",rows)
         const lista = []
         for (var i = 0; i < resultado.length; i++) {
-          const fila = createData(resultado[i].nombre_carrera, resultado[i].matricula, resultado[i].nombre, resultado[i].rut, resultado[i].correo_ins, "button")
+          const fila = createData(resultado[i].nombre_carrera, resultado[i].matricula, resultado[i].nombre_alumno, resultado[i].rut, resultado[i].correo_ins, "button")
           // console.log(fila)
           lista.push(fila)
           console.log(resultado[i].carrera)

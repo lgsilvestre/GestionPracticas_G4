@@ -60,11 +60,11 @@ const useStyles = makeStyles((theme)=>({
     fontSize:"1.8vh"
   }
 }))
-export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
+export const DashboardEstudiante = () => {
   const cookies = new Cookies()
   const id_alumno = cookies.get('id')
   const dataEstudianteEj = {
-    nombre:nombre,
+    nombre:"",
     correo_ins:"correo@alumnos.utalca.cl",
     matricula:"12345678",
     nbe_carrera:"Ingeniería Civil en Computación"
@@ -178,7 +178,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
         <div className="container" >
           <div className="row justify-content-md-center" >
             <div className="col-auto" style={{marginTop:10}}>
-              <h3 style={{color:"white"}}>¡Bienvenido {dataEstudiante.nombre}!</h3>
+              <h3 style={{color:"white", fontWeight:"400", marginBottom:"15px"}}>¡Bienvenido {dataEstudiante.nombre}!</h3>
             </div>
           </div>  
         </div>
