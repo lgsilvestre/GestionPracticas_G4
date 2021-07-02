@@ -31,8 +31,8 @@ const WizardAdmin = ({pageProp=0, nroMatricula, nroPractica, idAlumno}) => {
                 size={40}
                 circleFontSize={18}
                 activeStep={ page }
-                activeColor={"#f69b2e"}
-                completeColor = {"#f69b2e"}
+                activeColor={"#0DC143"}
+                completeColor = {"#77C78F"}
             />
             <hr/>
             

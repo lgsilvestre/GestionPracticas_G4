@@ -35,7 +35,14 @@ class UserModel extends Model{
         $query = $this->db->query($string_query);
         $result = $query->getResult();
         return $result;
+    }
 
+    public function getUsersCarrera($idCarrera){
+
+        $string_query = "SELECT * FROM usuario WHERE refCarrera = '".$idCarrera."' AND tipo = '1' OR tipo = '2'";
+        $query = $this->db->query($string_query);
+        $result = $query->getResult();
+        return $result;
     }
 
     public function deleteUser(){

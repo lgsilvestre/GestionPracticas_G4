@@ -13,6 +13,7 @@ import FormAlumno from '../../FormAlumno/FormAlumno';
 import { motion } from "framer-motion"
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Excel from '../Estudiante/Excel/Excel'
 
 export default function Administrador() {
   const classes = useStyles();
@@ -142,9 +143,9 @@ export default function Administrador() {
     setModalVerMas(!modalVerMas);
   }
 
-  const seleccionarEstudiante = (estudiante, caso) => {
-    setEstudiante(estudiante);
-    (caso === 'Editar') ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
+  const seleccionarEstudiante=(rows, caso)=>{
+    setEstudiante (rows);
+    (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
   }
 
   const seleccionarVerMas = (estudiante) => {

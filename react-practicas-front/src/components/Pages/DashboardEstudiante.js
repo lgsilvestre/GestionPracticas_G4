@@ -1,11 +1,14 @@
 import { makeStyles } from '@material-ui/core';
-import React from 'react'
-// import Calendar from 'react-awesome-calendar';
-import Calendar from 'react-calendar'
+import React, { useEffect, useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import 'react-calendar/dist/Calendar.css';
+import axios from 'axios';
 import { Card } from 'reactstrap';
 import { IconContext } from 'react-icons/lib';
 import { FcCalendar,FcInspection,FcInfo } from "react-icons/fc";
+import { InfoPracticaEstudiante } from '../../api/InfoPracticaEstudiante';
+import Cookies from 'universal-cookie';
+
 const useStyles = makeStyles((theme)=>({
 
   cardDatos:{
@@ -58,6 +61,115 @@ const useStyles = makeStyles((theme)=>({
   }
 }))
 export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
+  const cookies = new Cookies()
+  const id_alumno = cookies.get('id')
+  const dataEstudianteEj = {
+    nombre:nombre,
+    correo_ins:"correo@alumnos.utalca.cl",
+    matricula:"12345678",
+    nbe_carrera:"Ingeniería Civil en Computación"
+  }
+  const FechasImportantesEj = [
+    {
+      fecha:"16/06",
+      evento:"Fin de Plazo para presentar solicitud de práctica."
+    },
+    {
+      fecha:"19/07",
+      evento:"Cierre de Primer Semestre"
+    },
+    {
+      fecha:"09/08",
+      evento:"Comienzo de Segundo Semestre."
+    },
+  ]
+  const [dataEstudiante, setdataEstudiante] = useState(dataEstudianteEj)
+  const [fechasImportantes, setfechasImportantes] = useState(FechasImportantesEj)
+  const [etapa, setEtapa] = useState(0)
+  const [infoPractica, setInfoPractica] = useState(InfoPracticaEstudiante[0])
+  const [nroPractica, setNroPractica] = useState(1)
+  const [sinPractica, setSinPractica] = useState(true)
+  const getInfoAlumno = () => {
+    // console.log("Solicitando alumno con id: ",id_alumno)
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoId",
+      {
+        id_alumno:id_alumno
+      }
+    )
+    .then(response=>{
+      console.log("Info Alumno:" ,response.data)
+      setdataEstudiante(response.data[0])
+    })
+  }
+  const getEtapaPracticaActiva = () => {
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEstadoPracticaActiva",
+      {
+        id_alumno:id_alumno
+      }
+    )
+    .then(response=>{
+      if(response.data!==0){
+        console.log("Practica activa:" ,response.data)      
+        switch (response.data[0].etapa) {
+          case "Solicitud":
+            setEtapa(1)
+            setInfoPractica(InfoPracticaEstudiante[1])
+            break;
+          case "Inscripción":
+            setEtapa(2)
+            setInfoPractica(InfoPracticaEstudiante[2])
+            break;
+          case "Cursando":
+            setEtapa(3)
+            setInfoPractica(InfoPracticaEstudiante[3])
+            break;
+          case "Evaluación":
+            setEtapa(4)
+            setInfoPractica(InfoPracticaEstudiante[4])
+            break;    
+          default:
+            break;
+        }
+      }
+      else{
+        console.log("Estudiante no tiene practica activa")
+        setInfoPractica(InfoPracticaEstudiante[1])
+      }
+    })
+  }
+  const getPracticasTerminada = () => {
+    axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getNumeroSiguientePractica",
+      {
+        id_alumno:id_alumno
+      }
+    )
+    .then(response=>{
+      if(response.data !==0){
+        setSinPractica(false)
+        const arrayNumeros = []
+        console.log("Practicas Terminadas:" ,response.data)
+        response.data.map((objeto)=>(
+          arrayNumeros.push(objeto.numero)
+        ))
+        // console.log("rray numeros",arrayNumeros)
+        const mayor = Math.max(...arrayNumeros)+1
+        console.log("mayor: ",mayor)
+        setNroPractica(mayor)
+        cookies.set('practica_next', mayor, { path: '/' });
+      }
+      else{
+        console.log("No hay practicas")
+        setNroPractica(1)
+        cookies.set('practica_next', 1, { path: '/' })
+      }
+    })
+  }
+  
+  useEffect(() => {
+    getInfoAlumno()
+    getEtapaPracticaActiva()
+    getPracticasTerminada()
+  }, [])
   const classes = useStyles();
   return (
     <div>
@@ -65,10 +177,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
       <div style={{backgroundColor:"#2D4C85"}}>
         <div className="container" >
           <div className="row justify-content-md-center" >
-            <div className="col" style={{marginTop:10}}>
-              <h3 style={{color:"white"}}>¡Bienvenido {nombre}!</h3>
+            <div className="col-auto" style={{marginTop:10}}>
+              <h3 style={{color:"white"}}>¡Bienvenido {dataEstudiante.nombre}!</h3>
             </div>
-          </div>   
+          </div>  
         </div>
       </div>
       <div className="container animate__animated animate__fadeIn animate__faster">
@@ -86,21 +198,21 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                 <div className="row" style={{marginTop:"3vh"}}>
                   <div className="col" style={{marginBottom:"3vh"}}>
                     <h6 className={classes.textoInfo}><strong>Nombre</strong></h6>
-                    <h7 className={classes.textoInfo}>Camilo Villalobos</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.nombre}</h7>
                   </div>
                   <div className="col">
                     <h6 className={classes.textoInfo}><strong>Correo</strong></h6>
-                    <h7 className={classes.textoInfo}>correo@alumnos.utalca.cl</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.correo_ins}</h7>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col">
-                    <h6 className={classes.textoInfo}><strong>Matricula</strong></h6>
-                    <h7 className={classes.textoInfo}>12345678</h7>
+                    <h6 className={classes.textoInfo}><strong>Matrícula</strong></h6>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.matricula}</h7>
                   </div>
                   <div className="col">
                     <h6 className={classes.textoInfo}><strong>Carrera</strong></h6>
-                    <h7 className={classes.textoInfo}>Ingeniería Civil en Computación</h7>
+                    <h7 className={classes.textoInfo}>{dataEstudiante.nbe_carrera}</h7>
                   </div>
                 </div>
               </div>
@@ -112,7 +224,7 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                   <IconContext.Provider value={{size:"4vh"}} >
                     <FcCalendar style={{marginTop:"0.5vh", marginRight:"1vh"}}/>
                   </IconContext.Provider> 
-                  <h4 className={classes.titleCard}><strong>Fechas importantes</strong></h4>
+                  <h4 className={classes.titleCard}><strong>Fechas importantes 2021</strong></h4>
                 </div>
                 <hr className={classes.hrSection}/>
               </div>
@@ -124,10 +236,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{fechasImportantes[0].fecha}</strong></h1>
                         </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
+                        <div className="col-9" >
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{fechasImportantes[0].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -138,10 +250,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{fechasImportantes[1].fecha}</strong></h1>
                         </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
+                        <div className="col-9" >
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{fechasImportantes[1].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -152,10 +264,10 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                         <div className="col-auto" 
                           style={{borderRight:" 0.1vh solid black"}}
                         >
-                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>16 Junio</strong></h1>
+                          <h1 style={{fontSize:"2.6vh", margin:0}}><strong>{fechasImportantes[2].fecha}</strong></h1>
                         </div>
-                        <div className="col-8" >
-                          <h1 style={{fontSize:"1.7vh", margin:0}}>Fin de Plazo para presentar solicitud de práctica.</h1>
+                        <div className="col-9" >
+                          <h1 style={{fontSize:"1.7vh", margin:0}}>{fechasImportantes[2].evento}</h1>
                         </div>
                       </div>
                     </div>
@@ -179,26 +291,34 @@ export const DashboardEstudiante = ({nombre="Camilo Villalobos"}) => {
                   <div className="col " style={{marginTop:"3vh"}}>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica 1</h7>
+                          <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica {nroPractica}</h7>
+                        {/* {!sinPractica ? (
+                          <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> Práctica {nroPractica}</h7>
+                        ):(
+                          <h7 className={classes.textoInfo}><strong>Práctica actual:</strong> No has solicitado ninguna práctica</h7>
+                        )} */}
                       </div>
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Etapa actual:</strong> Solicitud Pendiente</h7>
+                        <h7 className={classes.textoInfo}>
+                        <strong>Etapa actual:</strong> {infoPractica.etapa}</h7>
                       </div>
                     </div>
                     <div className="row" style={{marginBottom:"1vh"}}> 
                       <div className="col">
                         <h7 className={classes.textoInfo}><strong>Información de etapa:</strong></h7>
-                        <p className={classes.textoInfo} style={{margin:0}}>En esta primera etapa debes solicitar la práctica para que el encargado de tu carrera analice tu situación.
-                        Si acepta tu solicitud, se te enviarán los documentos correspondientes para que los presentes en la entrevista
-                        con tu empresa elegida. Si es rechazada, se te enviara las razones del rechazo.
+                        <p className={classes.textoInfo} style={{margin:0}}> {infoPractica.info}
                         </p>
                       </div>
                     </div>
                     <div className="row"> 
                       <div className="col">
-                        <h7 className={classes.textoInfo}><strong>Pasos a seguir:</strong> Ve a Prácticas y luego solicita tu práctica</h7>
+                        <h7 className={classes.textoInfo}>
+                        <strong>Pasos a seguir:</strong> Ve a <Link to='estudiante/practicas' >
+                        Practicas  
+                        </Link>{infoPractica.pasos} 
+                        </h7>
                       </div>
                     </div>
                   </div>              

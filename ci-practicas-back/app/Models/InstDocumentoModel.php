@@ -22,8 +22,8 @@ class InstDocumentoModel extends Model
         }
     }
 
-    public function getInstanciasDocumentos($id_alumno){
-        $queryInstAlumno = 'SELECT * from instancia_documento where refAlumno = "'.$id_alumno.'"';
+    public function getInstanciasDocumentos($id_alumno, $numero){
+        $queryInstAlumno = 'SELECT * from instancia_documento where refAlumno = "'.$id_alumno.'" and numero_practica = "'.$numero.'"';
         $query = $this->db->query($queryInstAlumno);
         $result = $query->getResult();
         return $result;

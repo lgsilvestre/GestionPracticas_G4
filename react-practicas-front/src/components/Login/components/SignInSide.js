@@ -121,25 +121,28 @@ export default function SignInSide({ history }) {
         //trabajar redireccionamiento
         //-1 error , 0 alumno , 1 admin
         console.log("respuesta: ", response.data);
-
-        if (response.data.tipo === 1 || response.data.tipo === 2) {
+        if (response.data.tipo === "1" || response.data.tipo === "2") {
          
           history.replace("/supervisor")
           
         }
-        else if (response.data.tipo === 0) {
+        
+        else if (response.data.tipo === "0") {
           console.log("admin")
           history.replace("/admin")
         }
         else if (response.data.tipo === 3) {
-          console.log("estudiante")
+          // console.log(response.data)
           // Se setean las coockies
           cookies.set('id', response.data['id_alumno'], { path: '/' });
           cookies.set('name', response.data['nombre'], { path: '/' });
+          if(response.data['evaluada']==="0"){
+            
+          }
           history.replace("/estudiante")
         }
         else {
-          console.log("error credenciales")
+          console.log("error credenciales");
           handleWrongPass()
         }
       })
@@ -161,13 +164,14 @@ export default function SignInSide({ history }) {
           <Typography component="h1" variant="h5">
             Iniciar Sesión
           </Typography>
-          <form className={classes.form} onSubmit={sendValues} noValidate>
+          <form className={classes.form} onSubmit={sendValues}>
             <TextField
               className={classes.input}
               variant="outlined"
               margin="normal"
               required
               fullWidth
+              type="email"
               id="email"
               label="Usuario"
               name="email"

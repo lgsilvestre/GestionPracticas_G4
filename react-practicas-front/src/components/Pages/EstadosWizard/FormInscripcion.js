@@ -4,14 +4,18 @@ import { Button, Form, FormGroup, Label, Input,
   FormText, Col, Tooltip, Modal, ModalHeader, ModalBody, ModalFooter,
    ButtonGroup,CustomInput} from 'reactstrap';
 import { MdFileDownload } from 'react-icons/md'
+import Alert from '@material-ui/lab/Alert';
 import { Resolucion } from './Resolucion';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { useForm } from '../../../hooks/useForm' 
 import { Comentario } from './Comentario';
+import {useForm as useFormDoc} from 'react-hook-form';
 import {regiones} from '../../../api/regiones';
-export const FormInscripcion = ({previousPage, handleSubmit}) => {
 
+export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
+    const {register, handleSubmit:handleArchivo} = useFormDoc()
+    
     const cookies = new Cookies()
     const id_alumno = cookies.get('id')
     const [formValues, handleInputChange] = useForm({
@@ -28,10 +32,15 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       tel_emer:"",
     })
     const [archivos, setArchivos] = useState([])
+    const [archivo, setArchivo] = useState()
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
     const [regionElegida, setregionElegida] = useState(0)
+    const [estado, setEstado] = useState("Por inscribir")
+    const [retroalimentacion, setRetroalimentacion] = useState("")
+    const [idDoc, setIdDoc] = useState(0)
+    // const [estadoPractica, setEstadoPractica] = useState({})
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
     }
@@ -49,23 +58,44 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         console.log("descargando " ,namefile)    
     }
     
-    //AXIOS POST INSCRIPCION A BASE DE DATOS
     const postInscripcion = (event) =>{
       event.preventDefault()
       console.log("Info a enviar:",formValues)
-      // enviarDatosInscripcion()
-      // setMostrarResolucion(!mostrarResolucion)
+      enviarDatosInscripcion()
+    }
+    const guardarArchivo = (data) => {
+      // console.log(data)
+      let formData = new FormData()
+      // console.log(archivo[0])
+      //idalumno y nropractica
+      formData.append("file",archivo[0])
+      formData.append("id_alumno",id_alumno)
+      formData.append("numero",nroPractica)
+      formData.append("documento",data)
+      console.log("ENVIANDO: ",idDoc)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",
+        formData,    
+        {headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response=>console.log("Respuesta subir file: ",response.data))
+      .catch(error=>{
+        console.log("Error: ", error)
+      })  
     }
     const enviarDatosInscripcion = () => {    
-      console.log(regionElegida, "-",formValues.zonaempresa)
+      // console.log(regionElegida, "-",formValues.zonaempresa)
       axios.post(
         "http://localhost/GestionPracticas_G4/ci-practicas-back/public/inscribirInfo",
         {
           id_alumno:id_alumno,
+          nropractica:nroPractica,
           empresa:formValues.empresa,
           supervisor:formValues.supervisor,
           fch_inicio:formValues.fechaStart,
           fch_termino:formValues.fechaEnd,
+          rut_empresa:formValues.rutempresa,
           correo_supervisor:formValues.correosupervisor,
           tel_supervisor: formValues.fonosupervisor,
           region_empresa: formValues.regionempresa,
@@ -75,25 +105,70 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
         },
       )
       .then(response=>{
-        console.log("RESPUESTA ENVIAR DATOS INSC: ",response)
-        if(response.data===true){
-          console.log("ES TRUE")
-          // setMostrarResolucion(!mostrarResolucion)
+        // console.log("RESPUESTA ENVIAR DATOS INSC: ",response)
+        if(response.data===1){
+          // console.log("ES TRUE")
+          setEstado("Pendiente")
+          setMostrarResolucion(true)
         }
       })
       .catch(error =>{
         console.log("Error enviando datos inscripcion: ", error)
       })
     }
+    const getEstadoPractica = async() => {
+      await axios.post(
+        "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getEstadoPracticaActiva",
+        {
+          id_alumno: id_alumno,
+          nropractica:nroPractica,
+        },
+      )
+        .then(response => {
+          console.log("RESPUESTA ESTADO PRACTICA ACTIVA:  ",response.data)
+          if(response.data[0].estado==="Rechazada"){
+            // setEstado("Rechazada")          
+            setEstado("")
+            setMostrarResolucion(false)
+            setmostrarComentario(true)
+            solicitarRetroalimentacion()
+          }
+          if(response.data[0].estado==="Aprobada"){
+            setEstado("Aprobada")
+            setMostrarResolucion(true)
+          }
+          else if(response.data[0].estado!=="Por inscribir"){
 
-    const getDocs = () => {
+          }
+          
+          // setEstadoPractica(response.data[0])
+          // setArchivos(response.data)
+        })
+        .catch(error => {
+          console.log("login error: ", error);
+    });
+    }
+    const solicitarRetroalimentacion  = () => {
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getRetroalimentacion",{
+        id_alumno:id_alumno,
+        'nropractica': nroPractica
+      }).then(response=>{
+        console.log(response.data)
+        if(response.data !== 0){
+          setRetroalimentacion(response.data[0].retroalimentacion)
+        }
+      }).catch(error=>{
+        console.log("ERROR RETROALIMENTACION ",error)
+      })
+    }
+    const getDocs = async() => {
         let id_alumno = cookies.get('id')
-        let numeropractica = 1
-        axios.post(
+        // let numeropractica = 1
+        await axios.post(
             "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getInstDocuAlumno",
             {
               id_alumno: id_alumno,
-              numero: numeropractica,
+              numero: nroPractica,
             },
           )
             .then(response => {
@@ -101,7 +176,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
               setArchivos(response.data)
             })
             .catch(error => {
-              console.log("login error: ", error);
+              console.log("ERROR EN GET DOCUMENTOS: ", error);
         });
     }
     const handleChangeRegion = (event) => {
@@ -109,9 +184,16 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
       setregionElegida(event.target.value)
       handleInputChange(event)
     }
-
-    useEffect(() => {
-      getDocs()
+    const handleChangeFile = (e) => {
+      const id_doc = e.target.id;
+      setIdDoc(id_doc)
+      console.log("Archivo elegido ",e.target.id)
+      // setArchivo(e.target.files)
+      handleArchivo(guardarArchivo(e.target.files))
+    }
+    useEffect(() => {   
+      getEstadoPractica()
+      getDocs()    
     }, [])
     
     return (
@@ -119,9 +201,21 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
           {mostrarResolucion 
           ? <Resolucion 
             previousPage={previousPage} 
-            handleSubmit={handleSubmit}/> 
+            handleSubmit={handleSubmit}
+            estado={estado}
+            /> 
           : 
           <div>
+            {mostrarComentario && 
+            (
+              <div style={{padding:15}}>             
+                <Alert severity="error" style={{marginBottom:"1vh"}}>
+                  ¡Han rechazado tu inscripción! Podrás completar o corregir la 
+                  información errónea, toma en cuenta la retroalimentación que se muestra a continuación.
+                </Alert>    
+                <Comentario mensaje={retroalimentacion} />
+              </div>
+            )}
             <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Descarga de archivo</ModalHeader>
                 <ModalBody>
@@ -132,12 +226,6 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 </ModalFooter>
             </Modal>               
             <Form onSubmit={postInscripcion}>
-              {mostrarComentario && (
-                <div>
-                  <h4>Comentarios</h4>
-                  <Comentario />
-                </div>
-              )}
               <div className="container">
                 <h4>Datos de Practica</h4>
                 <hr/>         
@@ -233,6 +321,7 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                 {                  
                     archivos.map( (file,index) => (
                         <div key={index} className="container" style={{marginBottom:"10px"}}>
+                        <form  style={{width:"100%"}}>
                           <div className="row">
                               <div className="col-sm">
                                 <Label >{file.nombre}</Label>      
@@ -245,14 +334,18 @@ export const FormInscripcion = ({previousPage, handleSubmit}) => {
                               <div className ="col-sm">
                                 {file.requerido === "1" &&                        
                                     <CustomInput 
+                                      ref={register}  
                                       type="file" 
+                                      onChange={(e)=>handleChangeFile(e)}
                                       name={`namefile${index}`} 
-                                      id={`file${index}`} 
-                                      label="Sube tu archivo"                                     
+                                      id={file.id_instancia_documento} 
+                                      label="Haz click aquí..."                                     
                                     />
                                 }
                               </div>
                           </div>
+                        </form>
+                                    
                           <div className="row">
                             {file.comentario !== "" &&
                             (

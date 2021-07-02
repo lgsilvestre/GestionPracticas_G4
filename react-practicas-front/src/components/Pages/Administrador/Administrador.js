@@ -3,17 +3,12 @@ import axios from 'axios';
 import useStyles from './styles';
 import { Table, TableContainer, TableCell, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography, Paper } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
-import InputLabel from '@material-ui/core/InputLabel';
-import CachedIcon from '@material-ui/icons/Cached';
-import Select from '@material-ui/core/Select';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
+import FormFuncionario from '../../FormFuncionario/FormFuncionario';
+import DialogActions from '@material-ui/core/DialogActions';
 import { motion } from "framer-motion";
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function Administrador() {
@@ -143,9 +138,9 @@ export default function Administrador() {
     setModalEliminar(!modalEliminar);
   }
 
-  const seleccionarAdministrador = (administrador, caso) => {
-    setAdministrador(administrador);
-    (caso === 'Editar') ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
+  const seleccionarAdministrador=(rows, caso)=>{
+    setAdministrador (rows);
+    (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
   }
 
   const handleClickShowPassword = () => {
@@ -222,34 +217,38 @@ export default function Administrador() {
     let carrera = administrador.carrera
     let tipo = administrador.tipo
     let password = administrador.contrasena
-
     let nuevoUserValidado = false;
 
-    if (nombre != "") {
-      let regex = new RegExp("^[a-zA-Z]+$");
-      if (regex.test(nombre)) {
-        nuevoUserValidado = true
-      }
+  if (nombre !== "") {
+    let regex = new RegExp("^[a-zA-Z]+$");
+    if (regex.test(nombre)) {
+      nuevoUserValidado = true
+    }
     }
 
-    if (apellido != "") {
-      let regex = new RegExp("^[a-zA-Z]+$");
-      if (regex.test(nombre)) {
+   
+  if (apellido !== "") {
+    let regex = new RegExp("^[a-zA-Z]+$");
+    if (regex.test(nombre)) {
+      nuevoUserValidado = true;
+    }   
+    }
+
+  if (email !== "") {
+    if (email.endsWith("@utalca.cl")){
+      var regex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+      console.log("UTAL");
+      if (regex.test(email)){
         nuevoUserValidado = true;
       }
     }
+  }
 
-    if (email != "") {
-      if (email.endsWith("@utalca.cl")) {
-        var regex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-        console.log("UTAL");
-        if (regex.test(email)) {
-          nuevoUserValidado = true;
-          console.log("REGEX");
-        }
-      }
-    }
-
+      //if (tipo !== "") {
+        //if (tipo === "0" || tipo === "1") {
+        //  nuevoUserValidado = true;
+        //}    
+    //   }
     if (tipo != "") {
       if (tipo == "Jefe de Escuela") {
         administrador.tipo = 1
@@ -261,93 +260,30 @@ export default function Administrador() {
       nuevoUserValidado = true;
     }
 
-    if (password != "") {
-      nuevoUserValidado = true;
-    }
 
-    console.log(nuevoUserValidado);
-
-    if (nuevoUserValidado == true) {
-      peticionPost();
-    } else {
-      console.log("Error validación");
-    }
-
+  if (password !== "") {
+    nuevoUserValidado = true;
   }
 
-  const bodyInsertar = (
-    <div className={classes.modal}>
+  console.log(nuevoUserValidado);
+  if (nuevoUserValidado === true){
+    peticionPost();
+  } else {
+    console.log("Error validación");
+  }
+  }
 
-      <h3>Nuevo Funcionario</h3>
-      <br />
-
-      <TextField variant="outlined" name="nombre" id="nombre" className={classes.inputMaterial} label="Nombre" onChange={handleChange} />
-
-      <TextField variant="outlined" name="apellido" id="apellido" className={classes.inputMaterial} label="Apellido" onChange={handleChange} />
-
-      <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Email" onChange={handleChange} />
-
-      <FormControl className={classes.inputMaterial} variant="outlined" >
-        <InputLabel id="demo-simple-select-outlined-label">Carrera</InputLabel>
-        <Select
-          name="carrera"
-          id="carrera"
-          onChange={handleChange}
-          label="Carrera"
-        >
-          {administrador.carreras.map((carrera, index) => (
-            <MenuItem key={index} value={carrera}>{carrera}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl className={classes.inputMaterial} variant="outlined" >
-        <InputLabel id="demo-simple-select-outlined-label">Tipo</InputLabel>
-        <Select
-          name="tipo"
-          id="tipo"
-          onChange={handleChange}
-          label="Tipo"
-        >
-          <MenuItem key={1} value={'Jefe de Escuela'}>Jefe de Escuela</MenuItem>
-          <MenuItem key={2} value={'Supervisor'}>Supervisor</MenuItem>
-        </Select>
-      </FormControl>
-
-      <FormControl className={classes.inputMaterial} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          label="Contraseña"
-          value={administrador.contrasena}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="change"
-                edge="end"
-                onClick={generarPassUser}
-              >
-                <CachedIcon />
-              </IconButton>
-              <IconButton
-                aria-label="toggle password visibility"
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-
-
-      <div align="right">
-        <Button className={classes.boton} color="primary" onClick={handleValidation}>Insertar</Button>
-        <Button className={classes.botonCancelar} onClick={() => abrirCerrarModalInsertar()}>Cancelar</Button>
-      </div>
-
+  const bodyInsertar=(
+    <div>
+    <FormFuncionario administrador={administrador} setAdministrador={setAdministrador} generarPassUser={generarPassUser} showPassword={showPassword}/>
+    <DialogActions className={classes.encabezado}>
+    <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(administrador)}>Agregar</Button>
+    <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
+      </DialogActions>
+      
     </div>
   )
+
 
   const bodyEditar = (
     <div className={classes.modal}>
@@ -388,8 +324,6 @@ export default function Administrador() {
 
     </div>
   )
-
-
   return (
 
     <div className={classes.root} style={{ marginTop: '20px', marginBottom: '30px' }}>
@@ -450,21 +384,21 @@ export default function Administrador() {
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
           {hideLoader ? <CircularProgress style={{ marginTop: '10px', marginBottom: '10px' }} /> : null}
-
         </div>
+    </Paper>
+    <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
+          <DialogTitle id="form-dialog-title">Nuevo Funcionario</DialogTitle>
+          <DialogContent>         
+          {bodyInsertar}
+          </DialogContent>
+        </Dialog>
 
-      </Paper>
-      <Modal
-        open={modalInsertar}
-        onClose={abrirCerrarModalInsertar}>
-        {bodyInsertar}
-      </Modal>
-
-      <Modal
-        open={modalEditar}
-        onClose={abrirCerrarModalEditar}>
-        {bodyEditar}
-      </Modal>
+        <Dialog open={modalEditar} onClose={abrirCerrarModalEditar} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Nuevo Estudiante</DialogTitle>
+          <DialogContent>         
+          {bodyEditar}
+          </DialogContent>
+        </Dialog>
 
       <Modal
         open={modalEliminar}

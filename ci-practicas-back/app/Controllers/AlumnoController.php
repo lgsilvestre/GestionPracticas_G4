@@ -23,21 +23,22 @@ class AlumnoController extends BaseController
 {
 	
 	/**
-	 * An array of helpers to be loaded automatically upon
-	 * class instantiation. These helpers will be available
-	 * to all other controllers that extend BaseController.
-	 *
-	 * @var array
-	 */
+		* An array of helpers to be loaded automatically upon
+		* class instantiation. These helpers will be available
+		* to all other controllers that extend BaseController.
+		*
+		* @var array
+		*/
 	protected $helpers = [];
+	private $route = 'D:\xampp\htdocs\GestionPracticas_G4\documentos\\';
 
 	/**
-	 * Constructor.
-	 *
-	 * @param RequestInterface  $request
-	 * @param ResponseInterface $response
-	 * @param LoggerInterface   $logger
-	 */
+		* Constructor.
+		*
+		* @param RequestInterface  $request
+		* @param ResponseInterface $response
+		* @param LoggerInterface   $logger
+		*/
 	public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
 	{
 		// Do Not Edit This Line
@@ -64,11 +65,18 @@ class AlumnoController extends BaseController
 
 	public function getAlumnoIdMatricula(){
 		$matricula = $this->request->getVar('matricula');
-        $model = new AlumnoModel();
-        $result = $model->getIdMatricula($matricula);   
-        echo json_encode($result);
-    }
+		$model = new AlumnoModel();
+		$result = $model->getIdMatricula($matricula);   
+		echo json_encode($result);
+	}
 
+	public function getAlumnoId(){
+		$id_alumno = $this->request->getVar('id_alumno');
+		$model = new AlumnoModel();
+		$result = $model->getAlumno($id_alumno);   
+		echo json_encode($result);
+	}
+	
 	public function getAlumnosAdmin(){
 		$model = new AlumnoModel();
 		$result = $model->getAlumnosAdmin();   
@@ -89,12 +97,25 @@ class AlumnoController extends BaseController
         echo $result;
 	}
 
-	public function recibirArchivo($id){
-		move_uploaded_file(
-			$_FILES['file']['tmp_name'],
-			'C:\Users\Windows 10\xampp\htdocs\GestionPracticas_G4\documentos',
-		);
+	public function recibirArchivo(){
+
+		$idAlumno = $this->request->getVar('id_alumno');
+		$numeroPractica = $this->request->getVar('numero');
+		$documento = $this->request->getVar('documento');
+
+		move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.$documento.'.pdf');
         echo "REVISAR ARCHIVO";
+
+	}
+
+	public function recibirSeguro(){
+
+		$idAlumno = $this->request->getVar('id_alumno');
+		$numeroPractica = $this->request->getVar('numero');
+
+		move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.'seguro.pdf');
+        echo "REVISAR ARCHIVO";
+		
 	}
 
 }
