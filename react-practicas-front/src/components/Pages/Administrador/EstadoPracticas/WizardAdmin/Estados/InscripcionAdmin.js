@@ -8,14 +8,16 @@ import {
     ListItemIcon,  
     ListItemSecondaryAction,  
     makeStyles,
-    Button
+    Button,
+    Divider
     } from '@material-ui/core'
 import { VscFilePdf } from 'react-icons/vsc';
 import { MdFileDownload } from 'react-icons/md';
 import { FcCancel, FcCheckmark } from 'react-icons/fc';
 import {Collapse, Input,CustomInput } from 'reactstrap';
-import { GoCheck } from "react-icons/go";
 import { GoCircleSlash } from "react-icons/go";
+import { BsPencilSquare } from "react-icons/bs";
+import { GoCheck } from "react-icons/go";
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
 import {useForm} from 'react-hook-form';
@@ -247,8 +249,19 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
             }
           {/*Datos de Empresa  */}
           <Box className={clasesEstilo.mainbox} boxShadow={1}>
-            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Práctica</h4>
-            <hr/>
+          
+            <div className="row align-items-center">
+              <div className="col">
+                <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Práctica</h4>
+              </div>
+              <div className="col-auto">
+                <IconButton  >
+                  <BsPencilSquare style={{margintop:"10vh"}}/>
+                </IconButton>    
+              </div>   
+            </div>
+          
+            <Divider/>
             <Grid container direction="row" justify="flex-start" alignItems="flex-start" >    
               <Grid item xs>
                   <Box className={clasesEstilo.box}>
@@ -273,8 +286,17 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
             </Grid>
           </Box>  
           <Box className={clasesEstilo.mainbox} boxShadow={1}>
-            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Empresa</h4>
-            <hr/>
+            <div className="row align-items-center">
+              <div className="col">
+                <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos Empresa</h4>
+              </div>
+              <div className="col-auto">
+                <IconButton  >
+                  <BsPencilSquare style={{margintop:"10vh"}}/>
+                </IconButton>    
+              </div>   
+            </div>
+            <Divider/>
             <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
               <Grid item xs>
                 <Box className={clasesEstilo.box}>
@@ -355,8 +377,17 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
             </Grid>
           </Box> 
           <Box className={clasesEstilo.mainbox} boxShadow={1}>
-            <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos de Emergencia</h4>
-            <hr/>
+            <div className="row align-items-center">
+              <div className="col">
+                <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Datos de Emergencia</h4>
+              </div>
+              <div className="col-auto">
+                <IconButton  >
+                  <BsPencilSquare style={{margintop:"10vh"}}/>
+                </IconButton>    
+              </div>   
+            </div>
+            <Divider/>
             <Grid container direction="row" justify="flex-start" alignItems="flex-start" >                         
               <Grid item xs>
                 <Box className={clasesEstilo.box}>
@@ -390,7 +421,7 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
           {/* Archivos */}
           <Box className={clasesEstilo.mainbox} boxShadow={1}>
             <h4 style={{paddingTop:'20px',paddingLeft:'20px'}}>Documentos Subidos</h4>
-            <hr/>                          
+            <Divider/>                          
             <List>
               {docsInscripcion.map( (file,index) => (
                 <div key={index} className="container">
@@ -507,8 +538,6 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
               </div>
               {
                 showRetroAli && (
-                
-                
                 <Collapse isOpen={true} style={{marginTop:"3vh"}}>   
                     <div className="row justify-content-center">
                       <h6 style={{color:"red", fontStyle:"italic", fontSize:17}}>Menciona las razones del rechazo</h6>            
@@ -542,40 +571,6 @@ export const InscripcionAdmin = ({nroMatricula, nroPractica, nextPage, idAlumno}
                 )
               }
             </div>       
-          {/* <div style={{padding:"30px"}}>
-            <Button className={clasesEstilo.boton} startIcon={<GoCheck/>} onClick={handleAceptarInscripcion} >
-              Aceptar
-            </Button>
-            <Button className={clasesEstilo.botonRechazo} startIcon={<GoCircleSlash/>} onClick={()=>{setShowRetroAli(true)}} >
-              Rechazar
-            </Button>
-          </div>
-          {
-            showRetroAli && (
-            <Collapse isOpen={true} style={{marginTop:"3vh"}}>               
-                <div className="row justify-content-center">
-                    <div className="col-6">
-                        <Input
-                        // value={retroAli}
-                        placeholder="Ingrese retroalimentación..."                                
-                        type="textarea" 
-                        invalid="true"      
-                        onChange = {(event) => handleEscribirRetroAli(event)}                        
-                        />  
-                    </div>
-                </div>         
-                <div className= "row justify-content-center" style={{marginTop:"3vh"}}>
-                    <div className="col-auto">
-                        <Button className={clasesEstilo.boton} onClick={handleRechazarPractica}>
-                            Enviar
-                        </Button>                               
-                    </div>
-
-                </div>                                            
-            </Collapse>    
-
-            )
-          }         */}
           </Box>
         </div>
         
