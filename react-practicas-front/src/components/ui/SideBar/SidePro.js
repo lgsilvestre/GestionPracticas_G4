@@ -65,7 +65,7 @@ const SidePro = () => {
                         </span>
                     </Link>
                 </MenuItem>
-                <MenuItem style={{marginBottom:'10px'}} value="estudiantes" onClick={handleChange}>
+                <MenuItem style={{marginTop:'20px', marginBottom:'10px'}} value="estudiantes" onClick={handleChange}>
                     <Link to="/admin/estudiantes" style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -74,7 +74,7 @@ const SidePro = () => {
                         <span className="text" style={{fontWeight:'500', fontSize:'18px', marginLeft:'10px'}} >Estudiantes</span>
                     </Link>
                 </MenuItem>
-                <MenuItem style={{marginBottom:'10px'}} value="funcionarios" onClick={handleChange}>
+                <MenuItem style={{marginTop:'20px', marginBottom:'10px'}} value="funcionarios" onClick={handleChange}>
                     <Link to="/admin/administradores" style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -83,7 +83,7 @@ const SidePro = () => {
                         <span className="text" style={{fontWeight:'500', fontSize:'18px', marginLeft:'10px'}}>Funcionarios</span>
                     </Link>
                 </MenuItem>
-                <MenuItem style={{marginBottom:'10px'}} value="gestionar_p" onClick={handleChange}>
+                <MenuItem style={{marginTop:'20px', marginBottom:'10px'}} value="gestionar_p" onClick={handleChange}>
                     <Link to="/admin/ofertas" style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -92,7 +92,7 @@ const SidePro = () => {
                         <span className="text" style={{fontWeight:'600', fontSize:'18px', marginLeft:'10px'}}>Gestionar Práctica</span>
                     </Link>
                 </MenuItem>
-                <MenuItem style={{marginBottom:'10px'}} value="gestionar_p" onClick={handleChange}>
+                <MenuItem style={{marginTop:'20px', marginBottom:'10px'}} value="gestionar_p" onClick={handleChange}>
                     <Link to="/admin/documentos" style={{
                         display: 'flex',
                         alignItems: 'center',

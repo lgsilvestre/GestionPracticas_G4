@@ -13,7 +13,7 @@ import PersonIcon from '@material-ui/icons/Person';
 export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
 
     const cookies = new Cookies();
-    
+
     const [showPer, setShowPer] = useState(false);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -50,50 +50,55 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante"
-                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '20px', fontWeight: '400' }}
                         > Home </NavLink>
                         <NavLink
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/practicas"
-                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '20px', fontWeight: '400' }}
                         > Prácticas </NavLink>
                         <NavLink
                             exact
                             activeClassName="active"
                             className="nav-item nav-link"
                             to="/estudiante/postulaciones"
-                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '20px', fontWeight: '400' }}
                         > Documentos </NavLink>
                     </div>
                 </div>
                 <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
                     <ul className="navbar-nav ml-auto">
-                        <NavLink
-                            activeClassName="active"
-                            className="nav-item nav-link"
-                            exact
-                            to="/estudiante/changePass"
-                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
-                        >
-                            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                                <DropdownToggle caret>
-                                    Dropdown
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem header>Header</DropdownItem>
-                                    <DropdownItem>Some Action</DropdownItem>
-                                    <DropdownItem text>Dropdown Item Text</DropdownItem>
-                                    <DropdownItem disabled>Action (disabled)</DropdownItem>
-                                    <DropdownItem divider />
-                                    <DropdownItem>Foo Action</DropdownItem>
-                                    <DropdownItem>Bar Action</DropdownItem>
-                                    <DropdownItem>Quo Action</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
 
-                            {/* <Dropdown 
+                        <Dropdown isOpen={dropdownOpen} toggle={toggle} >
+                            <DropdownToggle style={{ marginLeft: '15px', marginRight: '15px', fontSize: '20px', fontWeight: '400', backgroundColor: '#132038' }} caret>
+                                {cookies.get('name')}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem header>Header</DropdownItem>
+                                <DropdownItem>
+
+                                    <NavLink
+                                        activeClassName="active"
+                                        className="nav-item nav-link"
+                                        exact
+                                        to="/estudiante/changePass"
+                                        
+                                    >
+                                        Some Action
+                                    </NavLink>
+                                </DropdownItem>
+                                <DropdownItem text>Dropdown Item Text</DropdownItem>
+                                <DropdownItem disabled>Action (disabled)</DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem>Foo Action</DropdownItem>
+                                <DropdownItem>Bar Action</DropdownItem>
+                                <DropdownItem>Quo Action</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+
+                        {/* <Dropdown 
                                 icon={<PersonIcon />} 
                                 open={showPer}
                                 onMouseEnter={showDropdownPer}
@@ -104,14 +109,14 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                                 <Dropdown.Item eventKey="5">Configuración</Dropdown.Item>
                                 <Dropdown.Item eventKey="6">Historial</Dropdown.Item>
                             </Dropdown> */}
-                            {/* <p>
+                        {/* <p>
                                 {cookies.get('name')}
                             </p>   */}
-                        </NavLink>
+
                         <NavLink
                             className="nav-item nav-link"
                             exact to="/login"
-                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '22px', fontWeight: '400' }}
+                            style={{ marginLeft: '15px', marginRight: '15px', fontSize: '20px', fontWeight: '400' }}
                         >
                             <ExitToAppIcon />
                         </NavLink>
