@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function Administrador() {
 
@@ -19,6 +20,8 @@ export default function Administrador() {
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [hideLoader, setLoader] = useState(true)
+  const loaderController = () => setLoader(false)
   const [administrador, setAdministrador] = useState({
     nombre: "",
     apellido: "",
@@ -39,8 +42,8 @@ export default function Administrador() {
     { id: 'action', label: 'Acción', minWidth: "25%", },
   ];
 
-  function createData(nombre, apellido, correo, tipo, contrasenia, action) {
-    return { nombre, apellido, correo, tipo, contrasenia, action };
+  function createData(id, nombre, apellido, correo, tipo, contrasenia, action) {
+    return {id, nombre, apellido, correo, tipo, contrasenia, action };
   }
 
   const handleChange = e => {
@@ -52,22 +55,30 @@ export default function Administrador() {
     console.log(administrador);
   }
 
-
-
-  const peticionGet=async()=>{
-    await axios.get('')
-    .then(response=>{
-      const resultado = response.data;
-      // console.log("antes:",rows)
-      const lista = []
-      for(var i=0; i<resultado.length; i++){
-        const fila = createData(resultado[i].nombre , resultado[i].correo , resultado[i].tipo,resultado[i].contrasenia,"button")
-        // console.log(fila)
-        lista.push(fila)
-      }  
-      // console.log(lista)
-      setRows(lista)
-    })
+  const peticionGet = async () => {
+    await axios.get('http://localhost/GestionPracticas_G4/ci-practicas-back/public/getFuncionarios')
+      .then(response => {
+        const resultado = response.data
+        console.log(response.data)
+        // console.log("antes:",rows)
+        const lista = []
+        for (var i = 0; i < resultado.length; i++) {
+          let tipoActual = "";
+          if (resultado[i].tipo == "1") {
+            tipoActual = "Jefe de Escuela"
+          } else if (resultado[i].tipo == "2") {
+            tipoActual = "Supervisor"
+          }
+          const fila = createData(resultado[i].id_usuario, resultado[i].nombre, resultado[i].apellido, resultado[i].email, tipoActual, resultado[i].password, "button")
+          // console.log(fila)
+          lista.push(fila)
+        }
+        // console.log(lista)
+        loaderController()
+        setRows(lista)
+      }).catch(error => {
+        console.log("Error catch: ", error)
+      })
   }
 
   const peticionPut = async () => {
@@ -97,13 +108,16 @@ export default function Administrador() {
   }
 
   const peticionDelete = async () => {
-    await axios.delete('' + administrador
-      .id)
-      .then(response => {
-        setRows(rows.filter(consola => consola.id !== administrador
-          .id));
-        abrirCerrarModalEliminar();
-      })
+    await axios.post(
+      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/deleteUser",
+      {
+        id: administrador.id
+      }
+    ).then(response => {
+      // setRows(rows.filter(consola => consola.id !== administrador
+      //   .id));
+      abrirCerrarModalEliminar();
+    })
   }
 
   const abrirCerrarModalInsertar = () => {
@@ -148,30 +162,31 @@ export default function Administrador() {
     let password = administrador.contrasena
     console.log(nombre, "/", apellido, "/", email, "/", carrera, "/", tipo, "/", password)
 
-    // axios.post(
-    //   "http://localhost/GestionPracticas_G4/ci-practicas-back/public/insertUser",
-    //   {
-    //     nombre: nombre,
-    //     apellido: apellido,
-    //     email: email,
-    //     tipo: tipo,
-    //     password: password,
-    //   },
-    // )
-    //   .then(response => {
+    axios.post(
+      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/insertUser",
+      {
+        nombre: nombre,
+        apellido: apellido,
+        email: email,
+        carrera: carrera,
+        tipo: tipo,
+        password: password,
+      },
+    )
+      .then(response => {
 
-    //     console.log("respuesta: ", response.data);
+        console.log("respuesta: ", response.data);
 
-    //   })
-    //   .catch(error => {
-    //     console.log("login error: ", error);
-    //   });
+      })
+      .catch(error => {
+        console.log("login error: ", error);
+      });
   }
 
   // Funcion que se ocupa de traer las carreras desde el back
-  function getDocumentos() {
-
-    axios.get(
+  const getDocumentos = async () => {
+    
+    await axios.get(
       "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
     ).then(response => {
       console.log("respuesta: ", response.data)
@@ -317,55 +332,59 @@ export default function Administrador() {
       </div>
 
       <Button className={classes.boton} onClick={() => abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
-      <br /><br />
+      <br />
+      <br />
       <hr />
       <Paper className={classes.root}>
-      {/* Tabla de Practicas */}
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          {/* Headers de la tabla */}
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          {/* Cuerpo de la Tabla */}
-          <TableBody>
-            {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
-            {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
-            {rows.map((row) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (                           
-                      <TableCell key={column.id} align={column.align}>
-                      {value ==="button" ? 
-                      <div>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Editar')}/>
-                      &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarAdministrador(rows, 'Eliminar')}/>
-                      </div>
-                      : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        {/* Tabla de Practicas */}
+        <TableContainer className={classes.container}>
+          <Table stickyHeader aria-label="sticky table">
+            {/* Headers de la tabla */}
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            {/* Cuerpo de la Tabla */}
+            <TableBody>
+              {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
+              {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
+              {rows.map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {value === "button" ?
+                            <div>
+                              <Edit className={classes.iconos} onClick={() => seleccionarAdministrador(row, 'Editar')} />
+                              &nbsp;&nbsp;&nbsp;
+                              <Delete className={classes.iconos} onClick={() => seleccionarAdministrador(row, 'Eliminar')} />
+                            </div>
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
+          {hideLoader ? <CircularProgress style={{ marginTop: '10px', marginBottom: '10px' }} /> : null}
+        </div>
     </Paper>
     <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
           <DialogTitle id="form-dialog-title">Nuevo Funcionario</DialogTitle>

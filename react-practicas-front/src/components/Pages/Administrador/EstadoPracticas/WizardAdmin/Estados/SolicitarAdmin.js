@@ -72,9 +72,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
-    const clasesEstilo = useStyles();
+    //const clasesEstilo = useStyles();
     console.log("Solicitando alumno con: ",nroMatricula)
+
     console.log("Numero de practica: ", nroPractica)
+
     const [docs, setDocs] = useState([])
     const [showRetroAli, setshowRetroAli] = useState(false)
     const [retroAli, setRetroAli] = useState("")
@@ -94,13 +96,15 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     const [dataEstudiante, setdataEstudiante] = useState(data)
 
     const [docSelect, setDocSelect] = useState('')
+
     const [mostrarAlerta, setmostrarAlerta] = useState(false)
     const [practicaAceptada, setpracticaAceptada] = useState(false)
     const [archivos, setArchivos] = useState([])
 
     const handleChangeDocSelect = (event) => {
       setDocSelect(event.target.value);
-  };
+    };
+
     const handleAddDoc = () =>{
       const infoDocSelected = docs.find(doc => doc.nombre ===docSelect)
       console.log("VVALOR: ",infoDocSelected);

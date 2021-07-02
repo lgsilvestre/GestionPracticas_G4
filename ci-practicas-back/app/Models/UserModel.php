@@ -16,8 +16,11 @@ class UserModel extends Model{
         
     }
     
-    public function insertUser($nombre, $apellido, $email, $tipo, $password){
-        echo $nombre." - ".$apellido." - ".$email." - ".$tipo." - ".$password;
+    public function insertUser($nombre, $apellido, $email, $tipo, $password, $carrera){
+        echo $nombre." - ".$apellido." - ".$email." - ".$tipo." - ".$password." - ".$carrera;
+        $query = "insert into usuario (nombre, apellido, email, password, tipo, estado, refCarrera) values ('".$nombre."', '".$apellido."', '".$email."' ,'".$password."', ".$tipo.", 1, (Select id_carrera from carrera where nombre = '".$carrera."') )";
+        $result = $this->db->query($query)->getResult();
+        return $this->db->affectedRows();
         /*
         $string_query = "insert into 'usuario' ('nombre', 'apellido', 'email', 'password', 'tipo', 'permisos', 'estado', 'refCarrera') VALUES ('".$nombre."', 'Apellido', '".$email."', '".$password."', '".$tipo."', '0', '1', '1');";
         $query = $this->db->query($string_query);
@@ -28,7 +31,7 @@ class UserModel extends Model{
     
     public function getUsers(){
 
-        $string_query = "Select * from usuario";
+        $string_query = "Select * from usuario where tipo != '0'";
         $query = $this->db->query($string_query);
         $result = $query->getResult();
         return $result;
@@ -40,6 +43,10 @@ class UserModel extends Model{
         $query = $this->db->query($string_query);
         $result = $query->getResult();
         return $result;
+    }
+
+    public function deleteUser(){
+
     }
 
     /*

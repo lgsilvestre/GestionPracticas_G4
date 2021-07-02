@@ -7,12 +7,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import { Table, TableContainer, TableHead, TableBody, TableRow, Modal, TableCell, Paper } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableBody, TableRow, Modal, TableCell, Paper, Container } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 import FormAlumno from '../../FormAlumno/FormAlumno';
 import { motion } from "framer-motion"
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Excel from '../Estudiante/Excel/Excel'
-
 
 export default function Administrador() {
   const classes = useStyles();
@@ -21,6 +22,8 @@ export default function Administrador() {
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [modalVerMas, setModalVerMas] = useState(false);
+  const [hideLoader, setLoader] = useState(true)
+  const loaderController = () => setLoader(false)
   const [estudiante, setEstudiante] = useState({
     nombre: '',
     carrera: '',
@@ -48,7 +51,7 @@ export default function Administrador() {
     { id: 'nombre', label: 'Estudiante', minWidth: "25%" },
     { id: 'rut', label: 'RUT', minWidth: "25%" },
     { id: 'correo_ins', label: 'Correo', minWidth: "25%" },
-    { id: 'action', label: 'Acción', minWidth: "25%", },
+    { id: 'action', label: 'Acción', minWidth: "50%", },
   ];
 
   const peticionGet = async () => {
@@ -59,12 +62,13 @@ export default function Administrador() {
         // console.log("antes:",rows)
         const lista = []
         for (var i = 0; i < resultado.length; i++) {
-          const fila = createData(resultado[i].carrera, resultado[i].matricula, resultado[i].nombre, resultado[i].rut, resultado[i].correo_ins, "button")
+          const fila = createData(resultado[i].nombre_carrera, resultado[i].matricula, resultado[i].nombre, resultado[i].rut, resultado[i].correo_ins, "button")
           // console.log(fila)
           lista.push(fila)
           console.log(resultado[i].carrera)
         }
         // console.log(lista)
+        loaderController()
         setRows(lista)
       }).catch(error => {
         console.log(error)
@@ -204,51 +208,57 @@ export default function Administrador() {
       <br />
       <hr />
       <Paper className={classes.root}>
-      {/* Tabla de Practicas */}
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          {/* Headers de la tabla */}
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          {/* Cuerpo de la Tabla */}
-          <TableBody>
-            {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
-            {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
-            {rows.map((row) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (                           
-                      <TableCell key={column.id} align={column.align}>
-                      {value ==="button" ? 
-                      <div>
-                      <Edit className={classes.iconos} onClick={()=>seleccionarEstudiante(rows, 'Editar')}/>
-                      &nbsp;&nbsp;&nbsp;
-                      <Delete  className={classes.iconos} onClick={()=>seleccionarEstudiante(rows, 'Eliminar')}/>
-                      </div>
-                      : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        {/* Tabla de Practicas */}
+        <TableContainer className={classes.container}>
+          <Table stickyHeader aria-label="sticky table">
+            {/* Headers de la tabla */}
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            {/* Cuerpo de la Tabla */}
+            <TableBody>
+
+              {/* Modificar lista para mostrar solo la cantidad de filas  que se especifica en las opciones, */}
+              {/* luego aplicamos un map para recorrer cada fila creandola en la tabla */}
+              {rows.map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {/* Recorremos cada campo de una fila mostrando el dato respectivo */}
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {value === "button" ?
+                            <div>
+                              <Edit className={classes.iconos} onClick={() => seleccionarEstudiante(row, 'Editar')} />
+                              &nbsp;&nbsp;&nbsp;
+                              <Delete className={classes.iconos} onClick={() => seleccionarEstudiante(row, 'Eliminar')} />
+                            </div>
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100%', width: '100%'}}>
+          {hideLoader ? <CircularProgress style={{marginTop: '10px', marginBottom: '10px'}}/> : null}
+
+        </div>
 
       </Paper>
 
