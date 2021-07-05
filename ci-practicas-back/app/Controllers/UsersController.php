@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use App\Models\AlumnoModel as AlumnoModel;
 use App\Models\UserModel as UserModel;
+use App\Models\PracticaModel as PracticaModel;
 
 /**
  * Class BaseController
@@ -43,24 +44,29 @@ class UsersController extends  BaseController
 	{
 		// Do Not Edit This Line
 		parent::initController($request, $response, $logger);
-		
+
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
 		//$this->load->model("Alumno");
 		$this->AlumnoModel = new AlumnoModel();
-        $this->UserModel = new UserModel();        
+        $this->UserModel = new UserModel();
 	}
 
     public function insertUser(){
-        helper(['form']);
         $nombre = $this->request->getVar('nombre');
         $apellido = $this->request->getVar('apellido');
         $email = $this->request->getVar('email');
+        $carrera = $this->request->getVar('carrera');
         $tipo = $this->request->getVar('tipo');
         $password = $this->request->getVar('password');
-        $this->UserModel->insertUser($nombre, $apellido, $email, $tipo, $password);
+        $result = $this->UserModel->insertUser($nombre, $apellido, $email, $tipo, $password, $carrera);
+        if ($result){
+            echo 1;
+        } else {
+            echo 0;
+        }
     }
 
 	public function login(){
@@ -82,11 +88,12 @@ class UsersController extends  BaseController
 
             $result = $alumnomodel->login($email, $password);
             $arr = array();
-            
+
             if ($result){
 
                 foreach ($result as $row)
                 {
+                    $arr['id_alumno'] = $row->id_alumno;
                     $arr['nombre'] = $row->nombre;
                     $arr['correo_ins'] = $row->correo_ins;
                     $arr['matricula'] = $row->matricula;
@@ -94,18 +101,19 @@ class UsersController extends  BaseController
                     $arr['refCarrera'] = $row->refCarrera;
                     $arr['tipo'] = 3;
                 }
+
+                // $evaluada = $alumnomodel->getEvaluacion($result->id_alumno);
+                // $arr['evaluada'] = $evaluada;
+                // $arr['cantidad'] = sizeof($evaluada);
                 echo json_encode($arr);
 
             } else {
                 echo "error";
             }
-            
 
         } elseif (str_ends_with($email, '@utalca.cl')) {
-            
             $result = $usermodel->login($email, $password);
             $arr = array();
-            
             if ($result){
 
                 foreach ($result as $row)
@@ -117,7 +125,7 @@ class UsersController extends  BaseController
                     $arr['permisos'] = $row->permisos;
                     $arr['estado'] = $row->estado;
                     $arr['refCarrera'] = $row->refCarrera;
-                }                
+                }
                 echo json_encode($arr);
 
             } else {
@@ -143,73 +151,6 @@ class UsersController extends  BaseController
 
     }
 
-	public function login1(){
-        echo "Usuario: ".$this->request->getVar('email')." - ";
-        echo "Pass: ".$this->request->getVar('password');
-        
-        helper(['form']);
-        /*
-        if($this-> request -> getMethod() == 'post') {
-            
-            $rules = [
-                'email' => 'required|min_length[6]|max_length[99]|valid_email',
-                'password' => 'required|max_length[255]|validateUSer[email, password]',
-            ];
-            $errors = [
-                'password' => [
-                'validateUSer' => 'Email y contrase�a no coinciden'
-                ]
-            ];
-            
-            if(! $this->validate($rules, $errors)){
-                $data['validation'] = $this->validator;
-            } else {
-                $model = new UserModel();
-                $user = $model->where('email', $this->request->getVar('email'))->first();
-
-                $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-
-                if($user['tipo']==0){//Superadmin
-                    //return redirect()->to('/dashbordSuperAdmin');
-                }
-                if($user['tipo']==1){//Admin
-                    //return redirect()->to('/dashbordAdmin');
-                }
-                if($user['tipo']==2){//cliente
-                    //return redirect()->to('/dashbordJefeCarrera');
-                }
-                if($user['tipo']==3){//cliente
-                    //return redirect()->to('/dashbordEncarcadoCarrera');
-                }
-                if($user['tipo']==4){//cliente
-                    //return redirect()->to('/dashbordAlumno');
-                }
-                if($user ['active']==1){
-                    $this-> setUserSession($user); // aqui tenemos ya al usuario que corresponde
-
-                    if($user['tipo']==0){//Superadmin
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==1){//Admin
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==2){//cliente
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==3){//cliente
-                        return redirect()->to('/dashbordAdmin');
-                    }
-                    if($user['tipo']==4){//cliente
-                        return redirect()->to('/dashbordAlumno');
-                    }
-                }
-                else{
-                    //usuario inactivo
-                }
-            }
-        }*/
-    }
-
     private function setUserSession($user){
         $data =[
             'id' => $user['id'],
@@ -229,12 +170,11 @@ class UsersController extends  BaseController
 
         if($this-> request -> getMethod() == 'post') {
             //validation rules
-                
             $rules = [
                 'nombre' => 'required|min_length[3]|max_length[22]',
                 'password' =>'required',
             ];
-                
+
             if($this->request->getPost('clave') != ''){
                 $rules['clave'] = 'required|min_length[6]|max_length[255]';
                 $rules['confirmar'] =  'matches[clave]';
@@ -295,7 +235,7 @@ class UsersController extends  BaseController
                     'is_unique' => 'Email se encuentra registrado en el sistema'
                 ]
             ];
-            
+
             if(!$this->validate($rules, $errors)){
                 $data['validation'] = $this->validator;
             } else {
@@ -346,8 +286,7 @@ class UsersController extends  BaseController
                 'porc_avance' => 'required',
                 'ult_punt_prio' => 'required',
                 'al_dia' => 'required',
-                'nivel_99_aprobado' => 'required',
-                'refCarrera' => 'required'
+                'nivel_99_aprobado' => 'required'
             ];
             $errors = [
             ];
@@ -356,6 +295,7 @@ class UsersController extends  BaseController
                 $data['validation'] = $this->validator;
             } else {
                 $model = new AlumnoModel();
+
                 $newsData =[
                     'nombre' => $this->request->getVar('nombre'),
                     'correo_ins' => $this->request->getVar('correo_ins'),
@@ -406,7 +346,8 @@ class UsersController extends  BaseController
             }
         //return redirect()->to('/dashbordAlumno');          VistaRegistro
         }
-    } 
+    }
+
 
     public function adminEdit(){
         helper(['form']);
@@ -535,6 +476,26 @@ class UsersController extends  BaseController
         return redirect()->to('/');
     }
 
+    public function getUserId()
+    {
+        helper(['form']);
+        if($this-> request -> getMethod() == 'post') {
+            $rules = [
+                'id' => 'required',
+            ];
+            $errors = [             //falta errors
+            ];
+            if(! $this->validate($rules, $errors)){
+                $data['validation'] = $this->validator;
+            } else{
+                $id = $this->request->getVar('id');
+                $model = new AlumnoModel();
+                $user = $model->where('id_alumno', $id)->first();
+                echo json_encode($user);
+            }
+        }
+    }
+
     public function getUsersActive()
     {
         $model = new UserModel();
@@ -567,6 +528,197 @@ class UsersController extends  BaseController
             }
         }
     }
+
+    private function sendEmailRegisterAlumno($nombre, $correo, $contraseña){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Se ha registrado su usuario con éxito');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su cuenta ha sido registrada con éxito :).</p>
+                <p>Sus credenciales de ingreso son: </p>
+                <p style="color: blue"><b>Usuario:</b> '.$correo.'</p>
+                <p style="color: blue"><b>Contraseña:</b> '.$contraseña.'</p>
+                <br>
+                <p>Ya estas habilitado para acceder al centro de practica y solicitar tu practica</p>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+
+    }
+
+    private function sendEmailPassword($nombre, $correo, $contraseña){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Su contraseña ha sido reiniciada');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su contraseña ha sido reiniciada con éxito :).</p>
+                <p>Sus credenciales de ingreso son: </p>
+                <p style="color: blue"><b>Usuario:</b> '.$correo.'</p>
+                <p style="color: blue"><b>Contraseña:</b> '.$contraseña.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+
+    private function sendEmailRegisterUser($nombre, $correo, $contraseña){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Se ha registrado su usuario con éxito');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, su cuenta ha sido registrada con éxito :).</p>
+                <p>Sus credenciales de ingreso son: </p>
+                <p style="color: blue"><b>Usuario:</b> '.$correo.'</p>
+                <p style="color: blue"><b>Contraseña:</b> '.$contraseña.'</p>
+                <br>
+                <p>Ya está habilitado para utilizar la plataforma de centro de práctica</p>
+                <p>Por favor no responder a este correo</p>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+
+    }
+
+    public function registerAlumnoExcelData(){
+        helper(['form']);
+        $data = $this->request->getVar('data');
+        //print_r($data);
+        $model = new AlumnoModel();
+        if($this-> request -> getMethod() == 'post') {
+            for ($i = 0; $i < count((array)$data); $i++){
+                echo count((array)$data);
+                $value = get_object_vars($data[$i]);
+                if(!isset($value['Nombre carrera'])){
+                    echo "basura";
+                }
+                else{
+                    if($value['Nombre carrera']=='INGENIERÍA CIVIL EN MINAS'){
+                        $refCarrera = 1;
+                    }
+                    elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN COMPUTACIÓN'){
+                        $refCarrera = 2;
+                    }
+                    elseif($value['Nombre carrera']=='INGENIERÍA CIVIL INDUSTRIAL'){
+                        $refCarrera = 3;
+                    }
+                    elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN OBRAS CIVILES'){
+                        $refCarrera = 4;
+                    }
+                    $pass = $this->generatePass(6);
+                    $newsData =[
+                        'nombre' => $value['Nombre Alumno'],
+                        'correo_ins' => $value['Correo Institucional'],
+                        'correo_per' => $value['Correo Personal'],
+                        'password' => $pass,
+                        'matricula' => $value['Matricula'],
+                        'nbe_carrera' => $value['Nombre carrera'],
+                        'cod_carrera' => $value['Codigo Carrera'],
+                        'rut' => $value['RUT'],
+                        'sexo' => $value['Sexo'],
+                        'fecha_nac' => $value['Fecha Nacimiento'],
+                        'plan' => $value['Plan'],
+                        'via_ingreso' => $value['Via Ingreso'],
+                        'anho_ingreso' => $value['Año Ingreso'],
+                        'sit_actual' => $value['Situcacion Actual'],
+                        'sit_actual_anho' => $value['Situacion Actual Año'],
+                        'sit_actual_periodo' => $value['Situacion Actual Periodo'],
+                        'regular' => $value['Regular'],
+                        'comuna_origen' => $value['Comuna Origen'],
+                        'region' => $value['Region'],
+                        'nivel' => $value['Nivel'],
+                        'porc_avance' => $value['Porcentaje Avance'],
+                        'ult_punt_prio' => $value['Ultima Puntuacion Prioridad'],
+                        'al_dia' => $value['Al Día'],
+                        'nivel_99_aprobado' => $value['Nivel 99 Aprobado'],
+                        'refCarrera' =>$refCarrera,
+                        'estado_alumno' => '1'
+                    ];
+                    $this->sendEmailRegisterUser($value['Nombre Alumno'], $value['Correo Institucional'],$pass);
+                    $model ->save($newsData);
+
+                    // Generar historial
+                    
+                    // $refAlumno = $model->getIdAlumno($value['matricula']);
+                    // $this->generarHistorial($refAlumno, -1, -1, -1, "Nuevo alumno ingresado");
+
+                    // //$refAlumno, $refAdmin, $etapa, $practica, $comentario
+
+                }
+            }
+        }
+    }
+
+	public function generarHistorial($refAlumno, $refAdmin, $etapa, $practica, $comentario, $retroalimentacion, $idPractica){
+		$model = new HistorialModel();
+
+		$newsData =[
+			'comentario' => $comentario,
+			'retroalimentacion' => $retroalimentacion
+		];
+		if($etapa != -1){
+			$newsData +=[
+				'etapa' => $etapa
+			];
+		}
+		if($refAlumno != -1){
+			$newsData +=[
+				'refAlumno' => $refAlumno
+			];
+		}
+		if($refAdmin != -1)
+		{
+			$newsData +=[
+				'refAdmin' => $refAdmin
+			];
+		}
+		if($practica != -1)
+		{
+			$newsData +=[
+				'practica' => $practica,
+			];
+		}
+		if($idPractica != -1)
+		{
+			$newsData +=[
+				'refPractica' => $idPractica,
+			];
+		}
+		$model ->save($newsData);
+	}
 }
 
 

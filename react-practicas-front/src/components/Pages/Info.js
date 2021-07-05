@@ -16,6 +16,12 @@ export const Info = () => {
                             Admin
                         </button>
                     </Link>
+                    <h3>para trabajar en en vista Supervisor o Jefe Carrera : /supervisor</h3>   
+                    <Link to="/supervisor">
+                        <button className ="btn btn-secondary">
+                        supervisor
+                        </button>
+                    </Link>
                     <h3>para trabajar en vista Login : /login</h3>   
                     <Link to="/login">
                         <button className ="btn btn-secondary">
@@ -26,6 +32,12 @@ export const Info = () => {
                     <Link to="/table">
                         <button className ="btn btn-secondary">
                             Table
+                        </button>
+                    </Link>
+                    <h3>para trabajar en evaluar practicas : /evaluar</h3>   
+                    <Link to="/evaluar">
+                        <button className ="btn btn-secondary">
+                            evaluar
                         </button>
                     </Link>
         </div>

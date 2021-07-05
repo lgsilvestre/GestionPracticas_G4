@@ -7,8 +7,8 @@ import { SolicitarAdmin } from './Estados/SolicitarAdmin';
 import { EvaluacionAdmin } from './Estados/EvaluacionAdmin';
 
 
-const WizardAdmin = ({pageProp=0}) => {
-
+const WizardAdmin = ({pageProp=0, nroMatricula, nroPractica, idAlumno}) => {
+    
     const steps = [
         {title: "Solicitar"},
         {title: "Inscripción"},
@@ -23,6 +23,7 @@ const WizardAdmin = ({pageProp=0}) => {
     const previousPageFuncion = ()=>{
         setPage(page-1)
     }
+
     return (
         <Card className="container mt-3 mb-3" >
             <Stepper 
@@ -30,15 +31,42 @@ const WizardAdmin = ({pageProp=0}) => {
                 size={40}
                 circleFontSize={18}
                 activeStep={ page }
-                activeColor={"#f69b2e"}
-                completeColor = {"#f69b2e"}
+                activeColor={"#0DC143"}
+                completeColor = {"#77C78F"}
             />
             <hr/>
             
-            { page===0 && <SolicitarAdmin previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===1 && <InscripcionAdmin handleSubmit={nextPage} /> }
-            { page===2 && <CursandoAdmin previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
-            { page===3 && <EvaluacionAdmin previousPage={previousPageFuncion} handleSubmit={nextPage}/> }
+            { page===0 && <SolicitarAdmin 
+              previousPage={previousPageFuncion} 
+              nextPage = {nextPage}
+              handleSubmit={nextPage} 
+              nroMatricula={nroMatricula}  
+              nroPractica={nroPractica}  
+              idAlumno={idAlumno}
+              /> }
+            { page===1 && <InscripcionAdmin 
+              nextPage = {nextPage}
+              previousPage={previousPageFuncion} 
+              handleSubmit={nextPage} 
+              nroMatricula={nroMatricula} 
+              nroPractica={nroPractica} 
+              idAlumno={idAlumno}
+              /> }
+            { page===2 && <CursandoAdmin 
+              previousPage={previousPageFuncion} 
+              nextPage = {nextPage}
+              handleSubmit={nextPage} 
+              nroMatricula={nroMatricula}
+              nroPractica={nroPractica} 
+              idAlumno={idAlumno}
+              /> }
+            { page===3 && <EvaluacionAdmin 
+              previousPage={previousPageFuncion} 
+              handleSubmit={nextPage} 
+              nroMatricula={nroMatricula}
+              nroPractica={nroPractica} 
+              idAlumno={idAlumno}
+              /> }
             
             
         </Card>

@@ -4,7 +4,7 @@ import './components/routers/AppRouterStyle.css';
 
 function App() {
   return (
-    <div className="Back">
+    <div >
       <AppRouter/>
     </div>
   );

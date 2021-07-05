@@ -1,11 +1,17 @@
-import {Box,Button,FormControl,FormGroup,Grid,IconButton,Input,InputLabel,List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, MenuItem, NativeSelect, Select, TextField } from '@material-ui/core'
-import React, { useState } from 'react'
-import { AiOutlineSearch } from 'react-icons/ai';
+import {Box,FormControl,Grid,IconButton,Input,
+    List,ListItem,ListItemIcon,ListItemSecondaryAction,ListItemText,makeStyles, 
+    NativeSelect, Button } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { IoMdAddCircle } from 'react-icons/io';
 import { MdDelete } from 'react-icons/md';
 import { VscFilePdf } from 'react-icons/vsc';
-import { Col, FormText, Label } from 'reactstrap';
+import { GoCheck } from "react-icons/go";
+import { GoCircleSlash } from "react-icons/go";
 import { useForm } from '../../../../../../hooks/useForm';
+import {useForm as useFormDoc} from 'react-hook-form';
+import {Collapse, Input as InputRechazo, CustomInput , Label} from 'reactstrap';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -18,50 +24,70 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         textAlign: "left"
     },
-    formControl: {
-        marginRight: theme.spacing(2),
-        textAlign: "left",
-        minWidth: 120,
-    },
-    botonAddDoc:{ 
-        marginLeft:theme.spacing(1),
-        color:"#f69b2e"
+    filebox:{
+        minWidth:"450px",
+        maxWidth:"450px"
     },
     icon:{
-        color:'#f69b2e',
         width:"30px", 
-        height:"30px"
+        height:"30px",
+        color:"#132038"
     },
-    logosearch :{
-        width:"25px", 
-        height:"25px"
-    }
+    boxBotones:{
+      marginTop:'10px', 
+      marginBottom:'30px', 
+      borderRadius:'20px', 
+      backgroundColor:'#fafafa',
+      justifyContent:"center"
+    },
+    boton:{
+      marginRight:'10px',
+      backgroundColor:"grey",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'#f69b2e',
+          color: '#fff'
+          }
+    },
+    botonRechazo:{
+      backgroundColor:"#FF7D7D",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'red',
+          color: '#fff'
+          }
+    },
+    botonAceptar:{
+      marginRight:'10px',
+      backgroundColor:"#77C78F",
+      color:"white",
+      cursor: 'pointer',
+      transition: 'all 0.4s cubic-bezier(0.42, 0, 0.58, 1)',
+      '&:hover': {
+      backgroundColor:'#0DC143',
+          color: '#fff'
+          }
+    },
 }));
-export const SolicitarAdmin = () => {
-    const docs = [
-        {
-          nombre:'Carta de presentación',
-          value:'doc1'
-        },
-        {
-          nombre:'Curriculo Plan',
-          value:'doc2'
-        },
-        {
-          nombre:'Consentimiento Informado',
-          value:'doc3'  
-        },
-        {
-          nombre:'Protocolo Covid',
-          value:'doc4'  
-        },
-        {
-          nombre:'Modulos de desempeño integrado',
-          value:'doc5'  
-        }
-      ]
+export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
+    const {register, handleSubmit:handleArchivo} = useFormDoc()
+    const clasesEstilo = useStyles();
+    console.log("Solicitando alumno con: ",nroMatricula)
+
+    console.log("Numero de practica: ", nroPractica)
+
+    const [docs, setDocs] = useState([])
+    const [showRetroAli, setshowRetroAli] = useState(false)
+    const [retroAli, setRetroAli] = useState("")
+    const [rechazado, setRechazado] = useState(false)
     const classes = useStyles();
-    const dataEstudiante = {
+
+    //Datos por defecto 
+    const data = {
         nombre: "Camilo Villalobos",
         carrera: "Ingenieria Civil en Computacion",
         edad: "18 años",
@@ -69,20 +95,42 @@ export const SolicitarAdmin = () => {
         rut:"12345678-9",
         matricula:"12345679",
     }
-    const [docSelect, setDocSelect] = useState('');
-    const handleChangeDocSelect = (event) => {
-        setDocSelect(event.target.value);
-    };
+
+    const [dataEstudiante, setdataEstudiante] = useState(data)
+
+    const [docSelect, setDocSelect] = useState('')
+
+    const [mostrarAlerta, setmostrarAlerta] = useState(false)
+    const [practicaAceptada, setpracticaAceptada] = useState(false)
     const [archivos, setArchivos] = useState([])
+
+    const handleChangeDocSelect = (event) => {
+      setDocSelect(event.target.value);
+    };
+
     const handleAddDoc = () =>{
-        if(docSelect!=''){
-            setArchivos([...archivos, {nombre:docSelect}])
-        }
+      const infoDocSelected = docs.find(doc => doc.nombre ===docSelect)
+      console.log("VVALOR: ",infoDocSelected);
+        if(!archivos.find(doc =>doc.nombre===docSelect)){
+          if(docSelect!=''){
+            setArchivos([...archivos, {
+              nombre:docSelect,
+              id_documento:infoDocSelected.id_documento,
+              requerido:infoDocSelected.requerido
+            }])
+          }
+        } else {  
+          console.log("DOCUMENTO REPETIDO")
+            //Alerta mismo documento
+        }      
     }
+
     const [formValues, handleInputChange] = useForm({
         searchText:""
     })
+
     const {searchText} = formValues;
+
     const handleSearch = (e) =>{
         e.preventDefault()
         console.log("submit", searchText)
@@ -90,13 +138,170 @@ export const SolicitarAdmin = () => {
             const filteredDocs = docs.filter(doc => doc.nombre.includes(searchText));
             console.log(filteredDocs)
         }
-        }  
-    const handleDeleteDoc= () =>{
-
     }
-    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Edad:", "Sexo:", "Rut:", "Matrícula:"]
+
+    const getDocumentos= () =>{
+    
+        axios.get(
+            "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getDocumentos"
+          )
+            .then(response => {
+              console.log("respuesta: ", response.data)
+              setDocs(response.data)
+            //   administrador.carreras = response.data
+            //   console.log(administrador.carreras)
+            })
+            .catch(error => {
+              console.log("Error: ", error)
+        });
+    }
+
+    const enviarInformacionSolicitud = () =>{  
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarSolicitud",{
+        documentos:archivos,
+        matricula:nroMatricula,
+        numero:nroPractica,
+        idalumno:idAlumno
+      }).then(response =>{
+        //TRUE PRACTICA AGREGADA CORRECTAMENTE -> CAMBIAR ETAPA A INSCRIPCION
+        console.log("respuesta enviar info solicitud: ",response.data)
+        if(response.data!==false){
+          nextPage()
+          enviarInformacionSolicitudCorreo(response.data)
+        }
+      }).catch(error => {
+        //FALSE PRACTICA NO AGREGADA
+        //MOSTRAR ALERTA
+        console.log("Error: ", error)
+      });
+    }
+
+    const enviarInformacionSolicitudCorreo = (dato) =>{  
+        axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/aceptarSolicitudCorreo",{
+          documentos:archivos,
+          matricula:nroMatricula,
+          numero:nroPractica,
+          idalumno:idAlumno,
+          id_historia:dato
+        }).then(response =>{
+        }).catch(error => {
+          //FALSE PRACTICA NO AGREGADA
+          //MOSTRAR ALERTA
+          console.log("Error envio de correo: ", error)
+        });
+      }
+
+    const infoLabelsEstudiante = ["Nombre:", "Carrera:", "Correo Institucional:", "Correo Personal:", "Rut:", "Matrícula:"]
+
+    const handleAceptarPractica = () =>{
+      enviarInformacionSolicitud()
+    }
+
+    const handleRechazarPractica = async () =>{
+        await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handleRechazo",{ 
+            idalumno:idAlumno,
+            numero:nroPractica,
+            etapa:"Solicitud",
+            retroalimentacion: retroAli   
+        }).then(response=>{
+            console.log("Respuesta rechazo: ",response.data)
+            if(response.data!==false){
+                setRechazado(true)
+                // setExitoRechazo(true)
+                enviarCorreoRechazo(response.data)
+            }
+        }).catch(error=>{
+            console.log("ERROR EN RECHAZO: ",error)
+        })
+    }
+    const enviarCorreoRechazo = (dato) => {
+        axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/handlerRechazarCorreo",{ 
+            idalumno:idAlumno,
+            etapa:"Solicitud",
+            id_historia:dato             
+        }).then(response=>{
+            console.log("Respuesta envio correo: ",response.data)
+        }).catch(error=>{
+            console.log("ERROR EN RECHAZO: ",error)
+        })
+    }
+    const handleEscribirRetroAli = (event) => {
+      // console.log("escribiendo", event.target.value)
+      setRetroAli(event.target.value)
+    }
+    const guardarArchivo = (data,idDoc) => {
+      console.log("Enviando info: ",idAlumno," ",nroPractica,"",idDoc)
+      let formData = new FormData()
+      formData.append("file",data[0])
+      formData.append("id_alumno",idAlumno)
+      formData.append("numero",nroPractica)
+      formData.append("documento",idDoc)
+      // console.log("ENVIANDO: ",formData)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/subirArchivoAdmin",
+        formData,    
+        {headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response=>{
+        if(response.data === 1){
+          // setDocumentoSubido(true)
+          console.log("Archivo subido!")
+        }
+        if(response.data === 0){
+          // setDocumentoSubido(false)
+          console.log("No se pudo subir")
+        }
+      })
+      .catch(error=>{
+        console.log("Error: ", error)
+      })  
+    }
+    const handleChangeFile = (e) => {
+      handleArchivo(guardarArchivo(e.target.files,e.target.id))
+    }
+    useEffect(async() => {
+        getDocumentos()
+        await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/getAlumnoMatricula",{
+            params:{
+                matricula:nroMatricula
+            }
+        })
+        .then(response =>{
+            const datosEstudiante={
+                nombre: response.data.nombre,
+                carrera: response.data.nbe_carrera,
+                correo_inst: response.data.correo_ins,
+                correo_per: response.data.correo_per,
+                rut: response.data.rut,
+                matricula: response.data.matricula
+            }
+            setdataEstudiante(datosEstudiante)
+            console.log(datosEstudiante)
+        })
+    }, [])
+
     return (
-        <div>         
+        <div className="animate__animated animate__fadeIn animate__faster">
+            {
+              mostrarAlerta && (
+                practicaAceptada 
+                ? <Alert severity="success">
+                    Esta solicitud de práctica se encuentra <strong>Aceptada</strong>. A la espera del siguiente paso por parte del estudiante.
+                </Alert>
+                : <Alert severity="error">
+                  Esta solicitud de practica se encuentra <strong>Rechazada</strong>.
+                </Alert>       
+              )
+            }  
+            {
+              rechazado && (
+                <Alert severity="success">
+                  Se ha <strong>rechazado</strong> exitosamente esta solicitud. El alumno deberá solicitar una nueva para continuar.
+                </Alert>
+              )
+            }
+            
             {/* Datos de Estudiante */}
             <Box className={classes.mainbox} boxShadow={1}>
                 <h4 style={{paddingTop:'20px', paddingLeft:'20px'}}>Datos Estudiante</h4>
@@ -130,7 +335,7 @@ export const SolicitarAdmin = () => {
                                 {infoLabelsEstudiante[2]}
                             </Box>
                             <Box>
-                                {dataEstudiante.edad}
+                                {dataEstudiante.correo_inst}
                             </Box>
                         </Box>
                     </Grid>
@@ -140,7 +345,7 @@ export const SolicitarAdmin = () => {
                                 {infoLabelsEstudiante[3]}
                             </Box>
                             <Box>
-                                {dataEstudiante.sexo}
+                                {dataEstudiante.correo_per}
                             </Box>
                         </Box>
                     </Grid>                                               
@@ -187,6 +392,7 @@ export const SolicitarAdmin = () => {
                             </form>
                         </Grid>
                     </Grid>
+                    {/* Elegir archivo select */}
                     <Grid container direction="row" justify="flex-start" alignItems="center">
                         <Grid item className={classes.formControl}  >
                             Elegir archivo:
@@ -200,8 +406,8 @@ export const SolicitarAdmin = () => {
                                 >     
                                     <option value=""> Ninguno </option>   
                                     {
-                                        docs.map((doc)=> (
-                                        <option value={doc.nombre}>{doc.nombre}</option>
+                                        docs.map((doc, index)=> (
+                                        <option key={index} value={doc.nombre}>{doc.nombre}</option>
                                     ))
                                     }                
                                 </NativeSelect>
@@ -215,29 +421,86 @@ export const SolicitarAdmin = () => {
                     </Grid>
                     <hr/>     
                     <List>
-                        {
-                            archivos.map( (file,index) => (
-
-                                <ListItem key={index}>
-                                    <ListItemIcon>
-                                        <VscFilePdf className={classes.icon}/>
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={file.nombre}
-                                    />    
-                                    <ListItemSecondaryAction>
-                                        <Input type="file" name={`namefile${index}`} id={`file${index}`} /> 
-                                        <IconButton onClick={handleDeleteDoc}>
-                                            <MdDelete className={classes.icon}/>
-                                        </IconButton>         
-                                    </ListItemSecondaryAction>                                 
-
-                                </ListItem>
-                            ))
-                        }
+                      {
+                        archivos.map( (file,index) => (   
+                          <div key={index} className="container" style={{marginBottom:"10px"}}>
+                            <form  style={{width:"100%"}}>
+                              <div className="row">
+                                <div className="col-auto">
+                                    <VscFilePdf className={classes.icon}/>
+                                </div>
+                                  <div className="col-sm">
+                                    <Label >{file.nombre}</Label>      
+                                  </div>
+                                  <div className ="col-sm">
+                                    <CustomInput 
+                                      ref={register}  
+                                      type="file" 
+                                      onChange={(e)=>handleChangeFile(e)}
+                                      name={file.id_documento}
+                                      id={file.id_documento} 
+                                      label="Subir plantilla..."                                     
+                                    />
+                                  </div>
+                              </div>
+                            </form>     
+                          </div>
+                          ))
+                      }
                     </List>                
                     
                 </div>          
+            </Box>
+            {/* BOX BOTONES ACEPTAR RECHAZAR */}
+            <Box className={classes.boxBotones} display="flex" boxShadow={1}>
+            <div className = "container" style={{padding:"30px"}}>
+              <div className = "row justify-content-center" >
+                <div className = "col-auto">
+                    <Button disabled={showRetroAli} className={clasesEstilo.botonAceptar} startIcon={<GoCheck/>} onClick={handleAceptarPractica} >
+                        Aceptar
+                    </Button>
+                </div>
+                <div className= "col-auto">
+                    <Button disabled={showRetroAli} className={clasesEstilo.botonRechazo} startIcon={<GoCircleSlash/>} onClick = {() => {setshowRetroAli(true)}}  >
+                        Rechazar
+                    </Button>
+                </div>    
+              </div>
+              {
+                showRetroAli && (
+                <Collapse isOpen={true} style={{marginTop:"3vh"}}>  
+                    <div className="row justify-content-center">
+                      <h6 style={{color:"red", fontStyle:"italic", fontSize:17}}>Menciona las razones del rechazo</h6>            
+                    </div>             
+                    <div className="row justify-content-center">
+                        <div className="col-6">
+                            <InputRechazo
+                            // value={retroAli}
+                            placeholder="Ingrese retroalimentación..."                                
+                            type="textarea" 
+                            invalid="true"      
+                            onChange = {(event) => handleEscribirRetroAli(event)}                        
+                            />  
+                        </div>
+                    </div>         
+                    <div className= "row justify-content-center" style={{marginTop:"3vh"}}>
+                        <div className="col-auto">
+                            <Button className={clasesEstilo.botonAceptar} onClick={handleRechazarPractica}>
+                                Enviar
+                            </Button>                               
+                        </div>
+                        <div className="col-auto">
+                            <Button className={clasesEstilo.botonRechazo} onClick={()=>{setshowRetroAli(false)}}>
+                                Cancelar
+                            </Button>                               
+                        </div>
+
+                    </div>                                            
+                </Collapse>    
+
+                )
+              }
+            </div>       
             </Box>
         </div>
     )

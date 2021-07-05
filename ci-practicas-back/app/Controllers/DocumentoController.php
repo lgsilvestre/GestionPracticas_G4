@@ -63,11 +63,20 @@ class DocumentoController extends  BaseController
                 $arr['etapa'] = $row->etapa;
                 $arr['requerido'] = $row->requerido;
             }
-            echo json_encode($arr);
+        echo json_encode($result);
         } else {
             echo "error";
         }
         
+    }
+
+    public function getDocumentosAdmin(){
+		$result = $this->DocumentoModel->getDocumentos();
+        if ($result) {
+            echo json_encode($result);
+        } else {
+            echo 0;
+        }
     }
     
 	public function getDocumento(){
@@ -82,6 +91,86 @@ class DocumentoController extends  BaseController
             echo json_encode($arr);
         } else {
             echo "error";
+        }
+    }    
+
+	private function sendEmailDocumentosCargadosAlumno($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Documentos cargados');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, sus documentos han sido cargados correctamente.</p>
+				<p>Nuestros encargados de practicas están revisando su documentación.</p>
+                <p>Estado solicitud: En evaluación desde el '.$fecha.'</p>
+                <br>
+				<p>Por favor no responder a este correo</p>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+
+	private function sendEmailDocumentosCargadosUser($correo, $nombre, $matricula, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Documentos cargados');
+        $email->setMessage('
+                <p>Hay nuevos documentos cargados a la plataforma.</p>
+				<p>Por favor evaluar documentación lo antes posible.</p>
+                <p>Estado solicitud:</p>
+				<p>Nombre: '.$nombre.'</p>
+				<p>Matrícula: '.$matricula.'</p>
+				<p>En evaluación desde el '.$fecha.'</p>
+                <br>
+				<p>Por favor no responder a este correo</p>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+    }
+
+	private function sendEmailRetroalimentacionAlumno($correo, $nombre, $fecha){
+        $email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Retroalimentación documentación');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, hay retroalimentación de tus documentos previamente cargados a la pagina.</p>
+				<p>Dirígete al portal del centro de prácticas para ver la retroalimentación.</p>
+                <p>Estado solicitud:</p>
+				<p>Retroalimentación hecha el '.$fecha.'</p>
+                <br>
+				<p>Por favor no responder a este correo</p>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
         }
     }
 }
