@@ -24,6 +24,13 @@ class PracticaModel extends Model
         return $result;
     }
 
+    public function getPracticasCursando(){
+        $queryPracticaAlumno = "SELECT COUNT(*) FROM practica where practica.activa = 1 and practica.etapa = 'Cursando'";
+        $query = $this->db->query($queryPracticaAlumno);
+        $result = $query->getResult();
+        return $result;
+    }
+
     public function getPracticaActivaAlumnoId($id){
         $queryPracticaAlumno = "SELECT * FROM practica INNER JOIN alumno ON practica.refAlumno = alumno.id_alumno WHERE ".$id." = alumno.id_alumno AND practica.activa = 1 ORDER BY CASE WHEN etapa = 'Solicitud' THEN 1 ELSE 2 END, etapa";
         $query = $this->db->query($queryPracticaAlumno);

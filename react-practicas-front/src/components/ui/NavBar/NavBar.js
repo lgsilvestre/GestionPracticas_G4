@@ -76,7 +76,7 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                                 {cookies.get('name')}
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem header>Header</DropdownItem>
+                                {/* <DropdownItem header>Cambiar contraseña</DropdownItem>
                                 <DropdownItem>
 
                                     <NavLink
@@ -88,13 +88,13 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                                     >
                                         Some Action
                                     </NavLink>
-                                </DropdownItem>
-                                <DropdownItem text>Dropdown Item Text</DropdownItem>
+                                </DropdownItem> */}
+                                {/* <DropdownItem text>Dropdown Item Text</DropdownItem>
                                 <DropdownItem disabled>Action (disabled)</DropdownItem>
                                 <DropdownItem divider />
                                 <DropdownItem>Foo Action</DropdownItem>
                                 <DropdownItem>Bar Action</DropdownItem>
-                                <DropdownItem>Quo Action</DropdownItem>
+                                <DropdownItem>Quo Action</DropdownItem> */}
                             </DropdownMenu>
                         </Dropdown>
 

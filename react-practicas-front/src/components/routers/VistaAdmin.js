@@ -16,6 +16,8 @@ import './AppRouterStyle.css';
 import Divider from '@material-ui/core/Divider';
 import { Historial } from '../Pages/Administrador/EstadoPracticas/Historial';
 import NavBarr from './componentes/NavBarBtrap';
+import Carreras from '../Pages/Carreras/Carreras';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +56,7 @@ const VistaAdmin = ({history}) => {
                             <Route path='/admin/postulaciones' component={Postulaciones} />
                             <Route path='/admin/ofertas' component={Ofertas} />
                             <Route path='/admin/documentos' component={Documentos} />
+                            <Route path='/admin/carreras' component={Carreras} />
                             <Route path="/admin">
                                 <AdminDashboard />
                             </Route>
