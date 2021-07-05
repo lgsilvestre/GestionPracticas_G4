@@ -18,8 +18,6 @@ import { Historial } from '../Pages/Administrador/EstadoPracticas/Historial';
 import NavBarr from './componentes/NavBarBtrap';
 import Carreras from '../Pages/Carreras/Carreras';
 
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
