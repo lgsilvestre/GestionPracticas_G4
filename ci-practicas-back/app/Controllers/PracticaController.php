@@ -778,6 +778,16 @@ class PracticaController extends BaseController
 		}
 	}
 
+	public function getPracticasCursando(){
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getPracticasCursando();
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
 	public function getRetroalimentacion(){
 		$refAlumno = $this->request->getVar('id_alumno');
 		$practica = $this->request->getVar('nropractica');
