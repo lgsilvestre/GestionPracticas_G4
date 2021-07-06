@@ -82,7 +82,7 @@ export const PracticasInactivas = ({history}) =>  {
   },[])
 
   const petitionGetPracticaAlumno = async () =>{
-    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumno")
+    await axios.get("http://localhost/GestionPracticas_G4/ci-practicas-back/public/servePracticaAlumnoInactiva")
     .then(response=>{
       console.log(response.data)
       const resultado = response.data;
@@ -190,7 +190,7 @@ export const PracticasInactivas = ({history}) =>  {
         <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }}><Typography variant="h3" className={clasesEstilo.titulo} style={{color:''}}>Practicas Inactivas</Typography></motion.div>
         </div>
         <div>
-          <Filtros clasesEstilo={clasesEstilo} data={originalData} setRows={setRows}/>
+          {/* <Filtros clasesEstilo={clasesEstilo} data={originalData} setRows={setRows}/> */}
           <hr/> 
           <Paper className={clasesEstilo.root}>
             {/* Tabla de Practicas */}

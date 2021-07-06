@@ -33,13 +33,14 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     })
     const [archivos, setArchivos] = useState([])
     const [archivo, setArchivo] = useState()
+    const [urls, setUrls] = useState([])
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [mostrarResolucion, setMostrarResolucion] = useState(false)
     const [mostrarComentario, setmostrarComentario] = useState(false)
     const [regionElegida, setregionElegida] = useState(0)
     const [estado, setEstado] = useState("Por inscribir")
     const [retroalimentacion, setRetroalimentacion] = useState("")
-    const [idDoc, setIdDoc] = useState(0)
+    // const [idDoc, setIdDoc] = useState()
     // const [estadoPractica, setEstadoPractica] = useState({})
     const toggleTooltip =() =>{
         setTooltipOpen(!tooltipOpen)
@@ -52,10 +53,12 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
     const changeNameDownloaded = (name)=>{
         setnameDownloaded(name)
     }
-    const handleDownload = ( namefile ) => {
-        toggle()
-        changeNameDownloaded(namefile)
-        console.log("descargando " ,namefile)    
+    const descargar = ( event ) => {
+        console.log(event.target)
+        // toggle()
+        // changeNameDownloaded(namefile)
+        // console.log("descargando " ,index)    
+        // window.open("URL", "_blank")
     }
     
     const postInscripcion = (event) =>{
@@ -63,23 +66,31 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
       console.log("Info a enviar:",formValues)
       enviarDatosInscripcion()
     }
-    const guardarArchivo = (data) => {
-      // console.log(data)
+    
+    const guardarArchivo = (data,idDoc) => {
+      console.log("Enviando info: ",id_alumno," ",nroPractica,"",idDoc)
       let formData = new FormData()
-      // console.log(archivo[0])
-      //idalumno y nropractica
-      formData.append("file",archivo[0])
+      formData.append("file",data[0])
       formData.append("id_alumno",id_alumno)
       formData.append("numero",nroPractica)
-      formData.append("documento",data)
-      console.log("ENVIANDO: ",idDoc)
-      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivo",
+      formData.append("documento",idDoc)
+      console.log("ENVIANDO: ",formData)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivoAlumno",
         formData,    
         {headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
-      .then(response=>console.log("Respuesta subir file: ",response.data))
+      .then(response=>{
+        if(response.data === 1){
+          // setDocumentoSubido(true)
+          console.log("Archivo subido!")
+        }
+        if(response.data === 0){
+          // setDocumentoSubido(false)
+          console.log("No se pudo subir")
+        }
+      })
       .catch(error=>{
         console.log("Error: ", error)
       })  
@@ -173,27 +184,56 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
           )
             .then(response => {
               console.log("RESPUESTA INSTANCIAS DOCUMENTOS:  ",response.data)
-              setArchivos(response.data)
+              // const arregloUrl = response.data['url']
+              const data = response.data
+              // delete data['url']
+              // console.log("data: " ,data)
+              setArchivos(data)
+              // data.map((objeto, index)=>(
+              //   objeto.url = arregloUrl[index]
+              // ))
             })
             .catch(error => {
               console.log("ERROR EN GET DOCUMENTOS: ", error);
         });
     }
+    const getDocsUrl = async() => {
+      let id_alumno = cookies.get('id')
+      // let numeropractica = 1
+      await axios.post(
+          "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getInstanciasDocumentosURL",
+          {
+            id_alumno: id_alumno,
+            numero: nroPractica,
+          },
+        )
+          .then(response => {
+            console.log("RESPUESTA URL DOCS:  ",response.data)
+            // const arregloUrl = response.data['url']
+            // const data = response.data
+            // delete data['url']
+            // console.log("data: " ,data)
+            setUrls(response.data)
+            // data.map((objeto, index)=>(
+            //   objeto.url = arregloUrl[index]
+            // ))
+          })
+          .catch(error => {
+            console.log("ERROR EN GET DOCUMENTOS: ", error);
+      });
+  }
     const handleChangeRegion = (event) => {
       console.log(event.target.value)
       setregionElegida(event.target.value)
       handleInputChange(event)
     }
     const handleChangeFile = (e) => {
-      const id_doc = e.target.id;
-      setIdDoc(id_doc)
-      console.log("Archivo elegido ",e.target.id)
-      // setArchivo(e.target.files)
-      handleArchivo(guardarArchivo(e.target.files))
+      handleArchivo(guardarArchivo(e.target.files,e.target.id))
     }
     useEffect(() => {   
       getEstadoPractica()
       getDocs()    
+      getDocsUrl()
     }, [])
     
     return (
@@ -327,20 +367,20 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                                 <Label >{file.nombre}</Label>      
                               </div>
                               <div className="col-auto">
-                                <Button onClick={handleDownload} color="info">
+                                <Button id={index} onClick={(event) =>descargar(event)} color="info">
                                     <MdFileDownload/>
                                 </Button> 
                               </div>
                               <div className ="col-sm">
                                 {file.requerido === "1" &&                        
-                                    <CustomInput 
-                                      ref={register}  
-                                      type="file" 
-                                      onChange={(e)=>handleChangeFile(e)}
-                                      name={`namefile${index}`} 
-                                      id={file.id_instancia_documento} 
-                                      label="Haz click aquí..."                                     
-                                    />
+                                  <CustomInput 
+                                    ref={register}  
+                                    type="file" 
+                                    onChange={(e)=>handleChangeFile(e)}
+                                    name={`namefile${index}`} 
+                                    id={file.id_instancia_documento} 
+                                    label="Haz click aquí..."                                     
+                                  />
                                 }
                               </div>
                           </div>

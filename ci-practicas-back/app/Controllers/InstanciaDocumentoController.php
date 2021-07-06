@@ -59,6 +59,21 @@ class InstanciaDocumentoController extends BaseController
 		$numero = $this->request->getVar('numero');
 		$result = $this->InstDocumentoModel->getInstanciasDocumentos($id_alumno, $numero);
 		if ($result) {
+			// return json_encode($result, JSON_UNESCAPED_UNICODE);
+			return json_encode($result, JSON_UNESCAPED_UNICODE);
+		}
+		// Caso de array vacío
+		$arr = [];
+		return json_encode($arr, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function getInstanciasDocumentosURL() {
+		
+		$id_alumno = $this->request->getVar('id_alumno');
+		$numero = $this->request->getVar('numero');
+		$result = $this->InstDocumentoModel->getInstanciasDocumentosURL($id_alumno, $numero);
+		if ($result) {
+			// return json_encode($result, JSON_UNESCAPED_UNICODE);
 			return json_encode($result, JSON_UNESCAPED_UNICODE);
 		}
 		// Caso de array vacío
@@ -76,6 +91,18 @@ class InstanciaDocumentoController extends BaseController
 		}
 		$arr = [];
 		return json_encode($arr, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function ingresarComentario() {
+		
+		$id_alumno = $this->request->getVar('id_alumno');
+		$result = $this->InstDocumentoModel->getInstanciasDocumentosRequeridos($id_alumno);
+		if ($result) {
+			return json_encode($result, JSON_UNESCAPED_UNICODE);
+		}
+		$arr = [];
+		return json_encode($arr, JSON_UNESCAPED_UNICODE);
+
 	}
 
     // public function setDocumentosAlumno(){

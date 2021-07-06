@@ -179,7 +179,7 @@ class PracticaController extends BaseController
         echo 0;
     }
   }  
-  public function p(){
+  public function getInfoPracticaById(){
     $id = $this->request->getVar('id_practica');
     $this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getInfoPracticaById($id);
@@ -193,6 +193,19 @@ class PracticaController extends BaseController
 
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getPracticaAlumno();
+
+        if ($result){
+
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        } else {
+            echo "error";
+        }
+	}
+
+	public function servePracticaAlumnoInactiva() {
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->servePracticaAlumnoInactiva();
 
         if ($result){
 
@@ -611,20 +624,20 @@ class PracticaController extends BaseController
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->pasarEstadoEvaluar($id_alumno);
 		if($result) {			
-			echo 1;
+			echo 0;
 			//Generación historial
 			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
-				$idPractica = $row->idPractica;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Etapa 3 (Cursando) del alumno aceptada, pasa a etapa 4 (Evaluación)';
 			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 		} else {
-			echo 0;
+			echo 1;
 		}
 	}
 
@@ -670,13 +683,14 @@ class PracticaController extends BaseController
 		}
 	}
 
+
 	public function evaluarPractica() {
 		$id_alumno = $this->request->getVar('id_alumno');
 		$nota = $this->request->getVar('nota');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->evaluarPractica($id_alumno, $nota);
 		if($result) {
-			echo 1;
+			echo 0;
 			//Generación historial
 			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
@@ -689,7 +703,7 @@ class PracticaController extends BaseController
 			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 		} else {
-			echo 0;
+			echo 1;
 		}
 	}
 
@@ -757,6 +771,16 @@ class PracticaController extends BaseController
 		$id = $this->request->getVar('id_alumno');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getFechas($id);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getPracticasCursando(){
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getPracticasCursando();
 		if($result) {
 			echo json_encode($result);
 		} else {

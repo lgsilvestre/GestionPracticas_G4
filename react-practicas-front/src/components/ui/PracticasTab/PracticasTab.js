@@ -42,7 +42,7 @@ export const PracticasTab = ({nroPractica,mostrarPractica}) => {
       <div className="container" >
         <div className="row" >
           <div className="col">      
-            <div style={{backgroundColor: '#2D4C85'}}>
+            <div >
               <StyledTabs  value={nroTab} onChange={handleChange} aria-label="styled tabs example">
                 <StyledTab label="Práctica 1"/>
                 <StyledTab label="Práctica 2" />

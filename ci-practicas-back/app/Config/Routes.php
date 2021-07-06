@@ -56,8 +56,10 @@ $routes->post('registerAlumnoExcelData', 'UsersController::registerAlumnoExcelDa
 // Documentos
 $routes->get('getDocumentos', 'DocumentoController::getDocumentos');
 $routes->get('getDocumento', 'DocumentoController::getDocumento');
+$routes->get('getDocumentosAdmin', 'DocumentoController::getDocumentosAdmin');
 // Carreras
 $routes->get('getCarreras', 'CarreraController::getCarreras');
+$routes->get('getCarrerasTabla', 'CarreraController::getCarrerasTabla');
 // Practicas
 $routes->post('pasarEstadoEvaluar', 'PracticaController::pasarEstadoEvaluar');
 $routes->post('getEvaluacionEmpresa', 'PracticaController::getEvaluacionEmpresa');	// Entrega evaluacion empresa, si es 0 aún no se evalua
@@ -96,6 +98,9 @@ $routes->post('denegarPractica', 'PracticaController::denegarPractica');
 $routes->post('getHistorialPractica', 'PracticaController::getHistorialPractica');
 $routes->post('getInfoAlumnoPractica', 'PracticaController::getInfoAlumnoPractica');
 $routes->post('getInfoPracticaById', 'PracticaController::getInfoPracticaById');
+$routes->get('servePracticaAlumnoInactiva', 'PracticaController::servePracticaAlumnoInactiva');
+// Practicas estadisticas
+$routes->get('getPracticasCursando', 'PracticaController::getPracticasCursando');
 // Alumno
 $routes->get('getAlumnoMatricula', 'AlumnoController::getAlumnoMatricula');
 $routes->post('getAlumnoIdMatricula', 'AlumnoController::getAlumnoIdMatricula');
@@ -103,16 +108,17 @@ $routes->get('getAlumnosAdmin', 'AlumnoController::getAlumnosAdmin');
 $routes->get('getAlumnosEscuela', 'AlumnoController::getAlumnosEscuela');
 $routes->get('getCarreraAlumno', 'AlumnoController::getCarreraAlumno');
 $routes->post('getAlumnoId', 'AlumnoController::getAlumnoId');
-$routes->post('recibirArchivo', 'AlumnoController::recibirArchivo');
+$routes->post('recibirArchivoAlumno', 'AlumnoController::recibirArchivoAlumno');
 $routes->post('recibirSeguro', 'AlumnoController::recibirSeguro');
 // Instancia documento
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');
+$routes->post('getInstanciasDocumentosURL', 'InstanciaDocumentoController::getInstanciasDocumentosURL');
 // Users
 $routes->get('getFuncionarios', 'UserController::getFuncionarios');
 $routes->get('deleteUser', 'UserController::deleteUser');
 $routes->post('insertUser', 'UsersController::insertUser');
-
+$routes->post('subirArchivoAdmin', 'UserController::subirArchivoAdmin');
 
 /*
  * --------------------------------------------------------------------

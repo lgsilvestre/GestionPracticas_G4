@@ -33,7 +33,6 @@ const VistaEstudiante = ({userChangedPass=false}) => {
                 <Route exact path='/estudiante' component={DashboardEstudiante} />
             </Switch>  
             </div>  
-            <Footer/> 
         </div>     
       </>
       

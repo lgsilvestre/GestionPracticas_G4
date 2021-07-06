@@ -14,6 +14,7 @@ import { FcSurvey } from "react-icons/fc";
 import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import {useForm} from 'react-hook-form';
 
 const ladoCard = "25vh"
 const useStyles = makeStyles((theme)=>({
@@ -77,10 +78,13 @@ const useStyles = makeStyles((theme)=>({
   }
 }))
 export const Termino = ({previousPage, nroPractica}) => {
+    const {register, handleSubmit} = useForm()
     console.log("Renderizando componente con practica",nroPractica)
     const [mostrarAlertaDias, setMostrarAlertaDias] = useState(true)
     const [mostrarAlertaCriticaDias, setmostrarAlertaCriticaDias] = useState(false)
     const [documentoSubido, setDocumentoSubido] = useState(false)
+    const [archivo, setArchivo] = useState()
+    const [idDoc, setIdDoc] = useState(0)
     // const [nroPracticaEtapa, setnroPracticaEtapa] = useState(0)
     const [notaEmpresa, setNotaEmpresa] = useState("--")
     const [notaEscuela, setNotaEscuela] = useState("--")  
@@ -131,10 +135,40 @@ export const Termino = ({previousPage, nroPractica}) => {
         console.log("Error: ", error)
       });
     }
-    
-    
+    const guardarArchivo = () => {
+      console.log("Enviando info: ",id_alumno," ",nroPractica,"",idDoc)
+      let formData = new FormData()
+      formData.append("file",archivo[0])
+      formData.append("id_alumno",id_alumno)
+      formData.append("numero",nroPractica)
+      formData.append("documento",idDoc)
+      console.log("ENVIANDO: ",formData)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/recibirArchivoAlumno",
+        formData,    
+        {headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response=>{
+        if(response.data === 1){
+          setDocumentoSubido(true)
+          console.log("Archivo subido!")
+        }
+        if(response.data === 0){
+          setDocumentoSubido(false)
+          console.log("No se pudo subir")
+        }
+      })
+      .catch(error=>{
+        console.log("Error subiendo archivo: ", error)
+      })  
+    }
+    const handleChangeFile = (e) => {
+      setArchivo(e.target.files)
+      setIdDoc(e.target.id)
+      // handleSubmit(guardarArchivo(e.target.files,e.target.id))
+    }
     useEffect(() => {
-         
       console.log("Consultando notas de practica: ",nroPractica)
       getNotaEmpresa()
       getNotaUni()  
@@ -175,55 +209,34 @@ export const Termino = ({previousPage, nroPractica}) => {
                       </div>
                     )
                   }
-                  <div className="row justify-content-center">
-                    <div className="col-6">
-                      <CustomInput 
-                        type="file" 
-                        name="informeFinal"
-                        id= "informeFinal"
-                        label="Sube tu informe de práctica"                                     
-                      />
-                    </div>
-                    <div className="col-auto">
-                      <Button className={classes.boton}>
-                        Guardar
-                      </Button>
-                      <Button className={classes.botonRechazo}>
-                        Eliminar
-                      </Button>
-                    </div>
                   {documentoSubido && (
-                    <div className="row justify-content-center" style={{marginTop:"20px"}}>
+                    <div className="row justify-content-center" style={{marginBottom:"20px"}}>
                       <Alert severity="success">
                         ¡Has subido tu informe de práctica a tiempo! Espera por tus calificaciones.
                       </Alert>
-                  </div>
-                  )}
-                  </div>
+                    </div>
+                    )}
+                  <form onSubmit={handleSubmit(guardarArchivo)} style={{width:"100%"}}>
+                    <div className="row justify-content-center">
+                      <div className="col-6">
+                        <CustomInput 
+                          ref={register}
+                          onChange={(e)=>handleChangeFile(e)}
+                          type="file" 
+                          name="informeFinal"
+                          id= "informeFinal"
+                          label="Sube tu informe de práctica"                                     
+                        />
+                      </div>
+                      <div className="col-auto">
+                        <Button type="submit" className={classes.boton}>
+                          Guardar
+                        </Button>
+                      </div>
+                      
+                    </div>
+                  </form>
                   <div className="row justify-content-center" style={{marginTop:"3vh"}}>
-                    {/* NOTA EMPRESA */}
-                    {/* <div className="col-auto" style={{margin:"1vh"}}>
-                      <Card className={classes.root}>
-                        <CardActionArea className={classes.area}>
-                          <CardContent className={classes.cardContent}>
-                          <IconContext.Provider value={{ size: "5em" , color: "#5E8B7E"}} className={classes.icono}>
-                              <FcSurvey  />
-                              <Typography gutterBottom variant="h5" component="h2" className={classes.label}>
-                                  Nota Empresa
-                              </Typography>                                                            
-                          </IconContext.Provider>                                    
-                                  
-                          </CardContent>
-                          <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                            {notaEmpresa}
-                          </Typography> 
-                        </CardActionArea>
-                        <Divider variant="middle" light={true} />
-                        <Typography variant="body2" component="p" className={classes.description}>
-                          Corresponde a la nota puesta por el supervisor de tu práctica.                          
-                        </Typography>
-                      </Card>             
-                    </div> */}
                     {/* NOTA ESCUELA */}
                     <div className="col-auto" style={{margin:"1vh"}}>
                       <Card className={classes.root}>
@@ -247,30 +260,6 @@ export const Termino = ({previousPage, nroPractica}) => {
                         </Typography>
                       </Card>                      
                     </div>
-                    {/* NOTA FINAL */}
-                    {/* <div className="col-auto" style={{margin:"1vh"}}>
-                      <Card className={classes.root}>
-                        <CardActionArea className={classes.area}>
-                          <CardContent className={classes.cardContent}>
-                          <IconContext.Provider value={{ size: "5em" , color: "#5E8B7E"}} className={classes.icono}>
-                              <FcSurvey  />
-                              <Typography gutterBottom variant="h5" component="h2" className={classes.label}>
-                                  Nota Final
-                              </Typography>                                                            
-                          </IconContext.Provider>                                    
-                                  
-                          </CardContent>
-                          <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                            6.0
-                          </Typography> 
-                        </CardActionArea>
-                        <Divider variant="middle" light={true} />
-                        <Typography variant="body2" component="p" className={classes.description}>
-                          Corresponde a la nota final de tu práctica.                          
-                        </Typography>
-                      </Card>    
-                    </div> */}
-                    
                   </div>
                 </div>   
               </div>   
