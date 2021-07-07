@@ -54,11 +54,13 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
         setnameDownloaded(name)
     }
     const descargar = ( event ) => {
-        console.log(event.target)
-        // toggle()
-        // changeNameDownloaded(namefile)
-        // console.log("descargando " ,index)    
-        // window.open("URL", "_blank")
+        const idElegido = event.currentTarget.id
+        const docUrl = urls[idElegido].url
+        console.log(docUrl)
+        // localStorage.setItem('myfile',docUrl)
+        // const pdfWindow = window.open()
+        // pdfWindow.location.href = "../../../../public/documentos/1.pdf"     
+        // window.open("../../../../public/documentos/1.pdf", "_blank")
     }
     
     const postInscripcion = (event) =>{
@@ -209,14 +211,7 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
         )
           .then(response => {
             console.log("RESPUESTA URL DOCS:  ",response.data)
-            // const arregloUrl = response.data['url']
-            // const data = response.data
-            // delete data['url']
-            // console.log("data: " ,data)
             setUrls(response.data)
-            // data.map((objeto, index)=>(
-            //   objeto.url = arregloUrl[index]
-            // ))
           })
           .catch(error => {
             console.log("ERROR EN GET DOCUMENTOS: ", error);
@@ -350,12 +345,12 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                     <Input type="number" name="tel_emer" onChange={handleInputChange}/>  
                   </div>
                 </div>                              
-                <h4 style={{marginTop:"30px"}}>
-                  Documentos <span style={{textDecoration: "underline", color:"blue"}} href="#" id="infoDocs">i</span>
+                <Alert severity="info" style={{marginBottom:"1vh",marginTop:"30px"}}>
+                  Primero debes descargar tus documentos, editarlos y luego subirlos con tu información.
+                </Alert>
+                <h4 >
+                  Documentos
                 </h4>
-                <Tooltip placement="right" isOpen={tooltipOpen} target="infoDocs" toggle={toggleTooltip}>
-                    Primero debes descargar tus documentos, editarlos y luego subirlos con tu información.
-                </Tooltip>
                 <hr/>
                 {/* Por cada archivo presente en el arreglo archivos, crea el formulario para descargarlo y subirlo */}
                 {                  
@@ -367,7 +362,10 @@ export const FormInscripcion = ({previousPage, handleSubmit,nroPractica}) => {
                                 <Label >{file.nombre}</Label>      
                               </div>
                               <div className="col-auto">
-                                <Button id={index} onClick={(event) =>descargar(event)} color="info">
+                              {/* <a href={urls[index].url} without rel="noopener noreferrer" target="_blank">
+                        
+                              </a> */}
+                                <Button id={index} onClick={(e) =>descargar(e)} color="info">
                                     <MdFileDownload/>
                                 </Button> 
                               </div>
