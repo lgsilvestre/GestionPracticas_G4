@@ -114,6 +114,8 @@ $routes->post('recibirSeguro', 'AlumnoController::recibirSeguro');
 $routes->post('getInstDocuAlumno', 'InstanciaDocumentoController::getInstanciasDocumento');
 $routes->post('getInstDocuAlumnoRequerido', 'InstanciaDocumentoController::getInstanciasDocumentoRequerido');
 $routes->post('getInstanciasDocumentosURL', 'InstanciaDocumentoController::getInstanciasDocumentosURL');
+//Supervisor 
+$routes->post('setNotaSupervisor','PracticaController::setNotaSupervisor');
 // Users
 $routes->get('getFuncionarios', 'UserController::getFuncionarios');
 $routes->get('deleteUser', 'UserController::deleteUser');

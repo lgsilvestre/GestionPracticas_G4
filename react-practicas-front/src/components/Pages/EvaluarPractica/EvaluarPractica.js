@@ -5,36 +5,49 @@ import { motion } from "framer-motion"
 import useStyles from './styles';
 import evaluacion from '../../routers/assets/evaluacion.svg';
 import Boton from './Boton/Boton'
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
+import sha256 from 'crypto-js/sha256';
 
 const EvaluarPractica = (estudiante, empresa) => {
-    const classes = useStyles();
-    const [nota, setNota] = React.useState();
-    estudiante ='Juan Perez';
-    empresa = 'Frutiloops';
+    var CryptoJS = require("crypto-js");  
 
+    const classes = useStyles();
+    const [nota, setNota] = React.useState("");
+    let variablesRuta = window.location.pathname;
+     console.log( variablesRuta);
+   /*
+    var aux = variablesRuta.substring(9);
+    var bytes  = CryptoJS.AES.decrypt(aux, 'secret key 123');
+    var originalText = bytes.toString(CryptoJS.enc.Utf8);
+    console.log('decripted: ', originalText);
+    */
+    const variables = variablesRuta.split("/");
+    estudiante = variables[2];
+    empresa =variables[3];
+    const idPractica = variables[4];
+  
     const handleChange = (e) => {
-        setNota({
-          ...nota,
-          [e.target.name]: e.target.value,
-        });
+      console.log(e.target.value);
+      setNota(e.target.value);
        
       };
       function peticionPost () {
-
+        console.log("ESTA ES LA PETIO POST ------------------------------------------------------");
         let calificacion = nota;
-      
-    
+        let id = idPractica;
+     
         axios.post(
-          "",
+          "http://localhost/GestionPracticas_G4/ci-practicas-back/public/setNotaSupervisor",
           {
-            nota: calificacion,
-         
+            'idPractica': id,
+            'nota': calificacion,
           },
         )
           .then(response => {
            
-            console.log("respuesta: ", response.data);
+            console.log("respuesta ------------------------------------------------: ", response.data);
   
           })
           .catch(error => {
@@ -43,7 +56,9 @@ const EvaluarPractica = (estudiante, empresa) => {
       }
       function handleValidation() {
         let calificacion = nota;
-      
+        console.log("Entro a la validacion reql -----------------------------------------------");
+        peticionPost();
+        /*
         let calificacionValida = false; 
       
         if (calificacion !== "") {
@@ -53,14 +68,13 @@ const EvaluarPractica = (estudiante, empresa) => {
           }
         }    
      
-      
         console.log(calificacionValida);
         if (calificacionValida === true){
           peticionPost();
         } else {
           console.log("Error validación");
         }
-      
+        */
       }
 
     return (
@@ -77,10 +91,10 @@ const EvaluarPractica = (estudiante, empresa) => {
             <Typography align="center" variant="body2" gutterBottom>*La calificacion debe ser con un decimal  <br/>
             Ejemplo: 6.4 </Typography>
             <div  className={classes.nota}>            
-            <TextField  variant="outlined" name= "nota" label="Nota"  value={nota}  onChange={handleChange}    required />
+            <TextField  variant="outlined" name= "nota" label="Nota"  value={nota} onChange={(e)=>handleChange(e)}    required />
             </div>
             <div  className={classes.buton}>
-            <Boton onClick={handleValidation}></Boton>
+            <Button onClick={handleValidation}></Button>
             </div>
            
         </div>

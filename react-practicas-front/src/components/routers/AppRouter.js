@@ -20,7 +20,8 @@ export const AppRouter = () => {
                 <Route path="/supervisor" component={VistaSupervisor}/>
                 <Route path="/changePass" component={CambiarPassword}/>
                 <Route path="/table" component={TablaEstados}/>
-                <Route path="/evaluar" component={EvaluarPractica}/>
+                <Route path="/evaluar/:variable" component={EvaluarPractica}/>
+
                 <Route exact path="/" component={Info}/>                           
             </Switch>     
         </Router>

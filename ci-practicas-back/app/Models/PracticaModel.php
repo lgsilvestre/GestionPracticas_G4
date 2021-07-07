@@ -173,6 +173,12 @@ class PracticaModel extends Model
         return $result;
     }
 
+    public function setEvaluacionEmpresa($id_practica, $nota){
+        $queryPracticaAlumno = "UPDATE practica SET evaluacion_empresa = '".$nota."' WHERE id_practica = '".$id_practica."' and practica.activa = 1";
+        $result = $this->db->query($queryPracticaAlumno)->getResult();
+        return $result;
+    }
+
     public function evaluarPractica($id_alumno, $nota){
         $queryPracticaAlumno = "UPDATE practica SET evaluacion_uni = '".$nota."', estado='Evaluada' WHERE practica.refAlumno = '".$id_alumno."' and practica.activa = 1"; 
         $this->db->query($queryPracticaAlumno)->getResult();
