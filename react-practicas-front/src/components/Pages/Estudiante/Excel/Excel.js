@@ -50,7 +50,8 @@ export default function  Excel() {
   })
   */
   const peticionPost = async(fila)=>{
-      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcel",
+      
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcel", 
         {
           nombre: fila.nombre,
           correo_ins:fila.correo_ins,
@@ -193,14 +194,18 @@ export default function  Excel() {
 
   //
   const subirArchivos = () =>{
-    peticionPostData()
+    console.log(data)
+    data.map((fila) => {
+      peticionPost(fila)
+      return console.log(fila)
+    })    
   }
 
   return (
     <div>
       <br/>
       <h4 align='center'>Importe alumnos usando un archivo csv o xlsx</h4>
-      <br/>
+    
       <input
         className={classes.input}
         id="contained-button-file"
@@ -214,9 +219,6 @@ export default function  Excel() {
           </Button>
         </label>
       <input  className={classes.input} id="icon-button-file" type="file" />
-      <br/>
-      {
-        loading ? (
 
           <div>
             <PacmanLoader

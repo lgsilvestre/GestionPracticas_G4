@@ -75,6 +75,11 @@ class UsersController extends  BaseController
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
 
+        // $nombre = 'pepe';
+        // $correo = 'lnicolas15@alumnos.utalca.cl';
+        // $contraseña = 'c0nt4s3ñ4';
+        // $this->sendEmail($nombre, $correo, $contraseña);
+
         $usermodel = new UserModel();
         $alumnomodel = new AlumnoModel();
 
