@@ -14,16 +14,14 @@ export default function FormAlumno() {
   const methods = useForm();
   const [currency, setCurrency] = React.useState('EUR');
 
-  //const [carrera, setcarrera]= useState("");
   const [nombre, setnombre]= useState("");
-  //const [tipo, settipo]= useState("");
-  //const [plan, setplan]= useState("");
-  //const [document, setdocument]= useState("");
-  //const [carreraError, setcarreraError]= useState("");    
+  const [tipo, settipo]= useState("");
+ 
+  const [document, setdocument]= useState("");
+     
   const [nombreError, setnombreError]= useState("");
-  //const [empresaError, setempresaError]= useState("");
-  //const [planError, setplanError]= useState("");
-  //const [documentError, setdocumentError]= useState("");
+  const [tipoError, settipoError]= useState("");
+  const [documentError, setdocumentError]= useState("");
 
 
   const onSubmit = (e)=>{
@@ -32,12 +30,10 @@ export default function FormAlumno() {
     if(isValid){
       //setcarrera("");
       setnombre("");
-      //setplan("");
-      //setcarreraError("");
+      
       setnombreError("");
-      //setempresaError("");
-      //setplanError("");
-      //setdocumentError("");
+      
+      setdocumentError("");
       console.log("se ha validado, puede ser posteado")
     }
     else{
@@ -78,6 +74,29 @@ export default function FormAlumno() {
     }
   }
 
+  const documentValidation = (e) => {
+    const documentErrorVal=[];
+    let isValid = true;
+    console.log(document)
+
+    if (document.length !== '0' ){
+
+        documentErrorVal.noValido = ""
+        setdocumentError(documentErrorVal);
+        isValid = true;
+        return isValid;
+
+    }
+    else {
+        
+        documentErrorVal.noValido = "Archivo invalido, seleccione un archivo formato PDF"
+        setdocumentError(documentErrorVal);
+        isValid = false;
+        return isValid;
+    }
+    
+  }
+
   const handleChange = (event) => {
     setCurrency(event.target.value);
 
@@ -85,16 +104,15 @@ export default function FormAlumno() {
 
   const formValidation = () => {
 
-    //const carrVal = carreraValidation();
     const nomVal = nombreValidation();
-    //const empVal = empresaValidation();
-    //const planVal = planValidation();
-    //const docVal = documentValidation();
+    
+    const docVal = documentValidation();
     
     let isValid = false;
     
-    if(nomVal === true ){
+    if(nomVal === true && docVal === true){
       console.log("esta en form validation, el nombre es valido")
+      
     }
     else {
       console.log("esta en form validation, hay un error")
@@ -120,7 +138,9 @@ export default function FormAlumno() {
             <Grid item xs={12} >
               <TextField  variant="outlined" name= "tipo" label="Tipo"   onChange={handleChange} fullWidth  required />
             </Grid>
-      
+              {Object.keys(tipoError).map((key)=>{
+                return <div style={{color:"red"}}>{tipoError[key] }</div>   
+              })}
             <Grid item xs={12} >
                   <TextField
                 id="outlined-select-currency"
@@ -139,13 +159,19 @@ export default function FormAlumno() {
               </TextField>
             </Grid>
             <Grid item xs={12} >
-              <input
-                accept="image/*"
-                className={classes.input}
-                id="contained-button-file"
-                multiple
-                type="file"
-              />
+            <input
+              className={classes.input}
+              required = "true"
+              id="contained-button-file"
+              multiple
+              accept=".pdf"
+              type="file"
+              value={document}
+              onChange={(e)=>{setdocument(e.target.value)}}
+            />
+            {Object.keys(documentError).map((key)=>{
+                return <div style={{color:"red"}}>{documentError[key] }</div>   
+              })}
               <label htmlFor="contained-button-file">
                 <Button variant="contained" color="primary" component="span" startIcon={<IoDocumentText />}>
                   Subir Documento
@@ -154,7 +180,10 @@ export default function FormAlumno() {
             </Grid>
             
           </Grid>      
-          <br />   
+          <br />
+          <Button className={classes.boton} onClick={onSubmit} type = "submit" color="primary">
+                validar
+          </Button>   
         </form>
 
 

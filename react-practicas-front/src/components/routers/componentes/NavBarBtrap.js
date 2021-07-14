@@ -71,32 +71,16 @@ const NavBarBtrap = (props) => {
                 marginBottom: '15px',
                 alignItems: 'center'
               }}>
-                    {/*<Notifications 
-                        data={data}                         
-                        height='25px'
-                        width='150px'
-                      
-                        classNamePrefix='okrjoy'
-                        cardOption={data => console.log(data)}
-                        viewAllbtn={{ text: 'ver mas...', linkTo: '/seeAll' }}
-                        markAsRead={data => console.log(data)}
-                        headerBackgroundColor = '#f6f7f9'
-                        header={
-                            {
-                            title: 'Notificaciones',
-                            option: { text: 'View All', onClick: () => console.log('Clicked') },
-                            }}
-                        icon={notificationIcon}
-                    />*/}
+                    
                     <Notifications 
                     data={data} 
                     icon={notificationIcon}
-                    width='250px'
-                    viewAllbtn={{ text: 'ver mas...', linkTo: '/seeAll' }}
+                    width='200px'
+                    viewAllbtn={{ text: 'Ver más...', linkTo: '/seeAll' }}
                     header={
                       {
                         title: 'Notificaciones',
-                        option: { text: 'Ver más...', onClick: () => {} }
+                        option: {  onClick: () => {} }
                       }
                     }
                     />

@@ -3,14 +3,19 @@ import axios from 'axios';
 import useStyles from './styles';
 import { Table, TableContainer, TableCell, TableHead, TableBody, TableRow, Modal, Button, TextField, Typography, Paper } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
-import FormFuncionario from '../../FormFuncionario/FormFuncionario';
-import DialogActions from '@material-ui/core/DialogActions';
+import InputLabel from '@material-ui/core/InputLabel';
+import CachedIcon from '@material-ui/icons/Cached';
+import Select from '@material-ui/core/Select';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
 import { motion } from "framer-motion";
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import ReactExport from "react-export-excel";
+
 
 export default function Administrador() {
 
@@ -21,8 +26,11 @@ export default function Administrador() {
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [hideLoader, setLoader] = useState(true)
-  const loaderController = () => setLoader(false)
+  const [carreraError,setcarreraError] = useState("")
+  const [nombreError, setnombreError]= useState("");    
+  const [apellidoError, setapellidoError]= useState("");
+  const [correoError, setcorreoError]= useState("");
+  const [tipoError, settipoError]= useState("");
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -36,6 +44,7 @@ export default function Administrador() {
     carreras: []
   })
 
+
   // Columnas para la tabla de estados
   const columns = [
     { id: 'nombre', label: 'Nombre', minWidth: "25%" },
@@ -46,8 +55,8 @@ export default function Administrador() {
     { id: 'action', label: 'Acción', minWidth: "25%", },
   ];
 
-  function createData(id, nombre, apellido, correo, tipo, contrasenia, action) {
-    return {id, nombre, apellido, correo, tipo, contrasenia, action };
+  function createData(nombre, apellido, correo, tipo, contrasenia, action) {
+    return { nombre, apellido, correo, tipo, contrasenia, action };
   }
 
   const handleChange = e => {
@@ -63,22 +72,14 @@ export default function Administrador() {
     await axios.get('http://localhost/GestionPracticas_G4/ci-practicas-back/public/getFuncionarios')
       .then(response => {
         const resultado = response.data
-        console.log(response.data)
         // console.log("antes:",rows)
         const lista = []
         for (var i = 0; i < resultado.length; i++) {
-          let tipoActual = "";
-          if (resultado[i].tipo == "1") {
-            tipoActual = "Jefe de Escuela"
-          } else if (resultado[i].tipo == "2") {
-            tipoActual = "Supervisor"
-          }
-          const fila = createData(resultado[i].id_usuario, resultado[i].nombre, resultado[i].apellido, resultado[i].email, tipoActual, resultado[i].password, "button")
+          const fila = createData(resultado[i].nombre, resultado[i].apellido, resultado[i].email, resultado[i].tipo, resultado[i].password, "button")
           // console.log(fila)
           lista.push(fila)
         }
         // console.log(lista)
-        loaderController()
         setRows(lista)
       }).catch(error => {
         console.log("Error catch: ", error)
@@ -112,16 +113,13 @@ export default function Administrador() {
   }
 
   const peticionDelete = async () => {
-    await axios.post(
-      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/deleteUser",
-      {
-        id: administrador.id
-      }
-    ).then(response => {
-      // setRows(rows.filter(consola => consola.id !== administrador
-      //   .id));
-      abrirCerrarModalEliminar();
-    })
+    await axios.delete('' + administrador
+      .id)
+      .then(response => {
+        setRows(rows.filter(consola => consola.id !== administrador
+          .id));
+        abrirCerrarModalEliminar();
+      })
   }
 
   const abrirCerrarModalInsertar = () => {
@@ -142,9 +140,9 @@ export default function Administrador() {
     setModalEliminar(!modalEliminar);
   }
 
-  const seleccionarAdministrador=(rows, caso)=>{
-    setAdministrador (rows);
-    (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
+  const seleccionarAdministrador = (administrador, caso) => {
+    setAdministrador(administrador);
+    (caso === 'Editar') ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
   }
 
   const handleClickShowPassword = () => {
@@ -166,31 +164,32 @@ export default function Administrador() {
     let password = administrador.contrasena
     console.log(nombre, "/", apellido, "/", email, "/", carrera, "/", tipo, "/", password)
 
-    axios.post(
-      "http://localhost/GestionPracticas_G4/ci-practicas-back/public/insertUser",
-      {
-        nombre: nombre,
-        apellido: apellido,
-        email: email,
-        carrera: carrera,
-        tipo: tipo,
-        password: password,
-      },
-    )
-      .then(response => {
 
-        console.log("respuesta: ", response.data);
 
-      })
-      .catch(error => {
-        console.log("login error: ", error);
-      });
+    // axios.post(
+    //   "http://localhost/GestionPracticas_G4/ci-practicas-back/public/insertUser",
+    //   {
+    //     nombre: nombre,
+    //     apellido: apellido,
+    //     email: email,
+    //     tipo: tipo,
+    //     password: password,
+    //   },
+    // )
+    //   .then(response => {
+
+    //     console.log("respuesta: ", response.data);
+
+    //   })
+    //   .catch(error => {
+    //     console.log("login error: ", error);
+    //   });
   }
 
   // Funcion que se ocupa de traer las carreras desde el back
-  const getDocumentos = async () => {
-    
-    await axios.get(
+  function getDocumentos() {
+
+    axios.get(
       "http://localhost/GestionPracticas_G4/ci-practicas-back/public/getCarreras"
     ).then(response => {
       console.log("respuesta: ", response.data)
@@ -213,81 +212,274 @@ export default function Administrador() {
     console.log(administrador.contrasena);
   }
 
-  function handleValidation() {
+  function carreraValidation(){
+    let carrera = administrador.carrera;
+    const carreraErrorVal=[];
+    let nuevoUserValidado = true;
 
-    let nombre = administrador.nombre
-    let apellido = administrador.apellido
-    let email = administrador.email
-    let carrera = administrador.carrera
-    let tipo = administrador.tipo
-    let password = administrador.contrasena
-    let nuevoUserValidado = false;
-
-  if (nombre !== "") {
-    let regex = new RegExp("^[a-zA-Z]+$");
-    if (regex.test(nombre)) {
-      nuevoUserValidado = true
+    if(carrera === '' ){
+      console.log(" lenght es igual a 0 ")
+      carreraErrorVal.nombreRequiered ="Debes ingresar la carrera";
+      nuevoUserValidado = false;
+      console.log("debes ingreasr tu practica")
+      setcarreraError(carreraErrorVal);
+      return nuevoUserValidado;
     }
-    }
+    else{
+        console.log("seleccionaste una carrera")
+        carreraErrorVal.nombreCorrecto = "";
+        setcarreraError(carreraErrorVal);
+        return nuevoUserValidado;
+    }      
+  }
 
-   
-  if (apellido !== "") {
-    let regex = new RegExp("^[a-zA-Z]+$");
-    if (regex.test(nombre)) {
-      nuevoUserValidado = true;
-    }   
-    }
+  function nombreValidation(){
+    let nombre = administrador.nombre;
+    const nombreErrorVal =[]; 
+    let nuevoUserValidado = true;
 
-  if (email !== "") {
-    if (email.endsWith("@utalca.cl")){
-      var regex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-      console.log("UTAL");
-      if (regex.test(email)){
-        nuevoUserValidado = true;
+    if (nombre !== "") {
+      let regex = new RegExp("^[a-zA-Z]+$");
+      if (regex.test(nombre)) {
+        nuevoUserValidado = true
+        nombreErrorVal.noValido = ""
+        setnombreError(nombreErrorVal);
+        return nuevoUserValidado;
       }
+    }
+    else if (nombre.length === '0'){
+      nombreErrorVal.noValido = "No ha ingresado el nombre"
+      setnombreError(nombreErrorVal);
+      nuevoUserValidado = false;
+      return nuevoUserValidado;
     }
   }
 
-      //if (tipo !== "") {
-        //if (tipo === "0" || tipo === "1") {
-        //  nuevoUserValidado = true;
-        //}    
-    //   }
+  function apellidoValidation(){
+    let apellido = administrador.apellido;
+    const apellidoErrorVal =[]; 
+    let nuevoUserValidado = true;
+
+    if (apellido !== "") {
+      let regex = new RegExp("^[a-zA-Z]+$");
+      if (regex.test(apellido)) {
+        if(apellido.length < '8'){
+          apellidoErrorVal.noValido = "El apellido es muy corto"
+          setapellidoError(apellidoErrorVal);
+          nuevoUserValidado = false;
+          return nuevoUserValidado;
+        }
+        else if(apellido.lenght > '30'){
+          apellidoErrorVal.noValido = "El apellido es muy largo"
+          setapellidoError(apellidoErrorVal);
+          nuevoUserValidado = false;
+          return nuevoUserValidado;
+
+        }
+        else{
+          nuevoUserValidado = true;
+          apellidoErrorVal.Valido = ""
+          setapellidoError(apellidoErrorVal);
+          return nuevoUserValidado;
+        }
+        
+      }
+      else if(apellido.lenght === '0'){
+        apellidoErrorVal.noValido = "No ha ingresado el apellido"
+        setapellidoError(apellidoErrorVal);
+        nuevoUserValidado = false;
+        return nuevoUserValidado;
+      }
+    }
+  }
+  function correoValidation(){
+    let email = administrador.correo;
+    const correoErrorVal =[]; 
+    let nuevoUserValidado = true;
+
+    if (email !== "") {
+      if (email.endsWith("@utalca.cl")) {
+          nuevoUserValidado = true;
+          
+          correoErrorVal.Valido = ""
+          setcorreoError(correoErrorVal);
+          nuevoUserValidado = true;
+          return nuevoUserValidado;
+        
+      }
+    }
+    else if(email.lenght ==='0'){
+      correoErrorVal.noValido = "No ha ingresado el email"
+      setcorreoError(correoErrorVal);
+      nuevoUserValidado = false;
+      return nuevoUserValidado;
+    
+    }
+  }
+
+  function tipoValidation(){
+    let tipo = administrador.tipo;
+    const tipoErrorVal =[]; 
+    let nuevoUserValidado = true;
+
     if (tipo !== "") {
       if (tipo === "Jefe de Escuela") {
-        administrador.tipo = 1
+        nuevoUserValidado = true;
+        tipoErrorVal.noValido = ""
+        settipoError(tipoErrorVal);
+        return nuevoUserValidado;
+        
       } else if (tipo === "Supervisor") {
-        administrador.tipo = 2
+        nuevoUserValidado = true;
+        tipoErrorVal.noValido = ""
+        settipoError(tipoErrorVal);
+        return nuevoUserValidado;
+        
       } else {
-        administrador.tipo = 0
+        tipoErrorVal.noValido = "No ha ingresado el tipo de usuario"
+        settipoError(tipoErrorVal);
+        nuevoUserValidado = false;
+        return nuevoUserValidado;
+    
       }
-      nuevoUserValidado = true;
+
+    
+    
+    }
+  }  
+  function handleValidation() {
+
+    const carrVal = carreraValidation();
+    const nomVal = nombreValidation();
+    const apeVal = apellidoValidation();
+    //const corrVal = correoValidation();
+    const tipoVal = tipoValidation();  
+
+    console.log(carrVal)
+    console.log(nomVal)
+    console.log(apeVal)
+    //console.log(corrVal)
+    console.log(tipoVal)
+    
+
+
+    if(carrVal === true && nomVal === true && apeVal === true  && tipoVal === true ){
+      console.log("todos los campos son validos")
+      setcarreraError("");
+      setnombreError("");
+      setapellidoError("");
+      setcorreoError("");
+      settipoError("");
+      peticionPost();
+      
+    }
+    else {
+      console.log("Error validación");
     }
 
-
-  if (password !== "") {
-    nuevoUserValidado = true;
   }
 
-  console.log(nuevoUserValidado);
-  if (nuevoUserValidado === true){
-    peticionPost();
-  } else {
-    console.log("Error validación");
-  }
-  }
+  const bodyInsertar = (
+    <div className={classes.modal}>
 
-  const bodyInsertar=(
-    <div>
-    <FormFuncionario administrador={administrador} setAdministrador={setAdministrador} generarPassUser={generarPassUser} showPassword={showPassword}/>
-    <DialogActions className={classes.encabezado}>
-    <Button  className={classes.boton} color="primary" onClick={()=>peticionPost(administrador)}>Agregar</Button>
-    <Button className={classes.botonCancelar} onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
-      </DialogActions>
-      
+      <h3>Nuevo Administrador</h3>
+      <br />
+
+      <TextField variant="outlined" name="nombre" id="nombre" className={classes.inputMaterial} label="Nombre" onChange={handleChange} />
+      {Object.keys(nombreError).map((key)=>{
+              return <div style={{color:"red"}}>{nombreError[key] }</div>  
+            })}
+
+      <TextField variant="outlined" name="apellido" id="apellido" className={classes.inputMaterial} label="Apellido" onChange={handleChange} />
+      {Object.keys(apellidoError).map((key)=>{
+              return <div style={{color:"red"}}>{apellidoError[key] }</div>  
+            })}
+
+      <TextField variant="outlined" name="email" id="email" className={classes.inputMaterial} label="Email" onChange={handleChange} />
+      {Object.keys(correoError).map((key)=>{
+              return <div style={{color:"red"}}>{correoError[key] }</div>  
+            })}
+
+      <FormControl variant="outlined" fullWidth required className={classes.inputMaterial}>
+          <InputLabel id="select-outlined-label">Carrera</InputLabel>
+          <Select
+            required
+            labelId="select-outlined-label"
+            id="select-outlined"
+            name= "carrera"
+            onChange={handleChange}
+            label="Carrera"
+          >
+
+            <MenuItem value={'Ingenieria Civil en Computacion'}>Ingenieria Civil en Computacion</MenuItem>
+            <MenuItem value={'Ingenieria Civil en Obras Civiles'}>Ingenieria Civil en Obras Civiles</MenuItem>
+            <MenuItem value={'Ingenieria Civil en Mecanica'}>Ingenieria Civil en Mecanica</MenuItem>
+            <MenuItem value={'Ingenieria Civil en Mecatronica'}>Ingenieria Civil en Mecatronica</MenuItem>
+            <MenuItem value={'Ingenieria Civil Electrica'}>Ingenieria Civil Electrica</MenuItem>
+            <MenuItem value={'Ingenieria Civil Industrial'}>Ingenieria Civil Industrial</MenuItem>
+          </Select>
+
+          {Object.keys(carreraError).map((key)=>{
+              return <div style={{color:"red"}}>{carreraError[key] }</div>  
+            })}
+
+        </FormControl>
+        
+        
+
+      <FormControl className={classes.inputMaterial} variant="outlined" >
+        <InputLabel id="demo-simple-select-outlined-label">Tipo</InputLabel>
+        <Select
+          name="tipo"
+          id="tipo"
+          onChange={handleChange}
+          label="Tipo"
+        >
+          <MenuItem key={1} value={'Jefe de Escuela'}>Jefe de Escuela</MenuItem>
+          <MenuItem key={2} value={'Supervisor'}>Supervisor</MenuItem>
+        </Select>
+      </FormControl>
+      {Object.keys(tipoError).map((key)=>{
+              return <div style={{color:"red"}}>{tipoError[key] }</div>  
+            })}
+
+      <FormControl className={classes.inputMaterial} variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          label="Contraseña"
+          value={administrador.contrasena}
+          onChange={administrador.contrasena}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="change"
+                edge="end"
+                onClick={generarPassUser}
+                
+              >
+                <CachedIcon />
+              </IconButton>
+              <IconButton
+                aria-label="toggle password visibility"
+                edge="end"
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+
+
+
+      <div align="right">
+        <Button className={classes.boton} color="primary" onClick={handleValidation}>Insertar</Button>
+        <Button className={classes.botonCancelar} onClick={() => abrirCerrarModalInsertar()}>Cancelar</Button>
+      </div>
+
     </div>
   )
-
 
   const bodyEditar = (
     <div className={classes.modal}>
@@ -328,6 +520,8 @@ export default function Administrador() {
 
     </div>
   )
+
+
   return (
 
     <div className={classes.root} style={{ marginTop: '20px', marginBottom: '30px' }}>
@@ -336,8 +530,7 @@ export default function Administrador() {
       </div>
 
       <Button className={classes.boton} onClick={() => abrirCerrarModalInsertar()}>Agregar Funcionario</Button>
-      <br />
-      <br />
+      <br /><br />
       <hr />
       <Paper className={classes.root}>
         {/* Tabla de Practicas */}
@@ -371,9 +564,9 @@ export default function Administrador() {
                         <TableCell key={column.id} align={column.align}>
                           {value === "button" ?
                             <div>
-                              <Edit className={classes.iconos} onClick={() => seleccionarAdministrador(row, 'Editar')} />
+                              <Edit className={classes.iconos} onClick={() => seleccionarAdministrador(administrador, 'Editar')} />
                               &nbsp;&nbsp;&nbsp;
-                              <Delete className={classes.iconos} onClick={() => seleccionarAdministrador(row, 'Eliminar')} />
+                              <Delete className={classes.iconos} onClick={() => seleccionarAdministrador(administrador, 'Eliminar')} />
                             </div>
                             : value}
                         </TableCell>
@@ -385,13 +578,8 @@ export default function Administrador() {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
-          {hideLoader ? <CircularProgress style={{ marginTop: '10px', marginBottom: '10px' }} /> : null}
-        </div>
-      </Paper>
-      <br/>
-      <div>
+        <br/>
+        <div>
           <ExcelFile element={<Button style={{ marginTop: '20px', marginBottom: '30px', backgroundColor: '#344fa1', color: '#fff'}} >Export Usuarios</Button>} color="primary" filename="Export Estudiantes">
             <ExcelSheet data={rows} name="Administrador">
                 <ExcelColumn label="Id_usuario" value="id_usuario"/>
@@ -406,20 +594,18 @@ export default function Administrador() {
             </ExcelSheet>
           </ExcelFile>  
         </div>
+      </Paper>
+      <Modal
+        open={modalInsertar}
+        onClose={abrirCerrarModalInsertar}>
+        {bodyInsertar}
+      </Modal>
 
-      <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
-          <DialogTitle id="form-dialog-title">Nuevo Funcionario</DialogTitle>
-          <DialogContent>         
-          {bodyInsertar}
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={modalEditar} onClose={abrirCerrarModalEditar} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Nuevo Estudiante</DialogTitle>
-          <DialogContent>         
-          {bodyEditar}
-          </DialogContent>
-        </Dialog>
+      <Modal
+        open={modalEditar}
+        onClose={abrirCerrarModalEditar}>
+        {bodyEditar}
+      </Modal>
 
       <Modal
         open={modalEliminar}

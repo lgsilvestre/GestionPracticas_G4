@@ -69,7 +69,7 @@ return (
   <>
     <div className='header'>  
     <motion.div  animate={{ x: 100 }}  transition={{ ease: "easeOut", duration: 2 }} ><Typography  variant="h4" >Carreras</Typography> </motion.div>
-    </div>
+    </div>  
     <Bar data={data} options={options} />
   </>
 );
