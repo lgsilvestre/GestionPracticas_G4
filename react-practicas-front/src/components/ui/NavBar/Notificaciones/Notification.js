@@ -83,17 +83,17 @@ class Notification extends React.Component {
         <div className={"iconSection"}>
           <img
             alt={"Notification"}
-            src={require("./notificationIcon.svg")}
+            src={require("./notificationIcon.png")}
             onClick={() => this.toggleNotification()}
             style={{ cursor: "pointer" }}
           ></img>
-          <span className={"iconBadge"}>{totalCount}</span>
+          <span className={"  "}>{totalCount}</span>
         </div>
         {this.state.toggleNotification && (
           <div
             style={{
               position: "absolute",
-              width: "200px",
+              width: "400px",
               border: "0.5px solid #8080803d",
               minHeight: "100px",
               overflowY: "auto",
