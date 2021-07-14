@@ -10,7 +10,8 @@ import { VscFilePdf } from 'react-icons/vsc';
 import { GoCheck } from "react-icons/go";
 import { GoCircleSlash } from "react-icons/go";
 import { useForm } from '../../../../../../hooks/useForm';
-import {Collapse, Input as InputRechazo } from 'reactstrap';
+import {useForm as useFormDoc} from 'react-hook-form';
+import {Collapse, Input as InputRechazo, CustomInput , Label} from 'reactstrap';
 
 const useStyles = makeStyles((theme) => ({
     mainbox:{
@@ -29,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     },
     icon:{
         width:"30px", 
-        height:"30px"
+        height:"30px",
+        color:"#132038"
     },
     boxBotones:{
       marginTop:'10px', 
@@ -72,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) => {
+    const {register, handleSubmit:handleArchivo} = useFormDoc()
     const clasesEstilo = useStyles();
     console.log("Solicitando alumno con: ",nroMatricula)
 
@@ -136,10 +139,6 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
             console.log(filteredDocs)
         }
     }
-
-    const handleDeleteDoc= () =>{
-    }
-
 
     const getDocumentos= () =>{
     
@@ -229,6 +228,37 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
     const handleEscribirRetroAli = (event) => {
       // console.log("escribiendo", event.target.value)
       setRetroAli(event.target.value)
+    }
+    const guardarArchivo = (data,idDoc) => {
+      console.log("Enviando info: ",idAlumno," ",nroPractica,"",idDoc)
+      let formData = new FormData()
+      formData.append("file",data[0])
+      formData.append("id_alumno",idAlumno)
+      formData.append("numero",nroPractica)
+      formData.append("documento",idDoc)
+      // console.log("ENVIANDO: ",formData)
+      axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/subirArchivoAdmin",
+        formData,    
+        {headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response=>{
+        if(response.data === 1){
+          // setDocumentoSubido(true)
+          console.log("Archivo subido!")
+        }
+        if(response.data === 0){
+          // setDocumentoSubido(false)
+          console.log("No se pudo subir")
+        }
+      })
+      .catch(error=>{
+        console.log("Error: ", error)
+      })  
+    }
+    const handleChangeFile = (e) => {
+      handleArchivo(guardarArchivo(e.target.files,e.target.id))
     }
     useEffect(async() => {
         getDocumentos()
@@ -362,6 +392,7 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
                             </form>
                         </Grid>
                     </Grid>
+                    {/* Elegir archivo select */}
                     <Grid container direction="row" justify="flex-start" alignItems="center">
                         <Grid item className={classes.formControl}  >
                             Elegir archivo:
@@ -390,30 +421,37 @@ export const SolicitarAdmin = ({nroMatricula, nroPractica, nextPage,idAlumno}) =
                     </Grid>
                     <hr/>     
                     <List>
-                        {
-                            archivos.map( (file,index) => (
-
-                                <ListItem key={index}>
-                                    <ListItemIcon>
-                                        <VscFilePdf className={classes.icon}/>
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={file.nombre}
-                                    />    
-                                    <ListItemSecondaryAction>
-                                        <Input type="file" name={`namefile${index}`} id={`file${index}`} /> 
-                                        <IconButton onClick={handleDeleteDoc}>
-                                            <MdDelete className={classes.icon}/>
-                                        </IconButton>         
-                                    </ListItemSecondaryAction>                                 
-
-                                </ListItem>
-                            ))
-                        }
+                      {
+                        archivos.map( (file,index) => (   
+                          <div key={index} className="container" style={{marginBottom:"10px"}}>
+                            <form  style={{width:"100%"}}>
+                              <div className="row">
+                                <div className="col-auto">
+                                    <VscFilePdf className={classes.icon}/>
+                                </div>
+                                  <div className="col-sm">
+                                    <Label >{file.nombre}</Label>      
+                                  </div>
+                                  <div className ="col-sm">
+                                    <CustomInput 
+                                      ref={register}  
+                                      type="file" 
+                                      onChange={(e)=>handleChangeFile(e)}
+                                      name={file.id_documento}
+                                      id={file.id_documento} 
+                                      label="Subir plantilla..."                                     
+                                    />
+                                  </div>
+                              </div>
+                            </form>     
+                          </div>
+                          ))
+                      }
                     </List>                
                     
                 </div>          
             </Box>
+            {/* BOX BOTONES ACEPTAR RECHAZAR */}
             <Box className={classes.boxBotones} display="flex" boxShadow={1}>
             <div className = "container" style={{padding:"30px"}}>
               <div className = "row justify-content-center" >

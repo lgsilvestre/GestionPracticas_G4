@@ -10,6 +10,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ReactExport from "react-export-excel";
 
 export default function Administrador() {
 
@@ -22,6 +23,9 @@ export default function Administrador() {
   const [showPassword, setShowPassword] = useState(false);
   const [hideLoader, setLoader] = useState(true)
   const loaderController = () => setLoader(false)
+  const ExcelFile = ReactExport.ExcelFile;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [administrador, setAdministrador] = useState({
     nombre: "",
     apellido: "",
@@ -175,25 +179,12 @@ export default function Administrador() {
     )
       .then(response => {
 
+        console.log("respuesta: ", response.data);
 
-    // axios.post(
-    //   "http://localhost/GestionPracticas_G4/ci-practicas-back/public/insertUser",
-    //   {
-    //     nombre: nombre,
-    //     apellido: apellido,
-    //     email: email,
-    //     tipo: tipo,
-    //     password: password,
-    //   },
-    // )
-    //   .then(response => {
-
-    //     console.log("respuesta: ", response.data);
-
-    //   })
-    //   .catch(error => {
-    //     console.log("login error: ", error);
-    //   });
+      })
+      .catch(error => {
+        console.log("login error: ", error);
+      });
   }
 
   // Funcion que se ocupa de traer las carreras desde el back
@@ -254,28 +245,18 @@ export default function Administrador() {
       if (regex.test(email)){
         nuevoUserValidado = true;
       }
-      else if(apellido.lenght === '0'){
-        apellidoErrorVal.noValido = "No ha ingresado el apellido"
-        setapellidoError(apellidoErrorVal);
-        nuevoUserValidado = false;
-        return nuevoUserValidado;
-      }
     }
   }
-  function correoValidation(){
-    let email = administrador.email;
-    const correoErrorVal =[]; 
-    let nuevoUserValidado = true;
 
       //if (tipo !== "") {
         //if (tipo === "0" || tipo === "1") {
         //  nuevoUserValidado = true;
         //}    
     //   }
-    if (tipo != "") {
-      if (tipo == "Jefe de Escuela") {
+    if (tipo !== "") {
+      if (tipo === "Jefe de Escuela") {
         administrador.tipo = 1
-      } else if (tipo == "Supervisor") {
+      } else if (tipo === "Supervisor") {
         administrador.tipo = 2
       } else {
         administrador.tipo = 0
@@ -408,8 +389,25 @@ export default function Administrador() {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
           {hideLoader ? <CircularProgress style={{ marginTop: '10px', marginBottom: '10px' }} /> : null}
         </div>
-    </Paper>
-    <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
+      </Paper>
+      <br/>
+      <div>
+          <ExcelFile element={<Button style={{ marginTop: '20px', marginBottom: '30px', backgroundColor: '#344fa1', color: '#fff'}} >Export Usuarios</Button>} color="primary" filename="Export Estudiantes">
+            <ExcelSheet data={rows} name="Administrador">
+                <ExcelColumn label="Id_usuario" value="id_usuario"/>
+                <ExcelColumn label="Nombre" value="nombre"/>
+                <ExcelColumn label="Apellido" value="apellido"/>
+                <ExcelColumn label="Email" value="email"/>
+                <ExcelColumn label="Password" value="password"/>
+                <ExcelColumn label="Tipo" value="tipo"/>                                      
+                <ExcelColumn label="Permisos" value="permisos"/> 
+                <ExcelColumn label="Estado" value="estado"/>  
+                <ExcelColumn label="Ref_Carrera" value="refcarrera"/>
+            </ExcelSheet>
+          </ExcelFile>  
+        </div>
+
+      <Dialog open={modalInsertar} onClose={abrirCerrarModalInsertar} aria-labelledby="form-dialog-title" >
           <DialogTitle id="form-dialog-title">Nuevo Funcionario</DialogTitle>
           <DialogContent>         
           {bodyInsertar}

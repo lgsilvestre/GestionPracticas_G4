@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react'
 import Cookies from 'universal-cookie'
 import logo from '../SideBar/logos/whitelogo-nav.png';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PersonIcon from '@material-ui/icons/Person';
+//import PersonIcon from '@material-ui/icons/Person';
+//import Notification from './Notificaciones/Notification'
+import Notifications from "react-notifications-menu"
 //import logo1 from './logos/whitelogo-1.png';
 
 export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
 
     const cookies = new Cookies();
-    const [showPer, setShowPer] = useState(false);
 
     const [showPer, setShowPer] = useState(false);
 
@@ -21,6 +22,60 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
 
     const toggle = () => setDropdownOpen(prevState => !prevState);
 
+
+    const data = [
+        {
+          image :'https://synergi-dev.s3.ap-southeast-1.amazonaws.com/profile-pictures/6b9.png' ,
+          message : 'Lorem ipsum dolor sit amet.',
+          detailPage : '/events', 
+          receivedTime:'12h ago'
+        }
+     ];
+     /*
+    const listItems = [
+        {
+          UTC: "1408648665",
+          list: [
+            {
+              type: "Message",
+              content: "A messgae description for testing notofication bar",
+              count: 3,
+              timestamp: "1PM"
+            }
+          ]
+        },
+        {
+          UTC: "1598103780",
+          list: [
+            {
+              type: "Login",
+              content: "A messgae description for testing notofication bar",
+              count: 1
+            }
+          ]
+        },
+        {
+          UTC: "1595594400",
+          list: [
+            {
+              type: "Login",
+              content: "A messgae description for testing notofication bar",
+              count: 4
+            }
+          ]
+        },
+        {
+          UTC: "1595575200",
+          list: [
+            {
+              type: "Critical",
+              content: "A messgae description for testing notofication bar",
+              count: 3
+            }
+          ]
+        }
+    ];
+    */
     const showDropdownPer = () => {
         setShowPer(!showPer);
     }
@@ -41,6 +96,8 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
         <Fragment>
             {/* Componente extraido de Bootstrap! */}
             <nav className="navbar navbar-expand-sm navbar-dark naax">
+
+                
                 <Link to='/' className='menu-bars'>
                     <img src={logo} className="logo" alt="Utalca Logo" />
                 </Link>
@@ -77,7 +134,7 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                                 {cookies.get('name')}
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem header>Header</DropdownItem>
+                                {/* <DropdownItem header>Cambiar contraseña</DropdownItem>
                                 <DropdownItem>
 
                                     <NavLink
@@ -89,13 +146,13 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                                     >
                                         Some Action
                                     </NavLink>
-                                </DropdownItem>
-                                <DropdownItem text>Dropdown Item Text</DropdownItem>
+                                </DropdownItem> */}
+                                {/* <DropdownItem text>Dropdown Item Text</DropdownItem>
                                 <DropdownItem disabled>Action (disabled)</DropdownItem>
                                 <DropdownItem divider />
                                 <DropdownItem>Foo Action</DropdownItem>
                                 <DropdownItem>Bar Action</DropdownItem>
-                                <DropdownItem>Quo Action</DropdownItem>
+                                <DropdownItem>Quo Action</DropdownItem> */}
                             </DropdownMenu>
                         </Dropdown>
 
@@ -123,7 +180,27 @@ export const NavBar = ({ tipo_usuario = "Estudiante" }) => {
                         </NavLink>
                     </ul>
                 </div>
+                
+                <div>
+                    <Notifications 
+                        data={data} 
+                        height='500px'
+                        width='300px'
+                        classNamePrefix='okrjoy'
+                        cardOption={data => console.log(data)}
+                        viewAllbtn={{ text: 'see all', linkTo: '/seeAll' }}
+                        markAsRead={data => console.log(data)}
+                        headerBackgroundColor = 'red'
+                        header={
+                            {
+                            title: 'Notifications',
+                            option: { text: 'View All', onClick: () => {} }
+                            }
+                        }
+                    />
+                </div>
             </nav>
+            
 
         </Fragment>
     )

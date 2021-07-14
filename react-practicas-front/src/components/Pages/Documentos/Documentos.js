@@ -29,7 +29,7 @@ export default function Administrador() {
     carreras: []
   })
 
-   // Columnas para la tabla de estados
+ 
    const columns = [
     { id: 'nombre', label: 'Nombre Documento', minWidth: "25%" },
     { id: 'tipo', label: 'Tipo', minWidth: "25%" },

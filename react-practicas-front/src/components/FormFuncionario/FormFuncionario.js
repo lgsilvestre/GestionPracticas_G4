@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import {Grid} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -18,6 +18,8 @@ export default function FormFuncionario({administrador, setAdministrador,generar
   const classes = useStyles();
   const methods = useForm();
 
+  const [nombreError, setnombreError]= useState("");  
+
   const handleChange = (e) => {
     setAdministrador({
       ...administrador,
@@ -26,11 +28,38 @@ export default function FormFuncionario({administrador, setAdministrador,generar
    
   };
 
+  function nombreValidation(){
+    let nombre = administrador.nombre;
+    const nombreErrorVal =[]; 
+    let nuevoUserValidado = true;
+
+    if (nombre !== "") {
+      let regex = new RegExp("^[a-zA-Z]+$");
+      if (regex.test(nombre)) {
+        nuevoUserValidado = true
+        nombreErrorVal.noValido = ""
+        setnombreError(nombreErrorVal);
+        return nuevoUserValidado;
+      }
+    }
+    else if (nombre.length === '0'){
+      nombreErrorVal.noValido = "No ha ingresado el nombre"
+      setnombreError(nombreErrorVal);
+      nuevoUserValidado = false;
+      return nuevoUserValidado;
+    }
+  }
+
+
+
   return (
         <form onSubmit = {methods.handleSubmit((data) => test({ ...data, administrador}))} >
           <Grid container spacing={2}>
               <Grid item xs={12} >
-                <TextField variant="outlined" name="nombre" id="Nombre" value={administrador.nombre} label="Nombre" onChange={handleChange} fullWidth  required/>
+                <TextField variant="outlined" name="nombre" id="Nombre" value={administrador.nombre} label="Nombre" onChange={nombreValidation} fullWidth  required/>
+                {Object.keys(nombreError).map((key)=>{
+                    return <div style={{color:"red"}}>{nombreError[key] }</div>  
+                    })}
               </Grid>
               <Grid item xs={12} >
                 <TextField variant="outlined" name="apellido" id="apellido" value={administrador.apellido} label="Apellido" onChange={handleChange} fullWidth  required/>

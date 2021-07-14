@@ -17,12 +17,20 @@ import {
 import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Notifications from "react-notifications-menu"
 
 const NavBarBtrap = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+  const data = [
+    {
 
+      message : 'Lorem ipsum dolor sit amet.',
+      detailPage : '/events', 
+      receivedTime:'12h ago'
+    }
+ ]
   const exit = () => {
 
   }
@@ -82,7 +90,23 @@ const NavBarBtrap = (props) => {
                 <ExitToAppIcon />
               </NavLink>
             </NavItem>
-
+            <NavItem>
+              <Notifications 
+                data={data} 
+                icon= {NotificationsIcon}
+                classNamePrefix='okrjoy'
+                cardOption={data => console.log(data)}
+                viewAllbtn={{ text: 'see all', linkTo: '/seeAll' }}
+                markAsRead={data => console.log(data)}
+                headerBackgroundColor = 'blue'
+                header={
+                  {
+                    title: 'Notifications',
+                    option: { text: 'View All', onClick: () => {} }
+                  }
+                }
+              />
+            </NavItem>
           </Nav>
 
         </Collapse>

@@ -16,5 +16,11 @@ class CarreraModel extends Model
         return $result;
     }
 
+    public function getCarrerasTabla(){
+        $query = $this->db->query("Select * from carrera");
+        $result = $query->getResult();
+        return $result;
+    }    
+
 }
 ?>

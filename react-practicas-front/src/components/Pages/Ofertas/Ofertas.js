@@ -8,12 +8,17 @@ import useStyles from './styles';
 import {Table, Typography, TableContainer, TableHead, TableBody, TableRow, Button, TableCell, Paper} from '@material-ui/core';
 import {Edit, Delete} from '@material-ui/icons';
 import { motion } from "framer-motion"
+import ReactExport from "react-export-excel";
 
 
 const Ofertas = () => {
   const [data, setData]= useState([]);
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const ExcelFile = ReactExport.ExcelFile;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+    
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,7 +50,9 @@ const Ofertas = () => {
               <Button className={classes.botonCancelar} onClick={handleClose} color="primary">
                 Cancelar
               </Button>
-            
+              <Button className={classes.boton} onClick={handleClose} color="primary">
+                Agregar
+              </Button>
             </DialogActions>
           </Dialog>
           <Paper className={classes.root}>
@@ -77,6 +84,18 @@ const Ofertas = () => {
               </Table>
             </TableContainer>
           </Paper>
+
+          <div>
+            <ExcelFile element={<Button style={{ marginTop: '20px', marginBottom: '30px', backgroundColor: '#344fa1', color: '#fff'}} >Export Estudiantes</Button>} color="primary" filename="Export Estudiantes">
+              <ExcelSheet data={data} name="Estudiantes">
+                <ExcelColumn label="Carrera" value="carrera"/>
+                <ExcelColumn label="Nombre" value="nombre"/>
+                <ExcelColumn label="Descripcion" value="descripcion"/>
+                <ExcelColumn label="Documento" value="documento"/>
+                <ExcelColumn label="Acciones" value="acciones"/>
+              </ExcelSheet>
+            </ExcelFile>
+          </div>          
         </div> 
       </div>
     )

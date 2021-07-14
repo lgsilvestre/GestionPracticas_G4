@@ -21,7 +21,7 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'http://localhost/cade4/login/public/';
+	public $baseURL = 'http://localhost/GestionPracticas_G4/ci-practicas-back/public/';
 
 	/*
 	|--------------------------------------------------------------------------

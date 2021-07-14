@@ -14,6 +14,8 @@ import { motion } from "framer-motion"
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Excel from '../Estudiante/Excel/Excel'
+import ReactExport from "react-export-excel";
+
 
 export default function Administrador() {
   const classes = useStyles();
@@ -24,6 +26,9 @@ export default function Administrador() {
   const [modalVerMas, setModalVerMas] = useState(false);
   const [hideLoader, setLoader] = useState(true)
   const loaderController = () => setLoader(false)
+  const ExcelFile = ReactExport.ExcelFile;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
   const [estudiante, setEstudiante] = useState({
     nombre: '',
     carrera: '',
@@ -259,9 +264,33 @@ export default function Administrador() {
           {hideLoader ? <CircularProgress style={{marginTop: '10px', marginBottom: '10px'}}/> : null}
 
         </div>
+        <br/>
 
+        <div>
+          <Excel/>
+        </div>
+
+        <br/>
+        <div>
+          <ExcelFile element={<Button style={{ marginTop: '20px', marginBottom: '30px', backgroundColor: '#344fa1', color: '#fff'}} >Export Estudiantes</Button>} color="primary" filename="Export Estudiantes">
+            <ExcelSheet data={rows} name="Estudiantes">
+              <ExcelColumn label="nombre" value="nombre"/>
+              <ExcelColumn label="Carrera" value="carrera"/>
+              <ExcelColumn label="Correo_ins" value="correo_ins"/>
+              <ExcelColumn label="Password" value="password"/>
+              <ExcelColumn label="Matricula" value="matricula"/>
+              <ExcelColumn label="Cod_carrera" value="cod_carrera"/>
+              <ExcelColumn label="Rut" value="rut"/> 
+              <ExcelColumn label="Fecha_nac" value="fecha_nac"/>  
+              <ExcelColumn label="Plan" value="plan"/>
+              <ExcelColumn label="Anho_ingreso" value="anho_ingreso"/>
+              <ExcelColumn label="Sit_actual_periodo" value="sit_actual_periodo"/>
+              <ExcelColumn label="Nivel" value="nivel"/>
+              <ExcelColumn label="Nivel_99_aprobado" value="nivel_99_aprobado"/>
+            </ExcelSheet>
+          </ExcelFile>  
+        </div>
       </Paper>
-
 
       <Modal open={modalVerMas} onClose={abrirCerrarModalVerMas} aria-labelledby="form-dialog-title" >
         <div className={classes.modal}>

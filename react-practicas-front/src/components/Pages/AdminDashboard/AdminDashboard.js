@@ -15,6 +15,7 @@ import PracticasRegion from '../Graficos/PracticasRegion'
 import PracticasAnio from '../Graficos/PracticasAnio';
 import PracticasCarrera from '../Graficos/PracticasCarrera'
 import Divider from '@material-ui/core/Divider';
+import ReactExport from "react-export-excel";
 
 import useStyles from './styles';
 
@@ -22,6 +23,63 @@ import useStyles from './styles';
 export const AdminDashboard = () => {
 
     const classes = useStyles();
+
+    const ExcelFile = ReactExport.ExcelFile;
+    const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+    const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
+    const practica = [
+        {
+            estudiante: '',
+            nro_matricula: '',
+            carrera: '',
+            anho: '',
+            etapa: '',
+            estado: ''
+        },        
+    ];
+    
+    var estudiantes = [
+        {
+                nombre: '',
+                carrera: '',
+                correo_ins: '',
+                password: '',
+                matricula: '',
+                cod_carrera: '',
+                rut: '',
+                fecha_nac: '',
+                plan: '',
+                anho_ingreso: '',
+                sit_actual_periodo: '',
+                nivel: '',
+                nivel_99_aprobado: '',
+            
+        },
+        
+    ];
+    var usuarios = [
+        {
+            id_usuario: '',
+            nombre: '',
+            apellido: '',
+            email: '',
+            password: '',
+            tipo: '',
+            permisos: '',
+            estado: '',
+            refcarrera: '',
+        },
+    ];
+    var documentos = [
+        {
+            id_documento: '',
+            nombre: '',
+            etapa: '',
+            requerido: '',
+            link: ''
+        },
+    ];
 
     return (
         <div style={{ marginTop: '20px', marginBottom: '30px' }}>
@@ -49,7 +107,7 @@ export const AdminDashboard = () => {
                                         
                                 </CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                                        16
+                                        4
                                     </Typography> 
                             </CardActionArea>
                             <Divider variant="middle" light={true} />
@@ -75,7 +133,7 @@ export const AdminDashboard = () => {
                                         
                                 </CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                                        34
+                                        2
                                     </Typography> 
                             </CardActionArea>
                             <Divider variant="middle" light={true} />
@@ -102,7 +160,7 @@ export const AdminDashboard = () => {
                                         
                                 </CardContent>
                                 <Typography gutterBottom variant="h5" component="h2" className={classes.cantidad} >
-                                        16
+                                        6
                                     </Typography> 
                             </CardActionArea>
                             <Divider variant="middle" light={true} />
@@ -124,6 +182,58 @@ export const AdminDashboard = () => {
                     <Grid item xs={12}>
                         <PracticasAnio />       
                     </Grid>
+                    <br/>
+                        <Grid item xs={12}>
+                            <div>
+                                <ExcelFile element={<Button style={{ marginTop: '20px', marginBottom: '30px', backgroundColor: '#344fa1', color: '#fff'}} >decargar los datos</Button>} color="primary" filename="Datos Gestion de Practicas">
+                                    <ExcelSheet data={practica} name="practicas">
+                                        <ExcelColumn label="Estudiante" value="estudiante"/>
+                                        <ExcelColumn label="Nro_matricula" value="nro_matricula"/>
+                                        <ExcelColumn label="Carrera" value="carrera"/>
+                                        <ExcelColumn label="Año" value="anho"/>
+                                        <ExcelColumn label="Etapa" value="etapa"/>
+                                        <ExcelColumn label="Estado" value="estado"/> 
+                                     </ExcelSheet>
+
+                                    <ExcelSheet data={estudiantes} name="Estudiantes">
+                                        <ExcelColumn label="nombre" value="nombre"/>
+                                        <ExcelColumn label="Carrera" value="carrera"/>
+                                        <ExcelColumn label="Correo_ins" value="correo_ins"/>
+                                        <ExcelColumn label="Password" value="password"/>
+                                        <ExcelColumn label="Matricula" value="matricula"/>
+                                        <ExcelColumn label="Cod_carrera" value="cod_carrera"/>
+                                        <ExcelColumn label="Rut" value="rut"/> 
+                                        <ExcelColumn label="Fecha_nac" value="fecha_nac"/>  
+                                        <ExcelColumn label="Plan" value="plan"/>
+                                        <ExcelColumn label="Anho_ingreso" value="anho_ingreso"/>
+                                        <ExcelColumn label="Sit_actual_periodo" value="sit_actual_periodo"/>
+                                        <ExcelColumn label="Nivel" value="nivel"/>
+                                        <ExcelColumn label="Nivel_99_aprobado" value="nivel_99_aprobado"/>
+                                    </ExcelSheet>
+
+                                    <ExcelSheet data={usuarios} name="Usuarios">
+                                        <ExcelColumn label="Id_usuario" value="id_usuario"/>
+                                        <ExcelColumn label="Nombre" value="nombre"/>
+                                        <ExcelColumn label="Apellido" value="apellido"/>
+                                        <ExcelColumn label="Email" value="email"/>
+                                        <ExcelColumn label="Password" value="password"/>
+                                        <ExcelColumn label="Tipo" value="tipo"/>                                      
+                                        <ExcelColumn label="Permisos" value="permisos"/> 
+                                        <ExcelColumn label="Estado" value="estado"/>  
+                                        <ExcelColumn label="Ref_Carrera" value="refcarrera"/>
+                                    </ExcelSheet>
+
+                                    <ExcelSheet data={documentos} name="Documentos">
+                                        <ExcelColumn label="id_documento" value="id_documento"/>
+                                        <ExcelColumn label="etapa" value="etapa"/>
+                                        <ExcelColumn label="nombre" value="nombre"/>
+                                        <ExcelColumn label="requerido" value="requerido"/>
+                                        <ExcelColumn label="link" value="link"/>
+                                    </ExcelSheet>
+                                </ExcelFile> 
+                            </div>
+                        </Grid>
+                        <br/>
                     </Grid>
                 </Grid>
             </Grid>

@@ -179,7 +179,7 @@ class PracticaController extends BaseController
         echo 0;
     }
   }  
-  public function p(){
+  public function getInfoPracticaById(){
     $id = $this->request->getVar('id_practica');
     $this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getInfoPracticaById($id);
@@ -193,6 +193,19 @@ class PracticaController extends BaseController
 
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getPracticaAlumno();
+
+        if ($result){
+
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        } else {
+            echo "error";
+        }
+	}
+
+	public function servePracticaAlumnoInactiva() {
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->servePracticaAlumnoInactiva();
 
         if ($result){
 
@@ -607,10 +620,30 @@ class PracticaController extends BaseController
 
 	public function pasarEstadoEvaluar() {
 		$id_alumno = $this->request->getVar('id_alumno');
-		//$numero = $this->request->getVar('numero');
 		$this->PracticaModel = new PracticaModel();
+		$this->AlumnoModel = new AlumnoModel();	
+		$alumno = $this->AlumnoModel->getNombreAlumno($id_alumno);
+		foreach ($alumno as $row)
+		{
+			$nombreAlumno = $row->nombre;
+		}
+		$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
+		foreach ($practica as $row)
+		{
+			$empresa = $row->empresa;
+			$nombreSup = $row->supervisor;
+			$idPractica = $row->id_practica;
+			$correoSup = $row->email_supervisor;
+		}
+		//$numero = $this->request->getVar('numero');
 		$result = $this->PracticaModel->pasarEstadoEvaluar($id_alumno);
-		if($result) {			
+		/* Enviar el correo al supervisor */
+		$ruta = "http://localhost:3000/evaluar"."/".$nombreAlumno."/".$empresa."/".$idPractica;
+		
+
+		/* Fin correo supervisor */
+		if($result) {
+			$this->sendEmailEvaluacionSupervisor($correoSup, $nombreSup, $ruta);
 			echo 1;
 			//Generación historial
 			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
@@ -618,7 +651,7 @@ class PracticaController extends BaseController
 			{
 				$etapa = $row->etapa;
 				$numPractica = $row->numero;
-				$idPractica = $row->idPractica;
+				$idPractica = $row->id_practica;
 			}
 			$comentario = 'Etapa 3 (Cursando) del alumno aceptada, pasa a etapa 4 (Evaluación)';
 			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
@@ -670,13 +703,14 @@ class PracticaController extends BaseController
 		}
 	}
 
+
 	public function evaluarPractica() {
 		$id_alumno = $this->request->getVar('id_alumno');
 		$nota = $this->request->getVar('nota');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->evaluarPractica($id_alumno, $nota);
 		if($result) {
-			echo 1;
+			echo 0;
 			//Generación historial
 			$practica = $this->PracticaModel->getPracticaActivaAlumnoId($id_alumno);
 			foreach ($practica as $row)
@@ -689,7 +723,7 @@ class PracticaController extends BaseController
 			$this->generarHistorial($id_alumno, -1, $etapa, $numPractica, $comentario, "", $idPractica);
 			//$refAlumno, $refAdmin, $etapa, $practica, $comentario
 		} else {
-			echo 0;
+			echo 1;
 		}
 	}
 
@@ -757,6 +791,16 @@ class PracticaController extends BaseController
 		$id = $this->request->getVar('id_alumno');
 		$this->PracticaModel = new PracticaModel();
 		$result = $this->PracticaModel->getFechas($id);
+		if($result) {
+			echo json_encode($result);
+		} else {
+			echo 0;
+		}
+	}
+
+	public function getPracticasCursando(){
+		$this->PracticaModel = new PracticaModel();
+		$result = $this->PracticaModel->getPracticasCursando();
 		if($result) {
 			echo json_encode($result);
 		} else {
@@ -1038,6 +1082,37 @@ class PracticaController extends BaseController
         }
 	}
 
+	public function crearUrl(){
+		// console.log('Texto: ', 'Juanito Perez/JamaicaSap/152');
+		// var ciphertext = CryptoJS.AES.encrypt('Juanito Perez/JamaicaSap/152', 'secret key 123').toString();
+		// console.log('Encriptado: ', ciphertext); 
+	}
+
+	private function sendEmailEvaluacionSupervisor($correo, $nombre, $fecha){
+		$email = \Config\Services::email();
+
+        $email->setFrom('soportecentrodepractica@gmail.com', 'Equipo de centro de práctica');
+        $email->setTo($correo);
+        $email->setSubject('Evaluación práctica');
+        $email->setMessage('
+                <p>¡Estimad@ <b>'.$nombre.'!</b>, le solicitamos por favor evaluar a nuestro practicante.</p>
+				<p>Dirigete al portal de centro de practicas para ver la razón.</p>
+                <p>Estado evaluación: evaluada el '.$fecha.'</p>
+                <br>
+                <p>Atentamente: Equipo de centro de práctica</p>
+                <div  align="center"><img  src="http://www.ingenieria.utalca.cl/Repositorio/llsz8xzfzftCIDmwxeKyDQM3GunwAf/centroPractica.png" heigth="500" width="500" class="mx-auto d-block"></div>
+        ');		
+
+        if($email->send()){
+            echo 'Correo enviado';
+            return true;
+        }
+        else{
+            echo 'Correo no enviado';
+            return false;
+        }
+	}
+
 	public function getCantidadPracticasCarreras() {
 		$arr = array();
 		$arr[] = 4;
@@ -1089,5 +1164,18 @@ class PracticaController extends BaseController
 
 	}
 
-}
+	public function setNotaSupervisor(){
+		$idPractica = $this->request->getVar('idPractica');
+		$nota = $this->request->getVar('nota');
+		$model = new PracticaModel();
+		if($model->setEvaluacionEmpresa($idPractica, $nota)){
+			echo 1;
+		}
+		else{
+			echo 0;
+		}
+		
+		//agregar para que envie los correos a admin y alumno 
+	}
 
+}

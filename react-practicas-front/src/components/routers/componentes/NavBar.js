@@ -7,8 +7,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import styles from './NavBarStyle.css';
 import HelpIcon from '@material-ui/icons/Help';
 
-
-
 const NavBarr = ({ onSelect, activeKey, ...props }) => {
 
   const [show, setShow] = useState(false);

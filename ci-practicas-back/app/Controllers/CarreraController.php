@@ -69,4 +69,15 @@ class CarreraController extends Controller
         }
     }
 
+	public function getCarrerasTabla (){
+        $result = $this->CarreraModel->getCarrerasTabla();
+        if ($result){
+
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        } else {
+            echo "error";
+        }
+    }
+
 }

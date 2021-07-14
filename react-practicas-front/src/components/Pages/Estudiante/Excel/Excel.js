@@ -146,6 +146,7 @@ export default function  Excel() {
       row.forEach((element, index) => {
         rowData[headers[index]] = element
       })
+      
 
       rows.push(rowData)
 
@@ -167,9 +168,10 @@ export default function  Excel() {
       //convierte a string
       const fileData = XLSX.utils.sheet_to_json(workSheet, { header: 1 })
       //console.log(fileData)
-      const headers = headerTablePrevio
+      const headers = headerTable
       const heads = headers.map(head => ({ title: head, field: head }))
       setColDefs(heads)
+      
 
       //elimino la cabecera
       fileData.splice(0, 1)
@@ -196,8 +198,9 @@ export default function  Excel() {
 
   return (
     <div>
+      <br/>
       <h4 align='center'>Importe alumnos usando un archivo csv o xlsx</h4>
-
+      <br/>
       <input
         className={classes.input}
         id="contained-button-file"
@@ -210,8 +213,8 @@ export default function  Excel() {
             Upload
           </Button>
         </label>
-      
-
+      <input  className={classes.input} id="icon-button-file" type="file" />
+      <br/>
       {
         loading ? (
 
@@ -247,8 +250,9 @@ export default function  Excel() {
         )
 
       }
-
+      <br/>
       <Button className={classes.boton} onClick={() => subirArchivos()} >Agregar Estudiantes</Button>
+      <br/>
     </div>
   );
 }

@@ -30,7 +30,9 @@ class AlumnoController extends BaseController
 		* @var array
 		*/
 	protected $helpers = [];
-	private $route = 'C:\Users\Windows 10\xampp\htdocs\GestionPracticas_G4\documentos\\';
+	//private $route = 'C:\Users\Windows 10\xampp\htdocs\GestionPracticas_G4\documentos\\'; //FEPE
+	// private $route = 'D:\xampp\htdocs\GestionPracticas_G4\documentos\\';
+  private $route = 'D:\xampp\htdocs\GestionPracticas_G4\ci-practicas-back\public\documentos\\';
 
 	/**
 		* Constructor.
@@ -115,14 +117,32 @@ class AlumnoController extends BaseController
         echo $result;
 	}
 
-	public function recibirArchivo(){
+	public function recibirArchivoAlumno(){
 
 		$idAlumno = $this->request->getVar('id_alumno');
 		$numeroPractica = $this->request->getVar('numero');
 		$documento = $this->request->getVar('documento');
 
-		move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.$documento.'.pdf');
-        echo "REVISAR ARCHIVO";
+		if (move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.$documento.'.pdf')){
+			echo 1;
+		} else {
+			echo 0;
+		}
+
+	}
+
+	public function getArchivoAdmin(){
+
+		$idAlumno = $this->request->getVar('id_alumno');
+		$numeroPractica = $this->request->getVar('numero');
+		$documento = $this->request->getVar('documento');
+
+		if (move_uploaded_file($_FILES['file']['tmp_name'], $this->route.$idAlumno.'-'.$numeroPractica.'-'.$documento.'-facultad.pdf')){
+			echo 1;
+		} else {
+			echo 2;
+		}
+        
 
 	}
 

@@ -6,13 +6,13 @@ import { useForm } from '../../hooks/useForm'
 export const CambiarPassword = ({oldpass="1234"}) => {
 
     const [visible, setVisible] = useState(false)
-    const onDismissAlert= () =>{setVisible(false)}
+
+    const onDismissAlert= () =>{
+        setVisible(false)
+    }
     const [changedPass, setChangedPass] = useState(false)
-    const [oldPassError, setoldPassError]= useState("");    
-    const [newPassError, setnewPassError]= useState("");
-    const [newPassRepError, setnewPassRepError]= useState("");
+
     const [formValues, handleInputChange] = useForm({
-        oldPass:"",
         newPass:"",
         newPassRepite:""
     })
@@ -20,91 +20,18 @@ export const CambiarPassword = ({oldpass="1234"}) => {
         console.log("redirigiendo")
         return <Redirect to="/estudiante"/>
     }
-
-    const {newPass, newPassRepite} = formValues;  
-    
-    function oldPassValidation(){
-        let oldPass = formValues.oldPass;
-        const oldPassErrorVal=[];
-        let nuevoUserValidado = true;
-    
-        if(oldPass === '' ){
-          
-          oldPassErrorVal.Requiered ="Debes ingresar tu contraseña anterior.";
-          nuevoUserValidado = false;
-          setoldPassError(oldPassErrorVal);
-          return nuevoUserValidado;
-        }
-        else{
-            oldPassErrorVal.nombreCorrecto = "";
-            setoldPassError(oldPassErrorVal);
-            return nuevoUserValidado;
-        }      
-      }
-    
-      function newPassValidation(){
-        let newPass = formValues.newPass;
-        const newPassErrorVal=[];
-        let nuevoUserValidado = true;
-    
-        if(newPass === '' ){
-          
-          newPassErrorVal.Requiered ="Debes ingresar tu nueva contraseña.";
-          nuevoUserValidado = false;
-          setnewPassError(newPassErrorVal);
-          return nuevoUserValidado;
-        }
-        
-        else{
-
-            newPassErrorVal.nombreCorrecto = "";
-            setnewPassError(newPassErrorVal);
-            return nuevoUserValidado;
-        }      
-      }
-      function newPassRepValidation(){
-        let newPassRep = formValues.newPassRepite;
-        const newPassRepErrorVal=[];
-        let nuevoUserValidado = true;
-        if(newPassRep.Length === '0' ){
-          nuevoUserValidado = false;
-          newPassRepErrorVal.Requiered ="debes volver a ingresar tu nueva contraseña";
-          setnewPassRepError(newPassRepErrorVal);
-          return nuevoUserValidado;
-        }
-        else if(newPass!==newPassRepite){
-            newPassRepErrorVal.noMatch ="Deben coincidir.";
-            nuevoUserValidado = false;
-            setnewPassRepError(newPassRepErrorVal);
-            return nuevoUserValidado;
-          }
-          else if(newPass===newPassRepite){
-            newPassRepErrorVal.nombreCorrecto = "";
-            setnewPassRepError(newPassRepErrorVal);
-            return nuevoUserValidado;
-          }      
-      }
-    
+    const {newPass, newPassRepite} = formValues;   
     const handleChangePass = (e) =>{
         e.preventDefault()
         
-        const oldVal = oldPassValidation();
-        const newVal = newPassValidation();
-        const newRepVal = newPassRepValidation();
-
-        if( oldVal === true && newVal === true && newRepVal === true){
-            console.log("todos los campos son validos")
-            setnewPassError("");
-            setoldPassError("");
-            setnewPassRepError("");
-
+        if(newPass!==newPassRepite){
+            setVisible(true)
+            console.log("no se realizo actulizacion")         
+        }
+        else{
             console.log(`contrasena nueva: ${newPass} ${newPassRepite}`)
             setChangedPass(true)
-        }
-
-        else{
-            console.log("no es valido")
-            setChangedPass(false)
+            //Aca realizar el post de la nueva contraseña a la base de datos
         }
           
     }
@@ -115,22 +42,7 @@ export const CambiarPassword = ({oldpass="1234"}) => {
             <Alert isOpen={visible} toggle={onDismissAlert} color="danger">"Las contraseñas no coinciden. Por favor, ingrese dos contraseñas iguales"</Alert>
             <div className=" container align-self-center justify-content-center d-flex p-5 " style={{maxHeight:"100%", }} >
                 <form onSubmit={handleChangePass}>
-                    
-                    <div className="form-group">
-                        <label >Contraseña Actual</label>
-                        <input 
-                            type="password" 
-                            className="form-control" 
-                            id="repiteNewPass" 
-                            placeholder="old Password"
-                            name="oldPass"                          
-                            maxLength = "8"
-                            onChange={handleInputChange}
-                        />
-                        {Object.keys(oldPassError).map((key)=>{
-                            return <div style={{color:"red"}}>{oldPassError[key] }</div>  
-                            })}
-
+                    <div className="form-group" >                  
                     </div>
                     <div className="form-group">
                         <label >Contraseña nueva</label>
@@ -142,10 +54,7 @@ export const CambiarPassword = ({oldpass="1234"}) => {
                             name="newPass"
                             maxLength = "8"
                             onChange={handleInputChange}
-                        />
-                        {Object.keys(newPassError).map((key)=>{
-                            return <div style={{color:"red"}}>{newPassError[key] }</div>  
-                            })}
+                            />
                     </div>
                     <div className="form-group">
                         <label >Repita contraseña</label>
@@ -157,10 +66,7 @@ export const CambiarPassword = ({oldpass="1234"}) => {
                             name="newPassRepite"                          
                             maxLength = "8"
                             onChange={handleInputChange}
-                        />
-                        {Object.keys(newPassRepError).map((key)=>{
-                            return <div style={{color:"red"}}>{newPassRepError[key] }</div>  
-                            })}
+                            />
                     </div>
                     <button type="submit" className="btn btn-primary">Cambiar</button>
                 </form>
