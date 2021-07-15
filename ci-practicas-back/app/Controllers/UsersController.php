@@ -619,13 +619,13 @@ class UsersController extends  BaseController
     }
 
     public function registerAlumnoExcelData(){
+        $refCarrera = 0;
         helper(['form']);
         $data = $this->request->getVar('data');
         //print_r($data);
         $model = new AlumnoModel();
         if($this-> request -> getMethod() == 'post') {
             for ($i = 0; $i < count((array)$data); $i++){
-                echo count((array)$data);
                 $value = get_object_vars($data[$i]);
                 if(!isset($value['Nombre carrera'])){
                     echo "basura";
@@ -634,7 +634,7 @@ class UsersController extends  BaseController
                     if($value['Nombre carrera']=='INGENIERÍA CIVIL EN MINAS'){
                         $refCarrera = 1;
                     }
-                    elseif($value['Nombre carrera']=='INGENIERÍA CIVIL EN COMPUTACIÓN'){
+                    elseif($value['Nombre carrera']=='INGENIERIA CIVIL EN COMPUTACIÓN'){
                         $refCarrera = 2;
                     }
                     elseif($value['Nombre carrera']=='INGENIERÍA CIVIL INDUSTRIAL'){

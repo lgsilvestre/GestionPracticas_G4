@@ -486,7 +486,6 @@ class PracticaController extends BaseController
 		}
 	}
 
-	
 
 	public function inscribirInfo() {
 		// echo "ENTRO INSCRIBIR";

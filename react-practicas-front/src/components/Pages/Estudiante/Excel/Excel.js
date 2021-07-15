@@ -51,7 +51,7 @@ export default function  Excel() {
   */
   const peticionPost = async(fila)=>{
       
-      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcel", 
+      await axios.post("http://localhost/GestionPracticas_G4/ci-practicas-back/public/registerAlumnoExcelData", 
         {
           nombre: fila.nombre,
           correo_ins:fila.correo_ins,
@@ -195,10 +195,7 @@ export default function  Excel() {
   //
   const subirArchivos = () =>{
     console.log(data)
-    data.map((fila) => {
-      peticionPost(fila)
-      return console.log(fila)
-    })    
+    peticionPostData(data)
   }
 
   return (
@@ -228,7 +225,6 @@ export default function  Excel() {
           />
           </div>
         
-        ):(
         <MaterialTable
           //setEstudiante={setEstudiante}
           //estudiante={estudiante}
@@ -249,9 +245,6 @@ export default function  Excel() {
           ]}
           
         />
-        )
-
-      }
       <br/>
       <Button className={classes.boton} onClick={() => subirArchivos()} >Agregar Estudiantes</Button>
       <br/>
